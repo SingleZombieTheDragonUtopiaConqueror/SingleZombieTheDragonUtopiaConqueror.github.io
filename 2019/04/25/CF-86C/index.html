@@ -96,23 +96,24 @@
 
 
 
-  <meta name="description" content="The best computer scientist and game designer in the future.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="周弈帆的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="Description给m个由A,C,G,T组成的DNA片段。现在你需要构造一些长度为n的字符串，使这些字符串完全被这些DNA片段覆盖。求构造方案数 $mod$ $1e9+9$ 。（DNA片段之间可以互相重叠） 长度 $n\leq1000$，片段个数 $m\leq10$，片段长度不大于10. Sample Input &amp;amp; Output6 2CATTACT   2 （CATCAT和CATAC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CF-86C Genetic engineering">
+<meta property="og:url" content="http://yoursite.com/2019/04/25/CF-86C/index.html">
 <meta property="og:site_name" content="周弈帆的博客">
-<meta property="og:description" content="The best computer scientist and game designer in the future.">
+<meta property="og:description" content="Description给m个由A,C,G,T组成的DNA片段。现在你需要构造一些长度为n的字符串，使这些字符串完全被这些DNA片段覆盖。求构造方案数 $mod$ $1e9+9$ 。（DNA片段之间可以互相重叠） 长度 $n\leq1000$，片段个数 $m\leq10$，片段长度不大于10. Sample Input &amp;amp; Output6 2CATTACT   2 （CATCAT和CATAC">
 <meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-04-25T05:39:29.433Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="周弈帆的博客">
-<meta name="twitter:description" content="The best computer scientist and game designer in the future.">
+<meta name="twitter:title" content="CF-86C Genetic engineering">
+<meta name="twitter:description" content="Description给m个由A,C,G,T组成的DNA片段。现在你需要构造一些长度为n的字符串，使这些字符串完全被这些DNA片段覆盖。求构造方案数 $mod$ $1e9+9$ 。（DNA片段之间可以互相重叠） 长度 $n\leq1000$，片段个数 $m\leq10$，片段长度不大于10. Sample Input &amp;amp; Output6 2CATTACT   2 （CATCAT和CATAC">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/">
+  <link rel="canonical" href="http://yoursite.com/2019/04/25/CF-86C/">
 
 
 
@@ -122,7 +123,7 @@
   };
 </script>
 
-  <title>周弈帆的博客</title>
+  <title>CF-86C Genetic engineering | 周弈帆的博客</title>
   
 
 
@@ -170,8 +171,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -209,7 +209,7 @@
         
         
           
-          <li class="menu-item menu-item-home menu-item-active">
+          <li class="menu-item menu-item-home">
 
     
     
@@ -288,9 +288,9 @@
           
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -322,10 +322,8 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/25/CF-86C/" class="post-title-link" itemprop="url">CF-86C Genetic engineering</a>
+          <h1 class="post-title" itemprop="name headline">CF-86C Genetic engineering
+
               
             
           </h1>
@@ -417,9 +415,7 @@
       
 
       
-        
-          
-            <h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>给m个由A,C,G,T组成的DNA片段。现在你需要构造一些长度为n的字符串，使这些字符串完全被这些DNA片段覆盖。求构造方案数 $mod$ $1e9+9$ 。（DNA片段之间可以互相重叠）</p>
+        <h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>给m个由A,C,G,T组成的DNA片段。现在你需要构造一些长度为n的字符串，使这些字符串完全被这些DNA片段覆盖。求构造方案数 $mod$ $1e9+9$ 。（DNA片段之间可以互相重叠）</p>
 <p>长度 $n\leq1000$，片段个数 $m\leq10$，片段长度不大于10.</p>
 <h2 id="Sample-Input-amp-Output"><a href="#Sample-Input-amp-Output" class="headerlink" title="Sample Input &amp; Output"></a>Sample Input &amp; Output</h2><p>6 2<br>CAT<br>TACT  </p>
 <p>2</p>
@@ -449,8 +445,6 @@
 <p>这题对我最大的启示和警示是，AC自动机的dp不一定都那么简单，很多时候但靠节点来定义状态是不够的。</p>
 <p>在用dp时，一定要把状态的每一个变量的转移都考虑好。尤其是在重新定义了dp状态后，最好能完全从头推一遍递推关系。</p>
 
-          
-        
       
     </div>
 
@@ -473,181 +467,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/17/HelloWorld/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhou Yifan">
-      <meta itemprop="description" content="The best computer scientist and game designer in the future.">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="周弈帆的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/03/17/HelloWorld/" class="post-title-link" itemprop="url">我为什么要写博客 ~ Hello World</a>
-              
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
+              <a href="/2019/03/17/HelloWorld/" rel="next" title="我为什么要写博客 ~ Hello World">
+                <i class="fa fa-chevron-left"></i> 我为什么要写博客 ~ Hello World
+              </a>
             
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2019-03-17 20:34:28" itemprop="dateCreated datePublished" datetime="2019-03-17T20:34:28+08:00">2019-03-17</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Talk/" itemprop="url" rel="index"><span itemprop="name">Talk</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>2019年的3月17日，对于人类来说，可能只是普通的一天。但是，这一天却发生了一件影响极其深远的事：天才游戏设计师、世界著名大局观选手、改变中国的十四亿人中重要的一员——周弈帆开始写博客了。</p>
-<p>第一篇博客就不谈什么大的东西了，我就谈一谈我为什么要写博客。</p>
-<h2 id="为什么要写？"><a href="#为什么要写？" class="headerlink" title="为什么要写？"></a>为什么要写？</h2><p>人活得久了，见过的悲欢离合越多，对这个世界的理解也就越加深刻。现在的我虽年未弱冠，但已经隐隐参透出了这个世界的一些奥妙。如果把这些宝贵的知识财富一直藏在我的心里，那对于世界思想界来说将是一件极为可惜的事。所以，我想把我自己对于一些我熟悉的事情的看法、经验整理一下，创造出一些有趣的 「理论」，供世人品鉴。</p>
-<p>现在的我没什么大的成就，唯一的可以提一提的就是在高考这个战场上杀出了一条血路。在学校学了这么多年，我深深感受到了学习的方法性。差的老师、烂的教材，都会为你的学习带来极大的阻碍。我想写一些简明易懂的 「技术文章」，来减少那些恰好和我专业方向相同的人的时间。</p>
-<p>人嘛，总是希望得到别人的认同——你吹我，你就是我的好朋友；你黑我，我就恨不得把你喷到改口为止。虽然我的反应不会这么激烈，但那份渴望认同的心还是和常人无异的。我有时也会发一些带有主观色彩的 「评论」 文章。我的文字功底不是很好，写不出什么辞藻华丽，又有内涵的抒情文，但我可以用结构严谨的议论文，一字一句地说清楚我的看法。</p>
-<h2 id="为什么是博客？"><a href="#为什么是博客？" class="headerlink" title="为什么是博客？"></a>为什么是博客？</h2><p>自互联网在中国开始兴盛以来，主流社交方式换了一波又一波。我虽目睹了整个互联网的发展过程，却因为年纪尚小，没有亲身投入到这股浪潮中。当我想好好得在社交媒体上展示自己时，却发现我已经不太适应主流的社交媒体了。</p>
-<p>对于大部分像我这样的平民百姓来说，社交媒体就是满足自己虚荣心的小小舞台。分享出生活中亮眼的几个片段，极力吸引住熟人的注意。每一次被浏览，那渴望被关注的心就会得到一丝的满足。</p>
-<p>对于某些媒体来说，社交媒体不过是一个敛财的工具。被关注得越多，得到的收益越多。只是四处张罗吆喝也还好，但用一些有成本的手段去创造关注，这就让社交媒体本身的性质改变了。</p>
-<p>越快越短的东西，只会让价值不断地消失。</p>
-<p>我仔细想想，还是博客好。在一个人的天地里，能够随心所欲地发言。我会在这里，慢慢地、静静地，书写我自己的价值。博客是也算是一个社交媒体，虽然不会有太多的人去关注，但也不会有多余的东西。</p>
-<h2 id="我的目标"><a href="#我的目标" class="headerlink" title="我的目标"></a>我的目标</h2><p>今天勉强算是完成了第一篇博客，但距离我准备写博客已经过去一个多月了，我本身拖延症似乎有点重。再加上博客本来就是带有娱乐性质的东西，强求自己做一些事也没必要。在博客经营上大而具体的目标就不订了。</p>
-<p>然而，如果我享受到了写博客的乐趣，我就会竭尽所能，去写出一些有价值的东西。之后，我会让更多的人去看的文章。我不求别的，只希望某些人在看过我的文章后，能发自内心地说出：</p>
-<p>从字里行间就能看出来，这个小伙子天赋异禀，才高八斗。遣词不可谓不精妙；造句不可谓不用心；道理不可谓不深刻。可谓是江山代有人才出。看着他的文字，我的脑海中就浮现出一幅英俊、帅气、潇洒、精致的脸庞。此人前途无量啊。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -657,14 +498,15 @@
   </article>
 
 
-    
-  </section>
-
-  
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -684,8 +526,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -748,6 +599,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Description"><span class="nav-number">1.</span> <span class="nav-text">Description</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sample-Input-amp-Output"><span class="nav-number">2.</span> <span class="nav-text">Sample Input &amp; Output</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution"><span class="nav-number">3.</span> <span class="nav-text">Solution</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Review"><span class="nav-number">4.</span> <span class="nav-text">Review</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
@@ -877,6 +745,10 @@
 
 
   
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
 
   
 
@@ -888,6 +760,8 @@
   
 
 
+  
+
 
   
 
@@ -902,14 +776,6 @@
   
 
   
-  
-    
-      
-        
-      
-    
-      
-    
   
 
   
