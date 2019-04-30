@@ -96,24 +96,26 @@
 
 
 
-  <meta name="description" content="Description给m个由A,C,G,T组成的DNA片段。现在你需要构造一些长度为n的字符串，使这些字符串完全被这些DNA片段覆盖。求构造方案数 $mod$ $1e9+9$ 。（DNA片段之间可以互相重叠） 长度 $n\leq1000$，片段个数 $m\leq10$，片段长度不大于10. Sample Input &amp;amp; Output6 2CATTACT   2 （CATCAT和CATAC">
+  <meta name="description" content="Description给一个由左右括号组成的正确括号序列（保证一个左括号一定对应右边的一个右括号）。   通过这个括号序列，我们可以构建一棵树：左括号表示进入子树，右括号表示从当前子树返回。括号相当于描述了一棵树先序遍历的出入栈过程。   现在，我们有q次操作。每次操作会交换括号序列中的两个的括号位置，该操作保证括号序列的正确性。每次操作后，都能得到一颗新的树。要求输出最开始和每次操作后树的直径（">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CodeForces-86C Genetic engineering">
-<meta property="og:url" content="http://yoursite.com/2019/04/25/CF-86C/index.html">
+<meta property="og:title" content="CodeForces 1149C Tree Generator™">
+<meta property="og:url" content="http://yoursite.com/2019/04/30/CF-1149C/index.html">
 <meta property="og:site_name" content="周弈帆的博客">
-<meta property="og:description" content="Description给m个由A,C,G,T组成的DNA片段。现在你需要构造一些长度为n的字符串，使这些字符串完全被这些DNA片段覆盖。求构造方案数 $mod$ $1e9+9$ 。（DNA片段之间可以互相重叠） 长度 $n\leq1000$，片段个数 $m\leq10$，片段长度不大于10. Sample Input &amp;amp; Output6 2CATTACT   2 （CATCAT和CATAC">
+<meta property="og:description" content="Description给一个由左右括号组成的正确括号序列（保证一个左括号一定对应右边的一个右括号）。   通过这个括号序列，我们可以构建一棵树：左括号表示进入子树，右括号表示从当前子树返回。括号相当于描述了一棵树先序遍历的出入栈过程。   现在，我们有q次操作。每次操作会交换括号序列中的两个的括号位置，该操作保证括号序列的正确性。每次操作后，都能得到一颗新的树。要求输出最开始和每次操作后树的直径（">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-04-25T08:53:22.462Z">
+<meta property="og:image" content="http://yoursite.com/2019/04/30/CF-1149C/Example.png">
+<meta property="og:updated_time" content="2019-04-30T06:35:13.688Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CodeForces-86C Genetic engineering">
-<meta name="twitter:description" content="Description给m个由A,C,G,T组成的DNA片段。现在你需要构造一些长度为n的字符串，使这些字符串完全被这些DNA片段覆盖。求构造方案数 $mod$ $1e9+9$ 。（DNA片段之间可以互相重叠） 长度 $n\leq1000$，片段个数 $m\leq10$，片段长度不大于10. Sample Input &amp;amp; Output6 2CATTACT   2 （CATCAT和CATAC">
+<meta name="twitter:title" content="CodeForces 1149C Tree Generator™">
+<meta name="twitter:description" content="Description给一个由左右括号组成的正确括号序列（保证一个左括号一定对应右边的一个右括号）。   通过这个括号序列，我们可以构建一棵树：左括号表示进入子树，右括号表示从当前子树返回。括号相当于描述了一棵树先序遍历的出入栈过程。   现在，我们有q次操作。每次操作会交换括号序列中的两个的括号位置，该操作保证括号序列的正确性。每次操作后，都能得到一颗新的树。要求输出最开始和每次操作后树的直径（">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/30/CF-1149C/Example.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/04/25/CF-86C/">
+  <link rel="canonical" href="http://yoursite.com/2019/04/30/CF-1149C/">
 
 
 
@@ -123,7 +125,7 @@
   };
 </script>
 
-  <title>CodeForces-86C Genetic engineering | 周弈帆的博客</title>
+  <title>CodeForces 1149C Tree Generator™ | 周弈帆的博客</title>
   
 
 
@@ -305,7 +307,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/25/CF-86C/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/30/CF-1149C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhou Yifan">
@@ -322,7 +324,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">CodeForces-86C Genetic engineering
+          <h1 class="post-title" itemprop="name headline">CodeForces 1149C Tree Generator™
 
               
             
@@ -348,7 +350,7 @@
                 
               
 
-              <time title="Created: 2019-04-25 13:22:48" itemprop="dateCreated datePublished" datetime="2019-04-25T13:22:48+08:00">2019-04-25</time>
+              <time title="Created: 2019-04-30 14:05:00" itemprop="dateCreated datePublished" datetime="2019-04-30T14:05:00+08:00">2019-04-30</time>
             
 
             
@@ -415,35 +417,28 @@
       
 
       
-        <h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>给m个由A,C,G,T组成的DNA片段。现在你需要构造一些长度为n的字符串，使这些字符串完全被这些DNA片段覆盖。求构造方案数 $mod$ $1e9+9$ 。（DNA片段之间可以互相重叠）</p>
-<p>长度 $n\leq1000$，片段个数 $m\leq10$，片段长度不大于10.</p>
-<h2 id="Sample-Input-amp-Output"><a href="#Sample-Input-amp-Output" class="headerlink" title="Sample Input &amp; Output"></a>Sample Input &amp; Output</h2><p>6 2<br>CAT<br>TACT  </p>
-<p>2</p>
-<p>（CATCAT和CATACT是可行的方案）</p>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>DNA间可以相互重叠，也就是匹配完某个DNA后，匹配下一个DNA时不一定会从头开始，而是从下一个DNA的某个前缀开始（这个前缀也是当前DNA的后缀）。为了表示这种关系，肯定会想到使用AC自动机来表示匹配的状态。</p>
-<p>有了AC自动机，我们就可以把所有 $4^n$个字符串全部输入自动机，保证状态转移“合法”，统计出最终所有满足条件的状态就行了。现在我们要做的事情有三件：统计状态，判断状态转移是否合法，判断结果是否满足条件。我们一件一件来解决。</p>
-<p>每个状态对应AC自动机上的一个节点，因此用一个dp[MAX_NODE]数组就可以存处于当前状态的方案数。每多放入一个字符，状态就会发生转移。理论上，当前字符数的状态只与上一字符数的状态有关，拿两个dp数组循环用就行了。但为了书写方便还是先定义成dp[MAXN][MAX_NODE]，每次dp[i]由dp[i - 1]转移而来。</p>
-<p>接下来来判断合法的状态。所有字符串都要被DNA覆盖，也就是在AC自动机上转移的时候，不能还没走到终点（DNA的结束点），就跑到另一个DNA字符串的前缀去了。只有当走到了终点的时候，才可以随意地走下一步（但是不能走回根）。</p>
-<p>统计答案也很简单，只有那些DNA字符串结束点对应的状态才能被统计进最终答案。</p>
-<p>根据以上分析可以写出以下式子：  </p>
-<p>$当j 为终点:$<br>$dp[i][j.next[k]] += dp[i - 1][j] (j.next[k] \neq root, k \in {A, C, G, T})$<br>$否则:$<br>$dp[i][j.next[k]] += dp[i - 1][j] (j.next[k] 不通过fail转移, k \in {A, C, G, T})$  </p>
-<p>提交上述代码会得到WA的结果。</p>
-<p>考虑下面的例子: 3 3 ACCC A C。ACC显然是一个满足条件的字符串，但在自动机上，ACC却不是一个字符串的结尾，最终不会被统计答案。</p>
-<p>那我是不是应该把字符串结尾通过fail传递下去呢？也就是说，只要一个字符串的后缀是某个更短的字符串的结尾，那这个字符串也被认为是满足条件的字符串。这样更不对了。考虑例子：2 2 ACC C，AC不满足条件，却因为有后缀C被错误地统计进了答案。</p>
-<p>这个时候我们发现，怎么样都无法合理地表示答案。换句话说，现在这种定义状态的方式，会混淆一些本质不同的状态。在定义一个状态时，只是记录这个状态处于AC自动机的哪个节点是不够的，还得记录一些其它的东西。</p>
-<p>从本质上思考，一个满足条件的字符串可以分成两部分，后一部分是最后一个被覆盖的DNA，前一部分是之前匹配好的一堆DNA。前一部分和后一部分可以重复。对于AC自动机上的一个状态，它的最长的DNA后缀是确定的，但是它之前已经被匹配好的长度是不确定的。而一旦我们确定了这两个值，我们只要判断之前匹配好的长度加上最长的DNA的后缀长度是否大于等于整个当前字符串的长度即可（等价于前一部分和后一部分正好拼接或覆盖）。我们在dp中还要加一维，记录某个状态被匹配的长度。顺便，为了之后的判断，AC自动机上每个节点的长度和最长DNA后缀的长度也要提前统计好来，后者可以通过fail边来转移。</p>
-<p>和开始一样，继续解决三个问题：状态定义、答案判断、合法转移判断。</p>
-<p>现在，$dp[i][j][k]$被定义为放第$i$个字符时，处于AC自动机上$j$号节点，在自动机前面已经匹配好了长度为$k$（而不是总长度已经匹配好了$k$）的方案数。$j.len,j.low$分别表示某个节点的长度，最长DNA后缀长度。</p>
-<p>对于某个$j,k$，若$j.low + k  \geq j.len$，则说明这个状态满足条件。最终$dp[n][j][k]$中满足条件的状态的dp值之和就是题目的答案。</p>
-<p>转移时，我们不再死板通过判断一条边是否是通过fail转移的来判断这个转移合不合法。在当前一个非答案状态$i,j,k$上，对于下一状态$j.next$，只要$j.next.len + k &gt; j.len$，就能保证在状态转移时中间没有“断掉”。下一个状态的最长匹配长度为$j.next.len + k - j.len - 1$。也就是说:<br>$dp[i + 1][j.next][j.next.len + k - j.len - 1] += dp[i][j][k]$  </p>
-<p>对于某个状态，如果它已经满足了被覆盖的条件，则下一状态的最长匹配长度一定是下一状态的长度减1（因为多出了一个新的未匹配字符），写成式子的话：<br>$dp[i + 1][j.next][j.next.len - 1] += dp[i][j][k]$</p>
-<p>至此，题目顺利解完。dp数组是1000 <em> 100 </em> 10的，时间复杂度$O(n|str|\sum|str|)$</p>
-<h2 id="Review"><a href="#Review" class="headerlink" title="Review"></a>Review</h2><p>题解部分应该是正常的思考过程，发现二维不够后用三维dp，这也是我写这题从WA改到AC的过程。</p>
-<p>之前我一直以为，AC自动机中dp都很容易，只和处于哪个节点有关。看完题面后，我立马敲了一个二维dp出来，很快WA了。</p>
-<p>在cf上对着样例调试多次后，我才发现怎么定义dp都不行。看了一眼题解，发现状态要多定义一维后，我重新地把题目考虑了一遍，定义出了新的状态。</p>
-<p>后来状态转移我差不多写完了，交上去WA了一个大的样例。仔细思考过后我发现，非答案状态在转移时，它的最长匹配长度可能会变的，这一步转移需要认真考虑。改完这一处后总算AC了。</p>
-<p>这题对我最大的启示和警示是，AC自动机的dp不一定都那么简单，很多时候但靠节点来定义状态是不够的。</p>
-<p>在用dp时，一定要把状态的每一个变量的转移都考虑好。尤其是在重新定义了dp状态后，最好能完全从头推一遍递推关系。</p>
+        <h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>给一个由左右括号组成的正确括号序列（保证一个左括号一定对应右边的一个右括号）。  </p>
+<p>通过这个括号序列，我们可以构建一棵树：左括号表示进入子树，右括号表示从当前子树返回。括号相当于描述了一棵树先序遍历的出入栈过程。  </p>
+<p>现在，我们有q次操作。每次操作会交换括号序列中的两个的括号位置，该操作保证括号序列的正确性。每次操作后，都能得到一颗新的树。要求输出最开始和每次操作后树的<em>直径</em>（树上某两点距离的最大值）。</p>
+<p>序列代表的树有$n$个节点，操作共$q$次。$3 \leq n \leq 100 000, q \leq100 000$<br>输出$n+1$棵树的直径  </p>
+<h2 id="Sample-Input-amp-Output"><a href="#Sample-Input-amp-Output" class="headerlink" title="Sample Input &amp; Output"></a>Sample Input &amp; Output</h2><p>5 5<br>(((())))<br>4 5<br>3 4<br>5 6<br>3 6<br>2 5</p>
+<hr>
+<p>4<br>3<br>3<br>2<br>4<br>4  </p>
+<p><img src="/2019/04/30/CF-1149C/Example.png" alt="Sample"></p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>首先考虑到树的子树具有子结构性质。每一步操作都没有完全改变整棵树，有很多子结构的信息是相同的。</p>
+<p>那么可以这样思考，在括号序列的任意一个位置开始往后走，我都可以得到一颗与这个位置前面的节点独立的一颗树。这棵树不一定是子树，因为从任意一个位置开始的括号序列可能会多出几个右括号，这种情况下这棵树会往回生长。</p>
+<p>再从题目的问题入手，题目要我们求出每颗树的直径来。路径长可以看成两个树的深度减去两倍他们lca的深度。即：设点$u$的深度为$d(u)$,那么$u$到$v$的路径长$l(u, v)=d(u)+d(v)-2\times d(lca(u,v))$。而直径就是所有路径长的最大值。也就是说，如果能得知每个点的深度，并设法维护最大的路径长，就能得到答案。通过括号序列得到每个点每个时刻的深度是很容易的，现在我们就要设法维护路径长，得知路径长又必须知道点对的lca是谁。</p>
+<p>恰好，题目给的是树的一个dfs序。任意两点的lca，都是在左边节点之后，右边节点之前访问。那我们也不用管lca是谁了，随便拿$u,v$点中间的一个点$w$，使得$d(u)+d(v)-2\times d(w)$最大的$w$就是它们的lca。即：$l(u, v)=max \{ d(u)+d(v)-2\times d(w) | t_u \leq t_w \leq t_v \}$ ，其中 $t$ 为括号序列中访问节点的时间(也可以说是序列中的下标）。</p>
+<p>那问题就变得更简单了。只要是满足 $t_a \leq t_b \leq t_c$ 的三元组 $a,b,c$ ，$d(a) + d(c) - 2 * d(b)$ 就可能是一条路径长。维护最大的这个值，就可以得到直径。</p>
+<p>如果只是算一次的话，一边维护当前深度，一边记录下最大的$d(a)$，最小的$d(b)$等值很容易就可以地$O(n)$维护当前直径。但问题是，题目有q次操作。这就得回到开始的分析了——每次操作过后，还有很多子结构的信息保留了下来。</p>
+<p>我们需要的是子结构的哪些信息呢？注意到我们计算答案只用到了深度，在每一个子结构代表的树中，我们也必须得维护一些用于计算最大的 $d(a)+d(c)-2\times d(b)$ 的一些深度信息。我们可以把某个子结构开始位置当作相对深度，并记录在这个相对深度下，深度的最大最小值，路径左半边（左边的点到lca距离）的最大值和路径右半边的最大值。同时，还要记录这个子结构的总深度，以得到它和后面一个子结构的相对深度。通过以上信息，就可以维护子结构中最大的 $d(a)+d(c)-2\times d(b)$了。</p>
+<p>这种用子结构来解决问题的思想和分治是类似的。分治的每一个结果都可以存在线段树中。虽然第一次求解的复杂度是$O(nlogn)$，但对于每次修改，都能在$O(logn)$的时间里得到新的答案。</p>
+<p>总的时间复杂度$O((n + q)logn)$</p>
+<h2 id="Review"><a href="#Review" class="headerlink" title="Review"></a>Review</h2><p>这道题实际上算法并没有很难，写起来也很容易，但比较考验思维，需要把问题进行巧妙地转换。我一直没有想出解法，是看完官方题解才写出这道题的。虽然我没有自己想出来，但在回味题目巧妙的解法时，还是学到了很多东西的。</p>
+<p>在每次操作中，一定是有一些子结构没有改变的。这一点我一直都很清楚，一直都想找出这个子结构。但我一直都拘泥于树的结构，希望先把括号序列转变成树，再找出交换括号是对应树上的把哪一个子树移到哪个地方的操作。这样想下去的话，是怎么也找不出正解的。</p>
+<p>想出这道题的关键，应该是想出lca可以用深度表示，而括号序列保证了lca在两点之间。这样的话，求直径就变成了维护几个最大最小值再做计算的问题。这里可以反映出我对树上的一些计算的表达形式还不够熟悉，没有第一时间把求直径的方法转换。而且，我对dfs序的性质不够敏感，没有利用好这个性质。</p>
+<p>这样想出了用最大最小值维护答案，怎么建线段树，要维护哪些变量稍微想一想就能想出来。而其中能用线段树维护答案是这道题可以在时限内被解出来的关键。能够用线段树维护子结构，是因为每个路径包含的$a,b,c$三个值的时间是在一个连续区间里的，即$t_a \leq t_b \leq t_c$。这一个序列上的连续性使得问题能够通过线段树来维护。</p>
+<p>这也给了我一些启示：线段树不是只能做那些给一个$[l,r]$区间，做一些修改操作的题目的。线段树维护的是连续区间上的性质。如果一个题目中看到了子结构性质，且这些结构构成了连续区间，就可以考虑用线段树来维护。或者换一种想法，如果一个问题可以用连续区间的分治来解决，那么分治的每一步结果就可以用线段树来保存。</p>
 
       
     </div>
@@ -474,8 +469,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/17/HelloWorld/" rel="next" title="我为什么要写博客 ~ Hello World">
-                <i class="fa fa-chevron-left"></i> 我为什么要写博客 ~ Hello World
+              <a href="/2019/04/25/HowToWriteSolutionToACMProblem/" rel="next" title="如何写ACM解题记录 ~ Introspection">
+                <i class="fa fa-chevron-left"></i> 如何写ACM解题记录 ~ Introspection
               </a>
             
           </div>
@@ -483,10 +478,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/04/25/HowToWriteSolutionToACMProblem/" rel="prev" title="如何写ACM解题记录 ~ Introspection">
-                如何写ACM解题记录 ~ Introspection <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
