@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="第二章 随机变量及其分布1.随机变量在随机试验里，事件一般都是比较抽象的概念，比如从班上的学生中随机挑出三人，观察男女生的情况；在上课的某一时刻检查全体学生的行为，观察是否玩手机的情况。这些事件只能用文字描述，难以用数学的语言来描述。但我们常常关注的，是事件中的一些数字特征。比如，我们关心从三个人中几个人是男生，全班同学里几个人正在玩手机。这样的数字特征，就是随机变量。 用严格的话说，对于随机变量">
+<meta property="og:type" content="article">
+<meta property="og:title" content="概率论与数理统计复习：二、随机变量及其分布">
+<meta property="og:url" content="https://SingleZombie.github.io/2019/05/29/Probability-Review2/index.html">
+<meta property="og:site_name" content="周弈帆的博客">
+<meta property="og:description" content="第二章 随机变量及其分布1.随机变量在随机试验里，事件一般都是比较抽象的概念，比如从班上的学生中随机挑出三人，观察男女生的情况；在上课的某一时刻检查全体学生的行为，观察是否玩手机的情况。这些事件只能用文字描述，难以用数学的语言来描述。但我们常常关注的，是事件中的一些数字特征。比如，我们关心从三个人中几个人是男生，全班同学里几个人正在玩手机。这样的数字特征，就是随机变量。 用严格的话说，对于随机变量">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-05-29T11:46:24.062Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="概率论与数理统计复习：二、随机变量及其分布">
+<meta name="twitter:description" content="第二章 随机变量及其分布1.随机变量在随机试验里，事件一般都是比较抽象的概念，比如从班上的学生中随机挑出三人，观察男女生的情况；在上课的某一时刻检查全体学生的行为，观察是否玩手机的情况。这些事件只能用文字描述，难以用数学的语言来描述。但我们常常关注的，是事件中的一些数字特征。比如，我们关心从三个人中几个人是男生，全班同学里几个人正在玩手机。这样的数字特征，就是随机变量。 用严格的话说，对于随机变量">
+
+
+
+
+
+
+  <link rel="canonical" href="https://SingleZombie.github.io/2019/05/29/Probability-Review2/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>概率论与数理统计复习：二、随机变量及其分布 | 周弈帆的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">周弈帆的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://SingleZombie.github.io/2019/05/29/Probability-Review2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="The best computer scientist and game designer in the future.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">概率论与数理统计复习：二、随机变量及其分布
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-05-29 19:43:15" itemprop="dateCreated datePublished" datetime="2019-05-29T19:43:15+08:00">2019-05-29</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/math/" itemprop="url" rel="index"><span itemprop="name">math</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="第二章-随机变量及其分布"><a href="#第二章-随机变量及其分布" class="headerlink" title="第二章 随机变量及其分布"></a>第二章 随机变量及其分布</h2><h3 id="1-随机变量"><a href="#1-随机变量" class="headerlink" title="1.随机变量"></a>1.随机变量</h3><p>在随机试验里，事件一般都是比较抽象的概念，比如从班上的学生中随机挑出三人，观察男女生的情况；在上课的某一时刻检查全体学生的行为，观察是否玩手机的情况。这些事件只能用文字描述，难以用数学的语言来描述。但我们常常关注的，是事件中的一些数字特征。比如，我们关心从三个人中几个人是男生，全班同学里几个人正在玩手机。这样的数字特征，就是<strong>随机变量</strong>。</p>
+<p>用严格的话说，对于随机变量的每个基本事件（样本空间中的元素），你都可以用一个唯一的数字来代表它。这样一个从事件映射到数字的<strong>函数</strong>就是随机变量。函数的自变量是用文字或其它方式描述的情况，函数值是一个数。比如，设X(e)是随机挑三人，男生数的随机变量，那么X(男女男)=2。</p>
+<p>随机变量的概念其实非常好理解，就是我们从每一个随机的结果中取一个数来。本小节仅仅介绍了随机变量的基本概念。后面的几小节、几章都是在介绍随机变量相关的性质、应用。</p>
+<h3 id="2-离散型随机变量-分布律"><a href="#2-离散型随机变量-分布律" class="headerlink" title="2.离散型随机变量 分布律"></a>2.离散型随机变量 分布律</h3><p>这一小节的标题很高大上，我们不妨先谈一些概率论以外的事情。</p>
+<p>离散一词来源于集合论。当事物的数量上升到无穷多个时，它们之间的多少已经不能用普通的方法来评价了。自然数和整数谁多？整数还是实数多？从数量的角度来说，它们都是无穷多个。</p>
+<p>因此数学家用函数映射的角度来表明无穷集合的多与少。如果一个集合可以映射到另一个集合，那说明这个集合肯定是不比另一个集合“小”的。如果两个无穷集合互相建立映射（双射），那么它们的大小就差不多，就是等势。</p>
+<p>整数和自然数都有无穷多个，但它们都是可以一个一个可以数过去的。如果一些数的数量是有限个，或者有无限个但能和整数或自然数建立上述的双射关系，那么这些数就是离散的。</p>
+<p>本节的标题就是在说，我们讨论的随机变量的值都是0，1，2，3，4这样可以一个一个写出来的。</p>
+<p>由于我们的生活中接触的大部分量都是离散的，离散随机变量的例子十分多。上节提到的男生人数就属于离散型随机变量。像抽签、抽球、被车撞这种和个数有关的随机试验，都可以用离散随机变量来描述：抽没抽中、抽到几个一样颜色的球、一定时间地点里被车撞的人数。</p>
+<p>为了表示这种随机变量的概率，人们用使用分布律来表达。分布律其实又是一个函数，把一个随机变量的值映射到了一个0~1的概率值上。这样的话，一个基本事件先被转换成随机变量的值，再被转换成了概率。随机变量成了一个求事件概率的中间媒介。</p>
+<p>分布律一般写成表格：  </p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>X</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>p</td>
+<td>1/3</td>
+<td>1/3</td>
+<td>1/3</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>人们发现，离散随机变量的原理很类似，也就是说，这些随机变量代表的函数的形式和类似。你只要改变函数的参数，就可以得到一个符合当前情况的函数。所以人们研究了一些常见的离散型随机变量。</p>
+<h4 id="0-1分布"><a href="#0-1分布" class="headerlink" title="0-1分布"></a>0-1分布</h4><p>抽签、中奖、表白，要么成功，要么失败。那么我们用0表示失败，1表示成功，用p表示该事情成功率。那么分布律是：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>X</th>
+<th>0</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P</td>
+<td>(1 - p)</td>
+<td>p</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>0-1分布的意义太容易理解了。</p>
+<h4 id="二项分布"><a href="#二项分布" class="headerlink" title="二项分布"></a>二项分布</h4><p>这次没中奖怎么办？表白失败了怎么办？再试一次啊！</p>
+<p>我们做很多次可能成功可能失败的事情，每次成功率固定，那么成功的次数这个随机变量就是二项分布。</p>
+<p>如果设做一件事做了$n$次，那么所有长度为$n$，共$2^n$个01串就唯一代表了一种成功失败的情况。这种情况是基本事件。通过第一章古典概型的概念可知，一个事件的概率，等于其包含的所有基本事件除以总基本事件数。再运用一下排列组合知识，你就可以得到二项分布发分布律了：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>X</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>…</th>
+<th>n</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P</td>
+<td>$(1 - p)^n$</td>
+<td>$\tbinom{n}{1}(1 - p)^{n - 1} p^1$</td>
+<td>$\tbinom{n}{2}(1 - p)^{n - 2} p^2$</td>
+<td></td>
+<td>$p^n$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>也就是说，$P(X = k) = \tbinom{n}{k}(1 - p)^{n - k} p^k$</p>
+<p>这个公式和二项式展开的系数完全一样，因此得名。从公式可以看出，二项分布有两个参数——事件次数n，成功概率p。二项分布记为$X \sim b(n,p)$</p>
+<h4 id="泊松分布"><a href="#泊松分布" class="headerlink" title="泊松分布"></a>泊松分布</h4><p>彩票还是不中怎么办？我决定每时每刻地都去买彩票，这样很快就能中奖了。</p>
+<p>但是，这样是不可行的。第一，你没有那么多去买彩票，理论上你通过大量买彩票来中奖，你的投入都是比收获少的；第二不可能每时每刻都有彩票在卖。</p>
+<p>不过，现实中还是有很多事是几乎在每时每刻发生的。比如，马路上车来车往，随时都有可能发生交通事故，尽管这个概率很小。</p>
+<p>人们在数学上求出了这种无时不刻都在发生，也就是说事情次数无穷多情况下，某件事情成功次数的概率。这样的离散随机变量就是泊松分布。</p>
+<p>设次数为$n$，成功率为$p$，令$\lambda = np$。在二项分布的公式，中代替掉p后，</p>
+<p>$P(X = k) = \tbinom{n}{k}(1 - p)^{n - k} p^k = \tbinom{n}{k}(1 - \frac{\lambda}{n})^{n - k} (\frac{\lambda}{n})^k$，</p>
+<p>再令$lim_{n-&gt;\infty}$，最终得出了一个奇特的式子:</p>
+<p>$\begin{aligned}P(X = k) = \frac{\lambda^ke^{-\lambda}}{k!}\end{aligned}$</p>
+<p>泊松分布只有一个参数$\lambda$,记为$X \sim \pi(\lambda)$。</p>
+<p>在现实生活中，尽管事情不可能发生无穷多次，但只要这个发生次数n很大时，我们就可以用泊松分布的公式来近似代替二项分布的公式，以减少计算量。</p>
+<h3 id="3-随机变量分布函数"><a href="#3-随机变量分布函数" class="headerlink" title="3.随机变量分布函数"></a>3.随机变量分布函数</h3><p>有了随机变量，我们已经可以求出很多有用的信息了。比如，掷硬币10次，正面朝上的次数为0~10次中某次的概率。但是，有些人还是不满足：幸运女神告诉我，今天我去掷10次硬币，如果正面朝上的次数是4~6次，我就会很幸运。我今天幸运的概率有多大呢？</p>
+<p>你当然可以把随机变量为4、5、6的概率加起来，但这样计算总感觉不太对劲。试想一下，如果不是掷10枚硬币，而是掷10000枚硬币，求正面朝上4444~6666的次数的概率，那计算起来会非常慢。或者我们处理的是非离散的随机变量，每一个点的概率都是0，我们甚至无法累加它们。</p>
+<p>总结一下，生活中，我们常常关心的是随机变量落在一个区间的概率。累加每一个离散型随机变量的概率可以解决的这个问题，但运算效率较低；而非离散随机变量无法累加。为了能求出所有类型的随机变量的区间的概率，我们必须得用一些其它的方法。</p>
+<p>我们先在离散型随机变量中找出一种方法。在数学（或者说计算机科学）上，有一种快速求某个区间和的方法：求前缀和。也是说，对于随机变量的每一个值，求第一个值到这个值的和。前缀和$F(x) = \sum_{i = 1}^{x_i}P\{X = x_i\}$，其中$x_i$为第一个小于等于$x$的随机变量的概率。观察一下可发现，$F(x) = P\{X \leq x_i\}$。那么对于任意某个区间$(a, b]$的概率$P\{a &lt; X \leq b\}$，其值就等于$F(b) - F(a)$。</p>
+<p>这个反映了随机变量分布情况的函数$F(X)$就叫做分布函数。</p>
+<h3 id="4-连续型随机变量-概率密度"><a href="#4-连续型随机变量-概率密度" class="headerlink" title="4.连续型随机变量 概率密度"></a>4.连续型随机变量 概率密度</h3><p>离散的反义词是连续，所以肯定还有连续型的随机变量。连续型随机变量每个值的概率都为0，所以我们无法用分布律来描述它们。不过，连续型随机变量区间的概率是有意义的，而上一节我们正好有了一个描述区间概率的工具——分布函数。连续型函数可以通过分布律来定义。</p>
+<p>在离散的情况下，我们用的是求和；在连续情况下，我们就应该用积分。若随机变量$F(x) = \int_{-\infty}^{x}f(t)dt$，则$F(X)$是连续性随机变量，$f(t)$是概率密度。离散型随机变量中求和的是分布律，连续型随机变量中积分的是概率密度。也就是说，概率密度就对应着分布律。若要描述一个连续型随机变量，我们只要描述它的概率密度就行了。</p>
+<p>和离散型类似，许多连续型随机变量的函数都有同样的形式。例如：</p>
+<h4 id="均匀分布"><a href="#均匀分布" class="headerlink" title="均匀分布"></a>均匀分布</h4><p>我随意地往靶子上射了一枪，保证不射到靶子外面。</p>
+<p>对于靶子这个面，我射中每一个点的概率都是等可能的。如果靶心画得大一点，我射中靶心的概率就大一点。</p>
+<p>如果随机变量每个值的概率都相等，也就是对于概率密度$f(x)$：</p>
+<script type="math/tex; mode=display">
+f(x) = 
+\left\{
+\begin{aligned}
+   &\frac{1}{b - a} &x \in (a,b] \\ \\
+   &0 &else
+\end{aligned}
+\right.</script><p>记为 $X\sim U(a, b)$</p>
+<h4 id="指数分布"><a href="#指数分布" class="headerlink" title="指数分布"></a>指数分布</h4><p>我没有深刻理解指数分布的实际意义，只给出它的概率密度$f(x)$：</p>
+<script type="math/tex; mode=display">
+f(x) = 
+\left\{
+\begin{aligned}
+   &\frac{1}{\theta}e^{-x/\theta} &x > 0 \\ \\
+   &0 &else
+\end{aligned}
+\right.</script><p>由于指数函数的性质，指数分布有无记忆型。若符合指数分布的随机变量X为灯泡寿命，则X正常运行t小时的概率，等于运行了s小时后，再运行t小时的概率。</p>
+<h4 id="正态分布"><a href="#正态分布" class="headerlink" title="正态分布"></a>正态分布</h4><p>世界上，极强与极差的人都是少数。我们大多数人只不过是泛泛之辈，和他人并没有什么两样。</p>
+<p>当对于一个很大的群体进行调查时，能够发现，无论是身高，还是体重，还是其它一些可以用数字描述的特征，都满足上述的性质：大部分人都处于中间水平，越是偏离中间水平的样本，数量就越少。</p>
+<p>这样的随机变量满足一个神奇的分布——正态分布，其概率密度$f(x)$:</p>
+<p>$f(x) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x - \mu)^2}{2\sigma^2}}$</p>
+<p>这个函数有两个参数$\mu,\sigma$。记为$X \sim N(\mu, \sigma^2)$。（注意后面的平方）</p>
+<p>这个式子非常不好记，但从某个角度可以更好地理解这个式子。</p>
+<p>我们知道，整个样本空间的概率为1，也就是概率密度在R上的积分为1。那么对于正态分布函数：</p>
+<script type="math/tex; mode=display">
+\int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x - \mu)^2}{2\sigma^2}}dx = 1</script><p>做变量代换后：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&\int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x - \mu)^2}{2\sigma^2}}dx \\
+&=\int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}(\frac{x - \mu}{\sigma})^2}d\frac{(x - \mu)}{\sigma} \\
+&=\int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}t^2}dt
+\end{aligned}</script><p>右边那个$\int_{-\infty}^{\infty}e^{-\frac{1}{2}t^2}dt$积分积出来就是${\sqrt{2\pi}}$，这是一道多元微积分例题。</p>
+<p>把$\frac{x - \mu}{\sigma}$看成一个整体的话，整个式子就好记多了。事实上，$\phi(x) =\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}x^2}$就是标准正态分布的概率密度。其分布函数$\Phi(x)$的值人们已经算好了。求某个正态分布的有关量时，可以先做$\frac{x - \mu}{\sigma} = x$变量代换，在标准正态分布的情况下讨论。</p>
+<p>求所有连续型随机变量的概率和离散型的方法是一样的。先通过概率分布（之前是分布律）积分得到分布函数，再在分布函数上做差，就可以得到某一区间的概率了。</p>
+<h3 id="5-随机变量的函数的分布"><a href="#5-随机变量的函数的分布" class="headerlink" title="5.随机变量的函数的分布"></a>5.随机变量的函数的分布</h3><p>这一章里面我们已经提出了很多奇奇怪怪的要求了。我们先是要求把一个随机事件用一个数表示，然后又要求出随机变量为某个值时的概率，再要求求出随机变量在一段区间里的概率。</p>
+<p>在这一节里，我们提出了最后一个需求：求出一个随机变量的函数的分布。比如设$X$为班上随机挑3个人中男生个数的随机变量，我突发奇想，要求出$Y = X^2$这个随机变量的分布。</p>
+<p>这个需求很难找到一些比较有实际意义的例子，我暂且把他当成一种数学运算技巧。</p>
+<p>计算随机变量函数的分布也很简单，直接无脑地按照定义往式子里套就行了。</p>
+<p>例题：<br>$设X的概率密度为f_X(x)，求Y = X^2的概率密度$<br>解：  </p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+F_Y(y) &= P\{Y \leq y\} = P(X^2 \leq y) \\
+&= P(-\sqrt{y} < X \leq \sqrt{y}) \\
+&= F_X(\sqrt{y}) - F_X(-\sqrt{y}) \\ \\
+f_Y(y) &= \frac{dF_Y(y)}{dy} \\
+&= \frac{F_X'(\sqrt{y}) + F_X'(-\sqrt{y})}{2\sqrt{y}} &(y \geq 0) \\
+f_Y(y) &= 0 \ &else
+\end{aligned}</script><p>在这里在特别提醒一下，所有求概率密度、概率分布函数的题目，要考虑到定义域，要把所有定义域下的函数值都写出来。有的式子推式子推得很爽，但忘记了没有定义域的地方，比如上题中的$y &lt; 0$</p>
+<p>多做几个题就能发现，对于单调函数，可以直接得到新的分布。设$h(y) = x$是原随机变量函数的反函数，则$f_Y(y) = f_X[h(y)]|h’(y)|$。但对于非单调函数，比如上面的$Y = X^2$，只能老老实实地计算了。</p>
+<h3 id="本章总结"><a href="#本章总结" class="headerlink" title="本章总结"></a>本章总结</h3><p>本章一开始，我们从用自然语言或其它方式描述的随机事件中，提取出一个数来，把这种从基本事件到数的映射称为随机变量。围绕着随机变量，我们探讨了离散和连续的情况下，常见的随机变量有哪些，随机变量的概率应该怎么求，随机变量的函数的概率该怎么求。</p>
+<p>应该可以说，这一章是整个概率论的基础。后续的很多内容都建立在本章内容之上讨论。</p>
+<p>为了尽快复习，我会尽可能把内容精简一些，不会像第一章那样放那么多例题了。很快我就得考试了，除了复习理论外，我还得多做一些题目。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/23/Probability-Review/" rel="next" title="概率论与数理统计复习：一、概率论基本概念 ~ Prepare for exam">
+                <i class="fa fa-chevron-left"></i> 概率论与数理统计复习：一、概率论基本概念 ~ Prepare for exam
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/29/Probability-Review3/" rel="prev" title="概率论与数理统计复习：三、多维随机变量及其分布">
+                概率论与数理统计复习：三、多维随机变量及其分布 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Zhou Yifan</p>
+              <p class="site-description motion-element" itemprop="description">The best computer scientist and game designer in the future.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章-随机变量及其分布"><span class="nav-number">1.</span> <span class="nav-text">第二章 随机变量及其分布</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-随机变量"><span class="nav-number">1.1.</span> <span class="nav-text">1.随机变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-离散型随机变量-分布律"><span class="nav-number">1.2.</span> <span class="nav-text">2.离散型随机变量 分布律</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#0-1分布"><span class="nav-number">1.2.1.</span> <span class="nav-text">0-1分布</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二项分布"><span class="nav-number">1.2.2.</span> <span class="nav-text">二项分布</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#泊松分布"><span class="nav-number">1.2.3.</span> <span class="nav-text">泊松分布</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-随机变量分布函数"><span class="nav-number">1.3.</span> <span class="nav-text">3.随机变量分布函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-连续型随机变量-概率密度"><span class="nav-number">1.4.</span> <span class="nav-text">4.连续型随机变量 概率密度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#均匀分布"><span class="nav-number">1.4.1.</span> <span class="nav-text">均匀分布</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#指数分布"><span class="nav-number">1.4.2.</span> <span class="nav-text">指数分布</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#正态分布"><span class="nav-number">1.4.3.</span> <span class="nav-text">正态分布</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-随机变量的函数的分布"><span class="nav-number">1.5.</span> <span class="nav-text">5.随机变量的函数的分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本章总结"><span class="nav-number">1.6.</span> <span class="nav-text">本章总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhou Yifan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.1</div>
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.1"></script>
+
+
+  
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+</style>
+
+    
+  
+
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
