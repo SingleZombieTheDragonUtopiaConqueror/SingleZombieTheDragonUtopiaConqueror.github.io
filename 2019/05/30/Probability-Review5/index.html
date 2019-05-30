@@ -103,7 +103,7 @@
 <meta property="og:site_name" content="周弈帆的博客">
 <meta property="og:description" content="第五章 大数定律和中心极限定律考试迫在眉睫，情势刻不容缓，必须快马加鞭，迅速复习完概率论。这一章内容不多，我就不侃侃而谈了，直接把考试会考的内容写出来。若几年后有时间，再补完此处的内容。 第二节 中心极限定律一句话总结：独立同分布的一堆随机变量之和是正态分布，所以正态分布才在我们生活中那么常见。 例题（BIT 2013 级概率与数理统计试题A 卷）： Problem一食品店有三种面包出售,由于售出">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-05-30T14:58:37.812Z">
+<meta property="og:updated_time" content="2019-05-30T15:06:44.219Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="概率论与数理统计复习：五、大数定律和中心极限定律">
 <meta name="twitter:description" content="第五章 大数定律和中心极限定律考试迫在眉睫，情势刻不容缓，必须快马加鞭，迅速复习完概率论。这一章内容不多，我就不侃侃而谈了，直接把考试会考的内容写出来。若几年后有时间，再补完此处的内容。 第二节 中心极限定律一句话总结：独立同分布的一堆随机变量之和是正态分布，所以正态分布才在我们生活中那么常见。 例题（BIT 2013 级概率与数理统计试题A 卷）： Problem一食品店有三种面包出售,由于售出">
@@ -769,6 +769,53 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+</style>
+
+    
   
 
 
