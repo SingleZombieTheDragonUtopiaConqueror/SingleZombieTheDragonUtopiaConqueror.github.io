@@ -1,4 +1,11 @@
-https://SingleZombie.github.io/2019/04/30/CF-1149C/
-https://SingleZombie.github.io/2019/04/25/CF-86C/
-https://SingleZombie.github.io/2019/04/25/HowToWriteSolutionToACMProblem/
-https://SingleZombie.github.io/2019/03/17/HelloWorld/
+https://zhouyifan.net/
+https://zhouyifan.net/categories/
+https://zhouyifan.net/archives/
+https://zhouyifan.net/2019/05/29/Probability-Review3/
+https://zhouyifan.net/2019/05/29/Probability-Review2/
+https://zhouyifan.net/2019/05/23/Probability-Review/
+https://zhouyifan.net/2019/05/15/SociologyHomework/
+https://zhouyifan.net/2019/04/30/CF-1149C/
+https://zhouyifan.net/2019/04/25/HowToWriteSolutionToACMProblem/
+https://zhouyifan.net/2019/04/25/CF-86C/
+https://zhouyifan.net/2019/03/17/HelloWorld/
