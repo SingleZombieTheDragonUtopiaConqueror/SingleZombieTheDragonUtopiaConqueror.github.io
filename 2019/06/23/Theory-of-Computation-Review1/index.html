@@ -105,8 +105,8 @@
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://singlezombie.github.io/2019/06/23/Theory-of-Computation-Review1/picture1.png">
 <meta property="og:image" content="https://singlezombie.github.io/2019/06/23/Theory-of-Computation-Review1/picture2.png">
-<meta property="og:image" content="https://singlezombie.github.io/2019/06/23/Theory-of-Computation-Review1/picture3.png">
-<meta property="og:updated_time" content="2019-06-22T17:51:11.796Z">
+<meta property="og:image" content="https://singlezombie.github.io/2019/06/23/Theory-of-Computation-Review1/picture3.jpg">
+<meta property="og:updated_time" content="2019-06-22T17:59:59.072Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="计算理论复习一：正则语言">
 <meta name="twitter:description" content="计算是什么呢？ 数学，一门从数字与计算中出现的学科，在发展到一定阶段后，开始追问起了计算的本质。 数学家们用数学的语言，把“计算”这个早就存在的词语严格定义。用自身定义自身，这正是数学之美。 更令人开心的是，数学家在研究计算的过程中，开创了计算理论这门学科。人们在计算理论的基础上，制造了计算机。再随着计算机的应用不断变广，计算机成了一门单独的学科——计算机科学。 又扯远了。计算理论研究了什么是计算">
@@ -468,8 +468,8 @@
 <p>对于任意要删的点$q_{rip}$，对于任意其它点$q_i$,$q_j$，设$q_i\to^{R1} q_{rip},q_{rip}\to^{R2} q_{rip},q_{rip}\to^{R3} q_{j}, q_i\to^{R4} q_{j}$，则$q_i$到$q_j$的正则表达式修改为$(R1)(R2)\ast(R3)\bigcup(R4)$。千言万语，胜不过下面这张图：<br><img src="//SingleZombie.github.io/2019/06/23/Theory-of-Computation-Review1/picture2.png" alt="Sample"></p>
 <p>按照这种方法，我们总能在保证正则表达式的意思不变的情况下把中间点删掉。总有一天，我们会删到只剩$q_s,q_e$两个点，这两个点靠一条正则表达式来转移。</p>
 <p>我们说明了DFA可以转换成正则表达式。为了证明等价，我们还得证明正则表达式可以转换成DFA。不过这一步要比开始简单得多。</p>
-<p>借助证明NFA与DFA等价的方法，我们用如下方法构造NFA，使之与正则表达式等价。一个字符或者是空字符，就连一条边。空集就不连边。并集就是一个点可以通过空字符$\epsilon$移动到并集所表示的两个部分。星号就是结束部分连$\epislon$连回初始状态，同时再初始状态前加入一个接收状态。同样，说了这么多，不如放一张图：（声明：该图片来自《计算理论导引》(Michael Sipser)第三版 42页）</p>
-<p><img src="//SingleZombie.github.io/2019/06/23/Theory-of-Computation-Review1/picture3.png" alt="Sample"></p>
+<p>借助证明NFA与DFA等价的方法，我们用如下方法构造NFA，使之与正则表达式等价。一个字符或者是空字符，就连一条边。空集就不连边。并集就是一个点可以通过空字符$\epsilon$移动到并集所表示的两个部分。星号就是结束部分连$\epsilon$连回初始状态，同时再初始状态前加入一个接收状态。同样，说了这么多，不如放一张图：（声明：该图片来自《计算理论导引》(Michael Sipser)第三版 42页）</p>
+<p><img src="//SingleZombie.github.io/2019/06/23/Theory-of-Computation-Review1/picture3.jpg" alt="Sample"></p>
 <p>DFA和正则表达式互相转化，那它们肯定是等价的了。</p>
 <p>开始我们提过，正则语言是可以被DFA表达的语言。换言之，还有许许多多的语言无法用DFA表达。举一个经典的例子：设语言$B = \{0^n1^n|n\geq0\}$，也是说该语言表示0和1个数相同，且先出现0再出现1的字符串。仔细一想，你哪怕使出浑身解数，也构造不出识别这种语言的DFA——为了构造一个这样的DFA，我们必须用状态来存储0的数量，但0的数量可以是无穷大，而状态数的有限的。</p>
 <p>但有些愣头青喜欢钻牛角尖，他们偏要说道：“我就不管！你构造不出一台DFA，万一别人构造出来了呢？你凭什么说世界上不存在一台DFA识别这种语言？！”</p>
@@ -635,12 +635,6 @@
                 <div class="site-state-item site-state-tags">
                   
                     
-                    
-                      
-                    
-                      
-                    
-                      
                     
                       
                     
