@@ -103,7 +103,7 @@
 <meta property="og:site_name" content="周弈帆的博客">
 <meta property="og:description" content="递推关系与生成函数递推关系斐波那契数列通项俗话说，斐波那契数列的通项是： $\frac{1}{\sqrt{5}}(\frac{1 + \sqrt{5}}{2})^n - \frac{1}{\sqrt{5}}(\frac{1 - \sqrt{5}}{2})^n  (n \geq 0)$   看上去如此玄妙的式子是怎么推出来的呢？ 我们都知道，斐波那契数列是:$0,1,1,2,3,5,8,13,21,">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-06-25T15:34:00.314Z">
+<meta property="og:updated_time" content="2019-06-27T13:50:06.760Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="组合数学：递推关系与生成函数">
 <meta name="twitter:description" content="递推关系与生成函数递推关系斐波那契数列通项俗话说，斐波那契数列的通项是： $\frac{1}{\sqrt{5}}(\frac{1 + \sqrt{5}}{2})^n - \frac{1}{\sqrt{5}}(\frac{1 - \sqrt{5}}{2})^n  (n \geq 0)$   看上去如此玄妙的式子是怎么推出来的呢？ 我们都知道，斐波那契数列是:$0,1,1,2,3,5,8,13,21,">
@@ -453,7 +453,7 @@ h_n + a_1 h_{n - 1} + ... + a_k h_{n - k} = r^n(b_qn^q +b_{q - 1}n^{q - 1} + ...
 <script type="math/tex; mode=display">
 (c_0 + c_1n+..c_qn^{q})r^n</script><p>代入$h_n$，解出这些$c$来，就可以得到一个特解。如果$r$还是特征方程的根，且是$m$重根，则要代入</p>
 <script type="math/tex; mode=display">
-(c_0 + c_1n+..c_qn^{q})r^nn^m</script><p>可以看出，求特解时，就是把等式右边的非齐次项按$r^n$的指数分个类。在这之后，$r^n$就不参与运算了，因为代入式子后$r^n$会被消掉。再顺便看一下$r$是否是特征方程的解，若是的话要乘上$n$的次方项。特解的未知数个数取决于非齐次项中的多项式的次数，把这个式子套回去可以解出所有的未知数来。具体看下面的例子。</p>
+(c_0 + c_1n+..c_qn^{q})r^nn^m</script><p>可以看出，求特解时，就是把等式右边的非齐次项按$r^n$的指数分个类。再顺便看一下$r$是否是特征方程的解，若是的话要乘上$n$的次方项。特解的未知数个数取决于非齐次项中的多项式的次数，把这个式子套回去可以解出所有的未知数来。具体看下面的例子。</p>
 <p>例：求$h_n = 2h_{n - 1} + n^2$的特解。<br>解：<br>特征方程：</p>
 <script type="math/tex; mode=display">
 x = 2</script><p>将</p>
