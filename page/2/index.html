@@ -305,6 +305,208 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/04/25/HowToWriteSolutionToACMProblem/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="The best computer scientist and game designer in the future.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/04/25/HowToWriteSolutionToACMProblem/" class="post-title-link" itemprop="url">如何写ACM解题记录 ~ Introspection</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-04-25 16:39:13" itemprop="dateCreated datePublished" datetime="2019-04-25T16:39:13+08:00">2019-04-25</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/" itemprop="url" rel="index"><span itemprop="name">Computer Science</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/ACM/" itemprop="url" rel="index"><span itemprop="name">ACM</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>自信地点击提交按钮后，得到依旧是一行刺眼的Wrong Answer。  </p>
+<p>数个小时的付出，丝毫没有得到回报。提交记录上，代码行数越变越多，判题结果却永远见不到绿色的那8个字母。</p>
+<p>绝望笼罩了心头，焦躁充斥了大脑，整个世界变得黑暗了起来。</p>
+<p>万般无奈下，颤颤巍巍地用鼠标复制一段文字，放到搜索引擎里面，点开第一个链接。</p>
+<p>片刻之后，你恍然大悟。一切都好起来了，世界再次变得光明。</p>
+<p>题解，正是照亮世界的那束光。</p>
+<hr>
+<p>只要你参加过算法竞赛的训练，就一定接触过题解，上面的提到的经历，也都能感同身受。</p>
+<p>我看过很多题解，也一直有考虑过自己写题解。但我一直因为一些问题而犹豫不前：我为什么要写题解呢？怎么样的解题记录才算好呢？</p>
+<p>思考了很久后，我今天写出我的第一篇解题记录。我也顺便写一下我的思考结果，稍微谈一谈我对解题记录的认识。</p>
+<h2 id="别人的“题解”"><a href="#别人的“题解”" class="headerlink" title="别人的“题解”"></a>别人的“题解”</h2><p>大多数的题解都是这样的：标题是题目来源及题目名称，后面用括号写下题目算法。正文内容先把题目完完全全复制过来，之后贴上自己代码，谈一下解题的思路。大家写题解都默认使用了这套“模板”。</p>
+<p>这样写题解是为了什么呢？是用来给那些想不出题的人来看吗？仔细一想这是不太合理的。没写过这道题的人，认真阅读这篇题解的概率极低；看过而不会写这道题的人，肯定已经理解了题意，试过了输入输出。再把多余的信息写上来是没有意义的。此外，「别人的代码」是比医生的病例还要难看懂的东西。如果要把方法讲清楚来，很多时候用文字或者伪代码来表达算法，比直接贴代码效果好很多。最后还有一小点，很多题目偏向思维题，知道了做法就可以立刻写出题来。如果把题目的算法直接写在标题里，会让那些还摇摆不定不知道要不要认真看完题解的人立刻知道题目的做法。综上，只要稍微想想就能发现，“题解”并不是写给别人看的。虽然网上的题解被大家当成了写不出题的救命稻草。</p>
+<p>比较合理的想法是，“题解”的称呼有失偏颇，正确说法应该是解题记录。解题记录就是给以后的自己复习看的。标题里的算法方便自己找到对应类型的题目；复制的题面能避免翻原网站的麻烦；自己的代码让自己能快速理解思路；解题思路里的三言两语能快速唤起写这道题时的记忆。这样一看，解题记录纯粹是为了方便自己而写，这种说法有道理多了。</p>
+<p>但我依旧对这种写解题记录的方式抱有一丝的厌恶。</p>
+<p>以我狭隘的心理来揣测，许多人写题解，只是为了写题解而已。他们看到了别人的博客，看到了几百篇、上千篇解题的记录，他们感到了敬畏与心虚。于是，他们开通了自己的博客，用同样的格式来写解题记录。自己的博客越写越多，那颗空虚的内心也会越来越踏实。</p>
+<p>也不能说这样完全不好。起码每写完一道题，贴完一道题目的题解，你能够收获一份成就感，能够让自己坚持下去。</p>
+<p>但除此之外，这样写解题记录就是浪费自己时间。</p>
+<p>写完一道题目，这题水不水，你学到了多少东西，你有没有学到东西，大家心里自己都有数。单纯地让解题记录数目++，只是让自己心里好受一点：不管参加比赛打得怎么样，不管我菜不菜，起码我还写了这么多题目。</p>
+<p>那些写了几百题上千题的人，不是因为他们写了解题记录而厉害，是因为他们真的认认真真想要去提升自己，认认真真地写了那么多题目才厉害啊！</p>
+<p>这是我一直没去写解题记录的原因。</p>
+<h2 id="我对自己解题记录的要求"><a href="#我对自己解题记录的要求" class="headerlink" title="我对自己解题记录的要求"></a>我对自己解题记录的要求</h2><p>做事首先要目标明确。思考与尝试了一段时间后，我总结出了我自己写解题记录想要达到的目的。</p>
+<ol>
+<li>对于解题时思路不清楚，甚至看了题解的题目，要借写解题记录的机会，彻底地把题目再思考一遍，把题目吃透来。</li>
+<li>记录反思写题时碰到的一些轻微的思考错误、代码错误，争取以后不犯错。</li>
+<li>对于略带套路的题目，写解题记录能让自己加深印象，记住这种比较特殊的题型。</li>
+<li>如果有人在写这题时碰到了困难，碰巧看到我的解题记录，我能保证他能通过我的解题记录彻底理解这道题。</li>
+<li>给未来的自己当回忆录看。</li>
+</ol>
+<p>上述目的是按重要性降序排序的。与学新东西同理，写解题记录时，你会为了把事情说清楚，而不得不自己先把事情全部理解透。通过写解题记录这种手段来达到完全理解题目，这大概是写解题记录最大的目的。可以说第一条是最最重要的，相比之下后面几条都没那么重要。</p>
+<p>可以看出，最应该写解题记录的题目，应该是在补题或学新专题时，那些略微超出自己当前能力，要稍微看看题解才能想出的题目。这些题是真正能提升自己的题。而在比赛中，你能过的题目，你一定都已经完全掌握了，这些题目就没有写记录的必要了。</p>
+<p>顺带提一下我当前的记录格式。我会先把题意用较为清晰的话表达出来，再附上题目的样例。之后我会按照思维顺序把题目的解法娓娓道来。最后以反思收尾，回顾整道题的收获。整篇记录，起承转合，抑扬顿挫，虽无音韵、色彩之美，却有逻辑、通顺之妙。能想出这种格式的人，不可谓不是一个奇才。</p>
+<p>今天是我第一次在博客里写解题记录。老实说，花的时间很多，我也能理解为什么很多人只是贴个代码稍微提两句题目——有认真写一篇解题记录的时间，下一题都写完了。但是我还是不愿意潦草地只把解题记录当成普通的记录。要做就把事情做好。哪怕以后我因为怕苦怕累，再也不写解题记录了。哪怕整个互联网中，只流传了我一篇质量奇高的解题记录，这篇解题记录成了我的绝唱，那也没有什么遗憾的。毕竟我的优秀作品还会有很多，这篇解题记录只是钻石里的一块金子。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/04/25/CF-86C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -704,7 +906,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -947,6 +1149,8 @@
     
       
         
+      
+    
       
     
       
