@@ -103,14 +103,14 @@
 <meta property="og:site_name" content="周弈帆的博客">
 <meta property="og:description" content="计算是什么呢？ 数学，一门从数字与计算中出现的学科，在发展到一定阶段后，开始追问起了计算的本质。 数学家们用数学的语言，把“计算”这个早就存在的词语严格定义。用自身定义自身，这正是数学之美。 更令人开心的是，数学家在研究计算的过程中，开创了计算理论这门学科。人们在计算理论的基础上，制造了计算机。再随着计算机的应用不断变广，计算机成了一门单独的学科——计算机科学。 又扯远了。计算理论研究了什么是计算">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://zhouyifan.net/2019/06/23/Theory-of-Computation-Review1/picture1.png">
-<meta property="og:image" content="https://zhouyifan.net/2019/06/23/Theory-of-Computation-Review1/picture2.png">
-<meta property="og:image" content="https://zhouyifan.net/2019/06/23/Theory-of-Computation-Review1/picture3.jpg">
+<meta property="og:image" content="https://singlezombie.coding.me/2019/06/23/Theory-of-Computation-Review1/picture1.png">
+<meta property="og:image" content="https://singlezombie.coding.me/2019/06/23/Theory-of-Computation-Review1/picture2.png">
+<meta property="og:image" content="https://singlezombie.coding.me/2019/06/23/Theory-of-Computation-Review1/picture3.jpg">
 <meta property="og:updated_time" content="2019-06-23T12:26:04.006Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="计算理论复习一：正则语言">
 <meta name="twitter:description" content="计算是什么呢？ 数学，一门从数字与计算中出现的学科，在发展到一定阶段后，开始追问起了计算的本质。 数学家们用数学的语言，把“计算”这个早就存在的词语严格定义。用自身定义自身，这正是数学之美。 更令人开心的是，数学家在研究计算的过程中，开创了计算理论这门学科。人们在计算理论的基础上，制造了计算机。再随着计算机的应用不断变广，计算机成了一门单独的学科——计算机科学。 又扯远了。计算理论研究了什么是计算">
-<meta name="twitter:image" content="https://zhouyifan.net/2019/06/23/Theory-of-Computation-Review1/picture1.png">
+<meta name="twitter:image" content="https://singlezombie.coding.me/2019/06/23/Theory-of-Computation-Review1/picture1.png">
 
 
 
@@ -433,7 +433,7 @@
 <p>于是人们把数学问题转换成字符串是否“正确”的问题。字符串的每一个字符，都会对字符串是否正确产生影响，都会改变字符串的整体性质。联系开始我。们对于状态有向图的分析，状态转移正是事物本质发生变化的过程。我们似乎可以用开始的状态有向图，来判定一个字符串。因此，人们把字符串的每个字符做为状态转移的条件，把一些状态设为“正确状态”，意味着能通过字符一步一步走到这里的字符串是正确的。当然，还有一个初始状态，表示在什么字符也没有读取时的状态。</p>
 <p>这样讲还是抽象了一点，还是举个例子吧。假设我们用的字符全部是0（也就是说字母表是$\{0\}$），我们现在碰到的问题是：给定一串字符串，问其长度是否为偶数。我们该怎么样用一个状态有向图来解决这个问题？或者说，如何把所有解表达出来呢？</p>
 <p>从本质上来看这个问题，一串只有0的字符串只有长度为奇数和长度为偶数这两种可能。每多加一个0，就会改变字符串长度的奇偶性。也就是说，我们有两个状态：“偶数长度状态”、“奇数长度状态”。在碰到0的时候，两个状态间会互相转移。最开始时，字符串处于“偶数长度状态”，因为我们读入的字符串长度为0，是个偶数。如果我们读完了字符串后，发现我们停留在了“偶数长度状态”，那么这就说明该字符串的长度是偶数。状态图画出来是这样的：</p>
-<p><img src="//zhouyifan.net/2019/06/23/Theory-of-Computation-Review1/picture1.png" alt="Sample"></p>
+<p><img src="//SingleZombie.coding.me/2019/06/23/Theory-of-Computation-Review1/picture1.png" alt="Sample"></p>
 <p>左上角的箭头表示最开始进入的是q0状态，也就是“偶数长度状态”。右边箭头上的0表示转移碰到0就往箭头的方向转移。左边q0状态里面有一个小圆圈，表示这个状态是最终我们能够认可的状态。</p>
 <p>我们构建的这个状态有向图，有一个十分大气的名字“有穷自动机”。这个名字为什么这么叫呢？大概有穷，指的是状态数是有限个。自动机，指的是我们只要把字符串到这个有向图里，按照规则在里面走迷宫，我们最终就可以知道这个字符串是否符合我们的要求。整个有向图就像一个自动工作的机器一样。虽然这个名字看上去很厉害，但正如我们分析的一样，有穷自动机就是一个有向图，它的概念十分容易理解。</p>
 <p>每一个有穷自动机都可以由5部分确定：$(Q,\Sigma,\delta,q_0,F)$。$Q$是状态（点）集合，$\sigma$是字母表，$\delta$是转移函数（边）集合，每个转移函数接受的参数是当前状态与碰到的结果，输出的是下一状态，也就是说转移函数集合是$Q\times\Sigma\to Q$。$q_0$是初始状态，也就是我们走迷宫的起点。$F$是接受状态集合，$F\subseteq Q$，也就是迷宫的所有终点。我们需要字母表，是因为无论碰到什么字母，我们都得确切地知道我们下一步该往哪里走。我们在转移函数中，必须写清楚每个字母的转移情况。因此也可以得出，转移函数的集合有$|Q|$行$|\Sigma|$列，代表每个点在碰到每个字母转移到的下一个点。</p>
@@ -465,11 +465,11 @@
 <p>唉，要是世界上有这样一台机器就好了。机器只有两个状态，第一个状态是初始状态，第二个状态是接收状态。第一个状态到第二个状态的转移条件是一个正则表达式。我要验证一个正则表达式的字符串，就等价于把字符串放入这个机器中判定。可惜我们的DFA只允许在转移条件上写字符啊！</p>
 <p>数学家们向来比较开放，喜欢扩大定义。没有这样的机器，我们就来创造这样的机器。<strong>广义非确定有限自动机（GNFA)</strong>是一个可以把正则表达式当成转移条件的自动机。为了证明正则表达式和DFA的等价，我们只需要一步一步地把DFA的转移条件变成正则表达式，最后变成我们开始说过的那个梦想中的机器——只有两个状态和一行正则表达式的机器。如果能构造出这样的转换方法，就能证明定理了。</p>
 <p>我们这次构造的GNFA，是在原来的DFA上一步一步改造过来的。改造的第一步，是新建两个状态——新起始状态$q_s$，新结束状态$q_e$。在保证正确性的前提下，$q_s$对其它每个点连边，每个点向$q_e$。由于正则表达式包括空集，所以连边总是可行的。我们新建的这两个状态就是保留到最后的状态。我们要删掉其它所有点，并修改转移条件，使得整个GNFA依然正确。</p>
-<p>对于任意要删的点$q_{rip}$，对于任意其它点$q_i$,$q_j$，设$q_i\to^{R1} q_{rip},q_{rip}\to^{R2} q_{rip},q_{rip}\to^{R3} q_{j}, q_i\to^{R4} q_{j}$，则$q_i$到$q_j$的正则表达式修改为$(R1)(R2)\ast(R3)\bigcup(R4)$。千言万语，胜不过下面这张图：<br><img src="//zhouyifan.net/2019/06/23/Theory-of-Computation-Review1/picture2.png" alt="Sample"></p>
+<p>对于任意要删的点$q_{rip}$，对于任意其它点$q_i$,$q_j$，设$q_i\to^{R1} q_{rip},q_{rip}\to^{R2} q_{rip},q_{rip}\to^{R3} q_{j}, q_i\to^{R4} q_{j}$，则$q_i$到$q_j$的正则表达式修改为$(R1)(R2)\ast(R3)\bigcup(R4)$。千言万语，胜不过下面这张图：<br><img src="//SingleZombie.coding.me/2019/06/23/Theory-of-Computation-Review1/picture2.png" alt="Sample"></p>
 <p>按照这种方法，我们总能在保证正则表达式的意思不变的情况下把中间点删掉。总有一天，我们会删到只剩$q_s,q_e$两个点，这两个点靠一条正则表达式来转移。</p>
 <p>我们说明了DFA可以转换成正则表达式。为了证明等价，我们还得证明正则表达式可以转换成DFA。不过这一步要比开始简单得多。</p>
 <p>借助证明NFA与DFA等价的方法，我们用如下方法构造NFA，使之与正则表达式等价。一个字符或者是空字符，就连一条边。空集就不连边。并集就是一个点可以通过空字符$\epsilon$移动到并集所表示的两个部分。星号就是结束部分连$\epsilon$连回初始状态，同时再初始状态前加入一个接收状态。同样，说了这么多，不如放一张图：（声明：该图片来自《计算理论导引》(Michael Sipser)第三版 42页）</p>
-<p><img src="//zhouyifan.net/2019/06/23/Theory-of-Computation-Review1/picture3.jpg" alt="Sample"></p>
+<p><img src="//SingleZombie.coding.me/2019/06/23/Theory-of-Computation-Review1/picture3.jpg" alt="Sample"></p>
 <p>DFA和正则表达式互相转化，那它们肯定是等价的了。</p>
 <h3 id="非正则语言与泵引理"><a href="#非正则语言与泵引理" class="headerlink" title="非正则语言与泵引理"></a>非正则语言与泵引理</h3><p>开始我们提过，正则语言是可以被DFA表达的语言。换言之，还有许许多多的语言无法用DFA表达。举一个经典的例子：设语言$B = \{0^n1^n|n\geq0\}$，也是说该语言表示0和1个数相同，且先出现0再出现1的字符串。仔细一想，你哪怕使出浑身解数，也构造不出识别这种语言的DFA——为了构造一个这样的DFA，我们必须用状态来存储0的数量，但0的数量可以是无穷大，而状态数的有限的。</p>
 <p>但有些愣头青喜欢钻牛角尖，他们偏要说道：“我就不管！你构造不出一台DFA，万一别人构造出来了呢？你凭什么说世界上不存在一台DFA识别这种语言？！”</p>

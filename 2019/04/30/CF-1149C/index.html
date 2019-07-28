@@ -103,12 +103,12 @@
 <meta property="og:site_name" content="周弈帆的博客">
 <meta property="og:description" content="Description给一个由左右括号组成的正确括号序列（保证一个左括号一定对应右边的一个右括号）。   通过这个括号序列，我们可以构建一棵树：左括号表示进入子树，右括号表示从当前子树返回。括号相当于描述了一棵树先序遍历的出入栈过程。   现在，我们有q次操作。每次操作会交换括号序列中的两个的括号位置，该操作保证括号序列的正确性。每次操作后，都能得到一颗新的树。要求输出最开始和每次操作后树的直径（">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://zhouyifan.net/2019/04/30/CF-1149C/example.png">
+<meta property="og:image" content="https://singlezombie.coding.me/2019/04/30/CF-1149C/example.png">
 <meta property="og:updated_time" content="2019-04-30T06:52:46.661Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CodeForces 1149C Tree Generator™">
 <meta name="twitter:description" content="Description给一个由左右括号组成的正确括号序列（保证一个左括号一定对应右边的一个右括号）。   通过这个括号序列，我们可以构建一棵树：左括号表示进入子树，右括号表示从当前子树返回。括号相当于描述了一棵树先序遍历的出入栈过程。   现在，我们有q次操作。每次操作会交换括号序列中的两个的括号位置，该操作保证括号序列的正确性。每次操作后，都能得到一颗新的树。要求输出最开始和每次操作后树的直径（">
-<meta name="twitter:image" content="https://zhouyifan.net/2019/04/30/CF-1149C/example.png">
+<meta name="twitter:image" content="https://singlezombie.coding.me/2019/04/30/CF-1149C/example.png">
 
 
 
@@ -424,7 +424,7 @@
 <h2 id="Sample-Input-amp-Output"><a href="#Sample-Input-amp-Output" class="headerlink" title="Sample Input &amp; Output"></a>Sample Input &amp; Output</h2><p>5 5<br>(((())))<br>4 5<br>3 4<br>5 6<br>3 6<br>2 5</p>
 <hr>
 <p>4<br>3<br>3<br>2<br>4<br>4  </p>
-<p><img src="//zhouyifan.net/2019/04/30/CF-1149C/example.png" alt="Sample"></p>
+<p><img src="//SingleZombie.coding.me/2019/04/30/CF-1149C/example.png" alt="Sample"></p>
 <h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>首先考虑到树的子树具有子结构性质。每一步操作都没有完全改变整棵树，有很多子结构的信息是相同的。</p>
 <p>那么可以这样思考，在括号序列的任意一个位置开始往后走，我都可以得到一颗与这个位置前面的节点独立的一颗树。这棵树不一定是子树，因为从任意一个位置开始的括号序列可能会多出几个右括号，这种情况下这棵树会往回生长。</p>
 <p>再从题目的问题入手，题目要我们求出每颗树的直径来。路径长可以看成两个树的深度减去两倍他们lca的深度。即：设点$u$的深度为$d(u)$,那么$u$到$v$的路径长$l(u, v)=d(u)+d(v)-2\times d(lca(u,v))$。而直径就是所有路径长的最大值。也就是说，如果能得知每个点的深度，并设法维护最大的路径长，就能得到答案。通过括号序列得到每个点每个时刻的深度是很容易的，现在我们就要设法维护路径长，得知路径长又必须知道点对的lca是谁。</p>
