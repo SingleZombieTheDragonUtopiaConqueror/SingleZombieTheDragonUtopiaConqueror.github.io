@@ -103,7 +103,7 @@
 <meta property="og:site_name" content="周弈帆的博客">
 <meta property="og:description" content="题目按个人感受的难度升序排列。 J Fraction ComparisionDescription给$\frac{x}{a},\frac{y}{b},0\leq a,b\leq 10^9,0\leq x,y\leq 10^{18}$，问这两个分数比较大小的结果（大于、小于或等于）。 Solution由于浮点数会有误差，不能除了以后再判断。 用有大整数的语言的话，可以直接通分比较。 用C++的话，可">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-07-22T03:13:05.965Z">
+<meta property="og:updated_time" content="2019-08-01T19:48:27.396Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2019牛客暑期多校训练营（第一场）部分题解（缺D、G）">
 <meta name="twitter:description" content="题目按个人感受的难度升序排列。 J Fraction ComparisionDescription给$\frac{x}{a},\frac{y}{b},0\leq a,b\leq 10^9,0\leq x,y\leq 10^{18}$，问这两个分数比较大小的结果（大于、小于或等于）。 Solution由于浮点数会有误差，不能除了以后再判断。 用有大整数的语言的话，可以直接通分比较。 用C++的话，可">
@@ -452,7 +452,7 @@
 \right.</script><p>用同样的方法可以求得n为任意值时的拆分结果。对于分母是$a_i^2+x^2$的项，它的分子是$\frac{1}{\Sigma_{j\neq i}(a_j^2-a_i^2)}$。</p>
 <p>再由微积分的知识，$\int_{0}^{\infty}\frac{C}{a^2+x^2}dx=\frac{C}{a^2}\int_{0}^{\infty}\frac{1}{1+(x/a)^2}dx =\frac{C}{a}\int_{0}^{\infty}\frac{1}{1+(x/a)^2}d(x/a) =\frac{C\pi}{2a}$，</p>
 <p>因此，对于分母是$a_i^2+x^2$的项，积分的结果是$\frac{\pi}{2a_i\Sigma_{j\neq i}(a_j^2-a_i^2)}$。算出了公式，转换成程序就行了。</p>
-<h2 id="C-Euclidean-Distance"><a href="#C-Euclidean-Distance" class="headerlink" title="C Euclidean Distance"></a>C Euclidean Distance</h2><h3 id="Description-3"><a href="#Description-3" class="headerlink" title="Description"></a>Description</h3><p>给一个n维空间的点$A(a_1/m, a_2/m…a_n/m)$，求它到点$P(p_1, p_2, …p_n)$的最短距离的平方，即$\Sigma_{i = 1}^{n}(a_i/m - p_i)^2$。其中点$P$要满足下列条件：<br>$p_i\in \real$<br>$p_i \geq 0$<br>$\Sigma p_i = 1$</p>
+<h2 id="C-Euclidean-Distance"><a href="#C-Euclidean-Distance" class="headerlink" title="C Euclidean Distance"></a>C Euclidean Distance</h2><h3 id="Description-3"><a href="#Description-3" class="headerlink" title="Description"></a>Description</h3><p>给一个n维空间的点$A(a_1/m, a_2/m…a_n/m)$，求它到点$P(p_1, p_2, …p_n)$的最短距离的平方，即$\Sigma_{i = 1}^{n}(a_i/m - p_i)^2$。其中点$P$要满足下列条件：<br>$p_i\in \Reals$<br>$p_i \geq 0$<br>$\Sigma p_i = 1$</p>
 <p>答案用分数的形式表示。</p>
 <p>数据范围：<br>$1 \leq n \leq 10^4,1\leq m \leq 10^3, -m\leq a_i \leq m$</p>
 <h3 id="Solution-3"><a href="#Solution-3" class="headerlink" title="Solution"></a>Solution</h3><p>为了方便说明，先把点$P$的每个坐标分量乘一个m，我们要求的东西变成了$\Sigma_{i = 1}^{n}(a_i - p_im)^2$。只要把这个结果除以一个$m^2$就是题目的答案。</p>
@@ -500,7 +500,7 @@ dp[i][j]=
 <p>那么对于作为基的$r$个元素，我们的任务就是判断它们是否可以被任意一个其它的基所表示。对于某个基，有一种很简单的方法能构造出其它$n - 1$个元素的基。先构造出$n - r$个元素的基，它们代表了剩余$n - r$个数的空间。再把$r$个基中除了当前这个基外的$r - 1$个基也加入这个新的空间里面。现在，这个空间就能代表剩下$n - 1$个数了。判断选出的这个基是否在新的空间里即可。</p>
 <h3 id="Review-3"><a href="#Review-3" class="headerlink" title="Review"></a>Review</h3><p>在写这题之前我是不会线性基的，但稍微学了一下就发现，只要学过了线性代数的话很快就能理解线性基。只要理解了线性基，那么这题就非常简单了。</p>
 <p>不过这题的一个关键是把问题从求集合大小转换成求每个元素出现集合数。这个转换十分关键。我由于是看着题解写的，没有在这个问题上碰到障碍。但若是要在比赛中快速把难求的问题转换成容易求的问题，就需要极高的解题灵活度了。这种能力只有通过大量写题目才能获得。这也是大量刷题培养手感的意义所在吧。</p>
-<h2 id="I-Points-Division"><a href="#I-Points-Division" class="headerlink" title="I Points Division"></a>I Points Division</h2><h3 id="Description-7"><a href="#Description-7" class="headerlink" title="Description"></a>Description</h3><p>给$n$个点，每个点有$a,b$两种价值。现在要把所有点分成两个部分$A,B$，要保证$\neg \exist p_i \in A, p_j \in B,x_i \geq x_j \bigwedge y_i \leq y_j$。在$A$里面的点算$a$价值，在$B$里面的点算$B$价值。求最大价值和。</p>
+<h2 id="I-Points-Division"><a href="#I-Points-Division" class="headerlink" title="I Points Division"></a>I Points Division</h2><h3 id="Description-7"><a href="#Description-7" class="headerlink" title="Description"></a>Description</h3><p>给$n$个点，每个点有$a,b$两种价值。现在要把所有点分成两个部分$A,B$，要保证$\neg \exists p_i \in A, p_j \in B,x_i \geq x_j \bigwedge y_i \leq y_j$。在$A$里面的点算$a$价值，在$B$里面的点算$B$价值。求最大价值和。</p>
 <p>数据范围：<br>$1 \leq n \leq 10^5$<br>$1 \leq x_i, y_i, a_i, b_i \leq 10^9$<br>$所有点互异$  </p>
 <h3 id="Solution-7"><a href="#Solution-7" class="headerlink" title="Solution"></a>Solution</h3><p>显然，我们要做的第一件事就是把划分$A,B$的条件弄得更直观一些。题目的要求是：没有两个点，使得左上角的点属于$B$，右下角的点属于$A$。也就是说，如果一个点被分配进了$B$，那么它右下角的所有点都得进入$B$；如果一个点被分配进了$A$，那么它左上角所有的点都得进入$A$。</p>
 <p>也就是说,空间被分成了左上角和右下角两部分。那么是谁把空间划分的呢？仔细一想，划分空间的应该是一条折线。折线左上角的点属于$A$，折线右下角的点属于$B$。不妨再规定一下，折线上面的点都属于$B$（同一种划分下，如果折线上的点属于$A$的话，会得到另一条不同的折线，但效果是一样的）。这条折线是从左下向右上的，也就是随着x的增长y是不减的。</p>
