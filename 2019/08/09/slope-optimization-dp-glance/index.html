@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="前几天在写HDU6619的时候，问题最终转化成了一个形如下式的DP：  dp[i] = \left\{ \begin{aligned}    &amp;x &amp;i = 0 \\    &amp;max_{0\leq j &amp;lt; i}\{dp[j] + (n - i)(\Sigma_{k = j}^{i - 1}arr[k])\} &amp;0 &amp;lt; i \leq n \end{aligned} \right. \\这个式子很简单">
+<meta property="og:type" content="article">
+<meta property="og:title" content="速通斜率优化DP">
+<meta property="og:url" content="https://zhouyifan.net/2019/08/09/slope-optimization-dp-glance/index.html">
+<meta property="og:site_name" content="周弈帆的博客">
+<meta property="og:description" content="前几天在写HDU6619的时候，问题最终转化成了一个形如下式的DP：  dp[i] = \left\{ \begin{aligned}    &amp;x &amp;i = 0 \\    &amp;max_{0\leq j &amp;lt; i}\{dp[j] + (n - i)(\Sigma_{k = j}^{i - 1}arr[k])\} &amp;0 &amp;lt; i \leq n \end{aligned} \right. \\这个式子很简单">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-08-08T16:22:18.614Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="速通斜率优化DP">
+<meta name="twitter:description" content="前几天在写HDU6619的时候，问题最终转化成了一个形如下式的DP：  dp[i] = \left\{ \begin{aligned}    &amp;x &amp;i = 0 \\    &amp;max_{0\leq j &amp;lt; i}\{dp[j] + (n - i)(\Sigma_{k = j}^{i - 1}arr[k])\} &amp;0 &amp;lt; i \leq n \end{aligned} \right. \\这个式子很简单">
+
+
+
+
+
+
+  <link rel="canonical" href="https://zhouyifan.net/2019/08/09/slope-optimization-dp-glance/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>速通斜率优化DP | 周弈帆的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">周弈帆的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/08/09/slope-optimization-dp-glance/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="The best computer scientist and game designer in the future.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">速通斜率优化DP
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-08-09 00:22:18" itemprop="dateCreated datePublished" datetime="2019-08-09T00:22:18+08:00">2019-08-09</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/" itemprop="url" rel="index"><span itemprop="name">Computer Science</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/ACM/" itemprop="url" rel="index"><span itemprop="name">ACM</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>前几天在写<a href="http://acm.hdu.edu.cn/showproblem.php?pid=6619" target="_blank" rel="noopener">HDU6619</a>的时候，问题最终转化成了一个形如下式的DP：</p>
+<script type="math/tex; mode=display">
+dp[i] =
+\left\{
+\begin{aligned}
+   &x &i = 0 \\
+   &max_{0\leq j < i}\{dp[j] + (n - i)(\Sigma_{k = j}^{i - 1}arr[k])\} &0 < i \leq n
+\end{aligned}
+\right.
+\\</script><p>这个式子很简单，也就是当前状态的值由前面某个状态的值加上两个状态之间的数组值的和得到，且当前状态的值要尽可能大。按照式子直接枚举当前状态的上一状态的话，复杂度是$O(n^2)$。但本题的$n$是$10^5$，直接写肯定会T掉。我一时半会没有想出优化的方法，看了题解才想起来，这个DP可以用<strong>斜率优化</strong>来加速转移。于是，我准备快速复习一下斜率优化的用法。</p>
+<h2 id="斜率优化DP用法示例"><a href="#斜率优化DP用法示例" class="headerlink" title="斜率优化DP用法示例"></a>斜率优化DP用法示例</h2><p>还是回到刚刚那个式子:</p>
+<script type="math/tex; mode=display">
+dp[i] =
+\left\{
+\begin{aligned}
+   &x &i = 0 \\
+   &max_{0\leq j < i}\{dp[j] + (n - i)(\Sigma_{k = j}^{i - 1}arr[k])\} &i>0
+\end{aligned}
+\right.
+\\</script><p>右边一堆求和实在是太碍眼了。我们可以先对数组求前缀和，这样求和直接被前缀和做差代替：</p>
+<script type="math/tex; mode=display">
+dp[i] =
+\left\{
+\begin{aligned}
+   &x &i = 0 \\
+   &max_{0\leq j < i}\{dp[j] + (n - i)(sum[i] - sum[j])\} &i>0
+\end{aligned}
+\right.
+\\</script><p>如果没有那个$(n - i)$就好了。这样上一状态的贡献永远是$dp[j] + sum[j]$，只要对每个状态求这个值再取最大就可以直接$O(1)$获取之前答案的最大贡献了。问题是，前面乘了一个$(n - i)$后，之前状态的贡献就和当前的$i$有关系了。之前所有状态的部分贡献$dp[j],sum[j]$已经是完全确定的东西了，加上当前的$i$就能算出之前状态的全部贡献。那么，有没有一个仅通过当前的$i$来衡量之前哪个方案更优的方法呢？</p>
+<p>如果之前存在两个状态$a,b$，不妨设$a &lt; b$。那么，当从$a$比从$b$转移更优的时候是怎么样的呢？我们不妨列出此时两个状态的贡献值不等式，并且把含$i$的部分移到不等号的一边去。</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+dp[a] + (n - i)(sum[i] - sum[a]) &> dp[b] + (n - i)(sum[i] - sum[b]) \\
+dp[a] - (n - i)sum[a] &> dp[b] - (n - i)sum[b] \\
+dp[a] - dp[b] &> (n - i)(sum[a] - sum[b]) \\
+\frac{dp[a] - dp[b]}{sum[a] - sum[b]} &> n - i
+\end{aligned}</script><p>由于前缀和数组递增，$sum[a] &gt; sum[b]$，不等式不用变号。</p>
+<p>也就是说，通过计算两个状态的$dp$数组差除以$sum$数组差，并将这个结果与$n - i$比较，我们就能知道之前两个状态孰优孰劣。这个计算出的值是反映状态好坏的本质属性，因为这个值的计算与当前的$i$无关。由于这个计算值和数学上斜率的计算十分相似，因此才有斜率优化这个名字。</p>
+<p>如果把之前所有状态都看成一个$(sum[j], dp[j])$的二维点，现在我们知道了$n - i$的值，那么之前哪个状态最优呢？</p>
+<p>我们从左到右从两两相邻的点连线。如果两两相邻的点的斜率是递减的，那就好办了：这就说明，前面有很多点对的斜率大于$n - i$，后面有很多点对的斜率小于$n - i$。那么中间的某个点就是最优的，那个点和它前一个点的斜率大于$n - i$，和它下一个点的斜率小于$n - i$。它比左边的点优，也比右边的点优。</p>
+<p>问题是，如果出现了某三个从左到右相邻点$a, b, c$，且$ab$斜率小于$bc$呢？也就是相邻点对的斜率不是增减的。这种情况下，若斜率$ab$和$bc$都比$n - i$小，则最左边的$a$点最优；反之，若两个斜率都比$n - i$大，则最右边的点$c$最优。剩下的情况只有斜率$ab$小于$n - i$，斜率$bc$大于$n - i$这种情况。但是，此时$a$比$b$优，$c$也比$b$优。可以看到，无论什么情况下，$b$都不是最优的。因此，$b$点永远不会是上一个最优状态，可以把它“抛走”，再也不考虑它了。</p>
+<p>也就是说，可能作为上一个最优状态的点，它们的$(sum[j], dp[j])$构成的二维点的斜率永远是单调递减的。这个单调性，是斜率优化DP的根本原因。</p>
+<p>有了上述的分析，选上一个最优状态，不再需要枚举每一个之前的状态，而是维护一个可能作为上一状态的集合就可以了。这个集合从左到右存了一系列的可能的状态。每次要找最优状态的话，就像之前分析的那样，找到第一个斜率小于的$n - i$的左边的点，那个点对应状态就是最优的上一状态。由于单调性的存在，这个过程可以用二分完成。但由于我们每次的$n - i$是一个递减的量，也就是说我们每次需要找的斜率只会越来越小。那么那些斜率很大的点都可以扔掉去。因此，在本题中，可以不去二分查找，而去删掉前面那些已经斜率过大的点。最后剩下来的第一个点，它和下一个点的斜率小于$n - i$，它就是本次要寻找的最优上一状态。这个集合可以用双端队列Deque来维护。</p>
+<p>同时，这个集合还需要进行维护。每次新得到了一个dp值后，我们就要试图把新的状态加入这个集合中。为了保证集合中点斜率的单调性，我们要取出集合最后两个点，拿它们和当前的点算出两个斜率，看看这个斜率是否满足单调递减的性质。如果不满足，就把中间的那个点去掉，也就是把原来集合中的最后一个点去掉。</p>
+<h2 id="Deque实现斜率优化DP方法简述"><a href="#Deque实现斜率优化DP方法简述" class="headerlink" title="Deque实现斜率优化DP方法简述"></a>Deque实现斜率优化DP方法简述</h2><p>其实上面那道题并不适合用来学习斜率DP，因为它实际上牵扯的细节很多，dp式子并没有上面写得那么简单。<a href="http://acm.hdu.edu.cn/showproblem.php?pid=3507" target="_blank" rel="noopener">HDU3507</a>应该是最适合写的第一道斜率优化DP题。</p>
+<p>这道题状态转移的式子比上面那个例子要复杂一点，而且是取最小值，需要维护的斜率应该满足单调递增而不是单调递减，但本质还是对前缀和什么的做一些运算，再进行斜率的比较，最终优化的方法还是完全一样的。</p>
+<p>这道题中，不等式右边的与当前状态$i$有关的值是$sum[i]$，它是一个单调递增的量，正好与我们维护的是一个单调递增的斜率集合“相符合”（这里“符合”的意义比较微妙，也就是说，如果这里$sum[i]$不是单调递减，是递增或是无规律的，那么就不能用Deque来做了）。因此，我们在找最优状态的时候，不用去二分的找第一个斜率大于某个值的点，而是把前面斜率小的点都删掉去，把剩下来的第一个点作为上一状态。这个东西可以用Deque维护。</p>
+<p>因此，在写代码时，应该按照下列步骤。</p>
+<ol>
+<li>读入数据，初始化dp等数组，该求前缀和求前缀和。</li>
+<li>声明一个deque\&lt; int &gt;，作为上一状态的集合。如果0位置的状态一开始就能被转移，就往deque里push一个0。</li>
+<li>开始for循环，遍历每一个当前状态$i$。</li>
+<li>for循环体中：如果deque的大小大于等于2，说明deque中可能存在斜率不合法的点，循环寻找是否存在这样的点。每次循环得到front()，再pop_front()，再得到front()，也就是取出队列中前面两个点。判断这这两点的斜率，若斜率小于（大于）关键值（本例是2 * sum[i]），则continue掉，也就是扔掉第一个点，继续循环判断；否则，把取出的第一个点push_front()放回去，退出循环。这样，第一个斜率大于（小于）关键值的点就变成了que.front()。</li>
+<li>不妨设j = que.front()，这个j就是最优的上一状态。用推好的dp式子计算dp[i]。</li>
+<li>把状态i加入队列并维护队列的单调性。和开始的操作类似，循环判断deque大小是否大于等于2，若是，则取出队列队尾的两个点，计算它们和新的点$i$的两个斜率是否满足应该具有的单调性。若不满足单调性，则扔掉队尾的点，循环继续。</li>
+<li>把状态i用push_back()扔进队列的队尾。</li>
+<li>for循环结束</li>
+<li>输出dp数组中的答案。</li>
+</ol>
+<h2 id="二分查找实现斜率优化DP方法简述"><a href="#二分查找实现斜率优化DP方法简述" class="headerlink" title="二分查找实现斜率优化DP方法简述"></a>二分查找实现斜率优化DP方法简述</h2><p><a href="http://codeforces.com/problemset/problem/674/C" target="_blank" rel="noopener">CodeForces 674C</a>也是一道斜率优化DP的题目。这道题递推式子相较之前两题更复杂了一些，而且它进行比较的和$i$有关的关键值并不是单调的。因此，这题不能再用Deque来维护最优上一答案，而是要用一个vector来存可能的状态，并进行二分查找。</p>
+<p>写代码的步骤也类似，只是寻找上一最优答案的过程有所变更。</p>
+<ol>
+<li>读入数据，初始化dp等数组，求好所需变量。</li>
+<li>声明一些vector\&lt; int &gt;，作为上一状态的集合。如果dp某一维的0位置的状态一开始就能被转移，就往对应vector里push一个0。</li>
+<li>开始for循环，遍历每一个当前状态$i$。如果dp数组和本题一样是多维的，那么再加一层for循环，按照顺序遍历dp数组的每一维。</li>
+<li>for循环体中：如果对应vector数组是空的，那么说明该状态不存在上一状态，直接跳过；否则，声明一个存储最优上一个状态的变量ii。ii的初始值是vector数组的第一项，因为我们将要二分查找的是最后一个斜率满足不等式的右端点，若二分查找什么都没找到，那么说明最优的点就是数组中的第一项。</li>
+<li>二分查找最后一个斜率满足不等式的右端点。实现时把二分查找的mid对应状态套入不等式判断即可，若满足不等式则更新临时变量ii为vector中mid处对应的状态。</li>
+<li>二分查找结束，ii就是最优的上一状态。用推好的dp式子计算dp[i]。</li>
+<li>把状态i加入数组并维护数组的单调性。循环判断deque大小是否大于等于2，若是，则取出数组尾的两个点，计算它们和新的点$i$的两个斜率是否满足应该具有的单调性。若不满足单调性，则扔掉数组尾的点，循环继续。</li>
+<li>把状态i用push_back()扔进数组尾。</li>
+<li>for循环结束</li>
+<li>输出dp数组中的答案。</li>
+</ol>
+<h2 id="写代码的注意事项"><a href="#写代码的注意事项" class="headerlink" title="写代码的注意事项"></a>写代码的注意事项</h2><p>写代码的时候会发现，不等式左边分子的那个量会被反复地用到。用一个函数来计算这个值会更加方便可靠。</p>
+<p>在比较相邻两个斜率，而分子分母都是整数的时候，得用交叉相乘来比较斜率，规避除法。</p>
+<h2 id="总结-感想"><a href="#总结-感想" class="headerlink" title="总结/感想"></a>总结/感想</h2><h3 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h3><p>我算是大概理解了斜率优化DP的原理，但对什么时候可以用这个算法还有一点模糊。斜率优化DP本质上是在寻找最优上一状态时，找到衡量每一个状态的本质量，也就是那个二维点。对于每一对二维点，都有同一个判断它们两个谁更优的标准，那就是比较二者斜率是大于还是小于某个值（等于的情况可以忽略）。由于判断条件相同，只有斜率单调的点才可能成为最优上一状态。又由于有了单调的性质，才能在状态中进行二分查找。如果进行判断的斜率值还相对应是单调的，那么二分查找都可以省略，直接就可以得到最优的上一个状态。</p>
+<p>能用斜率DP优化问题的核心原因就在于，对每一对二维点，判断它们谁更优的标准是一样的。但是，如果对于一个dp递推式子推导出的不等式中，作为分母的不是$(sum[a] - sum[b])$，而是另一组值，这一组值并不满足单调。这样的话，哪怕对于$a &gt; b$的点，算出来的分母可能是个负数，除过去的话不等式要变号。对于相邻的两个点，有的时候斜率大于某个值更优，有的时候是斜率小于某个值更优。好像在这种情况下就不能用斜率优化DP了。</p>
+<h3 id="算法适用情况"><a href="#算法适用情况" class="headerlink" title="算法适用情况"></a>算法适用情况</h3><p>能够用斜率优化DP的题都有类似的地方。这些题的dp在计算新值时，是在旧dp值的基础上加上一个和当前状态$i$有关的贡献。这个贡献往往是和上一位置到这一位置的区间和有关，以保证不等式分母是永远是正的。当看到一个类似这样的DP，且数据范围不允许$O(n^2)$时，就要考虑用斜率优化DP了。</p>
+<p>和大部分DP题目一样，这种题目推式子是最重要的，代码实现上只要写个2、3题就能学会套路，很难出错。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/02/Introspection-of-Perfectionism/" rel="next" title="我对自己过分追求完美的反思">
+                <i class="fa fa-chevron-left"></i> 我对自己过分追求完美的反思
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Zhou Yifan</p>
+              <p class="site-description motion-element" itemprop="description">The best computer scientist and game designer in the future.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">0</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#斜率优化DP用法示例"><span class="nav-number">1.</span> <span class="nav-text">斜率优化DP用法示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deque实现斜率优化DP方法简述"><span class="nav-number">2.</span> <span class="nav-text">Deque实现斜率优化DP方法简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二分查找实现斜率优化DP方法简述"><span class="nav-number">3.</span> <span class="nav-text">二分查找实现斜率优化DP方法简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写代码的注意事项"><span class="nav-number">4.</span> <span class="nav-text">写代码的注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结-感想"><span class="nav-number">5.</span> <span class="nav-text">总结/感想</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#算法原理"><span class="nav-number">5.1.</span> <span class="nav-text">算法原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法适用情况"><span class="nav-number">5.2.</span> <span class="nav-text">算法适用情况</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhou Yifan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.1</div>
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.1"></script>
+
+
+  
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+</style>
+
+    
+  
+
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

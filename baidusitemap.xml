@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://zhouyifan.net/2019/06/25/recurrence-relation-and-generating-function/</loc>
+    <lastmod>2019-08-08</lastmod>
+  </url>  <url>
+    <loc>https://zhouyifan.net/2019/08/09/slope-optimization-dp-glance/</loc>
+    <lastmod>2019-08-08</lastmod>
+  </url>  <url>
     <loc>https://zhouyifan.net/2019/07/19/ACM2019/</loc>
     <lastmod>2019-08-07</lastmod>
   </url>  <url>
@@ -9,9 +15,6 @@
   </url>  <url>
     <loc>https://zhouyifan.net/2019/07/22/2019Nowcoder-Contest1/</loc>
     <lastmod>2019-08-01</lastmod>
-  </url>  <url>
-    <loc>https://zhouyifan.net/2019/06/25/recurrence-relation-and-generating-function/</loc>
-    <lastmod>2019-07-03</lastmod>
   </url>  <url>
     <loc>https://zhouyifan.net/2019/05/23/Probability-Review/</loc>
     <lastmod>2019-06-25</lastmod>
