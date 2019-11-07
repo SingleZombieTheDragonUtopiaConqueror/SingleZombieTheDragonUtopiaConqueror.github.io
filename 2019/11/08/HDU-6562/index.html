@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Preface本题是2018CCPC吉林站的H题。吉林站是我参加的第一场正式比赛，当时我们写的最后一题就是这道题。我在赛场上想出了正确的大致解法，却因为细节没有想全，没有在赛场中A掉这道题。也是从这次比赛开始，我所在的队伍在拿银的时候，几乎每次离金牌就差一题，而且这一题的算法已经被我们想到，只是没有写完。每场比赛打完，我的感受大多是“要是再写出一题就好了”。 时光飞逝，如今我都快退役了。我还有两场">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HDU-6562 Lovers">
+<meta property="og:url" content="https://zhouyifan.net/2019/11/08/HDU-6562/index.html">
+<meta property="og:site_name" content="周弈帆的博客">
+<meta property="og:description" content="Preface本题是2018CCPC吉林站的H题。吉林站是我参加的第一场正式比赛，当时我们写的最后一题就是这道题。我在赛场上想出了正确的大致解法，却因为细节没有想全，没有在赛场中A掉这道题。也是从这次比赛开始，我所在的队伍在拿银的时候，几乎每次离金牌就差一题，而且这一题的算法已经被我们想到，只是没有写完。每场比赛打完，我的感受大多是“要是再写出一题就好了”。 时光飞逝，如今我都快退役了。我还有两场">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-07T16:32:45.461Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HDU-6562 Lovers">
+<meta name="twitter:description" content="Preface本题是2018CCPC吉林站的H题。吉林站是我参加的第一场正式比赛，当时我们写的最后一题就是这道题。我在赛场上想出了正确的大致解法，却因为细节没有想全，没有在赛场中A掉这道题。也是从这次比赛开始，我所在的队伍在拿银的时候，几乎每次离金牌就差一题，而且这一题的算法已经被我们想到，只是没有写完。每场比赛打完，我的感受大多是“要是再写出一题就好了”。 时光飞逝，如今我都快退役了。我还有两场">
+
+
+
+
+
+
+  <link rel="canonical" href="https://zhouyifan.net/2019/11/08/HDU-6562/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>HDU-6562 Lovers | 周弈帆的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">周弈帆的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/11/08/HDU-6562/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="The best computer scientist and game designer in the future.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">HDU-6562 Lovers
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-11-08 00:32:45" itemprop="dateCreated datePublished" datetime="2019-11-08T00:32:45+08:00">2019-11-08</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/" itemprop="url" rel="index"><span itemprop="name">Computer Science</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/ACM/" itemprop="url" rel="index"><span itemprop="name">ACM</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h2><p>本题是2018CCPC吉林站的H题。吉林站是我参加的第一场正式比赛，当时我们写的最后一题就是这道题。我在赛场上想出了正确的大致解法，却因为细节没有想全，没有在赛场中A掉这道题。也是从这次比赛开始，我所在的队伍在拿银的时候，几乎每次离金牌就差一题，而且这一题的算法已经被我们想到，只是没有写完。每场比赛打完，我的感受大多是“要是再写出一题就好了”。</p>
+<p>时光飞逝，如今我都快退役了。我还有两场正式比赛要打，而其中一场比赛将在这个周末举办。我想在比赛前临阵磨枪，找一些代码量比较大的题来提升写代码的能力。我想起了这道当时认为比较繁琐的题目。</p>
+<p>没想到WA了一次后，这道题就被我十分轻松的A掉了。思路清晰，大脑能量充足的情况下，这道题对我来说竟然算不上一道难题，甚至谈不上一道有代码量的题。我都不知道该怎样评价自己的水平了。该写出题的时候写不出题，训练的时候又看得过去。</p>
+<p>不管怎样，我要给这道对我来说意义重大的题写一篇题解。</p>
+<h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>数轴上有$n$个字符串，每个字符串初始为空。现在要进行$m$次以下操作：</p>
+<ul>
+<li>操作1：把一个$[l, r]$区间里所有字符串前面加上一位十进制数字，后面加上一位十进制数字。比如”44”这个字符串“加上”5后，就变成了”5445”.</li>
+<li>操作2：求$[l, r]$区间里所有字符串代表的数字之和。</li>
+</ul>
+<p>样例组数$1\leq t\leq5$，长度$1 \leq n \leq 10^5$，操作次数$1 \leq m \leq 10^5$</p>
+<h2 id="Sample-Input-amp-Output"><a href="#Sample-Input-amp-Output" class="headerlink" title="Sample Input &amp; Output"></a>Sample Input &amp; Output</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">2</span><br><span class="line">3 2</span><br><span class="line">wrap 1 3 1</span><br><span class="line">query 1 2</span><br><span class="line">4 4</span><br><span class="line">wrap 1 3 0</span><br><span class="line">wrap 2 4 3</span><br><span class="line">query 1 4</span><br><span class="line">query 2 3</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Case 1:</span><br><span class="line">22</span><br><span class="line">Case 2:</span><br><span class="line">6039</span><br><span class="line">6006</span><br></pre></td></tr></table></figure>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>看到关于区间的操作、求和，第一反应肯定是线段树。</p>
+<p>问题的关键在于，在一个数字前面和最后加了一位，这个操作的实质是什么。</p>
+<p>假设当前某个数字是$x$，有$d$位，在它的前后放了一个$y$，那么这步操作的结果是$x \leftarrow y * 10^{d+2} + x \times10 + y$。可以发现，后面的乘法和加法都十分好维护。用两个lazy变量来标记区间该乘和该加的值。每次乘的时候还要改变加的标记。问题的关键是，前面加的那一堆东西和当前数无关，而是和当前数的位数有关。</p>
+<p>既然操作和数位数有关，那么维护每个数的位数一定是一个可行的做法。单由于操作是对区间进行操作，一个区间里不同的数有不同的位数，这个东西哪怕可以用vector存下，合并的时间复杂度都会爆炸。有没有一种办法能够合并区间所有数的位数这个信息呢？</p>
+<p>观察操作的式子我们可以发现，我们做的所有运算都是加法和乘法。我们不关心区间里每一个数有几位，而是要让这些数的最高位乘上一个操作数$y$再乘100，最后再加到一起。这样想的话，我们可以把每个数的最高位加起来，以获取这个区间所有数的最高位信息。比如一个区间的数是$11,2222,4444$，那么最高数位之和就是$10 + 1000 + 1000 = 2010$。那么对这个区间信息操作时，不再是$x \leftarrow y <em> 10^{d+2} + x \times10 + y$，而是$x \leftarrow y </em> 2010^{d+2} + x \times10 + y$。如果我们能维护一个最高数位和信息，我们就能计算出当前区间的数字和，也就是操作2询问的内容了。</p>
+<p>现在问题就变成了如何维护区间的最高数位和及相关lazy变量。为了计算出新的$x$，我们要用$y$来乘最高数位和。由于区间操作要在线段树上下放，而父区间和子区间$y$乘最高数位和的结果是不同的。因此，我们只能每次下放$y$这个操作数。我们需要一个新的lazy变量来储存我们下放的$y$。</p>
+<p>光存了$y$不够，因为子区间可能有没有计算过的操作数。比如子区间进行了操作数3的操作，子区间的数字应当是$3x3$，但子区间没有被访问，标记还没有计算过。现在又对整个区间进行了操作数4的操作，子区间的数字现在应当是$43x34$。此时子区间依然没有被访问。也就是说，之前lazy变量是3，经过操作后lazy变量变成了43。</p>
+<p>每次进行操作，lazy变量前面都会加一个数。往前面加数这个操作可不好做。但是，我们可以记录这个lazy变量的最大位数。比如lazy变量现在是43，那么最大位数就是2。下次进行操作数5的操作时，$5 \times 10^2 + 43 = 543$，就能正确计算出新的lazy变量了。这个lazy变量的最大位数也是一个新的lazy变量。</p>
+<p>所以，所有的变量我们都可以用线段树来维护，这道题就写完了。</p>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	node *l, *r;</span><br><span class="line">	<span class="keyword">int</span> preSum;</span><br><span class="line">	<span class="keyword">int</span> preMult;</span><br><span class="line">	<span class="keyword">int</span> preMove;</span><br><span class="line">	<span class="keyword">int</span> sum;</span><br><span class="line">	<span class="keyword">int</span> markSum;</span><br><span class="line">	<span class="keyword">int</span> markMult;</span><br><span class="line">	<span class="keyword">int</span> len;</span><br><span class="line">	node()</span><br><span class="line">	&#123;</span><br><span class="line">		l = r = <span class="literal">nullptr</span>;</span><br><span class="line">		preSum = <span class="number">1</span>;</span><br><span class="line">		len = <span class="number">0</span>;</span><br><span class="line">		preMult = <span class="number">0</span>;</span><br><span class="line">		markMult = <span class="number">1</span>;</span><br><span class="line">		preMove = markSum = sum = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">update</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		sum = ((preMult * (ll)preSum) % MOD * p10[preMove] % MOD + (ll)sum * markMult % MOD + markSum * (ll)len % MOD) % MOD;</span><br><span class="line">		preSum = preSum * p10[preMove * <span class="number">2</span>] % MOD;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">pushDownTo</span><span class="params">(node* l)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		l-&gt;preMult = (((ll)preMult * p10[l-&gt;preMove] % MOD) + l-&gt;preMult) % MOD;</span><br><span class="line">		l-&gt;preMove += preMove;</span><br><span class="line">		l-&gt;markSum = ((ll)l-&gt;markSum * markMult % MOD + markSum) % MOD;</span><br><span class="line">		l-&gt;markMult = (ll)l-&gt;markMult * markMult % MOD;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">pushDown</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		update();</span><br><span class="line">		<span class="keyword">if</span> (l)</span><br><span class="line">		&#123;</span><br><span class="line">			pushDownTo(l);</span><br><span class="line">			pushDownTo(r);</span><br><span class="line">		&#125;</span><br><span class="line">		clearMark();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">pushUp</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (l)</span><br><span class="line">		&#123;</span><br><span class="line">			l-&gt;pushDown();</span><br><span class="line">			r-&gt;pushDown();</span><br><span class="line">			preSum = (l-&gt;preSum + r-&gt;preSum) % MOD;</span><br><span class="line">			sum = (l-&gt;sum + r-&gt;sum) % MOD;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">setMark</span><span class="params">(<span class="keyword">int</span> x)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		preMult = x;</span><br><span class="line">		preMove = <span class="number">1</span>;</span><br><span class="line">		markMult = <span class="number">10</span>;</span><br><span class="line">		markSum = x;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">clearMark</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		preMult = preMove = markSum = <span class="number">0</span>;</span><br><span class="line">		markMult = <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*………………a lot of code…………*/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">modify</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> r, <span class="keyword">int</span> v, node* nd = root, <span class="keyword">int</span> cl = <span class="number">1</span>, <span class="keyword">int</span> cr = n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	nd-&gt;pushDown();</span><br><span class="line">	<span class="keyword">if</span> (l == cl &amp;&amp; r == cr)</span><br><span class="line">	&#123;</span><br><span class="line">		nd-&gt;setMark(v);</span><br><span class="line">		nd-&gt;pushDown();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> mid = (cl + cr) / <span class="number">2</span>;</span><br><span class="line">		<span class="keyword">if</span> (r &lt;= mid)</span><br><span class="line">		&#123;</span><br><span class="line">			modify(l, r, v, nd-&gt;l, cl, mid);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (l &gt; mid)</span><br><span class="line">		&#123;</span><br><span class="line">			modify(l, r, v, nd-&gt;r, mid + <span class="number">1</span>, cr);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			modify(l, mid, v, nd-&gt;l, cl, mid);</span><br><span class="line">			modify(mid + <span class="number">1</span>, r, v, nd-&gt;r, mid + <span class="number">1</span>, cr);</span><br><span class="line">		&#125;</span><br><span class="line">		nd-&gt;pushUp();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">query</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> r, node* nd = root, <span class="keyword">int</span> cl = <span class="number">1</span>, <span class="keyword">int</span> cr = n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	nd-&gt;pushDown();</span><br><span class="line">	<span class="keyword">if</span> (l == cl &amp;&amp; r == cr)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> nd-&gt;sum;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> mid = (cl + cr) / <span class="number">2</span>;</span><br><span class="line">		<span class="keyword">if</span> (r &lt;= mid)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> query(l, r, nd-&gt;l, cl, mid);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (l &gt; mid)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> query(l, r, nd-&gt;r, mid + <span class="number">1</span>, cr);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> (query(l, mid, nd-&gt;l, cl, mid) + </span><br><span class="line">			query(mid + <span class="number">1</span>, r, nd-&gt;r, mid + <span class="number">1</span>, cr)) % MOD;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我一般是不放代码的，但我觉得这段代码写的非常有条理，所以就打算展示一下。</p>
+<p>线段树操作的精髓在于<code>node</code>的操作。不管是怎样的区间操作、查询，所有<code>modify</code>和<code>query</code>都可以调同一个格式的函数，只要修改<code>node</code>中函数的实现细节就可以了。</p>
+<p><code>len</code>变量不是一个动态的变量，我是在建树的时候把<code>len</code>算了一下。</p>
+<p><code>markMult</code>和<code>preMove</code>似乎是相关的两个变量，但多用一个变量也不会MLE会TLE，用两个变量能够让写代码时思路更加清晰。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/09/slope-optimization-dp-glance/" rel="next" title="速通斜率优化DP">
+                <i class="fa fa-chevron-left"></i> 速通斜率优化DP
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Zhou Yifan</p>
+              <p class="site-description motion-element" itemprop="description">The best computer scientist and game designer in the future.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">0</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Preface"><span class="nav-number">1.</span> <span class="nav-text">Preface</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Description"><span class="nav-number">2.</span> <span class="nav-text">Description</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sample-Input-amp-Output"><span class="nav-number">3.</span> <span class="nav-text">Sample Input &amp; Output</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution"><span class="nav-number">4.</span> <span class="nav-text">Solution</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Code"><span class="nav-number">5.</span> <span class="nav-text">Code</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhou Yifan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.1</div>
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.1"></script>
+
+
+  
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+</style>
+
+    
+  
+
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
