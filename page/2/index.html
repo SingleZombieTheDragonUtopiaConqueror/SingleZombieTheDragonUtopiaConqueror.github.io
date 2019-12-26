@@ -305,6 +305,178 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/05/30/Probability-Review5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/30/Probability-Review5/" class="post-title-link" itemprop="url">概率论与数理统计复习：五、大数定律和中心极限定律</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-05-30 22:58:37" itemprop="dateCreated datePublished" datetime="2019-05-30T22:58:37+08:00">2019-05-30</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/math/" itemprop="url" rel="index"><span itemprop="name">math</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="第五章-大数定律和中心极限定律"><a href="#第五章-大数定律和中心极限定律" class="headerlink" title="第五章 大数定律和中心极限定律"></a>第五章 大数定律和中心极限定律</h2><p>考试迫在眉睫，情势刻不容缓，必须快马加鞭，迅速复习完概率论。这一章内容不多，我就不侃侃而谈了，直接把考试会考的内容写出来。若几年后有时间，再补完此处的内容。</p>
+<h3 id="第二节-中心极限定律"><a href="#第二节-中心极限定律" class="headerlink" title="第二节 中心极限定律"></a>第二节 中心极限定律</h3><p>一句话总结：独立同分布的一堆随机变量之和是正态分布，所以正态分布才在我们生活中那么常见。</p>
+<p>例题（BIT 2013 级概率与数理统计试题A 卷）：</p>
+<h4 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h4><p>一食品店有三种面包出售,由于售出哪一种面包是随机的，因而售出一只面包的价格是一个随机变量,它取1 元, 2 元, 3 元的概率分别为0.3, 0.5, 0.2. 若售出300 只面包,求售出价格为1 元的面包多于100 只的概率.</p>
+<h4 id="Wrong-Solution"><a href="#Wrong-Solution" class="headerlink" title="Wrong Solution"></a>Wrong Solution</h4><p>这不是二项分布嘛！等一下，n是300，这么多？我记得二项分布多了可以转换成泊松分布。这里$\lambda = np = 90$,<br>$ans = 1 - \sum_{i = 0}^{100}\frac{90^i e^{-90}}{i!}$。虽然我算不出这个数来，但复杂度是$O(N)$，这个答案应该可以接受。</p>
+<p>(错误原因：数学题的答案只能用O(1)的算法)</p>
+<h4 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h4><p>要求的量满足独立同分布的条件，整体服从正态分布，均值$\mu = 90$,方差$\sigma = 63$。</p>
+<p>把100代入$(X - \mu) / \sqrt{\sigma}$转换一下，变成标准正态分布，查一下表，结果为0.8962。</p>
+<h4 id="Review"><a href="#Review" class="headerlink" title="Review"></a>Review</h4><p>看到一个值由很多简单随机变量相加而成，就把它们当成正态分布来处理。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/05/30/Probability-Review4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2268,7 +2440,7 @@ P(B_i|A) = \frac{P(A | B_i)P(B_i)}{ \sum_{j = 1}^nP(A|B_j)P(B_j)}
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-count">20</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2316,7 +2488,9 @@ P(B_i|A) = \frac{P(A | B_i)P(B_i)}{ \sum_{j = 1}^nP(A|B_j)P(B_j)}
                     
                       
                     
-                    <span class="site-state-item-count">0</span>
+                      
+                    
+                    <span class="site-state-item-count">1</span>
                     <span class="site-state-item-name">tags</span>
                   
                 </div>
@@ -2513,6 +2687,8 @@ P(B_i|A) = \frac{P(A | B_i)P(B_i)}{ \sum_{j = 1}^nP(A|B_j)P(B_j)}
     
       
         
+      
+    
       
     
       
