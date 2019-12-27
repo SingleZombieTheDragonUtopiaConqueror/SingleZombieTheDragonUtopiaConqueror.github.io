@@ -325,7 +325,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/12/26/Digital-Image-Processing-homework1/" class="post-title-link" itemprop="url">数字图像处理小作业1：RGB转CMY转HCI及简单风格化（附OpenCV基本使用方法）</a>
+                <a href="/2019/12/26/Digital-Image-Processing-homework1/" class="post-title-link" itemprop="url">数字图像处理小作业1：RGB转CMY转HCI及简单风格化（附OpenCV安装及基本使用方法）</a>
               
             
           </h1>
@@ -437,18 +437,18 @@
 <h2 id="技术学习"><a href="#技术学习" class="headerlink" title="技术学习"></a>技术学习</h2><h3 id="OpenCV入门"><a href="#OpenCV入门" class="headerlink" title="OpenCV入门"></a>OpenCV入门</h3><h4 id="OpenCV安装与配置"><a href="#OpenCV安装与配置" class="headerlink" title="OpenCV安装与配置"></a>OpenCV安装与配置</h4><p>在本作业中，我打算用OpenCV来读、写、显示图像文件。在一些任务开始前，我要先学OpenCV的用法。</p>
 <p>我是在Win10下用VS2017编程，生成的是x86程序。</p>
 <ul>
-<li>去 <a href="https://opencv.org/releases/" target="_blank" rel="noopener">https://opencv.org/releases/</a> 下载Windows版本的库文件。下载后能得到一个exe文件，把该文件“解压”到一个路径即可。解压的文件夹里有一个opencv子文件夹。记此子文件夹为\$(OPENCV)。</li>
+<li>去 <a href="https://opencv.org/releases/" target="_blank" rel="noopener">https://opencv.org/releases/</a> 下载Windows版本的库文件。下载后能得到一个exe文件，把该文件“解压”到一个路径即可。解压的文件夹里有一个opencv子文件夹。记此子文件夹为<code>$(OPENCV)</code>。</li>
 <li><p>x86的OpenCV库编译（可选）</p>
 <ol>
 <li>去<a href="https://opencv.org/releases/" target="_blank" rel="noopener">https://opencv.org/releases/</a> 下载Sources，这样编译出来的库可以满足当前编译器的配置。（直接安装的话没有x86的文件）</li>
 <li>用cmake配置源代码。注意源代码的路径最好不要包含中文。（我第一次包含了中文，结果vs编译到一半出错了）</li>
 <li>用vs打开cmake生成的目录下的OpenCV.sln，编译源代码。</li>
-<li>编译结束后在目录的lib文件夹中找到编译的结果文件夹(Debug或Release)，里面所有.lib文件就是编译的结果，把它们放到上一步的build文件夹里。我按照格式放到了\$(OPENCV)\\build\\x86\vc15\\lib文件夹里。</li>
+<li>编译结束后在目录的lib文件夹中找到编译的结果文件夹(Debug或Release)，里面所有.lib文件就是编译的结果，把它们放到上一步的build文件夹里。我按照格式放到了<code>$(OPENCV)\build\x86\vc15\lib</code>文件夹里。</li>
 <li>编译出的bin文件夹需要加入系统环境变量，因为里面的dll会被用到。改完环境变量重启电脑。</li>
 </ol>
 </li>
-<li>在VS中的属性管理器新建配置，添加用户宏OPENCV，宏值就是开始那个解压出的opencv子文件夹。\$(OPENCV)现在就表示库目录了。</li>
-<li>在属性的包含目录里加上\$(OPENCV)\\build\\include，库目录改成对应版本的库的目录，比如我的就是\$(OPENCV)\\build\\x86\\vc15\\lib。</li>
+<li>在VS中的属性管理器新建配置，添加用户宏OPENCV，宏值就是开始那个解压出的opencv子文件夹。<code>$(OPENCV)</code>现在就表示库目录了。</li>
+<li>在属性的包含目录里加上<code>$(OPENCV)\build\include</code>，库目录改成对应版本的库的目录，比如我的就是<code>$(OPENCV)\build\x86\vc15\lib</code>。</li>
 <li>VS链接器-输入-附加依赖项中加入需要的.lib文件。我的第一个程序加入了opencv_highgui420d.lib;opencv_core420d.lib;opencv_imgcodecs420d.lib这三个库</li>
 <li>我随便到网上找了下函数，依葫芦画瓢地写了以下代码。如果一切都配置好了，程序会显示main.cpp目录下wallpaper.jpg这张图片。</li>
 </ul>
@@ -480,7 +480,7 @@
 <li>为了公式处理方便，我把像素格式转换成了float。我一开始以为直接就能通过<code>mat.at&lt;Vec3f&gt;</code>来访问浮点格式像素，但是发现<code>cv::Mat</code>的机制好像是只能允许像素按一种格式存。要把图像矩阵用<code>.convertTo(mat, CV_32FC3, 1 / 255.0)</code>来转换成浮点表示，最后输出的时候还要用<code>.convertTo(tmpMat, CV_8UC3, 255.0f)</code>转换回去。</li>
 <li>我还好提前看了一下<code>cv::Mat</code>的工作原理。该类只存了图像数据的指针，要复制图像数据的话要调用<code>src.copyTo(dest)</code></li>
 <li>图片转HSI再转回来后，我发现图像中出现一些绿色方块。经调试发现，H分量在运算的时候变成了nan。计算H的时候一定要判断分母是否为0！</li>
-<li>图像的RGB是倒着存的。我之前测试OpenCV的时候碰到了这个问题，写这个程序的时候就跳过了这个坑</li>
+<li>图像的RGB是倒着存的。我之前测试OpenCV的时候碰到了这个问题，写这个程序的时候就跳过了这个坑。</li>
 </ol>
 <h2 id="处理结果"><a href="#处理结果" class="headerlink" title="处理结果"></a>处理结果</h2><p><img src="//zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/0.jpg" alt="0.jpg"></p>
 <p>原图 </p>
@@ -489,6 +489,7 @@
 <p><img src="//zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/2CMY.jpg" alt="2.jpg"></p>
 <p>CMY风格转换结果</p>
 <p><img src="//zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/3HSI.jpg" alt="3.jpg"></p>
+<p>HSI风格转换结果</p>
 <h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>写博客真浪费时间。</p>
 
           
