@@ -103,7 +103,7 @@
 <meta property="og:site_name" content="周弈帆的博客">
 <meta property="og:description" content="软件工程项目：数独求解软件Github链接Sudoku Solver PSP耗时表    PSP2.1 Personal Software Process Stages Expected time (min) Actual time (min)     Planning 计划 20 50   · Estimate · 估计这个任务需要多少时间 20 50   Development 开发 980">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-12-24T03:41:48.098Z">
+<meta property="og:updated_time" content="2019-12-27T04:03:01.634Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="软件工程个人项目记录博客">
 <meta name="twitter:description" content="软件工程项目：数独求解软件Github链接Sudoku Solver PSP耗时表    PSP2.1 Personal Software Process Stages Expected time (min) Actual time (min)     Planning 计划 20 50   · Estimate · 估计这个任务需要多少时间 20 50   Development 开发 980">
@@ -449,7 +449,7 @@
 <td>· Analysis</td>
 <td>· 需求分析（包括学习新技术）</td>
 <td>50</td>
-<td></td>
+<td>120</td>
 </tr>
 <tr>
 <td>· Design Spec</td>
@@ -529,12 +529,12 @@
 <ul>
 <li>开发 980<ul>
 <li>需求分析 50<ul>
-<li>列下任务的具体项，建立用例模型 20</li>
+<li>列下任务的具体项 20</li>
 <li>评估自己是否缺少相关知识，如果缺少则去收集资料 30</li>
 </ul>
 </li>
 <li>生成设计文档 150<ul>
-<li>基本类图 30</li>
+<li>用理模型、基本类图 30</li>
 <li>动态模型设计 120</li>
 </ul>
 </li>
@@ -571,6 +571,34 @@
 </ul>
 </li>
 </ul>
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><h3 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h3><p>阅读作业要求文档后，我对需求的总结如下：</p>
+<p>任务主要分两个部分：数独生成和数独求解。</p>
+<p>数独生成要求通过可处理异常输入的命令行参数传入生成终局的数量，按照格式要求生成指定数量的终局。格式要求是数字用空格隔开，行末无空格，文件末无换行，终局间空一行。终局第一个数字为学号后两位之和模9加1。</p>
+<p>数独求解要求从命令行读取待求解数独文件名，从文件中读取所有终局并按和数独生成同一格式输出求解结果。</p>
+<p>由于数据求解需要数据，我还需要加入一个生成待求解的数独。参考附加任务的需求，待求解数独满足挖空数在30~60之间，每个宫不少于2个。</p>
+<h3 id="解法思考"><a href="#解法思考" class="headerlink" title="解法思考"></a>解法思考</h3><h4 id="数独终局生成"><a href="#数独终局生成" class="headerlink" title="数独终局生成"></a>数独终局生成</h4><p>由于数独的每一行都是不重复的，因此每一行可以看成一个9个数的排列。一行一行地生成数独或许是一个比较好的方法。</p>
+<p>数独的第一行就可以区别出一类数独。如果能得到一个终局的话，只需要修改第一行的映射，就能快速得到大量终局。同时，由于数独的限制比较强，搜索算法不会浪费很多时间在不合法终局上。如果知道了前几行，可以对剩下的部分进行dfs暴力搜索。这一步和数独求解完全相同，将在下一节分析。现在的问题就是如何生成前几行。</p>
+<p>假设现在我们得到了第一行的一个合法排列。对于给定的一行，考虑有多少新行，使得新行和给定的行的三部分都能放在同一个宫里。这是一个排列组合的问题，我用分类讨论的方法对它进行了求解。</p>
+<p>对于给定的行，行内的每个数只需要考虑它们来自哪个宫。不妨把给定的行表示为<code>[1 1 1 2 2 2 3 3 3]</code>，新行表示为<code>[0 0 0 0 0 0 0 0 0]</code>。0表示未填，1、2、3表示这个数来自旧行的哪一个宫。我们先考虑位置信息，最后再区分三个1、2、3。</p>
+<p>分类讨论<code>1 1 1</code>被怎么放到了新行。根据这三个数有几个放到了第二个宫、第三个宫，可分成四种情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[0 0 0 0 0 0 1 1 1]</span><br><span class="line">[0 0 0 1 0 0 1 1 0]</span><br><span class="line">[0 0 0 1 1 0 1 0 0]</span><br><span class="line">[0 0 0 1 1 1 0 0 0]</span><br></pre></td></tr></table></figure>
+<p>类似地，可以分类讨论，把2、3填入第二行，使得第二行合法。通过排列组合的计算，总共能得出$C_3^3C_3^3+C_3^2C_3^2C_3^1+C_3^1C_3^1C_3^1+C_3^0C_3^0=56$种不同的结果。</p>
+<p>这样分类的好处是，对于一个给定的第一行，每种生成的序列的不重复的。改变第一行的映射就能改变终局。而第一行由于第一个数固定，有$8!=40320$种可能。因此，用这种方法至少可以生成$56\times40320=2257920‬$种终局，这个数满足$10^6$的需求。</p>
+<p>因此终局生成的算法总结如下：</p>
+<ol>
+<li><p>固定第一行第一个数，随机生成一个排列</p>
+</li>
+<li><p>按上述方法枚举出第二行的所有可能，把对应的1、2、3转换成任意一个合法的序列。</p>
+</li>
+<li><p>使用求解方法得到一个终局。</p>
+</li>
+<li><p>交换数字映射来得到额外的终局。</p>
+</li>
+</ol>
+<p>如果仅仅要满足需求的话，最多只需要求解56个数独。如果要更多的终局的话，只需要在求解的时候多求几组解就行了。</p>
+<h4 id="数独求解"><a href="#数独求解" class="headerlink" title="数独求解"></a>数独求解</h4><p>我在玩数独的时候发现了两个性质：某个宫的某个数字只能填入一个位置；某一个位置只能被填入一个数。</p>
+<p>因此搜索时，可以加入下列策略：对于每个宫的每个数建立一个表，表示它的可选位置；对于每个位置建立一个候选数字表。如果数字的位置唯一或位置的候选数唯一，就填上这个数，更新所有的表。如果没有唯一的数，就选一个候选数最少的位置，尝试填入一个数字。如果某个数的可选位置为空或者某个位置的候选数字为空，就回溯，直到数独填完。</p>
+<h4 id="待求解数独生成"><a href="#待求解数独生成" class="headerlink" title="待求解数独生成"></a>待求解数独生成</h4><p>待求解数独要从终局中生成。根据需求，只需先随机总空数，再每个宫随机挖掉两个空，再随机挖空直至满足空格数即可。</p>
 <h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><ul>
 <li><p>19.12.24 11:36 </p>
 <ol>
@@ -619,8 +647,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/12/26/Digital-Image-Processing-homework1/" rel="prev" title="数字图像处理小作业1">
-                数字图像处理小作业1 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/12/26/Digital-Image-Processing-homework1/" rel="prev" title="数字图像处理小作业1：RGB转CMY转HCI及简单风格化（附OpenCV基本使用方法）">
+                数字图像处理小作业1：RGB转CMY转HCI及简单风格化（附OpenCV基本使用方法） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -776,7 +804,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#软件工程项目：数独求解软件"><span class="nav-number">1.</span> <span class="nav-text">软件工程项目：数独求解软件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Github链接"><span class="nav-number">1.1.</span> <span class="nav-text">Github链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PSP耗时表"><span class="nav-number">1.2.</span> <span class="nav-text">PSP耗时表</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#更新记录"><span class="nav-number">2.</span> <span class="nav-text">更新记录</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#软件工程项目：数独求解软件"><span class="nav-number">1.</span> <span class="nav-text">软件工程项目：数独求解软件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Github链接"><span class="nav-number">1.1.</span> <span class="nav-text">Github链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PSP耗时表"><span class="nav-number">1.2.</span> <span class="nav-text">PSP耗时表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解题思路"><span class="nav-number">1.3.</span> <span class="nav-text">解题思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#需求分析"><span class="nav-number">1.3.1.</span> <span class="nav-text">需求分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解法思考"><span class="nav-number">1.3.2.</span> <span class="nav-text">解法思考</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数独终局生成"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">数独终局生成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数独求解"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">数独求解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#待求解数独生成"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">待求解数独生成</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#更新记录"><span class="nav-number">2.</span> <span class="nav-text">更新记录</span></a></li></ol></div>
             
 
           </div>

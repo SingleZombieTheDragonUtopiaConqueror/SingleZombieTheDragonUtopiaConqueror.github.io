@@ -99,14 +99,14 @@
   <meta name="description" content="数字图像处理小作业1最近软件工程课要我们用博客记录项目。我感觉这样做挺好的，一来可以让项目的开发更规范化，二来可以给博客和github添加一些内容，不让大学生活看起来很空虚。以后我所有项目作业尽量都简历仓库和博客。 需求分析 原图像一张RGB（彩色图像） 分别在RGB，CMY，和HSI三个空间通过调整颜色实现一种风格化转换（风格自选） 需要提交源码以及不超过半页的代码说明(说明使用的库和参数) 压">
 <meta name="keywords" content="homework">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数字图像处理小作业1">
+<meta property="og:title" content="数字图像处理小作业1：RGB转CMY转HCI及简单风格化（附OpenCV基本使用方法）">
 <meta property="og:url" content="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/index.html">
 <meta property="og:site_name" content="周弈帆的博客">
 <meta property="og:description" content="数字图像处理小作业1最近软件工程课要我们用博客记录项目。我感觉这样做挺好的，一来可以让项目的开发更规范化，二来可以给博客和github添加一些内容，不让大学生活看起来很空虚。以后我所有项目作业尽量都简历仓库和博客。 需求分析 原图像一张RGB（彩色图像） 分别在RGB，CMY，和HSI三个空间通过调整颜色实现一种风格化转换（风格自选） 需要提交源码以及不超过半页的代码说明(说明使用的库和参数) 压">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-12-26T08:01:15.471Z">
+<meta property="og:updated_time" content="2019-12-26T13:31:06.516Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数字图像处理小作业1">
+<meta name="twitter:title" content="数字图像处理小作业1：RGB转CMY转HCI及简单风格化（附OpenCV基本使用方法）">
 <meta name="twitter:description" content="数字图像处理小作业1最近软件工程课要我们用博客记录项目。我感觉这样做挺好的，一来可以让项目的开发更规范化，二来可以给博客和github添加一些内容，不让大学生活看起来很空虚。以后我所有项目作业尽量都简历仓库和博客。 需求分析 原图像一张RGB（彩色图像） 分别在RGB，CMY，和HSI三个空间通过调整颜色实现一种风格化转换（风格自选） 需要提交源码以及不超过半页的代码说明(说明使用的库和参数) 压">
 
 
@@ -124,7 +124,7 @@
   };
 </script>
 
-  <title>数字图像处理小作业1 | 周弈帆的博客</title>
+  <title>数字图像处理小作业1：RGB转CMY转HCI及简单风格化（附OpenCV基本使用方法） | 周弈帆的博客</title>
   
 
 
@@ -323,7 +323,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">数字图像处理小作业1
+          <h1 class="post-title" itemprop="name headline">数字图像处理小作业1：RGB转CMY转HCI及简单风格化（附OpenCV基本使用方法）
 
               
             
@@ -431,8 +431,37 @@
 <li>在某种表示下改变图片风格，并调整另两种表示下的结果使得图片看起来相同</li>
 <li>写说明文档</li>
 </ul>
-<h2 id="技术学习"><a href="#技术学习" class="headerlink" title="技术学习"></a>技术学习</h2><p>在本作业中，我打算用OpenCV来读、写、显示图像文件。在一些任务开始前，我要先学OpenCV的用法。</p>
-
+<h2 id="技术学习"><a href="#技术学习" class="headerlink" title="技术学习"></a>技术学习</h2><h3 id="OpenCV入门"><a href="#OpenCV入门" class="headerlink" title="OpenCV入门"></a>OpenCV入门</h3><h4 id="OpenCV安装与配置"><a href="#OpenCV安装与配置" class="headerlink" title="OpenCV安装与配置"></a>OpenCV安装与配置</h4><p>在本作业中，我打算用OpenCV来读、写、显示图像文件。在一些任务开始前，我要先学OpenCV的用法。</p>
+<p>我是在Win10下用VS2017编程，生成的是x86程序。</p>
+<ul>
+<li>去 <a href="https://opencv.org/releases/" target="_blank" rel="noopener">https://opencv.org/releases/</a> 下载Windows版本的库文件。下载后能得到一个exe文件，把该文件“解压”到一个路径即可。解压的文件夹里有一个opencv子文件夹。记此子文件夹为\$(OPENCV)。</li>
+<li><p>x86的OpenCV库编译（可选）</p>
+<ol>
+<li>去<a href="https://opencv.org/releases/" target="_blank" rel="noopener">https://opencv.org/releases/</a> 下载Sources，这样编译出来的库可以满足当前编译器的配置。（直接安装的话没有x86的文件）</li>
+<li>用cmake配置源代码。注意源代码的路径最好不要包含中文。（我第一次包含了中文，结果vs编译到一半出错了）</li>
+<li>用vs打开cmake生成的目录下的OpenCV.sln，编译源代码。</li>
+<li>编译结束后在目录的lib文件夹中找到编译的结果文件夹(Debug或Release)，里面所有.lib文件就是编译的结果，把它们放到上一步的build文件夹里。我按照格式放到了\$(OPENCV)\\build\\x86\vc15\\lib文件夹里。</li>
+<li>编译出bin文件夹需要加入系统环境变量，因为里面的dll会被用到。改完环境变量重启电脑。</li>
+</ol>
+</li>
+<li>在VS中的属性管理器新建配置，添加用户宏OPENCV，宏值就是开始那个解压出的opencv子文件夹。\$(OPENCV)现在就表示库目录了。</li>
+<li>在属性的包含目录里加上\$(OPENCV)\\build\\include，库目录改成对应版本的库的目录，比如我的就是\$(OPENCV)\\build\\x86\\vc15\\lib。</li>
+<li>VS链接器-输入-附加依赖项中加入需要的.lib文件。我的第一个程序加入了opencv_highgui420d.lib;opencv_core420d.lib;opencv_imgcodecs420d.lib这三个库</li>
+<li>我随便到网上找了下函数，依葫芦画瓢地写了以下代码。如果一切都配置好了，程序会显示main.cpp目录下wallpaper.jpg这张图片。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/core/core.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/highgui/highgui.hpp&gt;  </span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> windowName = <span class="string">"window1"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cv::Mat mat = cv::imread(<span class="string">"wallpaper.jpg"</span>);</span><br><span class="line"></span><br><span class="line">	cv::namedWindow(windowName);</span><br><span class="line">	cv::imshow(windowName, mat);</span><br><span class="line"></span><br><span class="line">	cv::waitKey();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="OpenCV-像素获取与修改"><a href="#OpenCV-像素获取与修改" class="headerlink" title="OpenCV 像素获取与修改"></a>OpenCV 像素获取与修改</h4><p>OpenCV的操作很多都基于<code>Mat</code>的对象，也就是图像矩阵。 </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> R, G, B;</span><br><span class="line">B = mat.at&lt;cv::Vec3b&gt;(i, j)[<span class="number">0</span>];</span><br><span class="line">G = mat.at&lt;cv::Vec3b&gt;(i, j)[<span class="number">1</span>];</span><br><span class="line">R = mat.at&lt;cv::Vec3b&gt;(i, j)[<span class="number">2</span>];</span><br></pre></td></tr></table></figure>
+<p>对矩阵的at操作可以get或set颜色分量的值。</p>
+<p>注意RGB是反的。</p>
+<h4 id="OpenCV输入输出图像"><a href="#OpenCV输入输出图像" class="headerlink" title="OpenCV输入输出图像"></a>OpenCV输入输出图像</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cv::Mat mat = cv::imread(<span class="string">"in.png"</span>);</span><br><span class="line">imwrite(<span class="string">"out.png"</span>, mat);</span><br></pre></td></tr></table></figure>
+<p>输入输出都是基于<code>Mat</code>的对象。</p>
+<h3 id="RGB转CMY、HSI"><a href="#RGB转CMY、HSI" class="headerlink" title="RGB转CMY、HSI"></a>RGB转CMY、HSI</h3><h4 id="RGB转CMY"><a href="#RGB转CMY" class="headerlink" title="RGB转CMY"></a>RGB转CMY</h4><p>看了一下，RGB符合人对颜色的认知。但现实中，为了方便打印出黑色，用CMY表示颜料的颜色更加方便。</p>
+<p>CMY就是RGB取反，即：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C = 255 - R;</span><br><span class="line">M = 255 - G;</span><br><span class="line">Y = 255 - B;</span><br></pre></td></tr></table></figure>
+<h4 id="RGB转HSI"><a href="#RGB转HSI" class="headerlink" title="RGB转HSI"></a>RGB转HSI</h4><p>我对HSI的大致理解是：H是颜色的属性，比如是红色、绿色、蓝色还是其他颜色；S是颜色被稀释的属性，也就是颜色的深浅；I是光强，是颜色向量的模的大小。</p>
+<p><a href="https://blog.csdn.net/yangleo1987/article/details/53171623里有好几个RGB转HSI方法的介绍。其中第一种是上课提到的方法。" target="_blank" rel="noopener">https://blog.csdn.net/yangleo1987/article/details/53171623里有好几个RGB转HSI方法的介绍。其中第一种是上课提到的方法。</a></p>
+<h2 id="结构设计"><a href="#结构设计" class="headerlink" title="结构设计"></a>结构设计</h2>
       
     </div>
 
@@ -631,7 +660,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数字图像处理小作业1"><span class="nav-number">1.</span> <span class="nav-text">数字图像处理小作业1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#需求分析"><span class="nav-number">1.1.</span> <span class="nav-text">需求分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#技术学习"><span class="nav-number">1.2.</span> <span class="nav-text">技术学习</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数字图像处理小作业1"><span class="nav-number">1.</span> <span class="nav-text">数字图像处理小作业1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#需求分析"><span class="nav-number">1.1.</span> <span class="nav-text">需求分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#技术学习"><span class="nav-number">1.2.</span> <span class="nav-text">技术学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenCV入门"><span class="nav-number">1.2.1.</span> <span class="nav-text">OpenCV入门</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#OpenCV安装与配置"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">OpenCV安装与配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OpenCV-像素获取与修改"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">OpenCV 像素获取与修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OpenCV输入输出图像"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">OpenCV输入输出图像</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RGB转CMY、HSI"><span class="nav-number">1.2.2.</span> <span class="nav-text">RGB转CMY、HSI</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RGB转CMY"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">RGB转CMY</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RGB转HSI"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">RGB转HSI</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构设计"><span class="nav-number">1.3.</span> <span class="nav-text">结构设计</span></a></li></ol></li></ol></div>
             
 
           </div>
