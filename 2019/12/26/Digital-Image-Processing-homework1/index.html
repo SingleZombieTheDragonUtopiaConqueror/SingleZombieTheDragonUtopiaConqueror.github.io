@@ -108,7 +108,7 @@
 <meta property="og:image" content="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/1RGB.jpg">
 <meta property="og:image" content="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/2CMY.jpg">
 <meta property="og:image" content="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/3HSI.jpg">
-<meta property="og:updated_time" content="2019-12-27T16:22:02.493Z">
+<meta property="og:updated_time" content="2019-12-28T01:38:03.030Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数字图像处理小作业1：RGB转CMY转HCI及简单风格化（附OpenCV安装及基本使用方法）">
 <meta name="twitter:description" content="数字图像处理小作业1最近软件工程课要我们用博客记录项目。我感觉这样做挺好的，一来可以让项目的开发更规范化，二来可以给博客和github添加一些内容，不让大学生活看起来很空虚。以后我所有项目作业尽量都建立仓库和博客。 需求分析 原图像一张RGB（彩色图像） 分别在RGB，CMY，和HSI三个空间通过调整颜色实现一种风格化转换（风格自选） 需要提交源码以及不超过半页的代码说明(说明使用的库和参数) 压">
@@ -465,7 +465,7 @@
 <p>CMY就是RGB取反，即：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C = 255 - R;</span><br><span class="line">M = 255 - G;</span><br><span class="line">Y = 255 - B;</span><br></pre></td></tr></table></figure>
 <h4 id="RGB转HSI"><a href="#RGB转HSI" class="headerlink" title="RGB转HSI"></a>RGB转HSI</h4><p>我对HSI的大致理解是：H是颜色的属性，比如是红色、绿色、蓝色还是其他颜色；S是颜色被稀释的属性，也就是颜色的深浅；I是光强，是颜色向量的模的大小。</p>
-<p><a href="https://blog.csdn.net/yangleo1987/article/details/53171623里有好几个RGB转HSI方法的介绍。其中第一种是上课提到的方法。" target="_blank" rel="noopener">https://blog.csdn.net/yangleo1987/article/details/53171623里有好几个RGB转HSI方法的介绍。其中第一种是上课提到的方法。</a></p>
+<p><a href="https://blog.csdn.net/yangleo1987/article/details/53171623" target="_blank" rel="noopener">https://blog.csdn.net/yangleo1987/article/details/53171623</a> 里有好几个RGB转HSI方法的介绍。其中第一种是上课提到的方法。</p>
 <h3 id="风格转换"><a href="#风格转换" class="headerlink" title="风格转换"></a>风格转换</h3><p>我问了一下别人，又看了一下书。感觉风格转换就是对某个颜色通道做一个函数映射，使得图片整体风格改变。</p>
 <h2 id="结构设计"><a href="#结构设计" class="headerlink" title="结构设计"></a>结构设计</h2><p>由于程序过于简单，该程序用结构化的设计方法。</p>
 <p>输入经过输入预处理模块，进入处理模块，最后进入输出模块输出。整个结构非常简明而无趣。</p>
