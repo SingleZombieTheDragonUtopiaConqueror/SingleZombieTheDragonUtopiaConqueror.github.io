@@ -661,7 +661,7 @@
       
         
           
-            <h1 id="软件工程项目：数独求解软件"><a href="#软件工程项目：数独求解软件" class="headerlink" title="软件工程项目：数独求解软件"></a>软件工程项目：数独求解软件</h1><h2 id="Github链接"><a href="#Github链接" class="headerlink" title="Github链接"></a>Github链接</h2><p><a href="https://github.com/SingleZombie/sudoku-solver" target="_blank" rel="noopener">Sudoku Solver</a></p>
+            <h1 id="数独求解软件"><a href="#数独求解软件" class="headerlink" title="数独求解软件"></a>数独求解软件</h1><h2 id="Github链接"><a href="#Github链接" class="headerlink" title="Github链接"></a>Github链接</h2><p><a href="https://github.com/SingleZombie/sudoku-solver" target="_blank" rel="noopener">Sudoku Solver</a></p>
 <h2 id="PSP耗时表"><a href="#PSP耗时表" class="headerlink" title="PSP耗时表"></a>PSP耗时表</h2><div class="table-container">
 <table>
 <thead>
@@ -701,7 +701,7 @@
 <td>· Design Spec</td>
 <td>· 生成设计文档</td>
 <td>150</td>
-<td></td>
+<td>27+</td>
 </tr>
 <tr>
 <td>· Design Review</td>
@@ -784,7 +784,7 @@
 <li>动态模型设计 120</li>
 </ul>
 </li>
-<li>设计复审 -</li>
+<li>设计复审</li>
 <li>代码规范 30<ul>
 <li>查现有代码规范 20</li>
 <li>定义代码规范 10</li>
@@ -845,6 +845,13 @@
 <h4 id="数独求解"><a href="#数独求解" class="headerlink" title="数独求解"></a>数独求解</h4><p>我在玩数独的时候发现了两个性质：某个宫的某个数字只能填入一个位置；某一个位置只能被填入一个数。</p>
 <p>因此搜索时，可以加入下列策略：对于每个宫的每个数建立一个表，表示它的可选位置；对于每个位置建立一个候选数字表。如果数字的位置唯一或位置的候选数唯一，就填上这个数，更新所有的表。如果没有唯一的数，就选一个候选数最少的位置，尝试填入一个数字。如果某个数的可选位置为空或者某个位置的候选数字为空，就回溯，直到数独填完。</p>
 <h4 id="待求解数独生成"><a href="#待求解数独生成" class="headerlink" title="待求解数独生成"></a>待求解数独生成</h4><p>待求解数独要从终局中生成。根据需求，只需先随机总空数，再每个宫随机挖掉两个空，再随机挖空直至满足空格数即可。</p>
+<h2 id="设计实现过程"><a href="#设计实现过程" class="headerlink" title="设计实现过程"></a>设计实现过程</h2><h3 id="面向对象分析与设计"><a href="#面向对象分析与设计" class="headerlink" title="面向对象分析与设计"></a>面向对象分析与设计</h3><h4 id="用例图"><a href="#用例图" class="headerlink" title="用例图"></a>用例图</h4><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/UseCase.jpg" alt="用例图"></p>
+<p> 根据需求分析能够快速得到用例图。</p>
+<h4 id="基本类图"><a href="#基本类图" class="headerlink" title="基本类图"></a>基本类图</h4><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassDiagram1.jpg" alt="用例图"></p>
+<p>基本的类图建立如上。</p>
+<p>用户交互类负责处理输入输出，并且根据输入参数来调用执行该任务的类。</p>
+<p>为了使算法能够复用，每项任务的算法单独建立一个类。</p>
+<p>数独矩阵只存储了数独81个数的信息，该类被所有的任务类使用。在终局生成算法和求解算法中，会用到数独的其他信息，这些附加信息用一个新的数独状态类来存储。</p>
 <h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><ul>
 <li><p>19.12.24 11:36 </p>
 <ol>
