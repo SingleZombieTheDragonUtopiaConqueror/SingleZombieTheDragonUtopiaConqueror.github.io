@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="周弈帆的博客">
 <meta property="og:description" content="数字图像处理小作业2需求分析老师给的需求如下：  读入一幅灰度图像 生成模糊图像：高斯模糊滤波+噪声 利用维纳滤波去模糊  总结来说，本次作业处理的图像对象是灰度图。灰度图要经过扭曲和修复两个过程。扭曲是高斯模糊和噪声（我选择了高斯噪声），修复用的是维纳滤波的方法。 相比上次的作业，本次需求清晰了不少。 技术学习高斯模糊模糊一个图像，可以通过卷积核来实现。具体来说，就是把一个像素的值加上它旁边几个">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-12-30T05:11:28.708Z">
+<meta property="og:updated_time" content="2019-12-30T05:12:54.499Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数字图像处理小作业2：图像扭曲与修复（高斯模糊、高斯噪声、维纳滤波）">
 <meta name="twitter:description" content="数字图像处理小作业2需求分析老师给的需求如下：  读入一幅灰度图像 生成模糊图像：高斯模糊滤波+噪声 利用维纳滤波去模糊  总结来说，本次作业处理的图像对象是灰度图。灰度图要经过扭曲和修复两个过程。扭曲是高斯模糊和噪声（我选择了高斯噪声），修复用的是维纳滤波的方法。 相比上次的作业，本次需求清晰了不少。 技术学习高斯模糊模糊一个图像，可以通过卷积核来实现。具体来说，就是把一个像素的值加上它旁边几个">
@@ -433,7 +433,7 @@
 \hat{F}(u,v) = [\frac{1}{H(u,v)} \cdot \frac{|H(u, v)|^2}{|H(u, v)|^2 + k}]G(u,v)</script><p>其中$\hat{F}(u,v)$是复原出来的图像的频域值，$H(u,v)$是退化函数在频域下的表示，$G(u,v)$是被扭曲过的图像。而$k$是一个可调的参数。</p>
 <p>本次任务的难点应该就是调试$k$这个参数。</p>
 <p>有一篇<a href="https://blog.csdn.net/baimafujinji/article/details/73882265" target="_blank" rel="noopener">博客</a>对维纳滤波的原理以及matlab下的实现做了讲解。</p>
-<h3 id="结构设计"><a href="#结构设计" class="headerlink" title="结构设计"></a>结构设计</h3><p>同上次任务</p>
+<h3 id="结构设计"><a href="#结构设计" class="headerlink" title="结构设计"></a>结构设计</h3><p>同<a href="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/#structure">上次任务</a></p>
 
       
     </div>
