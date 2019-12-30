@@ -96,24 +96,25 @@
 
 
 
-  <meta name="description" content="我之所以开通博客，是因为我感觉自己有很多想法，想把它们整理、发表出来。但在我开通了博客之后，我写的文章却非常少。我仔细分析了一下自己的心理，发现我并不是没有东西可写；相反，我经常会想到一些想写的话题。但是，当我准备去构思文章该怎么写的时候，我总不自觉地会开始想一些问题：“我要写的东西会不会太短内容不够？”“我写的东西会不会内容涉及得不够全面？”“我不去查阅资料就来写会不会失去严谨性甚至是正确性？”">
+  <meta name="description" content="数字图像处理小作业2需求分析老师给的需求如下：  读入一幅灰度图像 生成模糊图像：高斯模糊滤波+噪声 利用维纳滤波去模糊  总结来说，本次作业处理的图像对象是灰度图。灰度图要经过扭曲和修复两个过程。扭曲是高斯模糊和噪声（我选择了高斯噪声），修复用的是维纳滤波的方法。 相比上次的作业，本次需求清晰了不少。 技术学习高斯模糊模糊一个图像，可以通过卷积核来实现。具体来说，就是把一个像素的值加上它旁边几个">
+<meta name="keywords" content="homework">
 <meta property="og:type" content="article">
-<meta property="og:title" content="我对自己过分追求完美的反思">
-<meta property="og:url" content="https://zhouyifan.net/2019/08/02/Introspection-of-Perfectionism/index.html">
+<meta property="og:title" content="数字图像处理小作业2：图像扭曲与修复（高斯模糊、高斯噪声、维纳滤波）">
+<meta property="og:url" content="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework2/index.html">
 <meta property="og:site_name" content="周弈帆的博客">
-<meta property="og:description" content="我之所以开通博客，是因为我感觉自己有很多想法，想把它们整理、发表出来。但在我开通了博客之后，我写的文章却非常少。我仔细分析了一下自己的心理，发现我并不是没有东西可写；相反，我经常会想到一些想写的话题。但是，当我准备去构思文章该怎么写的时候，我总不自觉地会开始想一些问题：“我要写的东西会不会太短内容不够？”“我写的东西会不会内容涉及得不够全面？”“我不去查阅资料就来写会不会失去严谨性甚至是正确性？”">
+<meta property="og:description" content="数字图像处理小作业2需求分析老师给的需求如下：  读入一幅灰度图像 生成模糊图像：高斯模糊滤波+噪声 利用维纳滤波去模糊  总结来说，本次作业处理的图像对象是灰度图。灰度图要经过扭曲和修复两个过程。扭曲是高斯模糊和噪声（我选择了高斯噪声），修复用的是维纳滤波的方法。 相比上次的作业，本次需求清晰了不少。 技术学习高斯模糊模糊一个图像，可以通过卷积核来实现。具体来说，就是把一个像素的值加上它旁边几个">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-08-01T19:53:35.714Z">
+<meta property="og:updated_time" content="2019-12-30T05:11:28.708Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="我对自己过分追求完美的反思">
-<meta name="twitter:description" content="我之所以开通博客，是因为我感觉自己有很多想法，想把它们整理、发表出来。但在我开通了博客之后，我写的文章却非常少。我仔细分析了一下自己的心理，发现我并不是没有东西可写；相反，我经常会想到一些想写的话题。但是，当我准备去构思文章该怎么写的时候，我总不自觉地会开始想一些问题：“我要写的东西会不会太短内容不够？”“我写的东西会不会内容涉及得不够全面？”“我不去查阅资料就来写会不会失去严谨性甚至是正确性？”">
+<meta name="twitter:title" content="数字图像处理小作业2：图像扭曲与修复（高斯模糊、高斯噪声、维纳滤波）">
+<meta name="twitter:description" content="数字图像处理小作业2需求分析老师给的需求如下：  读入一幅灰度图像 生成模糊图像：高斯模糊滤波+噪声 利用维纳滤波去模糊  总结来说，本次作业处理的图像对象是灰度图。灰度图要经过扭曲和修复两个过程。扭曲是高斯模糊和噪声（我选择了高斯噪声），修复用的是维纳滤波的方法。 相比上次的作业，本次需求清晰了不少。 技术学习高斯模糊模糊一个图像，可以通过卷积核来实现。具体来说，就是把一个像素的值加上它旁边几个">
 
 
 
 
 
 
-  <link rel="canonical" href="https://zhouyifan.net/2019/08/02/Introspection-of-Perfectionism/">
+  <link rel="canonical" href="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework2/">
 
 
 
@@ -123,7 +124,7 @@
   };
 </script>
 
-  <title>我对自己过分追求完美的反思 | 周弈帆的博客</title>
+  <title>数字图像处理小作业2：图像扭曲与修复（高斯模糊、高斯噪声、维纳滤波） | 周弈帆的博客</title>
   
 
 
@@ -305,7 +306,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/08/02/Introspection-of-Perfectionism/">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhou Yifan">
@@ -322,7 +323,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">我对自己过分追求完美的反思
+          <h1 class="post-title" itemprop="name headline">数字图像处理小作业2：图像扭曲与修复（高斯模糊、高斯噪声、维纳滤波）
 
               
             
@@ -348,7 +349,7 @@
                 
               
 
-              <time title="Created: 2019-08-02 03:53:35" itemprop="dateCreated datePublished" datetime="2019-08-02T03:53:35+08:00">2019-08-02</time>
+              <time title="Created: 2019-12-26 15:11:59" itemprop="dateCreated datePublished" datetime="2019-12-26T15:11:59+08:00">2019-12-26</time>
             
 
             
@@ -366,7 +367,21 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Talk/" itemprop="url" rel="index"><span itemprop="name">Talk</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/" itemprop="url" rel="index"><span itemprop="name">Computer Science</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/Digital-Image-Processing/" itemprop="url" rel="index"><span itemprop="name">Digital Image Processing</span></a></span>
 
                 
                 
@@ -401,19 +416,24 @@
       
 
       
-        <p>我之所以开通博客，是因为我感觉自己有很多想法，想把它们整理、发表出来。但在我开通了博客之后，我写的文章却非常少。我仔细分析了一下自己的心理，发现我并不是没有东西可写；相反，我经常会想到一些想写的话题。但是，当我准备去构思文章该怎么写的时候，我总不自觉地会开始想一些问题：“我要写的东西会不会太短内容不够？”“我写的东西会不会内容涉及得不够全面？”“我不去查阅资料就来写会不会失去严谨性甚至是正确性？”想的问题多了起来后，我就会发现自己还没有做好写这篇文章的准备。于是乎，一篇文章就这么搁置下来了。</p>
-<p>再仔细一想，我这种有想法却没写出来的现象是有原因的。原因分客观原因和我自己的主观原因。</p>
-<p>先来控诉一下这个世界的不公。文章的质量的越高，所需要的投入也越高。正如我想的那些问题那样，一篇高质量的文章，需要先对所谈的话题进行信息的收集，保证全面性、严谨性；再把自己之前的思考同收集的信息整合起来，整理总结自己的思想，确定表述的内容；最后确定好文章的结构，按照合理的顺序，用文字把想法表达出来。文章的质量越高，花费的精力肯定就越多。但是，写一篇好文章，对我来说没有任何利益上的回报。不管我再怎么欣赏自己的才华，再怎么愿意给未来的自己多留一份回忆，也掩盖不了我的内心对于做一件没有收益的事情的抵制。投入和回报不成比例，我写高质量的文章注定会缺乏动力。要不是实在是时间有多，精力有剩，我是无法具备足够的动力的。因此，从客观上来看，对我来说，一直写质量较高的文章是不可能的。</p>
-<p>现在可以谈我自己的问题了。我为什么非得要写那么好的文章呢？想到什么就说什么不行吗？非得把博客当成高考作文来写？我开始分析起了自己的心理。我也有想过快速完成一些短一点的文章，但我一想到这些文章可能会写得不够好，像程序一样充满“BUG”，心里就很不是滋味。我想的事情并不是写出好的文章，而是不希望文章中有漏洞，有缺点。我把写文章当成了一种自我展示、自我实现的工具。文章中有纰漏，文章写得不好，就会显得我这个人有缺点。为了让我自己显得更完美，我把这种对于完美的追求代入了文章中。我希望用一篇质量高的文章，来反映一个能力强的自己。我产生这些想法的原因和其他很多表现都是一样的。有些人在乎穿着打扮，认为外貌能反映自己；有些人在乎言行，以自谦来衬托自己的高尚。我虽然不在意别人的看法，但我也在用我写的文章，或者我的一些其他成果，来作为自己好与差的评判标准。对于事物的缺点的掩饰，不过是出于自卑，出于对自己的不足的掩饰罢了。</p>
-<p>显然，客观的原因不可改变。除非有人说：“你写的文章太好了，让我五体投地，感慨万分。从今天起，你也不用干其他事了。你写一篇好的文章，我就给你十万块钱。”不然的话，缺乏客观上的利益，我没有足够的动力去写东西的。</p>
-<p>但是，我还是有很多东西要表达出来，我得实现我开通博客的初衷。那么，我只能设法改变自己的想法了。我的问题就在于，过分追求完美。</p>
-<p>说来也有点讽刺。我对于过分追求完美这个问题，也有过很多思考，也有把这些想法整理出来的打算，但也因为上述种种顾虑迟迟动不了笔。我今天只能说对完美主义进行一个简单的分析，并把如何改变自己而不是探讨理论作为文章的重点。</p>
-<p>完美主义的具体定义我是不知道。但很明显，我上述的表现，都是完美主义的常见表现：想把事情做到最好，却最后什么也没有做。</p>
-<p>从本质来看，完美主义是不成立的，因为人本身就不是完美的。人的精力有限，人的能力有限，人注定不可能把每件事做到极致。而完美主义所追求的”完美“，不是事物质量的完美，而是能否通过事情的完美展示人自己的“完美”。由于人的限制，这种完美主义注定会失败。</p>
-<p>完美主义，错就错在动机。人生来自卑，人想尽可能让自己变得更好，或者说仅仅是看上去很好，这种希望本身没有错。但是，把事情做得很好，做得“最好”，并不等价于你这个人就是“最好”。这两者没有任何关系。甚至反过来，不去急功近利地追求成果，而是潜心雕琢，反而能达到结果的完美。一个的人价值，不能被任何外在的事物所体现，所代表。认识到了完美主义出错的那个关键点，纠正事物完美等于自我完美这个想法，就能克服这种完美主义了。</p>
-<p>现在谈回我自己。既然我对自己的想法、自己的问题都深入思考到这个程度了，我以后该做出哪些改变呢？写长的文章没有动力，我就写一些短的文章啊！文章短又如何？质量差一点又如何？只有让写一篇的文章的成本低到一定程度，直到低于我写文章的回报，我自然就有动力去写了。</p>
-<p>那又回到我第一篇博客谈的问题了。我为什么要写博客？我能得到什么回报呢？我也不放眼未来，把这个问题展开来谈。我就谈一下近期我写博客能获得的回报。如果是写一篇介绍算法的博客，我能利用写博客这个机会，去把一个算法彻底学会。写的文章好不好，有没有人看，都和我的收益毫不相关。如果是写一篇像这篇文章一样，吐诉内心想法的文章，那就想到什么写什么，管他写的是什么东西，写得自己爽就好了。如果我想把我的想法一些整理出来，给别人看，认同我提出的观点，那我就得提升文章质量，增强说服力，让他人被我的文笔和人格魅力所折服。如果我写的是题解，那么我只能稍微提升一下对于题目的理解，并且略微提升一下我本来就很强大的语言组织能力，再期待这篇题解能被别人看到，增加自己的知名度，收益就不高了。如果我复习时没有动力，我就像上学期那样，通过写博客来敦促自己系统地复习知识。如果我吃饱了没事，想吹吹牛展示一下自己，就可以针对某项成果单独开一篇博客来吹嘘一番。</p>
-<p>这样一看，不同类型的博客，收益的种类也是不同的。我之前只是把博客当成一种证明自己完美的手段，而忽略了写博客还有如此多其他方面的收益。只要我能把写博客的成本降低，我自然而然地就能获得写博客的收益，就像这篇文章一样。我需要去掉的成本，就是那些名字好听，被称为“完美”的成本。</p>
+        <h1 id="数字图像处理小作业2"><a href="#数字图像处理小作业2" class="headerlink" title="数字图像处理小作业2"></a>数字图像处理小作业2</h1><h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><p>老师给的需求如下：</p>
+<ul>
+<li>读入一幅灰度图像</li>
+<li>生成模糊图像：高斯模糊滤波+噪声</li>
+<li>利用维纳滤波去模糊</li>
+</ul>
+<p>总结来说，本次作业处理的图像对象是灰度图。灰度图要经过扭曲和修复两个过程。扭曲是高斯模糊和噪声（我选择了高斯噪声），修复用的是维纳滤波的方法。</p>
+<p>相比上次的作业，本次需求清晰了不少。</p>
+<h2 id="技术学习"><a href="#技术学习" class="headerlink" title="技术学习"></a>技术学习</h2><h3 id="高斯模糊"><a href="#高斯模糊" class="headerlink" title="高斯模糊"></a>高斯模糊</h3><p>模糊一个图像，可以通过卷积核来实现。具体来说，就是把一个像素的值加上它旁边几个像素的值。这样从直观上来看，像素之间的差异被减小了，图片就变模糊了。</p>
+<p>问题是，一个像素值该如何加上旁边几个像素的值？每个像素相加的权重是什么？有人把二维高斯分布函数当成概率密度函数，权重就是概率密度函数的值。这样的利用高斯函数来计算卷积核权重的模糊方法就是高斯模糊。</p>
+<h3 id="高斯噪声"><a href="#高斯噪声" class="headerlink" title="高斯噪声"></a>高斯噪声</h3><p>噪声就是把某个位置的像素值改变多少看成一个随机变量。如果随机变量符合高斯分布，那么这个噪声就是高斯噪声。高斯分布需要一个原点，把图片左上角当成原点即可。</p>
+<h3 id="维纳滤波"><a href="#维纳滤波" class="headerlink" title="维纳滤波"></a>维纳滤波</h3><p>图像修复就是假设一个扭曲模型（输入为原图像的一个函数），之后设法求出这个模型中的参数，再利用这些参数复原图像。</p>
+<p>维纳滤波就是假设原图像经过了一个卷积和一个噪声添加。该方法要的思想是让复原出的图像和原图像的”差异“尽可能小，这个”差异“被定义为均方误差。由于我没有学过信号处理这门课，而本课程又更关注算法的使用而非原理，这里不加证明地给出最终的式子：</p>
+<script type="math/tex; mode=display">
+\hat{F}(u,v) = [\frac{1}{H(u,v)} \cdot \frac{|H(u, v)|^2}{|H(u, v)|^2 + k}]G(u,v)</script><p>其中$\hat{F}(u,v)$是复原出来的图像的频域值，$H(u,v)$是退化函数在频域下的表示，$G(u,v)$是被扭曲过的图像。而$k$是一个可调的参数。</p>
+<p>本次任务的难点应该就是调试$k$这个参数。</p>
+<p>有一篇<a href="https://blog.csdn.net/baimafujinji/article/details/73882265" target="_blank" rel="noopener">博客</a>对维纳滤波的原理以及matlab下的实现做了讲解。</p>
+<h3 id="结构设计"><a href="#结构设计" class="headerlink" title="结构设计"></a>结构设计</h3><p>同上次任务</p>
 
       
     </div>
@@ -435,6 +455,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/homework/" rel="tag"># homework</a>
+          
+        </div>
+      
 
       
       
@@ -444,8 +470,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/22/2019Nowcoder-Contest1/" rel="next" title="2019牛客暑期多校训练营（第一场）部分题解（缺D、G）">
-                <i class="fa fa-chevron-left"></i> 2019牛客暑期多校训练营（第一场）部分题解（缺D、G）
+              <a href="/2019/12/26/Digital-Image-Processing-homework1/" rel="next" title="数字图像处理小作业1：RGB转CMY转HCI及简单风格化（附OpenCV安装及基本使用方法）">
+                <i class="fa fa-chevron-left"></i> 数字图像处理小作业1：RGB转CMY转HCI及简单风格化（附OpenCV安装及基本使用方法）
               </a>
             
           </div>
@@ -453,10 +479,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/08/09/slope-optimization-dp-glance/" rel="prev" title="速通斜率优化DP">
-                速通斜率优化DP <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -500,8 +522,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -593,6 +624,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数字图像处理小作业2"><span class="nav-number">1.</span> <span class="nav-text">数字图像处理小作业2</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#需求分析"><span class="nav-number">1.1.</span> <span class="nav-text">需求分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#技术学习"><span class="nav-number">1.2.</span> <span class="nav-text">技术学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#高斯模糊"><span class="nav-number">1.2.1.</span> <span class="nav-text">高斯模糊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高斯噪声"><span class="nav-number">1.2.2.</span> <span class="nav-text">高斯噪声</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维纳滤波"><span class="nav-number">1.2.3.</span> <span class="nav-text">维纳滤波</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结构设计"><span class="nav-number">1.2.4.</span> <span class="nav-text">结构设计</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
