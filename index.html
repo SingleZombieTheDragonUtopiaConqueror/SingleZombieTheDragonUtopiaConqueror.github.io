@@ -429,15 +429,40 @@
 <p>相比上次的作业，本次需求清晰了不少。</p>
 <h2 id="技术学习"><a href="#技术学习" class="headerlink" title="技术学习"></a>技术学习</h2><h3 id="高斯模糊"><a href="#高斯模糊" class="headerlink" title="高斯模糊"></a>高斯模糊</h3><p>模糊一个图像，可以通过卷积核来实现。具体来说，就是把一个像素的值加上它旁边几个像素的值。这样从直观上来看，像素之间的差异被减小了，图片就变模糊了。</p>
 <p>问题是，一个像素值该如何加上旁边几个像素的值？每个像素相加的权重是什么？有人把二维高斯分布函数当成概率密度函数，权重就是概率密度函数的值。这样的利用高斯函数来计算卷积核权重的模糊方法就是高斯模糊。</p>
-<h3 id="高斯噪声"><a href="#高斯噪声" class="headerlink" title="高斯噪声"></a>高斯噪声</h3><p>噪声就是把某个位置的像素值改变多少看成一个随机变量。如果随机变量符合高斯分布，那么这个噪声就是高斯噪声。高斯分布需要一个原点，把图片左上角当成原点即可。</p>
+<h3 id="高斯噪声"><a href="#高斯噪声" class="headerlink" title="高斯噪声"></a>高斯噪声</h3><p>噪声就是把某个位置的像素值改变多少看成一个随机变量。如果随机变量符合高斯分布，那么这个噪声就是高斯噪声。随机变量和位置无关，只和随机变量自己的性质（均值、方差）有关。</p>
 <h3 id="维纳滤波"><a href="#维纳滤波" class="headerlink" title="维纳滤波"></a>维纳滤波</h3><p>图像修复就是假设一个扭曲模型（输入为原图像的一个函数），之后设法求出这个模型中的参数，再利用这些参数复原图像。</p>
 <p>维纳滤波就是假设原图像经过了一个卷积和一个噪声添加。该方法要的思想是让复原出的图像和原图像的”差异“尽可能小，这个”差异“被定义为均方误差。由于我没有学过信号处理这门课，而本课程又更关注算法的使用而非原理，这里不加证明地给出最终的式子：</p>
 <script type="math/tex; mode=display">
 \hat{F}(u,v) = [\frac{1}{H(u,v)} \cdot \frac{|H(u, v)|^2}{|H(u, v)|^2 + k}]G(u,v)</script><p>其中$\hat{F}(u,v)$是复原出来的图像的频域值，$H(u,v)$是退化函数在频域下的表示，$G(u,v)$是被扭曲过的图像。而$k$是一个可调的参数。</p>
 <p>本次任务的难点应该就是调试$k$这个参数。</p>
 <p>有一篇<a href="https://blog.csdn.net/baimafujinji/article/details/73882265" target="_blank" rel="noopener">博客</a>对维纳滤波的原理以及matlab下的实现做了讲解。</p>
-<h3 id="结构设计"><a href="#结构设计" class="headerlink" title="结构设计"></a>结构设计</h3><p>同<a href="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/#structure">上次任务</a></p>
-
+<h3 id="OpenCV用法"><a href="#OpenCV用法" class="headerlink" title="OpenCV用法"></a>OpenCV用法</h3><p>写着写着发现又碰到了很多不会用的函数。</p>
+<h4 id="cv-normalize"><a href="#cv-normalize" class="headerlink" title="cv::normalize"></a>cv::normalize</h4><p><code>cv::normalize(src, dest, upper_bound = 1, lower_bound = 0, norm_type = cv::NORM_L2);</code></p>
+<p>normalize用于归一化，避免一个向量的模变大。在图像中，卷积核做归一化可以保证图像的亮度不变。</p>
+<p>我只会用这个函数的前5个参数，有几个参数的名字是我取的。</p>
+<p><code>src</code>：原图像</p>
+<p><code>dest</code>：输出图像</p>
+<p><code>upper_bound</code>：归一化后的上界</p>
+<p><code>lower_bound</code>：归一化后的下界    </p>
+<p><code>norm_type</code>：归一化的范式</p>
+<p>归一化的基本操作就是要让模为1，因此输出的下界是0，上界是1。归一化的操作是把向量的每个分量都除以向量的模。</p>
+<p>范式就是模是如何计算的。第一范式把模计算成所有分量之和，第二范式把模计算成所有分量平方和开方…………无穷范式把模计算成最大分量。</p>
+<h4 id="cv-filter2D"><a href="#cv-filter2D" class="headerlink" title="cv::filter2D"></a>cv::filter2D</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cv::filter2D(srcMat, destMat, ddepth, kernel, anchor = (-1, -1))</span><br></pre></td></tr></table></figure>
+<p>这个函数用于做图像的卷积，省去了手写循环的无聊过程。</p>
+<p>同样，我只列出了我会的参数，参数名字是随意写的。</p>
+<p><code>srcMat</code>：原图像</p>
+<p><code>destMat</code>：输出图像</p>
+<p><code>ddepth</code>：输出图像深度，-1为和原图像相同</p>
+<p><code>kernel</code>：卷积核</p>
+<p><code>anchor</code>：锚点，也就是被卷积的点在卷积核的哪个位置。(-1, -1)是卷积核正中心</p>
+<h3 id="C-标准库用法"><a href="#C-标准库用法" class="headerlink" title="C++标准库用法"></a>C++标准库用法</h3><p>本次程序中我竟然碰到了完全没见过的c++标准库函数。</p>
+<h4 id="std-normal-distribution"><a href="#std-normal-distribution" class="headerlink" title="std::normal_distribution"></a>std::normal_distribution</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;random&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">std</span>::random_device divice;</span><br><span class="line"><span class="built_in">std</span>::<span class="function">default_random_engine <span class="title">rng</span><span class="params">(divice())</span></span>;</span><br><span class="line"><span class="built_in">std</span>::normal_distribution&lt;&gt; normDis(mu, sigma);</span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> randomNumber = normDis(rng);</span><br></pre></td></tr></table></figure>
+<p>正态分布函数在c++的随机数库中。使用c++的随机数库有一些麻烦。语句前两行貌似是一个分布函数的初始化步骤，我不求甚解地直接使用了。语句第三行用平均值和方差初始化一个正态分布。初始化了之后每次就能获取一个符合正态分布的值了。</p>
+<h3 id="用OpenCV完成的组合操作"><a href="#用OpenCV完成的组合操作" class="headerlink" title="用OpenCV完成的组合操作"></a>用OpenCV完成的组合操作</h3><p>本节讲的是完成某一功能的，使用到OpenCV的自定义函数。</p>
+<h4 id="单通道FFT"><a href="#单通道FFT" class="headerlink" title="单通道FFT"></a>单通道FFT</h4><p>参考了<a href="https://blog.csdn.net/keith_bb/article/details/53389819" target="_blank" rel="noopener">这篇博客</a>。</p>
+<h2 id="结构设计"><a href="#结构设计" class="headerlink" title="结构设计"></a>结构设计</h2><p>同<a href="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/#structure">上次任务</a>。</p>
+<p>其中图像处理分成三个小模块：模糊图像生成、图像噪声添加与模糊图像修复。</p>
+<h2 id="程序设计"><a href="#程序设计" class="headerlink" title="程序设计"></a>程序设计</h2>
           
         
       
@@ -889,7 +914,7 @@
 <td>· Design Spec</td>
 <td>· 生成设计文档</td>
 <td>150</td>
-<td>27+</td>
+<td></td>
 </tr>
 <tr>
 <td>· Design Review</td>
@@ -1040,26 +1065,58 @@
 <p>用户交互类负责处理输入输出，并且根据输入参数来调用执行该任务的类。</p>
 <p>为了使算法能够复用，每项任务的算法单独建立一个类。</p>
 <p>数独矩阵只存储了数独81个数的信息，该类被所有的任务类使用。在终局生成算法和求解算法中，会用到数独的其他信息，这些附加信息用一个新的数独状态类来存储。</p>
-<h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><ul>
-<li>19.12.24 11:36 </li>
-</ul>
-<ol>
-<li>添加博客地址。<ol>
+<p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassDiagram1-2.jpg" alt="用例图"></p>
+<p>后来修改了一下类图的设计，三个任务器不应该做为用户交互类的子对象，应该是一种关联关系。</p>
+<p>（以上两个任务共花费27分钟）</p>
+<h4 id="活动图"><a href="#活动图" class="headerlink" title="活动图"></a>活动图</h4><h5 id="数独求解-1"><a href="#数独求解-1" class="headerlink" title="数独求解"></a>数独求解</h5><p>（花费40分钟）</p>
+<p>根据之前分析问题时的算法，得到以下活动图：</p>
+<p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/SudokuSolve.jpg" alt="用例图"></p>
+<h4 id="精化类图"><a href="#精化类图" class="headerlink" title="精化类图"></a>精化类图</h4><h5 id="数独矩阵"><a href="#数独矩阵" class="headerlink" title="数独矩阵"></a>数独矩阵</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassSudoMatrix.jpg" alt="用例图"></p>
+<h5 id="数独状态"><a href="#数独状态" class="headerlink" title="数独状态"></a>数独状态</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassSudoState.jpg" alt="用例图"></p>
+<h5 id="求解算法"><a href="#求解算法" class="headerlink" title="求解算法"></a>求解算法</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassSolver.jpg" alt="用例图"></p>
+<p>（以上三个任务共花费38分钟）</p>
+<h3 id="程序设计"><a href="#程序设计" class="headerlink" title="程序设计"></a>程序设计</h3><h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><h2 id="性能分析及程序优化"><a href="#性能分析及程序优化" class="headerlink" title="性能分析及程序优化"></a>性能分析及程序优化</h2><h2 id="最终程序代码说明"><a href="#最终程序代码说明" class="headerlink" title="最终程序代码说明"></a>最终程序代码说明</h2><h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><ul>
+<li>19.12.24 11:36 <ol>
+<li>添加博客地址。</li>
 <li>完成PSP耗时表。</li>
 </ol>
 </li>
-</ol>
-<ul>
-<li>19.12.27 12:03<ol>
+<li><p>19.12.27 12:03</p>
+<ol>
 <li>分析题意，想出算法。</li>
 </ol>
 </li>
-<li>19.12.28 23:03<ol>
+<li><p>19.12.28 23:03</p>
+<ol>
 <li>设计用例图</li>
 <li>设计基本类图</li>
 </ol>
 </li>
+<li><p>20.1.1 21:41</p>
+<ul>
+<li><p>项目进展</p>
+<ol>
+<li>画完求解活动图</li>
+<li>精化求解模块的类图</li>
+<li>求解模块的程序设计中</li>
+</ol>
+</li>
+<li><p>项目更新</p>
+<ol>
+<li>修改基本类图</li>
+</ol>
+</li>
+<li><p>博客进展</p>
+<ol>
+<li>博客跟进项目进展</li>
+</ol>
+</li>
 </ul>
+</li>
+</ul>
+<ol>
+<li>添加未来任务的大标题</li>
+</ol>
 
           
         
@@ -2820,7 +2877,7 @@ g(x) &= (1 + 3x + 3^2x^2 +...) - (1+2x+2^2x^2+...)
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
