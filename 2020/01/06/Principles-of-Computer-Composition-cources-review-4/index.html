@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="和上一篇文章一样，这篇文章的很多内容是我学这门课的时候写的。 计算机组成原理复习：第四章 数值的机器运算本章讲了计算机电路是如何实现运算。计算机中的运算可以整体分成数值计算和逻辑计算。无论多复杂的数值操作，都可以用加减乘除来实现，因此本章讲了加减乘除四则运算的实现；逻辑运算是计算机运算的基础，本章也介绍了与、或、取反等逻辑运算。最后本章讲了运算器的一些具体实现。 进一步来划分一下本章的结构。减法运">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机组成原理复习：第四章 数值的机器运算">
+<meta property="og:url" content="https://zhouyifan.net/2020/01/06/Principles-of-Computer-Composition-cources-review-4/index.html">
+<meta property="og:site_name" content="周弈帆的博客">
+<meta property="og:description" content="和上一篇文章一样，这篇文章的很多内容是我学这门课的时候写的。 计算机组成原理复习：第四章 数值的机器运算本章讲了计算机电路是如何实现运算。计算机中的运算可以整体分成数值计算和逻辑计算。无论多复杂的数值操作，都可以用加减乘除来实现，因此本章讲了加减乘除四则运算的实现；逻辑运算是计算机运算的基础，本章也介绍了与、或、取反等逻辑运算。最后本章讲了运算器的一些具体实现。 进一步来划分一下本章的结构。减法运">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-01-06T11:12:01.119Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="计算机组成原理复习：第四章 数值的机器运算">
+<meta name="twitter:description" content="和上一篇文章一样，这篇文章的很多内容是我学这门课的时候写的。 计算机组成原理复习：第四章 数值的机器运算本章讲了计算机电路是如何实现运算。计算机中的运算可以整体分成数值计算和逻辑计算。无论多复杂的数值操作，都可以用加减乘除来实现，因此本章讲了加减乘除四则运算的实现；逻辑运算是计算机运算的基础，本章也介绍了与、或、取反等逻辑运算。最后本章讲了运算器的一些具体实现。 进一步来划分一下本章的结构。减法运">
+
+
+
+
+
+
+  <link rel="canonical" href="https://zhouyifan.net/2020/01/06/Principles-of-Computer-Composition-cources-review-4/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>计算机组成原理复习：第四章 数值的机器运算 | 周弈帆的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">周弈帆的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2020/01/06/Principles-of-Computer-Composition-cources-review-4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">计算机组成原理复习：第四章 数值的机器运算
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-01-06 19:12:01" itemprop="dateCreated datePublished" datetime="2020-01-06T19:12:01+08:00">2020-01-06</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/" itemprop="url" rel="index"><span itemprop="name">Computer Science</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/Principles-of-Composition/" itemprop="url" rel="index"><span itemprop="name">Principles of Composition</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>和上一篇文章一样，这篇文章的很多内容是我学这门课的时候写的。</p>
+<h1 id="计算机组成原理复习：第四章-数值的机器运算"><a href="#计算机组成原理复习：第四章-数值的机器运算" class="headerlink" title="计算机组成原理复习：第四章 数值的机器运算"></a>计算机组成原理复习：第四章 数值的机器运算</h1><p>本章讲了计算机电路是如何实现运算。计算机中的运算可以整体分成数值计算和逻辑计算。无论多复杂的数值操作，都可以用加减乘除来实现，因此本章讲了加减乘除四则运算的实现；逻辑运算是计算机运算的基础，本章也介绍了与、或、取反等逻辑运算。最后本章讲了运算器的一些具体实现。</p>
+<p>进一步来划分一下本章的结构。减法运算是靠加法实现的，因此本章先重点介绍了加法器的实现，之后讲了如何用加法器来实现加法和减法。由于乘除操作基于加法和移位，因此本章之后介绍了移位操作的实现，再介绍了定点乘除操作的实现。如第二章所述，浮点运算实际上基于的是定点小数和定点整数，浮点的所有运算也可以由定点的计算转换而来，因此再之后本章才介绍了浮点数间的计算。十进制做为数值计算的一种特例，和之前内容的关系并不是很紧密，在所有基本运算的实现介绍完之后才介绍。运算部分结束后，本章又稍微提了一下逻辑计算，因为它太简单了。最后是一些在本课中价值不大的运算器的实现。</p>
+<p>本章各节间的逻辑关系是非常紧密的，当你整理出本章的依赖关系后，一张依赖图就能出现在你的脑海中。可惜这里位置太小，我画不下。</p>
+<p>说实话，我觉得本书这一章的部分内容更应该放到数字逻辑中去讲。这一章有不少涉及电路的知识，很多知识都属于学科间的边缘交界地带。但这一章后面又多了很多和具体电路无关，介绍电路实现算法的知识，这些知识放进计算机组成原理倒也没错。我觉得本书这一章结构编的不是很好，前面全加器的电路实现应该放到其他学科去，整章就介绍抽象的电路实现，没必要讲到电路的优化上，保持知识的深入程度相似。</p>
+<h2 id="基本运算（加法）电路实现"><a href="#基本运算（加法）电路实现" class="headerlink" title="基本运算（加法）电路实现"></a>基本运算（加法）电路实现</h2><p>由于所有其他运算可以用加法来表示，所以加法被叫做“基本算数运算”。</p>
+<h3 id="加法器简介"><a href="#加法器简介" class="headerlink" title="加法器简介"></a>加法器简介</h3><h4 id="全加器"><a href="#全加器" class="headerlink" title="全加器"></a>全加器</h4><p>输入$A_i$，$B_i$，进位$C_{i - 1}$，输出当前结果$S_i$和进位$C_i$。</p>
+<p>具体原理在数字逻辑中已经学过了，用两个半加器就能实现。</p>
+<h4 id="串行加法器"><a href="#串行加法器" class="headerlink" title="串行加法器"></a>串行加法器</h4><p>只有一个加法器，移位寄存器不断地把每一位放到全加器里计算。这种方法实在是太慢了</p>
+<h3 id="并行加法器进位的产生与传递"><a href="#并行加法器进位的产生与传递" class="headerlink" title="并行加法器进位的产生与传递"></a>并行加法器进位的产生与传递</h3><p>由于并行加法器比较复杂，这里单独开了好几个小节来讲。</p>
+<p>并行加法器就是把一堆全加器放在一行，上一个的进位输出放到下一个的进位输入里。数字逻辑中也学过了并行加法器。</p>
+<p>并行加法器的问题在于，当前位做运算时，需要等待上一位运算完成，获取进位输入。因此，并行加法器看似结构上并行，实际上运算速度还要受到产生和传递进位的速度的影响。</p>
+<p>为了想办法提高运算速度，本节分析了并行加法器进位的产生与传递的本质。</p>
+<p>进位的表达式为：</p>
+<p>$C_i=A_iB_i+(A_i \bigoplus B_i)C_{i - 1}$</p>
+<p>其意思是，如果要产生进位，要么两个当前位都是1，要么是两个当前位有一个是1，且上一位有进位。</p>
+<p>说实话，后面那个异或运算增加了理解的难度。明明那个异或写成或的话，这个式子也是成立的，读起来也更加清晰。不知道是不是异或门比或门更快的原因。老师和课本都没有对这里进行讲解。</p>
+<p>为了方便后面的分析，用更简单的形式来写上面的式子</p>
+<p>$C_i = G_i + P_iC_{i - 1}$</p>
+<p>这个式子暗示$A_i,B_i$对后面的分析毫无影响，我们只关系进位间的关系。</p>
+<h3 id="并行加法器进位的优化"><a href="#并行加法器进位的优化" class="headerlink" title="并行加法器进位的优化"></a>并行加法器进位的优化</h3><h4 id="并行进位法"><a href="#并行进位法" class="headerlink" title="并行进位法"></a>并行进位法</h4><p>根据之前的分析：</p>
+<p>$C_1 = G_1 + P_1C_0$</p>
+<p>$C_2 = G_2 + P_2C_1$</p>
+<p>把第一个式子代入第二个式子得：</p>
+<p>$C_2 = G_2 + P_2(G_1 + P_1C_0) = G_2 + P_2G_1 + P_2P_1G_0$</p>
+<p>可以观察到，$C_1$消失了。只需要最初的$A_1,B_1,C_0$，就能直接得到第二位的进位，而不需要等待第一位的进位输入。</p>
+<p>如果反复利用这种方式，那么无论是第几位的进位输出，都可以用初始的几个量算出来了。由于逻辑门是可以并行的，无论这个式子多长，只需要花费一次计算与的时间和一次计算或的时间就可以完成 进位输出的计算，时间复杂度是$O(1)$。设与门、或门的延迟时间位$ty$，那么这种方法耗费的时间是$2ty$。</p>
+<p>顺带一提，之前要等待上一位进位输出的作为输入的并行加法器中，花费的时间是$2nty$，其中$n$是参加运算的数的位数。时间复杂度$O(n)$。</p>
+<p>但是，时间复杂度是下降必然引起空间复杂度（电路中门的数量）的上升。据肉眼观察，之前的空间复杂度是$O(n)$，但新方法的空间复杂度是$O(n^2)$。如果所有位都用新的方法，那么电路的结构以及造价会飞快地上升。对于一个位数很长的数，直接使用这种并行进位法是不合适的。</p>
+<h4 id="分组并行进位"><a href="#分组并行进位" class="headerlink" title="分组并行进位"></a>分组并行进位</h4><p>并行进位法在位数很大的时候就不合适了，但这种方法依然有利用的价值。4位数的并行进位电路是可以接受的。如果我们把一个很长的数每4位看成一组，分别放进4位的并行进位电路，那么电路的进速度还是得到了优化了的。准确来讲，应该是快了4倍。这种电路叫做4位先行进位电路（Carry Look Ahead，CLA）。其耗费时间是$\frac{n}{2}ty$。</p>
+<p>可以发现，我们把每四位看成了一个组。这个组的概念，和原来每一位的概念是类似的。原来每一位的运算要输入$A_i,B_i,C_{i - 1}$，输出$C_i$；现在每一组输入$A_i \sim A_{i+3},B_i\sim B_{i+3},C_{i - 1}$，输出$C_{i+3}$。原来的位变成了现在的组。这实际上是一个递归的过程。</p>
+<p>我们可以把4位当成一组，是不是也可以把几个组当成一个大组并行运算呢？</p>
+<p>根据公式：</p>
+<p>$C_4 = G_4 + P_4G_3 + P_4P_3G_2 + P_4P_3P_2G_1 + P_4P_3P_2P_1C_0$</p>
+<p>和之前一样，把前面不含$C_0$的看成一个整体，含$C_0$的看成一个整体。可以得到：</p>
+<p>$C_4 = G_1^<em>+P_1^</em>C_0$</p>
+<p>因为我们每4位分成了一组，所以$C_8$也有类似的式子：</p>
+<p>$C_8 = G_2^<em>+P_2^</em>C_4$</p>
+<p>同样，如果把$C_4$代入，那么$C_8$也只含$C_0$这一个变量了。现在$C_4,C_8,C_{12}…$都可以并行计算出来了。为了产生$G^<em>P^</em>$，原来产生$C_4,C_8,C_{12}$的CLA电路要修改，把输出从$C_4…$改成$G^<em>P^</em>$。这种改过的电路叫做成组先行进位电路（Block Carry Look Ahead，BCLA）。</p>
+<p>新的加法器原理和之前一样，但和之前不同的是，开始的进位输入只有$C_0$，而BCLA需要$C_4,C_8,C_{12}…$。在得到每一组的这些输入后，我们才能把每一组组内的结果算出来。</p>
+<p>总结一下，新的电路分了三步：第一步，所有的$G^<em>,P^</em>$是从$G,P$中计算而来，需要额外花$2ty$有关计算所有的$G^<em>,P^</em>$；第二步，根据$G^<em>,P^</em>,C_0$，计算出$C_4,C_8,C_{12}…$，这种组内的运算用到的是开始的并行加法器，也要花费$2ty$时间；第三步，根据$C_4,C_8,C_{12}…$，计算每一组内部的进位，时间同样是$2ty$。总共花费了$6ty$的时间。特别地，由于$C_0$在一开始就已知，第一组组内的计算可以在第一个$2ty$里算出来。</p>
+<p>这部分内容比较复杂，照着课本上电路的结构图能够更快地理解这些内容。</p>
+<h2 id="定点加减计算"><a href="#定点加减计算" class="headerlink" title="定点加减计算"></a>定点加减计算</h2><h3 id="原码"><a href="#原码" class="headerlink" title="原码"></a>原码</h3><p>原码十分死板，因为只有原码的绝对值才有意义。而且在进行加减的时候，还要考虑两个数前面的正负号，才能决定绝对值是加还是减，非常麻烦。</p>
+<p>首先需要一个逻辑电路，通过两个数的符号位和当前的运算得到绝对值进行的是加还是减运算。</p>
+<p>对于绝对值加，直接加。对于绝对值减，减数要变补再加。</p>
+<p>如果最终加的结果的负数，还要再求一次补，把负数转化成它的绝对值。结果的符号位也要取反。</p>
+<h3 id="补码"><a href="#补码" class="headerlink" title="补码"></a>补码</h3><h4 id="加法"><a href="#加法" class="headerlink" title="加法"></a>加法</h4><p>由于补码中负数的表示是在模$2^n$意义下的,因此直接带上符号位计算就行了。</p>
+<h4 id="减法"><a href="#减法" class="headerlink" title="减法"></a>减法</h4><p>把减数取负再做加法即可。问题是怎么把一个数取负。</p>
+<p>口诀教的是：连同符号位一起取反，末尾+1，就得到了一个数的相反数。</p>
+<p>我觉得按求负数补码的方式，倒着想也没错。正数就和上面一样取反+1，负数-1再全部取反。</p>
+<h4 id="符号扩展"><a href="#符号扩展" class="headerlink" title="符号扩展"></a>符号扩展</h4><p>符号扩展就是一个位短的数如何正确强制转换成一个位长的数。方法很简单：正数补0负数补1。</p>
+<h3 id="补码溢出"><a href="#补码溢出" class="headerlink" title="补码溢出"></a>补码溢出</h3><p>计算机运算都是在模意义下的。运算结果绝对值比模数/2大，就会发生溢出现象，运算结果因为无法表示而变得不正确。</p>
+<p>只有同号加法才会溢出，因为异号加法绝对值一定变小。</p>
+<p>比较简单的判溢出方法是：在当前符号位左边扩展一位，就是整数补0负数补1。之后用拓展过的数进行计算。如果两个符号位是10，表示负数溢出；符号位是01表示正数溢出。</p>
+<h3 id="补码运算的电路"><a href="#补码运算的电路" class="headerlink" title="补码运算的电路"></a>补码运算的电路</h3><p>这个章节划分得很没有条理。不过这一小节也不重要，课本写得不详细，老师也没讲几句。</p>
+<h2 id="移位"><a href="#移位" class="headerlink" title="移位"></a>移位</h2><p>移位是乘除法的基础，所以在这一节先介绍一下。</p>
+<h3 id="移位规则"><a href="#移位规则" class="headerlink" title="移位规则"></a>移位规则</h3><p>移位规则十分简单，用过C语言的移位运算的话很容易就能学会。</p>
+<p>宏观上来看，不管符号位如何，左移要让数乘2，右移要让数除以2。</p>
+<p>正数左右移补0，负数左移补0右移补1。</p>
+<p>要用电路实现移位，要么用移位寄存器，要么用移位器进行计算后保存计算结果。移位操作就是一个多路选择器，等于是输入到输出的一个一对一映射。</p>
+<h3 id="舍入操作"><a href="#舍入操作" class="headerlink" title="舍入操作"></a>舍入操作</h3><p>右移时，有些数位会多出来，需要舍弃。舍入方法有：</p>
+<ol>
+<li>恒舍：什么都不管，直接全舍去。</li>
+<li>冯诺依曼舍入法：什么都不管，舍去，剩下的数最后一位置1.</li>
+<li>下舍上入：被舍的最后一位（保留的最右边的一位的右边一位）是1则前面保留的部分+1.</li>
+<li>查表舍入：把方法3放进一个表里，减少++成本。</li>
+</ol>
+<h2 id="定点乘法计算"><a href="#定点乘法计算" class="headerlink" title="定点乘法计算"></a>定点乘法计算</h2><p>方法中的“一位“、”两位“把乘除法计算步骤拆开后，每次做加法是逐位考虑还是每两位考虑。</p>
+<h3 id="原码一位乘法"><a href="#原码一位乘法" class="headerlink" title="原码一位乘法"></a>原码一位乘法</h3><p>和加法一样，原码做乘法的时候需要把符号位和绝对值分开处理。</p>
+<p>符号位很好处理，做一个异或就行了。</p>
+<p>绝对值相乘的步骤和我们列竖式手算乘法是一模一样的。由于二进制里只有0和1，因此每一步中要么加上被乘数，要么不加。这种是否关系刚好和逻辑电路相符合。</p>
+<p>但是，我们列竖式的时候，每次新算出来的部分积都会往左一位，电路不方便做这样的操作。因此，电路每次把旧的部分积右移，以代替新部分积左移。</p>
+<p>只要看一眼课本上的例题就能快速理解这个过程</p>
+<h3 id="补码一位乘法"><a href="#补码一位乘法" class="headerlink" title="补码一位乘法"></a>补码一位乘法</h3><p>补码中由于符号位参与运算，其计算过程更加复杂一点。</p>
+<h4 id="校正法"><a href="#校正法" class="headerlink" title="校正法"></a>校正法</h4><p>第一想法是把被乘数的符号位分开，即先对被乘数后面的部分进行计算，如果被乘数符号位是1（是负数），就再加上一个乘数的相反数乘上被乘数符号位。这种方法加入一个特判，电路实现很不方便。</p>
+<h4 id="Booth乘法"><a href="#Booth乘法" class="headerlink" title="Booth乘法"></a>Booth乘法</h4><p>有人发现补码乘法有一个特殊的性质：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+
+\ [X\times Y]_{补}&=[X]_{补}\times(0.Y_1Y_2...Y_n)+[-X]_{补}\times Y_s \\
+\ &= [X]_{补}\times(Y_12^{-1}+Y_22^{-2}...+Y_n2^{-n})+[-X]_{补}\times Y_s \\
+\ &= [X]_{补}\times(-Y_s+(Y_1-Y_12^{-1})+(Y_22^{-1}-Y_22^{-2})...+(Y_n^{-n+1} -Y_n2^{-n}))
+\\
+\ &= [X]_{补}\times((Y_1 - Y_s)+(Y_2 - Y_1)2^{-1}+...+(0 - Y_n)2^{-n}) \\
+\ &= [X]_{补}\times((Y_1 - Y_s)+(Y_2 - Y_1)2^{-1}+...+(Y_{n+1} - Y_n)2^{-n}) \\
+
+\end{aligned}</script><p>看完前几行后，就能发现这个性质了：补码乘法可以看成被乘数补码乘上乘数的相邻位比较结果码。注意最后一行，$Y_{n+1}$本来没有这个数，但在计算的时候为了统一，我们假设有这个数，并把它初始化为0。</p>
+<p>有了这个公式，就可以直接进行补码乘法了。和之前一样，被乘数不断右移，但这次要看乘数最后一位和附加位的比较结果（附加位就是前一位，初始化为0）。如果当前位和附加位一样则不加；如果附加位是0这一位是1则减掉被乘数；如果附加位是1这一位是0则加上被乘数。</p>
+<h3 id="补码两位乘法"><a href="#补码两位乘法" class="headerlink" title="补码两位乘法"></a>补码两位乘法</h3><p>两位乘法就是每次考虑乘数的两位，加快乘法速度。</p>
+<p>乘法还是用Booth法，但是这次比较位有些复杂。但只要记住公式会化简成$(Y_{i+1}+Y_i-2Y_{i-1})$就行了。记住这个公式就能记住每一位权是多少</p>
+<h2 id="定点除法计算"><a href="#定点除法计算" class="headerlink" title="定点除法计算"></a>定点除法计算</h2><p>和乘法一样，除法的计算思路也由竖式中得来。同样，我们先从普通的原码除法，推广到补码除法。</p>
+<h3 id="原码除法"><a href="#原码除法" class="headerlink" title="原码除法"></a>原码除法</h3><p>同样，考虑原码时我们只关心绝对值部分。</p>
+<p>根据正常的列竖式除法，如果每次被除数比除数大，就商1，被除数减去除数，除数右移。在电路中，除数右移不方便，改成部分余数左移。这种比较法要用到比较电路，很麻烦。</p>
+<p>一种想法是，每次不管被除数和除数，先减了再说。如果减成了一个非负数，就正常商1；否则，若减成了一个负数，就说明这次不够减，商0。如果这次把除数又加回来的话，下一步操作我们又无脑减一次除数。这次加回除数和下次再减一次除数可以合并成一个操作，就是忽略本次的负数，下次加一次除数。也就是说，若$r_i = 2r_{i - 1} - Y$小于0，则本次操作先不恢复这个数，而是令$r_{i+1}=2r_i+Y$，因为$2r_i+Y=2(r_i+Y)-Y$,其中$r_i+Y$是回复了余数的结果。</p>
+<h3 id="补码除法"><a href="#补码除法" class="headerlink" title="补码除法"></a>补码除法</h3><p>补码中，要考虑到负数，算法复杂了一些。</p>
+<p>仔细一想，算法中部分余数（包括被除数）一直在变，只有除数的值没有变化。所有的符号都应该是相对于除数而言的。</p>
+<p>也就是说，原码除法可以看成补码除法的一种特殊情况，这是除数一直是正数。而当除数变成负数后，如果被除数是正数，说明”不够减“，商0；否则”够减“，商1。也就是说，我们要修正之前的加减交替法，把判断一个数是否不够减的一句擀成是否和除数异号。</p>
+<h2 id="规格化浮点计算"><a href="#规格化浮点计算" class="headerlink" title="规格化浮点计算"></a>规格化浮点计算</h2><h3 id="浮点加减"><a href="#浮点加减" class="headerlink" title="浮点加减"></a>浮点加减</h3><p>设：</p>
+<script type="math/tex; mode=display">
+A = M_A \times 2^{E_A} \\
+B = M_B \times 2^{E_B}</script><p>浮点数加减前要对齐阶，阶小往阶大的移动。先计算$\Delta E = E_A - E_B$。$\Delta = 0$若等于0则不用管；若大于</p>
+<p>0则B右移；否则A右移移。之后尾数加减。</p>
+<p>由于尾数要满足规格化数（科学计数法）的要求，需要对尾数加减结果进行规格化。</p>
+<p>假设尾数用双符号位表示。对于尾数计算结果的下列情况：</p>
+<ol>
+<li>00.1XXX | 11.0XXX 符号位和首位不同，满足规格化的要求</li>
+<li>00.0XXX | 11.1XXX 符号位和首位相同，绝对值小了，要把尾数放大（左移），阶码每次—。</li>
+<li>01.XXXX | 10.XXXX 双符号位仅在此处发挥作用。双符号位不同说明发生定点溢出，浮点超1。需要把尾数缩小，阶码++。</li>
+</ol>
+<h3 id="浮点相乘"><a href="#浮点相乘" class="headerlink" title="浮点相乘"></a>浮点相乘</h3><p>阶码相加（有移码则要减掉），尾数相乘。</p>
+<p>尾数大小一定落在$[\frac{1}{4}, 1)$,仅在尾数小于二分之一的时候需要进行左移，阶码—。</p>
+<h3 id="浮点相除"><a href="#浮点相除" class="headerlink" title="浮点相除"></a>浮点相除</h3><p>为了使尾数规格化，要保证被除数的尾数的绝对值比除数小，即$|M_A| &lt; |M_B|$。由于二者本身就是规格化数，这个操作至多操作一次。</p>
+<p>之后阶码相减，尾数相除。</p>
+<h2 id="十进制加减"><a href="#十进制加减" class="headerlink" title="十进制加减"></a>十进制加减</h2><p>没什么需要学的内容。十进制每一位都用4位二进制表示，每4位单独运算即可。</p>
+<h2 id="运算器实现"><a href="#运算器实现" class="headerlink" title="运算器实现"></a>运算器实现</h2><p>这一节内容又很偏硬件实现，应该不会去考。</p>
+<p>反正我就记住了两种芯片，74182对应CLA电路，74181对应BCLA电路。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/06/Principles-of-Computer-Composition-cources-review-3/" rel="next" title="计算机组成原理复习：第三章 指令系统">
+                <i class="fa fa-chevron-left"></i> 计算机组成原理复习：第三章 指令系统
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Zhou Yifan</p>
+              <p class="site-description motion-element" itemprop="description">A foresighted strategist with big-picture thinking. 大局观选手。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">25</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#计算机组成原理复习：第四章-数值的机器运算"><span class="nav-number">1.</span> <span class="nav-text">计算机组成原理复习：第四章 数值的机器运算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本运算（加法）电路实现"><span class="nav-number">1.1.</span> <span class="nav-text">基本运算（加法）电路实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#加法器简介"><span class="nav-number">1.1.1.</span> <span class="nav-text">加法器简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全加器"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">全加器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#串行加法器"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">串行加法器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并行加法器进位的产生与传递"><span class="nav-number">1.1.2.</span> <span class="nav-text">并行加法器进位的产生与传递</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并行加法器进位的优化"><span class="nav-number">1.1.3.</span> <span class="nav-text">并行加法器进位的优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#并行进位法"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">并行进位法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分组并行进位"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">分组并行进位</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定点加减计算"><span class="nav-number">1.2.</span> <span class="nav-text">定点加减计算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原码"><span class="nav-number">1.2.1.</span> <span class="nav-text">原码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#补码"><span class="nav-number">1.2.2.</span> <span class="nav-text">补码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#加法"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">加法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#减法"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">减法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#符号扩展"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">符号扩展</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#补码溢出"><span class="nav-number">1.2.3.</span> <span class="nav-text">补码溢出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#补码运算的电路"><span class="nav-number">1.2.4.</span> <span class="nav-text">补码运算的电路</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#移位"><span class="nav-number">1.3.</span> <span class="nav-text">移位</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#移位规则"><span class="nav-number">1.3.1.</span> <span class="nav-text">移位规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#舍入操作"><span class="nav-number">1.3.2.</span> <span class="nav-text">舍入操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定点乘法计算"><span class="nav-number">1.4.</span> <span class="nav-text">定点乘法计算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原码一位乘法"><span class="nav-number">1.4.1.</span> <span class="nav-text">原码一位乘法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#补码一位乘法"><span class="nav-number">1.4.2.</span> <span class="nav-text">补码一位乘法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#校正法"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">校正法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Booth乘法"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">Booth乘法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#补码两位乘法"><span class="nav-number">1.4.3.</span> <span class="nav-text">补码两位乘法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定点除法计算"><span class="nav-number">1.5.</span> <span class="nav-text">定点除法计算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原码除法"><span class="nav-number">1.5.1.</span> <span class="nav-text">原码除法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#补码除法"><span class="nav-number">1.5.2.</span> <span class="nav-text">补码除法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#规格化浮点计算"><span class="nav-number">1.6.</span> <span class="nav-text">规格化浮点计算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#浮点加减"><span class="nav-number">1.6.1.</span> <span class="nav-text">浮点加减</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浮点相乘"><span class="nav-number">1.6.2.</span> <span class="nav-text">浮点相乘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浮点相除"><span class="nav-number">1.6.3.</span> <span class="nav-text">浮点相除</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#十进制加减"><span class="nav-number">1.7.</span> <span class="nav-text">十进制加减</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运算器实现"><span class="nav-number">1.8.</span> <span class="nav-text">运算器实现</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhou Yifan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.1</div>
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.1"></script>
+
+
+  
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+</style>
+
+    
+  
+
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
