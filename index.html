@@ -443,17 +443,17 @@
 <p>此外，还有对堆栈的PUSH和POP指令。但是，这两种指令本质上也是对于主存的操作，并不能称为最基本的操作。</p>
 <p>除了单向传输，还可以交换两个位置的数据。</p>
 <h3 id="运算"><a href="#运算" class="headerlink" title="运算"></a>运算</h3><p>包含C语言中的一些基本运算。比如加减乘除模、按位逻辑运算、移位运算。但书中没有具体讲这种指令的结构（比如有几个操作数）。</p>
-<h3 id="流程控制"><a href="#流程控制" class="headerlink" title="流程控制"></a>流程控制</h3><h3 id="转移"><a href="#转移" class="headerlink" title="　转移"></a>　转移</h3><p>转移有两种：有条件转移和无条件转移。有条件转移用于实现条件语句，而无条件转移让程序结构更加灵活，不必受到顺序存储的束缚。</p>
+<h3 id="流程控制"><a href="#流程控制" class="headerlink" title="流程控制"></a>流程控制</h3><h4 id="转移"><a href="#转移" class="headerlink" title="　转移"></a>　转移</h4><p>转移有两种：有条件转移和无条件转移。有条件转移用于实现条件语句，而无条件转移让程序结构更加灵活，不必受到顺序存储的束缚。</p>
 <p>转移都要定义转移到的地址这一参数。对于有条件转移，还要把比较条件作为参数。</p>
-<h3 id="子程序调用"><a href="#子程序调用" class="headerlink" title="子程序调用"></a>子程序调用</h3><p>一个程序通过一些指令，可以调用另一个程序。只是根据调用关系，把被调用的程序叫做子程序。</p>
+<h4 id="子程序调用"><a href="#子程序调用" class="headerlink" title="子程序调用"></a>子程序调用</h4><p>一个程序通过一些指令，可以调用另一个程序。只是根据调用关系，把被调用的程序叫做子程序。</p>
 <p>程序本身就是被调用的，这种调用其他程序的关系中体现了递归的思想。</p>
 <p>子程序调用也可以让程序不按顺序执行，而是跑到另一个地方去执行。在这一点上，它和转移十分类似。为了搞清这两个概念，要知道这两个概念间的区别。</p>
-<h4 id="子程序调用与转移的区别"><a href="#子程序调用与转移的区别" class="headerlink" title="子程序调用与转移的区别"></a>子程序调用与转移的区别</h4><ol>
+<h5 id="子程序调用与转移的区别"><a href="#子程序调用与转移的区别" class="headerlink" title="子程序调用与转移的区别"></a>子程序调用与转移的区别</h5><ol>
 <li>子程序有“返回”这一操作。在调用了子程序后，一定要进行返回，返回到调用子程序的下一条指令。</li>
 <li>机器中应该有“程序”这个概念，也就是说不同程序之间是有明确的界限的。转移只能在当前程序中转移，而调用子程序会跳转到子程序的开头。</li>
 </ol>
 <p>既然调用子程序的时候要返回，那么机器必须存储返回的地址。事实上，每调用一次子程序就会产生一条返回地址信息。有多种存储返回地址的方法。</p>
-<h4 id="返回地址的存储"><a href="#返回地址的存储" class="headerlink" title="返回地址的存储"></a>返回地址的存储</h4><ol>
+<h5 id="返回地址的存储"><a href="#返回地址的存储" class="headerlink" title="返回地址的存储"></a>返回地址的存储</h5><ol>
 <li>存到子程序的开头。我觉得这种方法很蠢，递归调用完全不可行了。但如果没有递归的话，这样设计节约了存储空间。</li>
 <li>先存到寄存器中，再让子程序把寄存器的内容存到内存中。这样不错。</li>
 <li>存到堆栈中。这种方法和2的本质是一样的。函数调用本身就类似栈的行为，用栈模拟的话更加自然，更加易于操作。但是，我觉得这种分类还是不够清楚。方法2里，你把东西存在内存里，在内存里也可以构成一个堆栈。方法3理论上是方法2的一个改进，而不是完全没有交集的两个方法。</li>
@@ -894,6 +894,249 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/12/26/Digital-Image-Processing-homework1/" class="post-title-link" itemprop="url">数字图像处理小作业1：RGB转CMY转HCI及简单风格化（附OpenCV安装及基本使用方法）</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-12-26 15:11:59" itemprop="dateCreated datePublished" datetime="2019-12-26T15:11:59+08:00">2019-12-26</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/" itemprop="url" rel="index"><span itemprop="name">Computer Science</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/Digital-Image-Processing/" itemprop="url" rel="index"><span itemprop="name">Digital Image Processing</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="数字图像处理小作业1"><a href="#数字图像处理小作业1" class="headerlink" title="数字图像处理小作业1"></a>数字图像处理小作业1</h1><p>最近软件工程课要我们用博客记录项目。我感觉这样做挺好的，一来可以让项目的开发更规范化，二来可以给博客和github添加一些内容，不让大学生活看起来很空虚。以后我所有项目作业尽量都建立仓库和博客。</p>
+<h2 id="代码仓库"><a href="#代码仓库" class="headerlink" title="代码仓库"></a>代码仓库</h2><p><a href="https://github.com/SingleZombie/RGB-CMY-HSI-transformer-homework" target="_blank" rel="noopener">https://github.com/SingleZombie/RGB-CMY-HSI-transformer-homework</a></p>
+<h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><ul>
+<li>原图像一张RGB（彩色图像）</li>
+<li>分别在RGB，CMY，和HSI三个空间通过调整颜色实现一种风格化转换（风格自选）</li>
+<li>需要提交源码以及不超过半页的代码说明(说明使用的库和参数)</li>
+<li>压缩包内文件命名方式为:<br>  -图像命名：<br>  0(此原图像)<br>  1RGB,2CMY,3HSI（此为处理结果）<br>  -文档命名：学号_姓名_1<br>  -代码包命名：学号_姓名_1</li>
+</ul>
+<p>以上是老师给的作业要求。据说老师上课的时候还提到，三种通道的风格化结果要看起来相等。</p>
+<p>我对风格化的理解是，改变某种彩色表示下某个分量后得到的结果。</p>
+<p>经总结，需求有以下内容：</p>
+<ul>
+<li>实现RGB到CMY和HSI的转换</li>
+<li>在某种表示下改变图片风格，并调整另两种表示下的结果使得图片看起来相同</li>
+<li>写说明文档</li>
+</ul>
+<h2 id="技术学习"><a href="#技术学习" class="headerlink" title="技术学习"></a>技术学习</h2><h3 id="OpenCV入门"><a href="#OpenCV入门" class="headerlink" title="OpenCV入门"></a>OpenCV入门</h3><h4 id="OpenCV安装与配置"><a href="#OpenCV安装与配置" class="headerlink" title="OpenCV安装与配置"></a>OpenCV安装与配置</h4><p>在本作业中，我打算用OpenCV来读、写、显示图像文件。在一些任务开始前，我要先学OpenCV的用法。</p>
+<p>我是在Win10下用VS2017编程，生成的是x86程序。</p>
+<ul>
+<li>去 <a href="https://opencv.org/releases/" target="_blank" rel="noopener">https://opencv.org/releases/</a> 下载Windows版本的库文件。下载后能得到一个exe文件，把该文件“解压”到一个路径即可。解压的文件夹里有一个opencv子文件夹。记此子文件夹为<code>$(OPENCV)</code>。</li>
+<li><p>x86的OpenCV库编译（可选）</p>
+<ol>
+<li>去<a href="https://opencv.org/releases/" target="_blank" rel="noopener">https://opencv.org/releases/</a> 下载Sources，这样编译出来的库可以满足当前编译器的配置。（直接安装的话没有x86的文件）</li>
+<li>用cmake配置源代码。注意源代码的路径最好不要包含中文。（我第一次包含了中文，结果vs编译到一半出错了）</li>
+<li>用vs打开cmake生成的目录下的OpenCV.sln，编译源代码。</li>
+<li>编译结束后在目录的lib文件夹中找到编译的结果文件夹(Debug或Release)，里面所有.lib文件就是编译的结果，把它们放到上一步的build文件夹里。我按照格式放到了<code>$(OPENCV)\build\x86\vc15\lib</code>文件夹里。</li>
+<li>编译出的bin文件夹需要加入系统环境变量，因为里面的dll会被用到。改完环境变量重启电脑。</li>
+</ol>
+</li>
+<li>在VS中的属性管理器新建配置，添加用户宏OPENCV，宏值就是开始那个解压出的opencv子文件夹。<code>$(OPENCV)</code>现在就表示库目录了。</li>
+<li>在属性的包含目录里加上<code>$(OPENCV)\build\include</code>，库目录改成对应版本的库的目录，比如我的就是<code>$(OPENCV)\build\x86\vc15\lib</code>。</li>
+<li>VS链接器-输入-附加依赖项中加入需要的.lib文件。我的第一个程序加入了opencv_highgui420d.lib;opencv_core420d.lib;opencv_imgcodecs420d.lib这三个库</li>
+<li>我随便到网上找了下函数，依葫芦画瓢地写了以下代码。如果一切都配置好了，程序会显示main.cpp目录下wallpaper.jpg这张图片。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/core/core.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/highgui/highgui.hpp&gt;  </span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> windowName = <span class="string">"window1"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cv::Mat mat = cv::imread(<span class="string">"wallpaper.jpg"</span>);</span><br><span class="line"></span><br><span class="line">	cv::namedWindow(windowName);</span><br><span class="line">	cv::imshow(windowName, mat);</span><br><span class="line"></span><br><span class="line">	cv::waitKey();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="OpenCV-像素获取与修改"><a href="#OpenCV-像素获取与修改" class="headerlink" title="OpenCV 像素获取与修改"></a>OpenCV 像素获取与修改</h4><p>OpenCV的操作很多都基于<code>Mat</code>的对象，也就是图像矩阵。 </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> R, G, B;</span><br><span class="line">B = mat.at&lt;cv::Vec3b&gt;(i, j)[<span class="number">0</span>];</span><br><span class="line">G = mat.at&lt;cv::Vec3b&gt;(i, j)[<span class="number">1</span>];</span><br><span class="line">R = mat.at&lt;cv::Vec3b&gt;(i, j)[<span class="number">2</span>];</span><br></pre></td></tr></table></figure>
+<p>对矩阵的at操作可以get或set颜色分量的值。</p>
+<p>注意RGB是反的。</p>
+<h4 id="OpenCV输入输出图像"><a href="#OpenCV输入输出图像" class="headerlink" title="OpenCV输入输出图像"></a>OpenCV输入输出图像</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cv::Mat mat = cv::imread(<span class="string">"in.png"</span>);</span><br><span class="line">cv::imwrite(<span class="string">"out.png"</span>, mat);</span><br></pre></td></tr></table></figure>
+<p>输入输出都是基于<code>Mat</code>的对象。</p>
+<h3 id="RGB转CMY、HSI"><a href="#RGB转CMY、HSI" class="headerlink" title="RGB转CMY、HSI"></a>RGB转CMY、HSI</h3><h4 id="RGB转CMY"><a href="#RGB转CMY" class="headerlink" title="RGB转CMY"></a>RGB转CMY</h4><p>看了一下，RGB符合人对颜色的认知。但现实中，为了方便打印出黑色，用CMY表示颜料的颜色更加方便。</p>
+<p>CMY就是RGB取反，即：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C = 255 - R;</span><br><span class="line">M = 255 - G;</span><br><span class="line">Y = 255 - B;</span><br></pre></td></tr></table></figure>
+<h4 id="RGB转HSI"><a href="#RGB转HSI" class="headerlink" title="RGB转HSI"></a>RGB转HSI</h4><p>我对HSI的大致理解是：H是颜色的属性，比如是红色、绿色、蓝色还是其他颜色；S是颜色被稀释的属性，也就是颜色的深浅；I是光强，是颜色向量的模的大小。</p>
+<p><a href="https://blog.csdn.net/yangleo1987/article/details/53171623" target="_blank" rel="noopener">https://blog.csdn.net/yangleo1987/article/details/53171623</a> 里有好几个RGB转HSI方法的介绍。其中第一种是上课提到的方法。</p>
+<h3 id="风格转换"><a href="#风格转换" class="headerlink" title="风格转换"></a>风格转换</h3><p>我问了一下别人，又看了一下书。感觉风格转换就是对某个颜色通道做一个函数映射，使得图片整体风格改变。</p>
+<h2 id="结构设计"><a href="#结构设计" class="headerlink" title="结构设计 "></a>结构设计 <div id="structure"></div></h2><p>由于程序过于简单，该程序用结构化的设计方法。</p>
+<p>输入经过输入预处理模块，进入处理模块，最后进入输出模块输出。整个结构非常简明而无趣。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//         ******************    ***********************    *******************</span><br><span class="line">// data -&gt; ** input module ** -&gt; ** processing module ** -&gt; ** output module ** -&gt; output</span><br><span class="line">//         ******************    ***********************    *******************</span><br></pre></td></tr></table></figure>
+<p>由于要提交源代码文件，我把代码全部放到一个main.cpp里面了。但在我心中，还是为每个模块各建了一个头文件和cpp文件的。</p>
+<h2 id="程序设计"><a href="#程序设计" class="headerlink" title="程序设计"></a>程序设计</h2><h3 id="程序概览"><a href="#程序概览" class="headerlink" title="程序概览"></a>程序概览</h3><p>代码放在Github上：<a href="https://github.com/SingleZombie/RGB-CMY-HSI-transformer-homework" target="_blank" rel="noopener">代码仓库</a></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cv::Mat mat = getInput(<span class="string">"0.jpg"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">auto</span> matArr = processImage(mat);</span><br><span class="line"></span><br><span class="line">	outputImage(matArr[<span class="number">0</span>], <span class="string">"1RGB.jpg"</span>);</span><br><span class="line">	outputImage(matArr[<span class="number">1</span>], <span class="string">"2CMY.jpg"</span>);</span><br><span class="line">	outputImage(matArr[<span class="number">2</span>], <span class="string">"3HSI.jpg"</span>);</span><br><span class="line"></span><br><span class="line">	cv::imshow(<span class="string">"w1"</span>, matArr[<span class="number">0</span>]);</span><br><span class="line">	cv::imshow(<span class="string">"w2"</span>, matArr[<span class="number">1</span>]);</span><br><span class="line">	cv::imshow(<span class="string">"w3"</span>, matArr[<span class="number">2</span>]);</span><br><span class="line"></span><br><span class="line">	cv::waitKey();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>main函数非常简明，<code>getInput</code>和<code>outputImage</code>隐藏了输入输出细节，方便修改。事实上，图像读入时像素是用unsigned char存储的，我在输入的时候把它转换成了float，输出的时候又转了回去。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mat.rows; i++)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; mat.cols; j++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// tranformation</span></span><br><span class="line">		matCMY.at&lt;cv::Vec3f&gt;(i, j) = bgrToYmc(matCMY.at&lt;cv::Vec3f&gt;(i, j));</span><br><span class="line">		matHSI.at&lt;cv::Vec3f&gt;(i, j) = bgrToHsi(matHSI.at&lt;cv::Vec3f&gt;(i, j));</span><br><span class="line"></span><br><span class="line">		<span class="comment">// tonal function</span></span><br><span class="line">		<span class="comment">// ........</span></span><br><span class="line">		</span><br><span class="line"></span><br><span class="line">		<span class="comment">// inverse transformation</span></span><br><span class="line">		matCMY.at&lt;cv::Vec3f&gt;(i, j) = ymcToBgr(matCMY.at&lt;cv::Vec3f&gt;(i, j));</span><br><span class="line">		matHSI.at&lt;cv::Vec3f&gt;(i, j) = hsiToBgr(matHSI.at&lt;cv::Vec3f&gt;(i, j));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>processImage</code>的主体是遍历像素，先把原图像做格式转换，再用自己的风格转换函数瞎搞，最后转换回正常的格式。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">inline</span> cv::<span class="function">Vec3f <span class="title">bgrToYmc</span><span class="params">(<span class="keyword">const</span> cv::Vec3f&amp; vec)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> cv::Vec3f(<span class="number">1.0f</span> - vec[<span class="number">0</span>], <span class="number">1.0f</span> - vec[<span class="number">1</span>], <span class="number">1.0f</span> - vec[<span class="number">2</span>]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">inline</span> cv::<span class="function">Vec3f <span class="title">ymcToBgr</span><span class="params">(<span class="keyword">const</span> cv::Vec3f&amp; vec)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> cv::Vec3f(<span class="number">1.0f</span> - vec[<span class="number">0</span>], <span class="number">1.0f</span> - vec[<span class="number">1</span>], <span class="number">1.0f</span> - vec[<span class="number">2</span>]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">inline</span> cv::<span class="function">Vec3f <span class="title">bgrToHsi</span><span class="params">(<span class="keyword">const</span> cv::Vec3f&amp; vec)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">float</span> R = vec[<span class="number">2</span>], G = vec[<span class="number">1</span>], B = vec[<span class="number">0</span>];</span><br><span class="line">	<span class="keyword">float</span> RG = (R - G), RB = (R - B);</span><br><span class="line">	<span class="keyword">float</span> tmp = <span class="built_in">sqrt</span>(RG * RG + RB * (G - B)); <span class="comment">// 分母不能为0！！！</span></span><br><span class="line">	<span class="keyword">float</span> theta = tmp != <span class="number">0</span> ? <span class="built_in">acos</span>(<span class="number">0.5f</span> * (RG + RB) / tmp) : <span class="number">0</span>;</span><br><span class="line">	theta = B &gt; G + EPS ? CV_2PI - theta : theta;</span><br><span class="line">	<span class="keyword">return</span> cv::Vec3f(</span><br><span class="line">		theta / CV_2PI,</span><br><span class="line">		<span class="number">1.0f</span> - <span class="number">3.0f</span> * <span class="built_in">std</span>::min(<span class="built_in">std</span>::min(R, G), B) / (R + G + B),</span><br><span class="line">		(R + G + B) / <span class="number">3.0f</span></span><br><span class="line">	);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">inline</span> cv::<span class="function">Vec3f <span class="title">hsiToBgr</span><span class="params">(<span class="keyword">const</span> cv::Vec3f&amp; vec)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">float</span> H = vec[<span class="number">0</span>] * CV_2PI, S = vec[<span class="number">1</span>], I = vec[<span class="number">2</span>];</span><br><span class="line">	<span class="keyword">float</span> H2 = <span class="built_in">fmod</span>(H, CV_2PI / <span class="number">3</span>);</span><br><span class="line">	<span class="keyword">float</span> v1 = I * (<span class="number">1.0f</span> - S);</span><br><span class="line">	<span class="keyword">float</span> v2 = I * (<span class="number">1.0f</span> + S * <span class="built_in">cos</span>(H2) / <span class="built_in">cos</span>(CV_PI / <span class="number">3</span> - H2));</span><br><span class="line">	<span class="keyword">float</span> v3 = <span class="number">3</span> * I - v1 - v2;</span><br><span class="line">	<span class="keyword">if</span> (H + EPS &lt; CV_2PI / <span class="number">3.0f</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> cv::Vec3f(v1, v3, v2);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (H + EPS &lt; <span class="number">2.0f</span> * CV_2PI / <span class="number">3.0f</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> cv::Vec3f(v3, v2, v1);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> cv::Vec3f(v2, v1, v3);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>格式转换函数完全是在照搬公式而已，没有什么价值。</p>
+<h3 id="写程序过程中碰到的问题"><a href="#写程序过程中碰到的问题" class="headerlink" title="写程序过程中碰到的问题"></a>写程序过程中碰到的问题</h3><ol>
+<li>为了公式处理方便，我把像素格式转换成了float。我一开始以为直接就能通过<code>mat.at&lt;Vec3f&gt;</code>来访问浮点格式像素，但是发现<code>cv::Mat</code>的机制好像是只能允许像素按一种格式存。要把图像矩阵用<code>.convertTo(mat, CV_32FC3, 1 / 255.0)</code>来转换成浮点表示，最后输出的时候还要用<code>.convertTo(tmpMat, CV_8UC3, 255.0f)</code>转换回去。</li>
+<li>我还好提前看了一下<code>cv::Mat</code>的工作原理。该类只存了图像数据的指针，要复制图像数据的话要调用<code>src.copyTo(dest)</code></li>
+<li>图片转HSI再转回来后，我发现图像中出现一些绿色方块。经调试发现，H分量在运算的时候变成了nan。计算H的时候一定要判断分母是否为0！</li>
+<li>图像的RGB是倒着存的。我之前测试OpenCV的时候碰到了这个问题，写这个程序的时候就跳过了这个坑。</li>
+</ol>
+<h2 id="处理结果"><a href="#处理结果" class="headerlink" title="处理结果"></a>处理结果</h2><p><img src="//zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/0.jpg" alt="0.jpg"></p>
+<p>原图 </p>
+<p><img src="//zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/1RGB.jpg" alt="1.jpg"></p>
+<p>RGB风格转换结果</p>
+<p><img src="//zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/2CMY.jpg" alt="2.jpg"></p>
+<p>CMY风格转换结果</p>
+<p><img src="//zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/3HSI.jpg" alt="3.jpg"></p>
+<p>HSI风格转换结果</p>
+<h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>写博客真浪费时间。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1112,249 +1355,6 @@
 <p>我遇到的问题实在是有些令人恼火。我既不是程序代码不会写，也不是算法原理没搞懂，而是API怎么调，某个操作的实现细节这些边界知识没有掌握。本次作业没增加多少我对复原算法的认识，倒是进一步强化了我搜索信息和理解信息的能力。</p>
 <p>之前，包括课本在内，很多介绍模糊和复原的文章都在用一个女性照片做为原图像。我一开始还没明白为什么。后来，在写程序碰到瓶颈之余，我好好分析了一下这个问题，总算得到了一个非常漂亮的结论：科研工作者大多为单身男性，每日面对的只有无情的代码和冷冰冰的文字。在这种恶劣的条件下，偶尔出现的女性照片，能给你黯淡的内心点上一丝救赎的光芒。所以，人们更多地选择那张女性照片。</p>
 <p>可惜我的内心对于这种照片不为所动。我想，凭什么只用三次元的照片？于是，我随便在电脑里找了一张露娜sama的图片。果然，看着这幅CG被一步一步复原，我被各种BUG蹂躏得受伤的心灵得到了安慰。我为自己的机智和随机应变能力而赞叹不已。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhou Yifan">
-      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="周弈帆的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/12/26/Digital-Image-Processing-homework1/" class="post-title-link" itemprop="url">数字图像处理小作业1：RGB转CMY转HCI及简单风格化（附OpenCV安装及基本使用方法）</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2019-12-26 15:11:59" itemprop="dateCreated datePublished" datetime="2019-12-26T15:11:59+08:00">2019-12-26</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/" itemprop="url" rel="index"><span itemprop="name">Computer Science</span></a></span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/Digital-Image-Processing/" itemprop="url" rel="index"><span itemprop="name">Digital Image Processing</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="数字图像处理小作业1"><a href="#数字图像处理小作业1" class="headerlink" title="数字图像处理小作业1"></a>数字图像处理小作业1</h1><p>最近软件工程课要我们用博客记录项目。我感觉这样做挺好的，一来可以让项目的开发更规范化，二来可以给博客和github添加一些内容，不让大学生活看起来很空虚。以后我所有项目作业尽量都建立仓库和博客。</p>
-<h2 id="代码仓库"><a href="#代码仓库" class="headerlink" title="代码仓库"></a>代码仓库</h2><p><a href="https://github.com/SingleZombie/RGB-CMY-HSI-transformer-homework" target="_blank" rel="noopener">https://github.com/SingleZombie/RGB-CMY-HSI-transformer-homework</a></p>
-<h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><ul>
-<li>原图像一张RGB（彩色图像）</li>
-<li>分别在RGB，CMY，和HSI三个空间通过调整颜色实现一种风格化转换（风格自选）</li>
-<li>需要提交源码以及不超过半页的代码说明(说明使用的库和参数)</li>
-<li>压缩包内文件命名方式为:<br>  -图像命名：<br>  0(此原图像)<br>  1RGB,2CMY,3HSI（此为处理结果）<br>  -文档命名：学号_姓名_1<br>  -代码包命名：学号_姓名_1</li>
-</ul>
-<p>以上是老师给的作业要求。据说老师上课的时候还提到，三种通道的风格化结果要看起来相等。</p>
-<p>我对风格化的理解是，改变某种彩色表示下某个分量后得到的结果。</p>
-<p>经总结，需求有以下内容：</p>
-<ul>
-<li>实现RGB到CMY和HSI的转换</li>
-<li>在某种表示下改变图片风格，并调整另两种表示下的结果使得图片看起来相同</li>
-<li>写说明文档</li>
-</ul>
-<h2 id="技术学习"><a href="#技术学习" class="headerlink" title="技术学习"></a>技术学习</h2><h3 id="OpenCV入门"><a href="#OpenCV入门" class="headerlink" title="OpenCV入门"></a>OpenCV入门</h3><h4 id="OpenCV安装与配置"><a href="#OpenCV安装与配置" class="headerlink" title="OpenCV安装与配置"></a>OpenCV安装与配置</h4><p>在本作业中，我打算用OpenCV来读、写、显示图像文件。在一些任务开始前，我要先学OpenCV的用法。</p>
-<p>我是在Win10下用VS2017编程，生成的是x86程序。</p>
-<ul>
-<li>去 <a href="https://opencv.org/releases/" target="_blank" rel="noopener">https://opencv.org/releases/</a> 下载Windows版本的库文件。下载后能得到一个exe文件，把该文件“解压”到一个路径即可。解压的文件夹里有一个opencv子文件夹。记此子文件夹为<code>$(OPENCV)</code>。</li>
-<li><p>x86的OpenCV库编译（可选）</p>
-<ol>
-<li>去<a href="https://opencv.org/releases/" target="_blank" rel="noopener">https://opencv.org/releases/</a> 下载Sources，这样编译出来的库可以满足当前编译器的配置。（直接安装的话没有x86的文件）</li>
-<li>用cmake配置源代码。注意源代码的路径最好不要包含中文。（我第一次包含了中文，结果vs编译到一半出错了）</li>
-<li>用vs打开cmake生成的目录下的OpenCV.sln，编译源代码。</li>
-<li>编译结束后在目录的lib文件夹中找到编译的结果文件夹(Debug或Release)，里面所有.lib文件就是编译的结果，把它们放到上一步的build文件夹里。我按照格式放到了<code>$(OPENCV)\build\x86\vc15\lib</code>文件夹里。</li>
-<li>编译出的bin文件夹需要加入系统环境变量，因为里面的dll会被用到。改完环境变量重启电脑。</li>
-</ol>
-</li>
-<li>在VS中的属性管理器新建配置，添加用户宏OPENCV，宏值就是开始那个解压出的opencv子文件夹。<code>$(OPENCV)</code>现在就表示库目录了。</li>
-<li>在属性的包含目录里加上<code>$(OPENCV)\build\include</code>，库目录改成对应版本的库的目录，比如我的就是<code>$(OPENCV)\build\x86\vc15\lib</code>。</li>
-<li>VS链接器-输入-附加依赖项中加入需要的.lib文件。我的第一个程序加入了opencv_highgui420d.lib;opencv_core420d.lib;opencv_imgcodecs420d.lib这三个库</li>
-<li>我随便到网上找了下函数，依葫芦画瓢地写了以下代码。如果一切都配置好了，程序会显示main.cpp目录下wallpaper.jpg这张图片。</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/core/core.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/highgui/highgui.hpp&gt;  </span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> windowName = <span class="string">"window1"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cv::Mat mat = cv::imread(<span class="string">"wallpaper.jpg"</span>);</span><br><span class="line"></span><br><span class="line">	cv::namedWindow(windowName);</span><br><span class="line">	cv::imshow(windowName, mat);</span><br><span class="line"></span><br><span class="line">	cv::waitKey();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="OpenCV-像素获取与修改"><a href="#OpenCV-像素获取与修改" class="headerlink" title="OpenCV 像素获取与修改"></a>OpenCV 像素获取与修改</h4><p>OpenCV的操作很多都基于<code>Mat</code>的对象，也就是图像矩阵。 </p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> R, G, B;</span><br><span class="line">B = mat.at&lt;cv::Vec3b&gt;(i, j)[<span class="number">0</span>];</span><br><span class="line">G = mat.at&lt;cv::Vec3b&gt;(i, j)[<span class="number">1</span>];</span><br><span class="line">R = mat.at&lt;cv::Vec3b&gt;(i, j)[<span class="number">2</span>];</span><br></pre></td></tr></table></figure>
-<p>对矩阵的at操作可以get或set颜色分量的值。</p>
-<p>注意RGB是反的。</p>
-<h4 id="OpenCV输入输出图像"><a href="#OpenCV输入输出图像" class="headerlink" title="OpenCV输入输出图像"></a>OpenCV输入输出图像</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cv::Mat mat = cv::imread(<span class="string">"in.png"</span>);</span><br><span class="line">cv::imwrite(<span class="string">"out.png"</span>, mat);</span><br></pre></td></tr></table></figure>
-<p>输入输出都是基于<code>Mat</code>的对象。</p>
-<h3 id="RGB转CMY、HSI"><a href="#RGB转CMY、HSI" class="headerlink" title="RGB转CMY、HSI"></a>RGB转CMY、HSI</h3><h4 id="RGB转CMY"><a href="#RGB转CMY" class="headerlink" title="RGB转CMY"></a>RGB转CMY</h4><p>看了一下，RGB符合人对颜色的认知。但现实中，为了方便打印出黑色，用CMY表示颜料的颜色更加方便。</p>
-<p>CMY就是RGB取反，即：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C = 255 - R;</span><br><span class="line">M = 255 - G;</span><br><span class="line">Y = 255 - B;</span><br></pre></td></tr></table></figure>
-<h4 id="RGB转HSI"><a href="#RGB转HSI" class="headerlink" title="RGB转HSI"></a>RGB转HSI</h4><p>我对HSI的大致理解是：H是颜色的属性，比如是红色、绿色、蓝色还是其他颜色；S是颜色被稀释的属性，也就是颜色的深浅；I是光强，是颜色向量的模的大小。</p>
-<p><a href="https://blog.csdn.net/yangleo1987/article/details/53171623" target="_blank" rel="noopener">https://blog.csdn.net/yangleo1987/article/details/53171623</a> 里有好几个RGB转HSI方法的介绍。其中第一种是上课提到的方法。</p>
-<h3 id="风格转换"><a href="#风格转换" class="headerlink" title="风格转换"></a>风格转换</h3><p>我问了一下别人，又看了一下书。感觉风格转换就是对某个颜色通道做一个函数映射，使得图片整体风格改变。</p>
-<h2 id="结构设计"><a href="#结构设计" class="headerlink" title="结构设计 "></a>结构设计 <div id="structure"></div></h2><p>由于程序过于简单，该程序用结构化的设计方法。</p>
-<p>输入经过输入预处理模块，进入处理模块，最后进入输出模块输出。整个结构非常简明而无趣。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//         ******************    ***********************    *******************</span><br><span class="line">// data -&gt; ** input module ** -&gt; ** processing module ** -&gt; ** output module ** -&gt; output</span><br><span class="line">//         ******************    ***********************    *******************</span><br></pre></td></tr></table></figure>
-<p>由于要提交源代码文件，我把代码全部放到一个main.cpp里面了。但在我心中，还是为每个模块各建了一个头文件和cpp文件的。</p>
-<h2 id="程序设计"><a href="#程序设计" class="headerlink" title="程序设计"></a>程序设计</h2><h3 id="程序概览"><a href="#程序概览" class="headerlink" title="程序概览"></a>程序概览</h3><p>代码放在Github上：<a href="https://github.com/SingleZombie/RGB-CMY-HSI-transformer-homework" target="_blank" rel="noopener">代码仓库</a></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cv::Mat mat = getInput(<span class="string">"0.jpg"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">auto</span> matArr = processImage(mat);</span><br><span class="line"></span><br><span class="line">	outputImage(matArr[<span class="number">0</span>], <span class="string">"1RGB.jpg"</span>);</span><br><span class="line">	outputImage(matArr[<span class="number">1</span>], <span class="string">"2CMY.jpg"</span>);</span><br><span class="line">	outputImage(matArr[<span class="number">2</span>], <span class="string">"3HSI.jpg"</span>);</span><br><span class="line"></span><br><span class="line">	cv::imshow(<span class="string">"w1"</span>, matArr[<span class="number">0</span>]);</span><br><span class="line">	cv::imshow(<span class="string">"w2"</span>, matArr[<span class="number">1</span>]);</span><br><span class="line">	cv::imshow(<span class="string">"w3"</span>, matArr[<span class="number">2</span>]);</span><br><span class="line"></span><br><span class="line">	cv::waitKey();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>main函数非常简明，<code>getInput</code>和<code>outputImage</code>隐藏了输入输出细节，方便修改。事实上，图像读入时像素是用unsigned char存储的，我在输入的时候把它转换成了float，输出的时候又转了回去。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mat.rows; i++)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; mat.cols; j++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// tranformation</span></span><br><span class="line">		matCMY.at&lt;cv::Vec3f&gt;(i, j) = bgrToYmc(matCMY.at&lt;cv::Vec3f&gt;(i, j));</span><br><span class="line">		matHSI.at&lt;cv::Vec3f&gt;(i, j) = bgrToHsi(matHSI.at&lt;cv::Vec3f&gt;(i, j));</span><br><span class="line"></span><br><span class="line">		<span class="comment">// tonal function</span></span><br><span class="line">		<span class="comment">// ........</span></span><br><span class="line">		</span><br><span class="line"></span><br><span class="line">		<span class="comment">// inverse transformation</span></span><br><span class="line">		matCMY.at&lt;cv::Vec3f&gt;(i, j) = ymcToBgr(matCMY.at&lt;cv::Vec3f&gt;(i, j));</span><br><span class="line">		matHSI.at&lt;cv::Vec3f&gt;(i, j) = hsiToBgr(matHSI.at&lt;cv::Vec3f&gt;(i, j));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>processImage</code>的主体是遍历像素，先把原图像做格式转换，再用自己的风格转换函数瞎搞，最后转换回正常的格式。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">inline</span> cv::<span class="function">Vec3f <span class="title">bgrToYmc</span><span class="params">(<span class="keyword">const</span> cv::Vec3f&amp; vec)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> cv::Vec3f(<span class="number">1.0f</span> - vec[<span class="number">0</span>], <span class="number">1.0f</span> - vec[<span class="number">1</span>], <span class="number">1.0f</span> - vec[<span class="number">2</span>]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">inline</span> cv::<span class="function">Vec3f <span class="title">ymcToBgr</span><span class="params">(<span class="keyword">const</span> cv::Vec3f&amp; vec)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> cv::Vec3f(<span class="number">1.0f</span> - vec[<span class="number">0</span>], <span class="number">1.0f</span> - vec[<span class="number">1</span>], <span class="number">1.0f</span> - vec[<span class="number">2</span>]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">inline</span> cv::<span class="function">Vec3f <span class="title">bgrToHsi</span><span class="params">(<span class="keyword">const</span> cv::Vec3f&amp; vec)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">float</span> R = vec[<span class="number">2</span>], G = vec[<span class="number">1</span>], B = vec[<span class="number">0</span>];</span><br><span class="line">	<span class="keyword">float</span> RG = (R - G), RB = (R - B);</span><br><span class="line">	<span class="keyword">float</span> tmp = <span class="built_in">sqrt</span>(RG * RG + RB * (G - B)); <span class="comment">// 分母不能为0！！！</span></span><br><span class="line">	<span class="keyword">float</span> theta = tmp != <span class="number">0</span> ? <span class="built_in">acos</span>(<span class="number">0.5f</span> * (RG + RB) / tmp) : <span class="number">0</span>;</span><br><span class="line">	theta = B &gt; G + EPS ? CV_2PI - theta : theta;</span><br><span class="line">	<span class="keyword">return</span> cv::Vec3f(</span><br><span class="line">		theta / CV_2PI,</span><br><span class="line">		<span class="number">1.0f</span> - <span class="number">3.0f</span> * <span class="built_in">std</span>::min(<span class="built_in">std</span>::min(R, G), B) / (R + G + B),</span><br><span class="line">		(R + G + B) / <span class="number">3.0f</span></span><br><span class="line">	);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">inline</span> cv::<span class="function">Vec3f <span class="title">hsiToBgr</span><span class="params">(<span class="keyword">const</span> cv::Vec3f&amp; vec)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">float</span> H = vec[<span class="number">0</span>] * CV_2PI, S = vec[<span class="number">1</span>], I = vec[<span class="number">2</span>];</span><br><span class="line">	<span class="keyword">float</span> H2 = <span class="built_in">fmod</span>(H, CV_2PI / <span class="number">3</span>);</span><br><span class="line">	<span class="keyword">float</span> v1 = I * (<span class="number">1.0f</span> - S);</span><br><span class="line">	<span class="keyword">float</span> v2 = I * (<span class="number">1.0f</span> + S * <span class="built_in">cos</span>(H2) / <span class="built_in">cos</span>(CV_PI / <span class="number">3</span> - H2));</span><br><span class="line">	<span class="keyword">float</span> v3 = <span class="number">3</span> * I - v1 - v2;</span><br><span class="line">	<span class="keyword">if</span> (H + EPS &lt; CV_2PI / <span class="number">3.0f</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> cv::Vec3f(v1, v3, v2);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (H + EPS &lt; <span class="number">2.0f</span> * CV_2PI / <span class="number">3.0f</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> cv::Vec3f(v3, v2, v1);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> cv::Vec3f(v2, v1, v3);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>格式转换函数完全是在照搬公式而已，没有什么价值。</p>
-<h3 id="写程序过程中碰到的问题"><a href="#写程序过程中碰到的问题" class="headerlink" title="写程序过程中碰到的问题"></a>写程序过程中碰到的问题</h3><ol>
-<li>为了公式处理方便，我把像素格式转换成了float。我一开始以为直接就能通过<code>mat.at&lt;Vec3f&gt;</code>来访问浮点格式像素，但是发现<code>cv::Mat</code>的机制好像是只能允许像素按一种格式存。要把图像矩阵用<code>.convertTo(mat, CV_32FC3, 1 / 255.0)</code>来转换成浮点表示，最后输出的时候还要用<code>.convertTo(tmpMat, CV_8UC3, 255.0f)</code>转换回去。</li>
-<li>我还好提前看了一下<code>cv::Mat</code>的工作原理。该类只存了图像数据的指针，要复制图像数据的话要调用<code>src.copyTo(dest)</code></li>
-<li>图片转HSI再转回来后，我发现图像中出现一些绿色方块。经调试发现，H分量在运算的时候变成了nan。计算H的时候一定要判断分母是否为0！</li>
-<li>图像的RGB是倒着存的。我之前测试OpenCV的时候碰到了这个问题，写这个程序的时候就跳过了这个坑。</li>
-</ol>
-<h2 id="处理结果"><a href="#处理结果" class="headerlink" title="处理结果"></a>处理结果</h2><p><img src="//zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/0.jpg" alt="0.jpg"></p>
-<p>原图 </p>
-<p><img src="//zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/1RGB.jpg" alt="1.jpg"></p>
-<p>RGB风格转换结果</p>
-<p><img src="//zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/2CMY.jpg" alt="2.jpg"></p>
-<p>CMY风格转换结果</p>
-<p><img src="//zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/3HSI.jpg" alt="3.jpg"></p>
-<p>HSI风格转换结果</p>
-<h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>写博客真浪费时间。</p>
 
           
         
@@ -2918,9 +2918,9 @@ dp[a] - dp[b] &> (n - i)(sum[a] - sum[b]) \\
       
     
       
-        
-      
     
+      
+        
       
     
       
