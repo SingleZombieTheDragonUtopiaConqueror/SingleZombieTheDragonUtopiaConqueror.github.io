@@ -305,6 +305,255 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/08/09/slope-optimization-dp-glance/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/08/09/slope-optimization-dp-glance/" class="post-title-link" itemprop="url">速通斜率优化DP</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-08-09 00:22:18" itemprop="dateCreated datePublished" datetime="2019-08-09T00:22:18+08:00">2019-08-09</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/" itemprop="url" rel="index"><span itemprop="name">Computer Science</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/ACM/" itemprop="url" rel="index"><span itemprop="name">ACM</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>前几天在写<a href="http://acm.hdu.edu.cn/showproblem.php?pid=6619" target="_blank" rel="noopener">HDU6619</a>的时候，问题最终转化成了一个形如下式的DP：</p>
+<script type="math/tex; mode=display">
+dp[i] =
+\left\{
+\begin{aligned}
+   &x &i = 0 \\
+   &max_{0\leq j < i}\{dp[j] + (n - i)(\Sigma_{k = j}^{i - 1}arr[k])\} &0 < i \leq n
+\end{aligned}
+\right.
+\\</script><p>这个式子很简单，也就是当前状态的值由前面某个状态的值加上两个状态之间的数组值的和得到，且当前状态的值要尽可能大。按照式子直接枚举当前状态的上一状态的话，复杂度是$O(n^2)$。但本题的$n$是$10^5$，直接写肯定会T掉。我一时半会没有想出优化的方法，看了题解才想起来，这个DP可以用<strong>斜率优化</strong>来加速转移。于是，我准备快速复习一下斜率优化的用法。</p>
+<h2 id="斜率优化DP用法示例"><a href="#斜率优化DP用法示例" class="headerlink" title="斜率优化DP用法示例"></a>斜率优化DP用法示例</h2><p>还是回到刚刚那个式子:</p>
+<script type="math/tex; mode=display">
+dp[i] =
+\left\{
+\begin{aligned}
+   &x &i = 0 \\
+   &max_{0\leq j < i}\{dp[j] + (n - i)(\Sigma_{k = j}^{i - 1}arr[k])\} &i>0
+\end{aligned}
+\right.
+\\</script><p>右边一堆求和实在是太碍眼了。我们可以先对数组求前缀和，这样求和直接被前缀和做差代替：</p>
+<script type="math/tex; mode=display">
+dp[i] =
+\left\{
+\begin{aligned}
+   &x &i = 0 \\
+   &max_{0\leq j < i}\{dp[j] + (n - i)(sum[i] - sum[j])\} &i>0
+\end{aligned}
+\right.
+\\</script><p>如果没有那个$(n - i)$就好了。这样上一状态的贡献永远是$dp[j] + sum[j]$，只要对每个状态求这个值再取最大就可以直接$O(1)$获取之前答案的最大贡献了。问题是，前面乘了一个$(n - i)$后，之前状态的贡献就和当前的$i$有关系了。之前所有状态的部分贡献$dp[j],sum[j]$已经是完全确定的东西了，加上当前的$i$就能算出之前状态的全部贡献。那么，有没有一个仅通过当前的$i$来衡量之前哪个方案更优的方法呢？</p>
+<p>如果之前存在两个状态$a,b$，不妨设$a &lt; b$。那么，当从$a$比从$b$转移更优的时候是怎么样的呢？我们不妨列出此时两个状态的贡献值不等式，并且把含$i$的部分移到不等号的一边去。</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+dp[a] + (n - i)(sum[i] - sum[a]) &> dp[b] + (n - i)(sum[i] - sum[b]) \\
+dp[a] - (n - i)sum[a] &> dp[b] - (n - i)sum[b] \\
+dp[a] - dp[b] &> (n - i)(sum[a] - sum[b]) \\
+\frac{dp[a] - dp[b]}{sum[a] - sum[b]} &> n - i
+\end{aligned}</script><p>由于前缀和数组递增，$sum[a] &gt; sum[b]$，不等式不用变号。</p>
+<p>也就是说，通过计算两个状态的$dp$数组差除以$sum$数组差，并将这个结果与$n - i$比较，我们就能知道之前两个状态孰优孰劣。这个计算出的值是反映状态好坏的本质属性，因为这个值的计算与当前的$i$无关。由于这个计算值和数学上斜率的计算十分相似，因此才有斜率优化这个名字。</p>
+<p>如果把之前所有状态都看成一个$(sum[j], dp[j])$的二维点，现在我们知道了$n - i$的值，那么之前哪个状态最优呢？</p>
+<p>我们从左到右从两两相邻的点连线。如果两两相邻的点的斜率是递减的，那就好办了：这就说明，前面有很多点对的斜率大于$n - i$，后面有很多点对的斜率小于$n - i$。那么中间的某个点就是最优的，那个点和它前一个点的斜率大于$n - i$，和它下一个点的斜率小于$n - i$。它比左边的点优，也比右边的点优。</p>
+<p>问题是，如果出现了某三个从左到右相邻点$a, b, c$，且$ab$斜率小于$bc$呢？也就是相邻点对的斜率不是增减的。这种情况下，若斜率$ab$和$bc$都比$n - i$小，则最左边的$a$点最优；反之，若两个斜率都比$n - i$大，则最右边的点$c$最优。剩下的情况只有斜率$ab$小于$n - i$，斜率$bc$大于$n - i$这种情况。但是，此时$a$比$b$优，$c$也比$b$优。可以看到，无论什么情况下，$b$都不是最优的。因此，$b$点永远不会是上一个最优状态，可以把它“抛走”，再也不考虑它了。</p>
+<p>也就是说，可能作为上一个最优状态的点，它们的$(sum[j], dp[j])$构成的二维点的斜率永远是单调递减的。这个单调性，是斜率优化DP的根本原因。</p>
+<p>有了上述的分析，选上一个最优状态，不再需要枚举每一个之前的状态，而是维护一个可能作为上一状态的集合就可以了。这个集合从左到右存了一系列的可能的状态。每次要找最优状态的话，就像之前分析的那样，找到第一个斜率小于的$n - i$的左边的点，那个点对应状态就是最优的上一状态。由于单调性的存在，这个过程可以用二分完成。但由于我们每次的$n - i$是一个递减的量，也就是说我们每次需要找的斜率只会越来越小。那么那些斜率很大的点都可以扔掉去。因此，在本题中，可以不去二分查找，而去删掉前面那些已经斜率过大的点。最后剩下来的第一个点，它和下一个点的斜率小于$n - i$，它就是本次要寻找的最优上一状态。这个集合可以用双端队列Deque来维护。</p>
+<p>同时，这个集合还需要进行维护。每次新得到了一个dp值后，我们就要试图把新的状态加入这个集合中。为了保证集合中点斜率的单调性，我们要取出集合最后两个点，拿它们和当前的点算出两个斜率，看看这个斜率是否满足单调递减的性质。如果不满足，就把中间的那个点去掉，也就是把原来集合中的最后一个点去掉。</p>
+<h2 id="Deque实现斜率优化DP方法简述"><a href="#Deque实现斜率优化DP方法简述" class="headerlink" title="Deque实现斜率优化DP方法简述"></a>Deque实现斜率优化DP方法简述</h2><p>其实上面那道题并不适合用来学习斜率DP，因为它实际上牵扯的细节很多，dp式子并没有上面写得那么简单。<a href="http://acm.hdu.edu.cn/showproblem.php?pid=3507" target="_blank" rel="noopener">HDU3507</a>应该是最适合写的第一道斜率优化DP题。</p>
+<p>这道题状态转移的式子比上面那个例子要复杂一点，而且是取最小值，需要维护的斜率应该满足单调递增而不是单调递减，但本质还是对前缀和什么的做一些运算，再进行斜率的比较，最终优化的方法还是完全一样的。</p>
+<p>这道题中，不等式右边的与当前状态$i$有关的值是$sum[i]$，它是一个单调递增的量，正好与我们维护的是一个单调递增的斜率集合“相符合”（这里“符合”的意义比较微妙，也就是说，如果这里$sum[i]$不是单调递减，是递增或是无规律的，那么就不能用Deque来做了）。因此，我们在找最优状态的时候，不用去二分的找第一个斜率大于某个值的点，而是把前面斜率小的点都删掉去，把剩下来的第一个点作为上一状态。这个东西可以用Deque维护。</p>
+<p>因此，在写代码时，应该按照下列步骤。</p>
+<ol>
+<li>读入数据，初始化dp等数组，该求前缀和求前缀和。</li>
+<li>声明一个deque\&lt; int &gt;，作为上一状态的集合。如果0位置的状态一开始就能被转移，就往deque里push一个0。</li>
+<li>开始for循环，遍历每一个当前状态$i$。</li>
+<li>for循环体中：如果deque的大小大于等于2，说明deque中可能存在斜率不合法的点，循环寻找是否存在这样的点。每次循环得到front()，再pop_front()，再得到front()，也就是取出队列中前面两个点。判断这这两点的斜率，若斜率小于（大于）关键值（本例是2 * sum[i]），则continue掉，也就是扔掉第一个点，继续循环判断；否则，把取出的第一个点push_front()放回去，退出循环。这样，第一个斜率大于（小于）关键值的点就变成了que.front()。</li>
+<li>不妨设j = que.front()，这个j就是最优的上一状态。用推好的dp式子计算dp[i]。</li>
+<li>把状态i加入队列并维护队列的单调性。和开始的操作类似，循环判断deque大小是否大于等于2，若是，则取出队列队尾的两个点，计算它们和新的点$i$的两个斜率是否满足应该具有的单调性。若不满足单调性，则扔掉队尾的点，循环继续。</li>
+<li>把状态i用push_back()扔进队列的队尾。</li>
+<li>for循环结束</li>
+<li>输出dp数组中的答案。</li>
+</ol>
+<h2 id="二分查找实现斜率优化DP方法简述"><a href="#二分查找实现斜率优化DP方法简述" class="headerlink" title="二分查找实现斜率优化DP方法简述"></a>二分查找实现斜率优化DP方法简述</h2><p><a href="http://codeforces.com/problemset/problem/674/C" target="_blank" rel="noopener">CodeForces 674C</a>也是一道斜率优化DP的题目。这道题递推式子相较之前两题更复杂了一些，而且它进行比较的和$i$有关的关键值并不是单调的。因此，这题不能再用Deque来维护最优上一答案，而是要用一个vector来存可能的状态，并进行二分查找。</p>
+<p>写代码的步骤也类似，只是寻找上一最优答案的过程有所变更。</p>
+<ol>
+<li>读入数据，初始化dp等数组，求好所需变量。</li>
+<li>声明一些vector\&lt; int &gt;，作为上一状态的集合。如果dp某一维的0位置的状态一开始就能被转移，就往对应vector里push一个0。</li>
+<li>开始for循环，遍历每一个当前状态$i$。如果dp数组和本题一样是多维的，那么再加一层for循环，按照顺序遍历dp数组的每一维。</li>
+<li>for循环体中：如果对应vector数组是空的，那么说明该状态不存在上一状态，直接跳过；否则，声明一个存储最优上一个状态的变量ii。ii的初始值是vector数组的第一项，因为我们将要二分查找的是最后一个斜率满足不等式的右端点，若二分查找什么都没找到，那么说明最优的点就是数组中的第一项。</li>
+<li>二分查找最后一个斜率满足不等式的右端点。实现时把二分查找的mid对应状态套入不等式判断即可，若满足不等式则更新临时变量ii为vector中mid处对应的状态。</li>
+<li>二分查找结束，ii就是最优的上一状态。用推好的dp式子计算dp[i]。</li>
+<li>把状态i加入数组并维护数组的单调性。循环判断deque大小是否大于等于2，若是，则取出数组尾的两个点，计算它们和新的点$i$的两个斜率是否满足应该具有的单调性。若不满足单调性，则扔掉数组尾的点，循环继续。</li>
+<li>把状态i用push_back()扔进数组尾。</li>
+<li>for循环结束</li>
+<li>输出dp数组中的答案。</li>
+</ol>
+<h2 id="写代码的注意事项"><a href="#写代码的注意事项" class="headerlink" title="写代码的注意事项"></a>写代码的注意事项</h2><p>写代码的时候会发现，不等式左边分子的那个量会被反复地用到。用一个函数来计算这个值会更加方便可靠。</p>
+<p>在比较相邻两个斜率，而分子分母都是整数的时候，得用交叉相乘来比较斜率，规避除法。</p>
+<h2 id="总结-感想"><a href="#总结-感想" class="headerlink" title="总结/感想"></a>总结/感想</h2><h3 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h3><p>我算是大概理解了斜率优化DP的原理，但对什么时候可以用这个算法还有一点模糊。斜率优化DP本质上是在寻找最优上一状态时，找到衡量每一个状态的本质量，也就是那个二维点。对于每一对二维点，都有同一个判断它们两个谁更优的标准，那就是比较二者斜率是大于还是小于某个值（等于的情况可以忽略）。由于判断条件相同，只有斜率单调的点才可能成为最优上一状态。又由于有了单调的性质，才能在状态中进行二分查找。如果进行判断的斜率值还相对应是单调的，那么二分查找都可以省略，直接就可以得到最优的上一个状态。</p>
+<p>能用斜率DP优化问题的核心原因就在于，对每一对二维点，判断它们谁更优的标准是一样的。但是，如果对于一个dp递推式子推导出的不等式中，作为分母的不是$(sum[a] - sum[b])$，而是另一组值，这一组值并不满足单调。这样的话，哪怕对于$a &gt; b$的点，算出来的分母可能是个负数，除过去的话不等式要变号。对于相邻的两个点，有的时候斜率大于某个值更优，有的时候是斜率小于某个值更优。好像在这种情况下就不能用斜率优化DP了。</p>
+<h3 id="算法适用情况"><a href="#算法适用情况" class="headerlink" title="算法适用情况"></a>算法适用情况</h3><p>能够用斜率优化DP的题都有类似的地方。这些题的dp在计算新值时，是在旧dp值的基础上加上一个和当前状态$i$有关的贡献。这个贡献往往是和上一位置到这一位置的区间和有关，以保证不等式分母是永远是正的。当看到一个类似这样的DP，且数据范围不允许$O(n^2)$时，就要考虑用斜率优化DP了。</p>
+<p>和大部分DP题目一样，这种题目推式子是最重要的，代码实现上只要写个2、3题就能学会套路，很难出错。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/08/02/Introspection-of-Perfectionism/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2408,245 +2657,6 @@ f_Y(y) &= 0 \ &else
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/05/23/Probability-Review/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhou Yifan">
-      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="周弈帆的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/05/23/Probability-Review/" class="post-title-link" itemprop="url">概率论与数理统计复习：一、概率论基本概念 ~ Prepare for exam</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2019-05-23 01:00:23" itemprop="dateCreated datePublished" datetime="2019-05-23T01:00:23+08:00">2019-05-23</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/math/" itemprop="url" rel="index"><span itemprop="name">math</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="第一章-概率论基本概念"><a href="#第一章-概率论基本概念" class="headerlink" title="第一章 概率论基本概念"></a>第一章 概率论基本概念</h2><h3 id="1-随机试验"><a href="#1-随机试验" class="headerlink" title="1.随机试验"></a>1.随机试验</h3><p>世界上，没有两片相同的叶子。在没有时间倒流的情况下，严格上来讲，我们无法在完全一样的条件下做同一件事情。</p>
-<p>然而，由于生活中许多事情的性质相同，我们在不同时间重复做这一件事，可以看成是在一个时间多次做这件事产生了多个结果。</p>
-<p>而随机试验则是<strong>可以在相同条件下重复进行、结果不定、不可预知</strong>的试验。</p>
-<p>这一小节很水，我们赶快把它跳过。</p>
-<h3 id="2-样本空间、随机事件"><a href="#2-样本空间、随机事件" class="headerlink" title="2.样本空间、随机事件"></a>2.样本空间、随机事件</h3><p>这一小节的讨论全部是基于集合的。</p>
-<p>我们把一个试验的结果用集合表示，这个集合被赋予了高贵的名字：<strong>样本空间</strong>，记为$S$。$S$中的子集也有了别名，叫<strong>事件</strong>。空集叫<strong>不可能事件</strong>，全集叫<strong>必然事件</strong>，单个元素的集合叫做<strong>基本事件</strong>。事件就是集合，你可以做 $\bigcup  \bigcap \subset - =$等基本运算。由于有全集，你还可以做补运算，结果等价于用全集减该集合。</p>
-<p>集合有一堆运算律，比如德摩根律。这些东西应该是集合论讲的，这里就不复习了，考试也不会考。事实上，集合定律不用特别去记，集合定律和逻辑运算定律基本一样，而后者广泛存在于我们在生活中的一些思维方式里。</p>
-<p>特别的，两个交为空的事件互为<strong>互不相容事件</strong>，并集是全集的互不相容事件叫做<strong>对立事件</strong>。</p>
-<p>这一小节我们取了很多名字。但是这些名字记不住也没关系，因为这些名字非常容易从字面上理解它们的定义。快进入下一节吧。</p>
-<h3 id="3-频率与概率"><a href="#3-频率与概率" class="headerlink" title="3.频率与概率"></a>3.频率与概率</h3><p>为什么要学概率呢？明明结果不可预知啊！</p>
-<p>恰恰相反，正是因为结果不可预知，我们才需要学习概率，掌握事情发生背后的规律，从而更好地掌控随机事件。</p>
-<p>概率有用的证据就是，无数次重复同一随机试验后，试验结果会十分接近其概率。</p>
-<p>那概率是什么呢？概率就是个0~1的数。你硬要把它规定成0~10000里的数也可以，但没什么意义，因为概率是一个相对的概念——相对于样本空间这个全集而言。我们强行做了一个集合到数的映射，这个数越靠近1，表示它越接近必然事件，越可能发生。</p>
-<p>要定义概率，就要对「集合到数」这个函数做一些规定。对于集合函数$P$，任意事件$A$，$P(A)\geq0$；$p(S)=1$,其中$S$为样本空间；任意个彼此互不相容事件之并的函数值是每个事件函数值之和。满足了这三个条件，概率的一切东西都可以推出来了。</p>
-<p>考试与生活的应用中肯定不会取管定义。我们这里只注意概率的一个有用的性质：$P(A\bigcup B)=P(A) + P(B) - P(AB)$。这个性质由容斥原理而来，不仅概率函数P满足这个式子。第一章出的题目应该都会围绕这个式子出。两个事件各自的概率、两个事件并与交的概率，知道其中3个就可以推出剩下的。</p>
-<p>例题：设$A，B，C$是三个事件,$P(A) = P(B) = P(C) = 1/4， P(AB) = P(BC) = 0, P(AC) = 1/8$， 求$A,B,C$至少有一个发生的概率。</p>
-<p>解：<br>最后一句中文太不和谐了，把它转换成数学语言：求$P(A+B+C)$</p>
-<p>由容斥原理,$P(A+B+C) = P(A) + P(B) + P(C) - P(AB) - P(AC) + P(ABC)$</p>
-<p>$\because ABC\subset AB$   </p>
-<p>$\therefore P(ABC) \leq P(AB)$   </p>
-<p>$\because P(AB) = 0$   </p>
-<p>$\therefore P(ABC) = 0$</p>
-<p>$\therefore P(A+B+C) = 1/4 + 1/4 + 1/4 - 1/8 = 5/8$</p>
-<p>这题太水了，下一节。</p>
-<h3 id="4-古典概型"><a href="#4-古典概型" class="headerlink" title="4.古典概型"></a>4.古典概型</h3><p>生活中最常见的概率模型是：事件由有限个基本事件组成，基本事件概率相同。比如一百个人抽签，每个人抽中的概率就是1%。如果其中有二十个人是我派过去的抽签小队，那么这个签被二十个人中某个人抽中的概率就是20%。这个概率模型非常容易理解。</p>
-<p>换个角度来看，求概率问题就变成了计数问题。计算出所有基本事件的个数，这个数就是所有概率的分母。再计算出你要求的事件包含的基本事件数，把这个数作为分子。最终就可以计算出概率。</p>
-<p>这一小节理论上属于组合数学的范畴了，不太像概率论。但考试还是会考，我们还得复习。只要有高中的排列组合基础，这一小节就基本不用学了。看几道水题：</p>
-<p>例4.1：<br>从1~10中随机挑3个数，求：<br>（1）最小数为5的概率<br>（2）最大数为5的概率  </p>
-<p>解：</p>
-<p>$(1) C(5, 2) / C(10, 3) = 10 / 120 = 1 / 12$<br>$(2) C(4, 2) / C(10, 3) = 6 / 120 = 1 / 20$</p>
-<p>例4.2：<br>五双鞋子，随机取4只，求至少配成一双的概率</p>
-<p>解：  </p>
-<p>不妨求出配不成一双的概率，再求其对立事件。</p>
-<p>$P(至少配成一双) = 1-P(配不出一双) = 1 - C(5, 4)\times2^4 / C(10, 4) = 1 - 80 / 210 = 13/21$ </p>
-<h3 id="5-条件概率"><a href="#5-条件概率" class="headerlink" title="5.条件概率"></a>5.条件概率</h3><p>条件概率又是一个生活中常出现的概念。当一个事件极其复杂时，我们只能下一个大致的判断；但当你掌握的信息越来越多时，你之前下的判断的概率会越来越大。比如你掷两次骰子，你说你可以丢2次6出来，这个概率仅仅是1/36。当你第一次丢完，已经丢出了一个6后，你成功的概率就变成了1/6。</p>
-<p>从整体的角度来看，条件概率就是知道了某些条件后，原来的样本空间缩小了。满足这个条件的事件，它自己包含的基本事件不变，而整个样本空间又缩小，它发生的概率也会随之变大。</p>
-<p>设A，B为两个事件，$P(A) &gt; 0,P(B|A) = \frac{P(AB)}{P(B)}$称为A发生的条件下B发生的<strong>条件概率</strong>。</p>
-<p>这个定义不是特别直观，因为我们在生活中用的一般是条件概率的性质——乘法原理，即$P(AB) = P(A | B) \times P(B)$。</p>
-<p>比如，对面有3个怪和一个英雄，其中一个怪的效果是，你的英雄获得免疫。现在你可以造成两次无穷大的伤害，但是目标随机选定。求对面英雄死亡概率。我们通过直觉去考虑，我们要杀死对面英雄，必须要先杀死对面的特殊怪。杀死特殊怪的概率是1/4,在杀死特殊怪的条件下，杀死英雄的概率是1/3。所以杀死对面英雄的概率是$1/4\times1/3=1/12$.</p>
-<p>条件概率还有一些重要应用，比如<strong>全概率公式</strong>。设$B_1,B_2…B_n$互不相容，且并集为全集，则$P(A) = \sum_{i = 1}^nP(A|B_i)P(B_i)$。</p>
-<p>换句话说，某件事的概率不好求，我们只能在知道一些条件后才能确定该事件的概率。这个时候，我们要算无遗策，把所有下一步的情况考虑了，再算出每一个下一情况下，我们要求的事件的概率。最后乘一下，求个和。不过比较常见的是，我们下一步情况只有两种，因此我们只要算出下一个事件和其对立事件下，我们最后要求的事件的概率。我描述得比较抽象，不妨看一道例题：</p>
-<p>例5.1：</p>
-<p>甲袋中n白球m红球，乙袋中N白球M红球。从甲袋中取一个放到乙袋中，再从乙袋中取一个球。问取到的这个球是白球的概率。</p>
-<p>解：</p>
-<p>我们必须讨论一下从甲袋中取出的是什么，才好确定从乙袋中取白球的概率。  </p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-P(甲取白) &= \frac{n}{n + m},P(乙取白|甲取白) = \frac{N + 1}{N + M + 1}\\ \\
-P(甲取红) &= \frac{m}{n + m},P(乙取白|甲取红) = \frac{N}{N + M + 1} \\ \\
-P(乙取白) &= P(甲取白)\times P(乙取白|甲取白) + P(甲取红)\times P(乙取白|甲取红)\\  \\
-&= \frac{n}{n + m}\times\frac{N + 1}{N + M + 1}+\frac{m}{n + m}\times  \frac{N}{N + M + 1}\\ \\
-&= \frac{nN + n + mN}{(n+m)(N+M+1)}\\
-\end{aligned}</script><p>从这里也可以看出，条件概率和全概率公式是十分符合我们生活中的思维方式的。</p>
-<p>全概率公式加上条件概率定义可以组合出一个很厉害的公式——贝叶斯公式：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-P(B_i|A) = \frac{P(A | B_i)P(B_i)}{ \sum_{j = 1}^nP(A|B_j)P(B_j)}
-\end{aligned}</script><p>这个公式乍一眼看很复杂，但仔细观察后发现，等式右边分子就是$P(AB_i)$,分母就是$P(A)$。这个式子给我们的直观感受是：我不知道B在A情况下发生的概率，但我知道A在B情况下发生的概率，那我再知道一些关于事件A发生的信息就可以求出B在A情况下发生的概率了。</p>
-<p>这个公式在生活也是非常实用的，通过它或许可以得到一些反直觉的结论。这也是数学的奇妙之处：源于生活中的直觉，又超过了直觉。(暂时没有找到说明这个的例子)</p>
-<p>看一个例题：</p>
-<p>例5.2<br>假设男性色盲率5%，女性色盲率0.25%，从男女相等的人群中随机挑一人，其为色盲。问该人是男性的概率。</p>
-<p>解：<br>设事件A：人是色盲，B：这人是男人，C：这人是女人。<br>则题目表述变为:$P(A|B) = 5\%, P(A|C)=0.25\%,P(B)=P(\overline B)=P(C)= 1/2,求P(B|A)$<br>由贝叶斯公式：$P(B|A) = \frac{P(A|B)P(B)}{P(A|B)P(B)+P(A|C)P(C))} =0.05\times 0.5 \div(0.05\times0.5+0.0025\times0.5) = 500/525 = 20/21$</p>
-<h3 id="6-独立性"><a href="#6-独立性" class="headerlink" title="6.独立性"></a>6.独立性</h3><p>在生活中，我们喜欢把没什么关系的时候瞎关联起来。比如，有人说，喝水会让人死亡，因为所有人活着的时候都喝了水。</p>
-<p>为了驳斥这个观点，我们提出了独立性的概念，用以了解两件事事件是否会有关联。具体来说，也就是一件事发生或不发生，另一件事发生的概率是否发生改变。</p>
-<p>若$P(AB) = P(A)P(B)$，则称A，B<strong>独立</strong>。</p>
-<p>由$P(AB) = P(A | B) \times P(B)$可知，A，B独立，意味着$P(A) = P(A|B)$，也就是B发生对A发生的概率毫无影响，符合我们直观上的感觉。</p>
-<p>回到之前提出的例子，我们可以用独立性的概念来不严格地解释这个问题。$P(喝水的人死亡) = P(喝水)P(人死亡)$，因为所有人喝水，这个式子显然成立。因此我们可以说明，喝水和死亡没有半毛钱关系，它们是独立的。</p>
-<p>独立性的运用也很广。我们生活中经常把两件事都发生的概率直接用两件事单独发生的概率乘起来，就是因为我们不自觉地假设两事情是独立的。</p>
-<p>定义独立性也没有什么的意义，就是为了方便说明。比如题目提到，这两件事是独立的，就是在说明你在算这两件事的概率时分开来算就行，不用考虑它们的影响。</p>
-<p>例6.1：</p>
-<p>一个盒子有3个A，2个B，2个C，另一个盒子有2个A，3个B，4个C，独立地分别地在两只盒子中各取一个东西，求<br>(1)至少一个A的概率<br>(2)1A1C的概率<br>(3)已知至少有一个A，求1A1C的概率</p>
-<p>解：<br>$(1) P = 1 - P(无A) = 1 - 4/7\times7/9 = 1 - 28/63 = 35/63 = 5/9$<br>$(2) P = 3/7\times4/9+2/7\times2/9 =16/63$<br>$(3) P = P(2) / P(1) = 16/35$</p>
-<p>可以看出，独立性什么新的概念也没有提出，就是方便以后的说明而已。</p>
-<h2 id="学习总结"><a href="#学习总结" class="headerlink" title="学习总结"></a>学习总结</h2><p>概率论第一章主要介绍了概率的基本定义，并且介绍了古典概型这一贴近生活的概率模型。</p>
-<p>这一章前半部分涉及集合运算、排列组合计数，这个东西比较看基本功，不需要特别地复习。后半部分一些条件概率的公式比较重要，需要理解记忆。最简单的条件概率公式倒也好理解，但贝叶斯公式和全概率公式如果忘记了推导的原理，还是挺麻烦的。题型应该也就按内容分成这两种。古典概型求概率，用排列组合靠大脑做；碰到需要用到概率公式的题目，用符号表示题目给的量，最后放进公式一算就行了。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>浙江大学 盛骤 谢式千 潘承毅，《概率论与数理统计》 第四版，高等教育出版社<br>例题来自于我们老师给我们布置的书后习题</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2693,7 +2703,7 @@ P(B_i|A) = \frac{P(A | B_i)P(B_i)}{ \sum_{j = 1}^nP(A|B_j)P(B_j)}
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">25</span>
+                    <span class="site-state-item-count">26</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2943,9 +2953,9 @@ P(B_i|A) = \frac{P(A | B_i)P(B_i)}{ \sum_{j = 1}^nP(A|B_j)P(B_j)}
   
     
       
-    
-      
         
+      
+    
       
     
       
