@@ -100,26 +100,26 @@
 <meta name="keywords" content="homework">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数字图像处理小作业2：图像扭曲与修复（高斯模糊、高斯噪声、维纳滤波）">
-<meta property="og:url" content="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework2/index.html">
+<meta property="og:url" content="https://zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/index.html">
 <meta property="og:site_name" content="周弈帆的博客">
 <meta property="og:description" content="数字图像处理小作业2代码仓库https://github.com/SingleZombie/WienerFilteringCpp 需求分析老师给的需求如下：  读入一幅灰度图像 生成模糊图像：高斯模糊滤波+噪声 利用维纳滤波去模糊  总结来说，本次作业处理的图像对象是灰度图。灰度图要经过扭曲和修复两个过程。扭曲是高斯模糊和噪声（我选择了高斯噪声），修复用的是维纳滤波的方法。 相比上次的作业，本次需">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework2/I_o.jpg">
-<meta property="og:image" content="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework2/I_n.jpg">
-<meta property="og:image" content="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework2/I_d.jpg">
-<meta property="og:image" content="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework2/origin.jpg">
-<meta property="og:updated_time" content="2020-01-04T19:59:18.387Z">
+<meta property="og:image" content="https://zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/I_o.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/I_n.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/I_d.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/origin.jpg">
+<meta property="og:updated_time" content="2020-01-06T07:30:43.417Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数字图像处理小作业2：图像扭曲与修复（高斯模糊、高斯噪声、维纳滤波）">
 <meta name="twitter:description" content="数字图像处理小作业2代码仓库https://github.com/SingleZombie/WienerFilteringCpp 需求分析老师给的需求如下：  读入一幅灰度图像 生成模糊图像：高斯模糊滤波+噪声 利用维纳滤波去模糊  总结来说，本次作业处理的图像对象是灰度图。灰度图要经过扭曲和修复两个过程。扭曲是高斯模糊和噪声（我选择了高斯噪声），修复用的是维纳滤波的方法。 相比上次的作业，本次需">
-<meta name="twitter:image" content="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework2/I_o.jpg">
+<meta name="twitter:image" content="https://zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/I_o.jpg">
 
 
 
 
 
 
-  <link rel="canonical" href="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework2/">
+  <link rel="canonical" href="https://zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/">
 
 
 
@@ -311,7 +311,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework2/">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhou Yifan">
@@ -354,7 +354,7 @@
                 
               
 
-              <time title="Created: 2019-12-26 15:11:59" itemprop="dateCreated datePublished" datetime="2019-12-26T15:11:59+08:00">2019-12-26</time>
+              <time title="Created: 2019-12-30 11:33:00" itemprop="dateCreated datePublished" datetime="2019-12-30T11:33:00+08:00">2019-12-30</time>
             
 
             
@@ -513,14 +513,14 @@
 <p>理清楚了每一条逻辑后，我修改了代码，在卷积核原点在中心时，图像终于能够正常地复原了。</p>
 <p>最后是<code>Filter2D</code>的问题。如果卷积操作是拿这个函数做，得到的复原图像四周就会有条纹。我开始分析这种问题出现的原因。从“只有四周有问题”这个事实上，我想到很可能是<code>Filter2D</code>对边界处理的方式和用FFT处理不同。FFT是把整幅图像当成一个循环的图像来处理，因此会出现最右边像素受到最左边的像素的影响这种问题。而<code>Filter2D</code>对边界的处理有多种方式。我查了一下函数说明，果然<code>Filter2D</code>默认是把边缘反射处理，和在频域运算的方法不相同。但我尝试把边缘循环处理的时候，函数却报错了。源代码Assert掉了循环处理，不允许使用。无奈之下，我只好不使用<code>Filter2D</code>。反正我已经完全理解了这些操作的细节了。</p>
 <p>最终程序的详细内容我就不讲了。感觉这份程序结构化做得非常棒，功能实现得非常完全。由于是作业，我还不得不加上了很多注释。相信大部分人都能看懂我那清晰易懂的代码。具体代码可以去代码仓库查看。</p>
-<h2 id="处理结果"><a href="#处理结果" class="headerlink" title="处理结果"></a>处理结果</h2><p><img src="//zhouyifan.net/2019/12/26/Digital-Image-Processing-homework2/I_o.jpg" alt></p>
+<h2 id="处理结果"><a href="#处理结果" class="headerlink" title="处理结果"></a>处理结果</h2><p><img src="//zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/I_o.jpg" alt></p>
 <p>原图</p>
-<p><img src="//zhouyifan.net/2019/12/26/Digital-Image-Processing-homework2/I_n.jpg" alt></p>
+<p><img src="//zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/I_n.jpg" alt></p>
 <p>噪声图</p>
-<p><img src="//zhouyifan.net/2019/12/26/Digital-Image-Processing-homework2/I_d.jpg" alt></p>
+<p><img src="//zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/I_d.jpg" alt></p>
 <p>修复结果</p>
 <p>附原图的彩图版本：</p>
-<p><img src="//zhouyifan.net/2019/12/26/Digital-Image-Processing-homework2/origin.jpg" alt></p>
+<p><img src="//zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/origin.jpg" alt></p>
 <h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>这个作业实在是太烦人了。原来我以为一个下午就能做完的东西，硬是做了两天。</p>
 <p>我遇到的问题实在是有些令人恼火。我既不是程序代码不会写，也不是算法原理没搞懂，而是API怎么调，某个操作的实现细节这些边界知识没有掌握。本次作业没增加多少我对复原算法的认识，倒是进一步强化了我搜索信息和理解信息的能力。</p>
 <p>之前，包括课本在内，很多介绍模糊和复原的文章都在用一个女性照片做为原图像。我一开始还没明白为什么。后来，在写程序碰到瓶颈之余，我好好分析了一下这个问题，总算得到了一个非常漂亮的结论：科研工作者大多为单身男性，每日面对的只有无情的代码和冷冰冰的文字。在这种恶劣的条件下，偶尔出现的女性照片，能给你黯淡的内心点上一丝救赎的光芒。所以，人们更多地选择那张女性照片。</p>
@@ -561,8 +561,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/12/23/Software-Engineering-Project/" rel="next" title="软件工程个人项目：数独软件">
-                <i class="fa fa-chevron-left"></i> 软件工程个人项目：数独软件
+              <a href="/2019/12/26/Digital-Image-Processing-homework1/" rel="next" title="数字图像处理小作业1：RGB转CMY转HCI及简单风格化（附OpenCV安装及基本使用方法）">
+                <i class="fa fa-chevron-left"></i> 数字图像处理小作业1：RGB转CMY转HCI及简单风格化（附OpenCV安装及基本使用方法）
               </a>
             
           </div>
@@ -571,8 +571,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/12/26/Digital-Image-Processing-homework1/" rel="prev" title="数字图像处理小作业1：RGB转CMY转HCI及简单风格化（附OpenCV安装及基本使用方法）">
-                数字图像处理小作业1：RGB转CMY转HCI及简单风格化（附OpenCV安装及基本使用方法） <i class="fa fa-chevron-right"></i>
+              <a href="/2020/01/05/Principles-of-Computer-Composition-cources-review-1/" rel="prev" title="计算机组成原理复习：第一章 概论">
+                计算机组成原理复习：第一章 概论 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
