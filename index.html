@@ -2711,7 +2711,23 @@ B = M_B \times 2^{E_B}</script><p>浮点数加减前要对齐阶，阶小往阶�
 <p>（以上三个任务共花费38分钟）</p>
 <h3 id="程序设计"><a href="#程序设计" class="headerlink" title="程序设计"></a>程序设计</h3><p>（已花费1小时）</p>
 <p>（又花费了2小时）</p>
-<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><h2 id="性能分析及程序优化"><a href="#性能分析及程序优化" class="headerlink" title="性能分析及程序优化"></a>性能分析及程序优化</h2><h2 id="最终程序代码说明"><a href="#最终程序代码说明" class="headerlink" title="最终程序代码说明"></a>最终程序代码说明</h2><h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><ul>
+<p>（又花费了1小时40分钟）</p>
+<h4 id="求解算法-1"><a href="#求解算法-1" class="headerlink" title="求解算法"></a>求解算法</h4><p>根据之前的面向对象分析与设计，我实现了4个类：<code>SudoMatrix, SudoChoice, SudoState, SudoSolveAlgorithm</code>。和设计的时候相比，每个类有一些变化。</p>
+<p><code>SudoMatrix</code>多写了很多方便调用的静态函数，比如位置坐标和第几个宫第几个数坐标的互相转换。</p>
+<p><code>SudoChoice</code>所有的操作都是封装好的，比如加入一个选项，去掉一个选项。</p>
+<p>由于大致的结构都已经预先设计好了，代码实现得比较顺利，Debug时间很少。</p>
+<p>最终求解算法定义如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SudoSolveAlgorithm</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// return true if the sudoku has solution</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">solve</span><span class="params">(SudoMatrix&amp; mat)</span></span>;</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    SudoSolveAlgorithm();</span><br><span class="line">    ~SudoSolveAlgorithm();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">dfs</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">fillState</span><span class="params">(<span class="keyword">const</span> SudoMatrix&amp; mat)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> SudoState _sudoState;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>算法只维护了一个变量：当前的数独状态。</p>
+<p>算法主要函数<code>solve</code>实现如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> SudoSolveAlgorithm::solve(SudoMatrix&amp; mat)</span><br><span class="line">&#123;</span><br><span class="line">    _sudoState = SudoState();</span><br><span class="line">    <span class="keyword">if</span> (!fillState(mat))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!dfs())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    mat = _sudoState.getMat();</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>和之前的活动图设计的一样，算法先把已有内容填充进数独矩阵中，之后进行dfs。如果有任意一个步骤中发现数独无解，就立刻返回false。如果数独成功求解出来，就把结果数独进行拷贝。</p>
+<p>dfs只对数独当前状态这个变量进行操作。不断找可能最小的下一状态，如果碰到了无解的情况就让状态回溯。</p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><h4 id="求解算法-2"><a href="#求解算法-2" class="headerlink" title="求解算法"></a>求解算法</h4><p>（测试求解算法正确性花费30分钟）</p>
+<p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/result1-1.jpg" alt="result1-1"></p>
+<p>我在main函数里添加了一些临时代码，以验证求解算法的正确性和效率。</p>
+<p>我在<a href="http://www.sudoku.name/index-cn.php这个网站上随便找了一个难度为困难的数独，在Release模式下运行代码。从结果中可以看出，算法非常高效且正确的完成了任务。" target="_blank" rel="noopener">http://www.sudoku.name/index-cn.php这个网站上随便找了一个难度为困难的数独，在Release模式下运行代码。从结果中可以看出，算法非常高效且正确的完成了任务。</a></p>
+<h2 id="性能分析及程序优化"><a href="#性能分析及程序优化" class="headerlink" title="性能分析及程序优化"></a>性能分析及程序优化</h2><h2 id="最终程序代码说明"><a href="#最终程序代码说明" class="headerlink" title="最终程序代码说明"></a>最终程序代码说明</h2><h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><ul>
 <li><p>19.12.24 11:36 </p>
 <ol>
 <li>添加博客地址。</li>
@@ -2759,6 +2775,21 @@ B = M_B \times 2^{E_B}</script><p>浮点数加减前要对齐阶，阶小往阶�
 </li>
 <li>博客进展<ol>
 <li>记录了花费在程序上的时间</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>20.1.10 15:48</p>
+<ul>
+<li>项目进展<ol>
+<li>完成求解算法</li>
+<li>求解算法基本测试完毕</li>
+</ol>
+</li>
+<li>博客进展<ol>
+<li>更新了求解算法的代码简要说明</li>
+<li>更新了程序设计花费时间</li>
+<li>更新了求解算法的正确性测试结果</li>
 </ol>
 </li>
 </ul>
