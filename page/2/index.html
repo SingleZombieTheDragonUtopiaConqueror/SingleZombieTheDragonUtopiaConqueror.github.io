@@ -305,6 +305,466 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/12/23/Software-Engineering-Project/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/12/23/Software-Engineering-Project/" class="post-title-link" itemprop="url">软件工程个人项目：数独软件</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-12-23 17:00:31" itemprop="dateCreated datePublished" datetime="2019-12-23T17:00:31+08:00">2019-12-23</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/" itemprop="url" rel="index"><span itemprop="name">Computer Science</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/Software-Engineering/" itemprop="url" rel="index"><span itemprop="name">Software Engineering</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="数独求解软件"><a href="#数独求解软件" class="headerlink" title="数独求解软件"></a>数独求解软件</h1><h2 id="Github链接"><a href="#Github链接" class="headerlink" title="Github链接"></a>Github链接</h2><p><a href="https://github.com/SingleZombie/sudoku-solver" target="_blank" rel="noopener">Sudoku Solver</a></p>
+<h2 id="PSP耗时表"><a href="#PSP耗时表" class="headerlink" title="PSP耗时表"></a>PSP耗时表</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>PSP2.1</th>
+<th>Personal Software Process Stages</th>
+<th>Expected time (min)</th>
+<th>Actual time (min)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Planning</td>
+<td>计划</td>
+<td>20</td>
+<td>50</td>
+</tr>
+<tr>
+<td>· Estimate</td>
+<td>· 估计这个任务需要多少时间</td>
+<td>20</td>
+<td>50</td>
+</tr>
+<tr>
+<td>Development</td>
+<td>开发</td>
+<td>980</td>
+<td></td>
+</tr>
+<tr>
+<td>· Analysis</td>
+<td>· 需求分析（包括学习新技术）</td>
+<td>50</td>
+<td>120</td>
+</tr>
+<tr>
+<td>· Design Spec</td>
+<td>· 生成设计文档</td>
+<td>150</td>
+<td></td>
+</tr>
+<tr>
+<td>· Design Review</td>
+<td>· 设计复审（和同事审核设计文档）</td>
+<td>-</td>
+<td></td>
+</tr>
+<tr>
+<td>· Coding Standard</td>
+<td>· 代码规范（为目前的开发指定合适的规范）</td>
+<td>30</td>
+<td></td>
+</tr>
+<tr>
+<td>· Design</td>
+<td>· 具体设计</td>
+<td>210</td>
+<td></td>
+</tr>
+<tr>
+<td>· Coding</td>
+<td>· 具体编码</td>
+<td>300</td>
+<td></td>
+</tr>
+<tr>
+<td>· Code Review</td>
+<td>· 代码复审</td>
+<td>60</td>
+<td></td>
+</tr>
+<tr>
+<td>· Test</td>
+<td>· 测试（自我测试，修改代码，提交修改）</td>
+<td>180</td>
+<td></td>
+</tr>
+<tr>
+<td>Reporting</td>
+<td>报告</td>
+<td>170</td>
+<td></td>
+</tr>
+<tr>
+<td>· Test Report</td>
+<td>· 测试报告</td>
+<td>80</td>
+<td></td>
+</tr>
+<tr>
+<td>· Size Measurement</td>
+<td>· 计算工作量</td>
+<td>30</td>
+<td></td>
+</tr>
+<tr>
+<td>· Postmortem &amp; Process Improvement Plan</td>
+<td>· 事后总结，并提出过程改进计划</td>
+<td>60</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>合计</td>
+<td>1170</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>具体任务划分</p>
+<ul>
+<li>开发 980<ul>
+<li>需求分析 50<ul>
+<li>列下任务的具体项 20</li>
+<li>评估自己是否缺少相关知识，如果缺少则去收集资料 30</li>
+</ul>
+</li>
+<li>生成设计文档 150<ul>
+<li>用例模型、基本类图 30</li>
+<li>动态模型设计 120</li>
+</ul>
+</li>
+<li>设计复审</li>
+<li>代码规范 30<ul>
+<li>查现有代码规范 20</li>
+<li>定义代码规范 10</li>
+</ul>
+</li>
+<li>具体设计 210<ul>
+<li>精化类图 60</li>
+<li>精化动态模型 120</li>
+<li>构件图 30</li>
+</ul>
+</li>
+<li>具体编码 300</li>
+<li>代码复审 60</li>
+<li>测试 180<ul>
+<li>单元测试 120<ul>
+<li>集成测试 60</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>报告 170<ul>
+<li>测试报告 80<ul>
+<li>用例设计 20</li>
+<li>测试 20</li>
+<li>报告撰写 40</li>
+</ul>
+</li>
+<li>计算工作量 30</li>
+<li>总结 60</li>
+</ul>
+</li>
+</ul>
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><h3 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h3><p>阅读作业要求文档后，我对需求的总结如下：</p>
+<p>任务主要分两个部分：数独生成和数独求解。</p>
+<p>数独生成要求通过可处理异常输入的命令行参数传入生成终局的数量，按照格式要求生成指定数量的终局。格式要求是数字用空格隔开，行末无空格，文件末无换行，终局间空一行。终局第一个数字为学号后两位之和模9加1。</p>
+<p>数独求解要求从命令行读取待求解数独文件名，从文件中读取所有终局并按和数独生成同一格式输出求解结果。</p>
+<p>由于数据求解需要数据，我还需要加入一个生成待求解的数独。参考附加任务的需求，待求解数独满足挖空数在30~60之间，每个宫不少于2个。</p>
+<h3 id="解法思考"><a href="#解法思考" class="headerlink" title="解法思考"></a>解法思考</h3><h4 id="数独终局生成"><a href="#数独终局生成" class="headerlink" title="数独终局生成"></a>数独终局生成</h4><p>由于数独的每一行都是不重复的，因此每一行可以看成一个9个数的排列。一行一行地生成数独或许是一个比较好的方法。</p>
+<p>数独的第一行就可以区别出一类数独。如果能得到一个终局的话，只需要修改第一行的映射，就能快速得到大量终局。同时，由于数独的限制比较强，搜索算法不会浪费很多时间在不合法终局上。如果知道了前几行，可以对剩下的部分进行dfs暴力搜索。这一步和数独求解完全相同，将在下一节分析。现在的问题就是如何生成前几行。</p>
+<p>假设现在我们得到了第一行的一个合法排列。对于给定的一行，考虑有多少新行，使得新行和给定的行的三部分都能放在同一个宫里。这是一个排列组合的问题，我用分类讨论的方法对它进行了求解。</p>
+<p>对于给定的行，行内的每个数只需要考虑它们来自哪个宫。不妨把给定的行表示为<code>[1 1 1 2 2 2 3 3 3]</code>，新行表示为<code>[0 0 0 0 0 0 0 0 0]</code>。0表示未填，1、2、3表示这个数来自旧行的哪一个宫。我们先考虑位置信息，最后再区分三个1、2、3。</p>
+<p>分类讨论<code>1 1 1</code>被怎么放到了新行。根据这三个数有几个放到了第二个宫、第三个宫，可分成四种情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[0 0 0 0 0 0 1 1 1]</span><br><span class="line">[0 0 0 1 0 0 1 1 0]</span><br><span class="line">[0 0 0 1 1 0 1 0 0]</span><br><span class="line">[0 0 0 1 1 1 0 0 0]</span><br></pre></td></tr></table></figure>
+<p>类似地，可以分类讨论，把2、3填入第二行，使得第二行合法。通过排列组合的计算，总共能得出$C_3^3C_3^3+C_3^2C_3^2C_3^1+C_3^1C_3^1C_3^1+C_3^0C_3^0=56$种不同的结果。</p>
+<p>这样分类的好处是，对于一个给定的第一行，每种生成的序列的不重复的。改变第一行的映射就能改变终局。而第一行由于第一个数固定，有$8!=40320$种可能。因此，用这种方法至少可以生成$56\times40320=2257920‬$种终局，这个数满足$10^6$的需求。</p>
+<p>因此终局生成的算法总结如下：</p>
+<ol>
+<li><p>固定第一行第一个数，随机生成一个排列</p>
+</li>
+<li><p>按上述方法枚举出第二行的所有可能，把对应的1、2、3转换成任意一个合法的序列。</p>
+</li>
+<li><p>使用求解方法得到一个终局。</p>
+</li>
+<li><p>交换数字映射来得到额外的终局。</p>
+</li>
+</ol>
+<p>如果仅仅要满足需求的话，最多只需要求解56个数独。如果要更多的终局的话，只需要在求解的时候多求几组解就行了。</p>
+<h4 id="数独求解"><a href="#数独求解" class="headerlink" title="数独求解"></a>数独求解</h4><p>我在玩数独的时候发现了两个性质：某个宫的某个数字只能填入一个位置；某一个位置只能被填入一个数。</p>
+<p>因此搜索时，可以加入下列策略：对于每个宫的每个数建立一个表，表示它的可选位置；对于每个位置建立一个候选数字表。如果数字的位置唯一或位置的候选数唯一，就填上这个数，更新所有的表。如果没有唯一的数，就选一个候选数最少的位置，尝试填入一个数字。如果某个数的可选位置为空或者某个位置的候选数字为空，就回溯，直到数独填完。</p>
+<h4 id="待求解数独生成"><a href="#待求解数独生成" class="headerlink" title="待求解数独生成"></a>待求解数独生成</h4><p>待求解数独要从终局中生成。根据需求，只需先随机总空数，再每个宫随机挖掉两个空，再随机挖空直至满足空格数即可。</p>
+<h2 id="设计实现过程"><a href="#设计实现过程" class="headerlink" title="设计实现过程"></a>设计实现过程</h2><h3 id="面向对象分析与设计"><a href="#面向对象分析与设计" class="headerlink" title="面向对象分析与设计"></a>面向对象分析与设计</h3><h4 id="用例图"><a href="#用例图" class="headerlink" title="用例图"></a>用例图</h4><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/UseCase.jpg" alt="用例图"></p>
+<p> 根据需求分析能够快速得到用例图。</p>
+<h4 id="基本类图"><a href="#基本类图" class="headerlink" title="基本类图"></a>基本类图</h4><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassDiagram1.jpg" alt="用例图"></p>
+<p>基本的类图建立如上。</p>
+<p>用户交互类负责处理输入输出，并且根据输入参数来调用执行该任务的类。</p>
+<p>为了使算法能够复用，每项任务的算法单独建立一个类。</p>
+<p>数独矩阵只存储了数独81个数的信息，该类被所有的任务类使用。在终局生成算法和求解算法中，会用到数独的其他信息，这些附加信息用一个新的数独状态类来存储。</p>
+<p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassDiagram1-2.jpg" alt="用例图"></p>
+<p>后来修改了一下类图的设计，三个任务器不应该做为用户交互类的子对象，应该是一种关联关系。</p>
+<p>（以上两个任务共花费27分钟）</p>
+<h4 id="活动图"><a href="#活动图" class="headerlink" title="活动图"></a>活动图</h4><h5 id="数独求解-1"><a href="#数独求解-1" class="headerlink" title="数独求解"></a>数独求解</h5><p>（花费40分钟）</p>
+<p>根据之前分析问题时的算法，得到以下活动图：</p>
+<p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/SudokuSolve.jpg" alt="用例图"></p>
+<h4 id="精化类图"><a href="#精化类图" class="headerlink" title="精化类图"></a>精化类图</h4><p>感觉visio建模很不方便，没有提供数组的定义。以下类图表示我在建类时的大致想法，与实际的类定义应该存在不小的出入。</p>
+<h5 id="数独矩阵"><a href="#数独矩阵" class="headerlink" title="数独矩阵"></a>数独矩阵</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassSudoMatrix.jpg" alt="用例图"></p>
+<h5 id="数独状态"><a href="#数独状态" class="headerlink" title="数独状态"></a>数独状态</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassSudoState.jpg" alt="用例图"></p>
+<h5 id="求解算法"><a href="#求解算法" class="headerlink" title="求解算法"></a>求解算法</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassSolver.jpg" alt="用例图"></p>
+<p>（以上三个任务共花费38分钟）</p>
+<h3 id="程序设计"><a href="#程序设计" class="headerlink" title="程序设计"></a>程序设计</h3><p>（已花费1小时）</p>
+<p>（又花费了2小时）</p>
+<p>（又花费了1小时40分钟）</p>
+<h4 id="求解算法-1"><a href="#求解算法-1" class="headerlink" title="求解算法"></a>求解算法</h4><p>根据之前的面向对象分析与设计，我实现了4个类：<code>SudoMatrix, SudoChoice, SudoState, SudoSolveAlgorithm</code>。和设计的时候相比，每个类有一些变化。</p>
+<p><code>SudoMatrix</code>多写了很多方便调用的静态函数，比如位置坐标和第几个宫第几个数坐标的互相转换。</p>
+<p><code>SudoChoice</code>所有的操作都是封装好的，比如加入一个选项，去掉一个选项。</p>
+<p>由于大致的结构都已经预先设计好了，代码实现得比较顺利，Debug时间很少。</p>
+<p>最终求解算法定义如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SudoSolveAlgorithm</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// return true if the sudoku has solution</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">solve</span><span class="params">(SudoMatrix&amp; mat)</span></span>;</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    SudoSolveAlgorithm();</span><br><span class="line">    ~SudoSolveAlgorithm();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">dfs</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">fillState</span><span class="params">(<span class="keyword">const</span> SudoMatrix&amp; mat)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> SudoState _sudoState;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>算法只维护了一个变量：当前的数独状态。</p>
+<p>算法主要函数<code>solve</code>实现如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> SudoSolveAlgorithm::solve(SudoMatrix&amp; mat)</span><br><span class="line">&#123;</span><br><span class="line">    _sudoState = SudoState();</span><br><span class="line">    <span class="keyword">if</span> (!fillState(mat))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!dfs())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    mat = _sudoState.getMat();</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>和之前的活动图设计的一样，算法先把已有内容填充进数独矩阵中，之后进行dfs。如果有任意一个步骤中发现数独无解，就立刻返回false。如果数独成功求解出来，就把结果数独进行拷贝。</p>
+<p>dfs只对数独当前状态这个变量进行操作。不断找可能最小的下一状态，如果碰到了无解的情况就让状态回溯。</p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><h4 id="求解算法-2"><a href="#求解算法-2" class="headerlink" title="求解算法"></a>求解算法</h4><p>（测试求解算法正确性花费30分钟）</p>
+<p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/Result1-1.jpg" alt="Result1-1"></p>
+<p>我在main函数里添加了一些临时代码，以验证求解算法的正确性和效率。</p>
+<p>我在<a href="http://www.sudoku.name/index-cn.php" target="_blank" rel="noopener">http://www.sudoku.name/index-cn.php</a> 这个网站上随便找了一个难度为困难的数独，在Release模式下运行代码。从结果中可以看出，算法非常高效且正确的完成了任务。</p>
+<h2 id="性能分析及程序优化"><a href="#性能分析及程序优化" class="headerlink" title="性能分析及程序优化"></a>性能分析及程序优化</h2><h2 id="最终程序代码说明"><a href="#最终程序代码说明" class="headerlink" title="最终程序代码说明"></a>最终程序代码说明</h2><h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><ul>
+<li><p>19.12.24 11:36 </p>
+<ol>
+<li>添加博客地址。</li>
+<li>完成PSP耗时表。</li>
+</ol>
+</li>
+<li><p>19.12.27 12:03</p>
+<ol>
+<li>分析题意，想出算法。</li>
+</ol>
+</li>
+<li><p>19.12.28 23:03</p>
+<ol>
+<li>设计用例图</li>
+<li>设计基本类图</li>
+</ol>
+</li>
+<li><p>20.1.1 21:41</p>
+<ul>
+<li><p>项目进展</p>
+<ol>
+<li>画完求解活动图</li>
+<li>精化求解模块的类图</li>
+<li>求解模块的程序设计中</li>
+</ol>
+</li>
+<li><p>项目更新</p>
+<ol>
+<li>修改基本类图</li>
+</ol>
+</li>
+<li><p>博客进展</p>
+<ol>
+<li>博客跟进项目进展</li>
+<li>添加未来任务的大标题</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>20.1.2 16:30</p>
+<ul>
+<li>项目进展<ol>
+<li>求解模块的程序设计中</li>
+</ol>
+</li>
+<li>博客进展<ol>
+<li>记录了花费在程序上的时间</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>20.1.10 15:48</p>
+<ul>
+<li>项目进展<ol>
+<li>完成求解算法</li>
+<li>求解算法基本测试完毕</li>
+</ol>
+</li>
+<li>博客进展<ol>
+<li>更新了求解算法的代码简要说明</li>
+<li>更新了程序设计花费时间</li>
+<li>更新了求解算法的正确性测试结果</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/11/17/Good-day/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2283,218 +2743,6 @@ g(x) &= (1 + 3x + 3^2x^2 +...) - (1+2x+2^2x^2+...)
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/05/30/Probability-Review4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhou Yifan">
-      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="周弈帆的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/05/30/Probability-Review4/" class="post-title-link" itemprop="url">概率论与数理统计复习：四、随机变量的数字特征</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2019-05-30 22:42:26" itemprop="dateCreated datePublished" datetime="2019-05-30T22:42:26+08:00">2019-05-30</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/math/" itemprop="url" rel="index"><span itemprop="name">math</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="第四章-随机变量的数字特征"><a href="#第四章-随机变量的数字特征" class="headerlink" title="第四章 随机变量的数字特征"></a>第四章 随机变量的数字特征</h2><p>自第二章介绍了随机变量这个概念后，我们一直都在学随机变量的一些性质，或者是从随机变量上定义出来的一些概念。这一章依旧如此。我们将继续学习随机变量的数字特征。标题看起来依然那么高级，但实际内容却十分贴近生活。</p>
-<h3 id="第一节-数学期望"><a href="#第一节-数学期望" class="headerlink" title="第一节 数学期望"></a>第一节 数学期望</h3><p>赌博是一项自古以来就有的活动。由于赌博失败会给社会安定带来影响，我们是不允许进行金额过大的赌博的。</p>
-<p>但是，人还是喜欢赌博。为什么呢？赌博，意味着你花少量代价，就可以获得大量的回报。人在想着大量的回报的时候，就会沉浸于幻想中，而完全忽略了赌博失败带来的后果。</p>
-<p>参与赌博的人中，有一些人比较聪明。他们为了赚更多的钱，就开始研究赌博的原理。最终，他们创造了概率论。概率论不仅给我们的生活带来了很多启示，为我们提供了便利，还让我们大二学生的学习生活充满了紧张与压力。</p>
-<p>扯远了。现在你需要支付50元，你40%的概率可以得到100元，你和不和我赌博呢？</p>
-<p>数学家为了研究自己是赚了还是亏了，怎么赚得更多，就开始研究起这种类型的赌博问题。仔细一想，对于上述的赌博，40%的概率，意味着100局大概有40盘左右是赢钱的。玩100局，可以赚到4000元，但要投入5000元玩。所以，这样的赌博极有可能是亏钱的。</p>
-<p>100局赚4000元，平均一下1局赚40块钱。这样一个描述你获得的结果的大概值的东西，就叫做<strong>数学期望</strong>。可以简称<strong>期望</strong>。随机变量$X$的期望记为$E(X)$。</p>
-<p>刚刚赌博成功与失败，其实就是一个0-1分布。如果赌博多次，就是一个二项分布。显然，期望是属于随机变量的。有了随机变量，就有期望。</p>
-<p>从刚刚的例子可以看出，我们用概率乘上随机变量的值，似乎就可以算出期望了。期望的计算方法正是如此。对于离散型随机变量，期望就是所有随机变量的值乘上对应概率再求个和，即对于$P\{X = x_k\} = p_k, E(X) = \sum_{k = 1}^{\infty}x_kp_k$。与之对应，对于连续型随机变量，就是概率密度乘值再求积分，即对于概率密度函数$f_X(x), E(X) = \int_{-\infty}^{\infty}xf(x)dx$。当然，期望存在的前提是，求和或者积分是收敛的。</p>
-<p>上面两个式子计算起来可能会很熟悉。事实上，我们之前一直都再对概率p做积分或求和。现在只是在前面乘了一个x后再做运算而已。</p>
-<p>期望还有一个名字，叫<strong>均值</strong>。期望的现实意义和平均数很类似，它们都反映了把整体求和再平均分给每一种情况的值。但是，平均值是对于一些样本而言的，而我们算期望只是从理论出发，对一个已知的分布进行计算。后面数理统计会再讲到平均值。</p>
-<p>$E(X)$可以看成一个记号，但把它看成一个函数就更加准确了。输入一个随机变量$X$，就可以输出一个期望值$E(X)$。既然这是一个函数，一种运算，那么它就有一些运算的性质。由于期望的定义比较简单，以下性质就直接列出来了：</p>
-<p>(1)$E(C) = C$ ($C$为常数)  //常数都不是会变的量，在任何时候值都不变<br>(2)$E(CX) = CE(X)$ //做期望的时候是在做加法，每个数都乘了一个常数的话，这个常数可以作为公因子提出<br>(3)$E(X+Y) = E(X)+E(Y)$ //期望是加法，中间可以拆开来<br>(4)$E(XY) = E(X)E(Y) \Longleftarrow XY独立$ //易证</p>
-<h3 id="第二节-方差"><a href="#第二节-方差" class="headerlink" title="第二节 方差"></a>第二节 方差</h3><p>在某项竞技项目中，可能两个人平均水平相当（或者说整体的水平和相当），但是两个人给人的感觉不同。一个人时而独挑大梁，时而一声不响；另一个人稳稳当当，每次表现得都差不多。我们把前者叫做浪，后者叫做稳。真正厉害的人应该稳重带浪，浪中带稳。看似波澜不惊，时则暗流涌动。</p>
-<p>扯远了。上述现象表明，事情除了整体表现的好坏之外，表现是否稳定也是一个重要的评判标准。</p>
-<p>怎么衡量这种不稳定呢？试想一下，如果做出一个稳健的人和一个不稳健的人的“表现-比赛场次折线图”，稳健的人的曲线肯定在中间某条线附近略有波动，而不稳健的人的曲线一定陡峭曲折，时上时下。这个不稳定的值和平均表现有关，也与表现的差值有关。</p>
-<p>显然，用$X - E(X)$可以得到表现与期望的差值,这个差值可以反映出表现的波动情况。为了消除负数的影响，人们把$E((X - E(X))^2)$定义为<strong>方差</strong>，也就是每次表现与期望之差的平方，再求一次期望。<strong>方差</strong>记为$D(X)$。</p>
-<p>方差定义的式子十分便于理解：看一看每个数和期望值的差距，把这种差距累加起来，再平均一下。但这个式子并不是很好用。注意到$E((X - E(X))^2) = E(X^2 - 2XE(X) + E^2(X)) = E(X^2) - 2E^2(X) + E^2(X) = E(X^2) - E^2(X)$。这个式子清爽多了。</p>
-<p>方差和均值一样，可以看成是一个函数，同样有一堆的性质：</p>
-<p>(1)$D(C) = 0$ //不会变的东西哪有不稳定性呢？<br>(2)$D(CX) = C^2D(X)$ //平方导致的结果<br>$D(X + C) = D(X)$ //移动一下又不会改变波动的幅度<br>(3)$D(X + Y) = D(X) + D(Y) + 2(E(XY) - E(X)E(Y))$<br>证明：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-D(X + Y) &= E((X+Y)^2) - E^2(X + Y) \\
-&= E(X^2) + 2E(XY) + E(Y^2) - (E^2(X) + 2E(X)E(Y) + E^2(Y)) \\
-&= (E(X^2) - E^2(X)) + (E(Y^2) - E^2(Y)) + 2(E(XY) - E(X)E(Y)) \\
-&= D(X) + D(Y) + 2(E(XY) - E(X)E(Y))
-\end{aligned}</script><p>由于XY独立的时候，$E(XY) = E(X)E(Y)$，上式最后一项为0，式子可以简写为$D(X + Y) = D(X) + D(Y)$</p>
-<p>$(E(XY) - E(X)E(Y))$这个东西和XY的独立性似乎有关。下一节会用到这个东西，我不得不把这个式子证了一下。</p>
-<p>有了期望、方差这两大武器，我们可以挖掘出随机变量的更多信息了。期望反映了一个随机变量整体值的大小，方差反映了值的分散程度。</p>
-<p>为了好好试一试这两把武器，我们去挑战一下已经被我们战胜过几个小随机变量。</p>
-<p>对于0-1分布$X \sim b(1,p)$：<br>$E(X) = 0\times(1 - p) + p = p$<br>$E(X^2) = 0\times(1 - p) + p$<br>$D(X) = E(X^2) - E^2(X) = p - p^2 = p(1 - p)$</p>
-<p>对于二项分布$X \sim b(n, p)$，n次实验都是独立的<br>$E(X) = \sum_{i = 1}^{n}p = np$<br>$D(X) = \sum_{i = 1}^{n}p(1 - p) = np(1 - p)$</p>
-<p>经过严密的计算后可以得知：<br>$X \sim \pi(\lambda), D(X) = E(X) = \lambda$<br>$X$为指数分布，则$E(X) = \theta, D(X) = \theta^2$</p>
-<p>如果是$X \sim N(\mu, \sigma^2)$的正态分布，就更容易表示了。$E(X) = \mu, D(X) = \sigma$</p>
-<p>我们讲了随机变量的这么多性质，最后还是和概率脱不了干系。如果一个随机变量的方差比较小，那么随便取一个数，这个数离平均值比较远的概率就会更小。严谨地说，通过方差的概念，有以下不等式，被称为切比雪夫不等式：</p>
-<p>$P\{|X - \mu|&gt;\epsilon\} \leq \frac{\sigma^2}{\epsilon^2}$</p>
-<p>反着写也是一样的：</p>
-<p>$P\{|X - \mu|\leq\epsilon\} \geq 1 - \frac{\sigma^2}{\epsilon^2}$</p>
-<h3 id="第三节-协方差与相关系数"><a href="#第三节-协方差与相关系数" class="headerlink" title="第三节 协方差与相关系数"></a>第三节 协方差与相关系数</h3><p>上一节我们就注意到，$(E(XY) - E(X)E(Y))$这个式子不太对劲，它似乎和XY变量的独立性有关。把它做一些数学上的变换，可以得到$(E(XY) - E(X)E(Y)) = E((X - E(X))(Y - E(Y)))$，后面这个式子和方差的式子长得非常像。为了节约取名时间，人们把它叫做<strong>协方差</strong>，记为$Cov(X,Y)$。</p>
-<p>协方差又有一堆性质：<br>(1)$Cov(aX,bY) = abCov(X,Y)$<br>(2)$Cov(X_1 + X_2, Y) = Cov(X_1, Y) + Cov(X_2, Y)$<br>同样，由观察很容易得知,$Cov(X,X) = D(X)$，一个随机变量和自己的协方差就是自己的方差。</p>
-<p>协方差和独立性有关，但是不同数的协方差有大有小啊！独立性应该描述的是两个随机变量之间的关系，但我只要稍微乘一下其中一个变量，协方差的值就会改变(见性质1)。有没有一个专门用来表达和独立性有关的量呢？</p>
-<p>可以发现,$0\leq \frac{Cov(X, Y)}{\sqrt{D(X)}\sqrt{D(Y)}}\leq 1$恒成立，那我们就用$\rho_{xy} =\frac{Cov(X, Y)}{\sqrt{D(X)}\sqrt{D(Y)}}$这个量好了！$\rho_{xy}$叫作<strong>相关系数</strong>。</p>
-<p>两个随机变量独立，则相关系数为0；相关系数为0，但两个随机变量不一定独立。因为相关系数比独立性的范畴要小，它只反映了两个变量线性上的相关性。</p>
-<h3 id="第四节-矩、协方差矩阵"><a href="#第四节-矩、协方差矩阵" class="headerlink" title="第四节 矩、协方差矩阵"></a>第四节 矩、协方差矩阵</h3><p>定义$E(X^k)$为<strong>k阶原点矩</strong><br>定义$E((X - E(X))^k)$为<strong>k阶中心矩</strong><br>定义$E((X - E(X))^k(Y - E(Y))^l)为$<strong>k+l阶混合中心矩</strong></p>
-<p>可以看到，期望是1阶原点矩，方差是2阶中心矩，协方差是2阶混合中心矩.</p>
-<p>定义…………………………………………………………为协方差矩阵</p>
-<p>说实话，这一小节就是一堆定义，而且只是原来某些定义的拓展而已。我暂时不知道这些东西算出来有什么用，老师上课时也是一笔带过。这一小节就过了吧。</p>
-<h3 id="本章总结"><a href="#本章总结" class="headerlink" title="本章总结"></a>本章总结</h3><p>这一章我们学习了期望与方差——我们生活中评价随机变量的两个标准的严格数学定义。用了它们，我们就可以更好地生活，更好地判断赌博是亏了还是赚了，更好地在别人面前吹牛，可谓是一举多得。</p>
-<p>本章的重点，一是方差和期望的计算。这个计算本质上就是一个简单的积分，可以看成是对一元简单积分的复习。二是期望和方差的一些运算性质。这些运算性质会在题目和后面的学习里被广泛用到。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2541,7 +2789,7 @@ D(X + Y) &= E((X+Y)^2) - E^2(X + Y) \\
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-count">29</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2595,7 +2843,9 @@ D(X + Y) &= E((X+Y)^2) - E^2(X + Y) \\
                     
                       
                     
-                    <span class="site-state-item-count">1</span>
+                      
+                    
+                    <span class="site-state-item-count">2</span>
                     <span class="site-state-item-name">tags</span>
                   
                 </div>
@@ -2791,9 +3041,9 @@ D(X + Y) &= E((X+Y)^2) - E^2(X + Y) \\
   
     
       
-    
-      
         
+      
+    
       
     
       

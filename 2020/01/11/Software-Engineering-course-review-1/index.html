@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="我还剩软件工程这门课要考。这门课没留下真题，直接复习很难定下具体的目标。于是我决定还是用写复习笔记来复习，让复习的目的性更强，同时激发斗志，收获成就感。 软件工程这门课的性质十分特殊。这是一门几乎不涉及理论，却涉及工具的使用、大量的经验与人为设定的规则的一门课。讲得清楚一些，就是这门课几乎没有什么干货，应该更多地考察实践能力，而不是用靠着一张瞎记瞎理解就能回答的卷子来考察。但没办法，我纵使有着极为">
+<meta name="keywords" content="note">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件工程复习1：结构化编程">
+<meta property="og:url" content="https://zhouyifan.net/2020/01/11/Software-Engineering-course-review-1/index.html">
+<meta property="og:site_name" content="周弈帆的博客">
+<meta property="og:description" content="我还剩软件工程这门课要考。这门课没留下真题，直接复习很难定下具体的目标。于是我决定还是用写复习笔记来复习，让复习的目的性更强，同时激发斗志，收获成就感。 软件工程这门课的性质十分特殊。这是一门几乎不涉及理论，却涉及工具的使用、大量的经验与人为设定的规则的一门课。讲得清楚一些，就是这门课几乎没有什么干货，应该更多地考察实践能力，而不是用靠着一张瞎记瞎理解就能回答的卷子来考察。但没办法，我纵使有着极为">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://zhouyifan.net/2020/01/11/Software-Engineering-course-review-1/DFD1.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2020/01/11/Software-Engineering-course-review-1/DFD2-1.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2020/01/11/Software-Engineering-course-review-1/DFD2-2.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2020/01/11/Software-Engineering-course-review-1/DFD2-3.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2020/01/11/Software-Engineering-course-review-1/NS.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2020/01/11/Software-Engineering-course-review-1/PAD.jpg">
+<meta property="og:updated_time" content="2020-01-11T14:06:04.138Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="软件工程复习1：结构化编程">
+<meta name="twitter:description" content="我还剩软件工程这门课要考。这门课没留下真题，直接复习很难定下具体的目标。于是我决定还是用写复习笔记来复习，让复习的目的性更强，同时激发斗志，收获成就感。 软件工程这门课的性质十分特殊。这是一门几乎不涉及理论，却涉及工具的使用、大量的经验与人为设定的规则的一门课。讲得清楚一些，就是这门课几乎没有什么干货，应该更多地考察实践能力，而不是用靠着一张瞎记瞎理解就能回答的卷子来考察。但没办法，我纵使有着极为">
+<meta name="twitter:image" content="https://zhouyifan.net/2020/01/11/Software-Engineering-course-review-1/DFD1.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="https://zhouyifan.net/2020/01/11/Software-Engineering-course-review-1/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>软件工程复习1：结构化编程 | 周弈帆的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">周弈帆的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2020/01/11/Software-Engineering-course-review-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">软件工程复习1：结构化编程
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-01-11 22:06:04" itemprop="dateCreated datePublished" datetime="2020-01-11T22:06:04+08:00">2020-01-11</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/" itemprop="url" rel="index"><span itemprop="name">Computer Science</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/Software-Engineering/" itemprop="url" rel="index"><span itemprop="name">Software Engineering</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我还剩软件工程这门课要考。这门课没留下真题，直接复习很难定下具体的目标。于是我决定还是用写复习笔记来复习，让复习的目的性更强，同时激发斗志，收获成就感。</p>
+<p>软件工程这门课的性质十分特殊。这是一门几乎不涉及理论，却涉及工具的使用、大量的经验与人为设定的规则的一门课。讲得清楚一些，就是这门课几乎没有什么干货，应该更多地考察实践能力，而不是用靠着一张瞎记瞎理解就能回答的卷子来考察。但没办法，我纵使有着极为丰富的项目经验教训与软件工程方法实践心得，平时学这门课的时候也还算认真，考前还是不得不去做一下复习。</p>
+<p>吐槽完了，来谈一下具体的复习策略。课本无效内容较多，每一章的有效内容量分布不均，最气人的是复习大纲和课本还对应不起来。没办法，我只能自己把这门课讲的内容分个类，针对每个类的内容集中复习。</p>
+<p>从实际的编程方法来看，这门课讲了结构化编程和面向对象编程两种编程方式。这两种编程方式有着不一样的分析和设计方法、工具。因此，我会各用一篇文章来复习这两部分的方法和工具。此外，还有不少内容和具体的编程方法无关，比如软件测试、软件维护，这些内容我会用一篇文章来复习。还有一些比较细致的，略有理论性的东西，比如耦合的分类等内容，我单独用一篇文章来写这些理论知识。最后我对照复习大纲，扫干净剩下的知识点。</p>
+<h1 id="软件工程复习1：结构化编程"><a href="#软件工程复习1：结构化编程" class="headerlink" title="软件工程复习1：结构化编程"></a>软件工程复习1：结构化编程</h1><h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><p>结构化需求分析的核心的数据。围绕着数据，要建立三种模型：数据建模、功能建模、行为建模。三种模型有各自的建模工具，三种模型中涉及的概念会被统一写在数据字典中以方便查看。</p>
+<h3 id="数据建模"><a href="#数据建模" class="headerlink" title="数据建模"></a>数据建模</h3><p>数据建模描述的是数据的静态信息。准确来说，是一个数据可以进一步被分解成哪些属性，以及一个数据和另一个数据的关系中出现的新属性。</p>
+<p>数据建模使用的E-R图。矩形是实体，圆圈是实体的属性，菱形是实体间的关系。有关系的实体要写上是几对几关系。</p>
+<p>E-R图在上学期学数据库的时候学了，我就不多加复习了。只要看了E-R图的一个例子，就能很快搞懂这个图的意义与使用方法。</p>
+<h3 id="功能建模"><a href="#功能建模" class="headerlink" title="功能建模"></a>功能建模</h3><p>理论上来说，有了静态模型，剩下的应该是动态模型。我对剩下两种模型的理解是：功能模型是对数据整体处理方式的建模，行为建模是对数据局部具体处理方式的建模。</p>
+<p>所有程序全部可以看成是一个输入转换成输出的过程。输入输出不仅是传统的数据，输入可能是鼠标的一次点击、键盘的一次输入；输出可能是屏幕窗口的一个变化。功能建模就是描述输入数据是怎么一步一步变成输出数据的。</p>
+<p>数据流图（DFD）是常用的（考试考察的）功能建模工具。DFD按照自顶向下的思想，用多层图来逐步分解数据加工过程。顶层图只有一个数据加工过程，之后的1、2层图会把上一层的数据加工过程细分。</p>
+<p>每一层中，圆圈表示数据加工；矩形表示外部的实体，也就是和数据交互的对象；封了半边口的矩形是数据库；箭头是数据流向，箭头上要有数据流名。</p>
+<p>DFD有以下要求：</p>
+<ul>
+<li>父图和子图要平衡。具体来说，父图和子图的输入输出要一致。子图可以把父图的输入分解。</li>
+<li>数据变换部分要按次序编号</li>
+</ul>
+<p>这种图看了一遍例子就能理解图的意思，但要自己画一画才能掌握画的方法。正常来说DFD至少要分解到第二层，但考试要求我们只画一层。为了复习，我来做一道例题。</p>
+<p>&lt;/br&gt;</p>
+<p>例：银行活期现金存取款柜台业务软件系统。存款时，储户将存款金额及存折，交给银行柜台操作员；取款时，储户则直接将取款数额告知操作员，并递交存折。具体存取款过程如下：</p>
+<p>  (1) 存款处理</p>
+<ul>
+<li>清点现金，确认存款金额；</li>
+<li>输入帐号、存款金额；</li>
+<li>根据存款金额记录分户账及总账，并登记存折及打印凭条。</li>
+</ul>
+<p>（2）取款处理</p>
+<ul>
+<li>输入帐号，取款金额；</li>
+<li>储户输入密码，系统核对密码并查询余额；</li>
+<li>若余额充足，根据取款金额记录分户账及总账，并由票据打印机打印登折数据和凭条数据。</li>
+</ul>
+<p>&lt;/br&gt;</p>
+<p>要求：画出系统顶层和一层数据流图 。</p>
+<p>老师给的参考答案：</p>
+<p><img src="//zhouyifan.net/2020/01/11/Software-Engineering-course-review-1/DFD1.jpg" alt="DFD1"></p>
+<p>我第一遍的答案：</p>
+<p><img src="//zhouyifan.net/2020/01/11/Software-Engineering-course-review-1/DFD2-1.jpg" alt="DFD2-1"></p>
+<p><img src="//zhouyifan.net/2020/01/11/Software-Engineering-course-review-1/DFD2-2.jpg" alt="DFD2-2"></p>
+<p>看了答案后修改的答案：</p>
+<p><img src="//zhouyifan.net/2020/01/11/Software-Engineering-course-review-1/DFD2-3.jpg" alt="DFD2-3"></p>
+<p>先声明一下，这道题我们之前上课做了一遍，我不是第一次做。</p>
+<p>首先先看一下顶层图，顶层图其实就是这个系统包含的范围，以及系统涉及的实体。把存折给操作员等行为并不是在软件中，因此不能放进软件系统里；打印机是一个独立的系统，不算在这个软件里面。所以最终顶层图画成了那个样子。我对顶层图答案没什么异议。</p>
+<p>重点在一层图上。我这次第一遍画的时候，看到需求很明确地把软件的需求分成了存款和取款两个部分，所以我直接就分了两个数据变换模块，没有去管存取款的实现细节。讲道理，一层图不需要画那么细，这样画一样理论上就可以了。</p>
+<p>但我看了答案之后，加入了一个信息记录模块。因为把修改分户账和总账在存款和取款中都出现了，单独拿出来也说得过去。</p>
+<p>但是答案剩下的部分我就不能赞同了。首先是业务确认模块。需求只提到存款要确认，但没有提到取款要确认。虽然按常识来说存取款都是要确认操作的，但是这里需求没有给出，就不应该加进来。既然取款不需要确认，那么就不能写一个公共的业务确认模块。再来是查询余额模块。查询余额显然是属于取款的，这个应该属于实现细节，在一层图就写出来还早了一点。</p>
+<p>老师上课的时候也跟我们说，由于只要求画一层图，这张图细节部分写得多了一些。按理来说，参考答案做的并不是很好。我觉得我第二遍的答案更好一些。甚至在实际实现的时候，我觉得第一遍的答案就够了，细节就应该在之后的图里显示出来。哪怕存取款有重合的部分，也可以在实现的时候进行模块复用。</p>
+<p>我觉得这道题的最大启示不是一层图该如何分解，而是顶层图如何划分软件系统的边界的。我上课第一次画的时候就把递存折写进系统，而且没有画打印机，这些都是很明显的错误。当然我不知道考试的题会怎么出，应该把题目涉及的实体和数据变换模块找出来，把每一个重要的词都画进系统里应该就问题不大。</p>
+<h3 id="行为建模"><a href="#行为建模" class="headerlink" title="行为建模"></a>行为建模</h3><p>前面也提到了，我觉得行为建模就是对更具体的数据变换过程进行建模。课本上介绍了两种建模方法：状态转换图（STD）和过程描述语言（PDL）或伪码语言（PL）。</p>
+<h4 id="状态转换图"><a href="#状态转换图" class="headerlink" title="状态转换图"></a>状态转换图</h4><p>正如其名，状态转换图描述了数据对象不同时刻的不同属性，以及在不同状态间的转换方式。</p>
+<p>我先以个人经验讲一下状态转换图的必要性。我之前做游戏的时候，被一个逻辑搞得十分头疼：卡牌游戏中鼠标的控制逻辑。正常情况下，鼠标可以拖动卡牌，也可以放到敌人头上或者一个buff上查看具体信息。在拖一张卡的时候，卡移到我方头上或者对方头上就不能显示信息，而应该根据卡牌是否能对这个目标使用而高亮目标。拖手牌里的一张卡和拖场面上的一张卡的拖动状态还是不一样的。由于没有事先设计，这个逻辑写的我非常混乱。我一看到了状态转换图，就立刻知道了以后该怎么处理这种状态转换情况。课本上再栩栩如生的案例也不如一次个人的经历对我理解这个概念的帮助大。</p>
+<p>状态转换图就类似自动机，是一个点和边构成的图。点是状态，边是转移条件。在STD中，黑点代表初态，带圈黑点表示终态，大圆角矩形框表示中间状态。中间状态要写上状态名、状态变量、状态此时的活动。</p>
+<p>状态转移图我还没画过，虽然考试不一定会考怎么画，但我还是想练习一下。</p>
+<p>我画的时候发现visio的状态图和课本上的不太一样，就不打算画了。</p>
+<h4 id="加工逻辑"><a href="#加工逻辑" class="headerlink" title="加工逻辑"></a>加工逻辑</h4><p>加工逻辑就是描述流程或算法。工具就是我们非常熟悉的伪代码。</p>
+<p>伪代码理论上没什么格式要求。我喜欢按C语言的风格写。当然有些人喜欢拿箭头表示赋值。</p>
+<h3 id="数据字典"><a href="#数据字典" class="headerlink" title="数据字典"></a>数据字典</h3><p>数据字典就是对之前建模过程中的数据流、数据变换、数据做一个详细的定义，以方便沟通交流。</p>
+<p>数据字典本身是一个概念性质的东西，其实现形式多种多样。课本上讲了三种定义数据字典的方法。</p>
+<h4 id="词条描述"><a href="#词条描述" class="headerlink" title="词条描述"></a>词条描述</h4><p>非常死板非常麻烦的数据词典表示法，也许在实际运用中非常好用，因为它读起来的时候非常详细。但在学这门课的时候我是不愿这样写数据字典的。</p>
+<p>直接拿一个例子来讲词条描述的表法吧：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">数据元素名：词</span><br><span class="line">类型：文字（char*)</span><br><span class="line">长度：任意长度</span><br><span class="line">取值范围：………………</span><br><span class="line">相关数据元素：………………</span><br><span class="line">相关数据结构：字符型（不能为空）</span><br></pre></td></tr></table></figure>
+<h4 id="定义式"><a href="#定义式" class="headerlink" title="定义式"></a>定义式</h4><p>用一种类似上下文无关语言的方法来定义一种数据。还是直接上例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">日期 = 年 ＋　月　＋日</span><br><span class="line">年 = “1900”..&quot;1999&quot;</span><br><span class="line">月 = &quot;01&quot;..&quot;12&quot;</span><br><span class="line">日 = &quot;01&quot;..&quot;31&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="数据表"><a href="#数据表" class="headerlink" title="数据表"></a>数据表</h4><p>直接把数据库二维表当成数据字典。比如</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>属性</th>
+<th>英文名</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>001</td>
+<td>姓名</td>
+<td>Name</td>
+<td>无</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="结构化设计"><a href="#结构化设计" class="headerlink" title="结构化设计"></a>结构化设计</h2><p>设计分成概要设计和详细设计。这两个阶段的具体定义可能会在其他文章中讲。</p>
+<p>在结构化设计中，概要设计就是根据数据流图设计出整体结构，详细设计则是在语句层面具体设计某一个算法、过程。概要设计用面向数据流的设计方法，详细设计会用到流程图、盒图、问题分析图（PAD）、判定树。</p>
+<h3 id="面向数据流的设计方法（画结构图）"><a href="#面向数据流的设计方法（画结构图）" class="headerlink" title="面向数据流的设计方法（画结构图）"></a>面向数据流的设计方法（画结构图）</h3><p>面向数据流的设计方法就是根据需求分析时的数据流图，设计出程序的模块。和画DFD一样，这个过程也是自顶向下进行的。</p>
+<h4 id="结构图"><a href="#结构图" class="headerlink" title="结构图"></a>结构图</h4><p>这个过程用到的工具有层次图和结构图（SC）。但从课本上的介绍来看，结构图是层次图的一个拓展。也就是这两种图不是并列关系，而是递进关系。后续的分析也是基于结构图的。</p>
+<p>层次图用方框表示模块，只是把模块一层一层地越分越细。结构图在层次图的基础行，要求在模块之间的线上加上数据流的描述</p>
+<h4 id="数据流图转结构图"><a href="#数据流图转结构图" class="headerlink" title="数据流图转结构图"></a>数据流图转结构图</h4><p>数据流图经过很简单的转换就能变成结构图。课本介绍了两种转换方法。这两种方法输出的结构图的整体结构与大致算法大致相同，但分析数据流图的理解角度不同。</p>
+<p>第一种方法是变换分析法。这种方法把整个程序看成输入处理、输出处理、变换控制三个大模块。在一层数据流图中，根据数据流与变换的形状关系，把变换分进这三种大模块里。每一个变换属于大模块里的一个小模块。</p>
+<p>用这种方法画结构图要按以下步骤：首先，画一个主控模块（MC）、输入模块（MI）、输出模块（MO），变换控制模块（MT）。MC在最上面，MI、MT、MO分别画在下面，与MC连线。之后，再一层数据流图中画两条边界，把一层图分成三部分。最后，把数据流图“旋转”一下，把对应的数据流和变换模块都写到大模块下方。只要有了数据流图，划分了边界，就可以立刻把数据流图转换成结构图。看了书上的例子就能很快理解这个转换方法。</p>
+<p>第二种方法是事物分析法。该方法是思想是找到一层数据流图中有多条路径的变换，把这个变换当成事务中心。所有的输入在经过预处理后经过事物中心进行变换，没有输出模块。</p>
+<p>用这种方法画结构图有以下步骤：首先，在一层数据流图中找到事物中心，把事物中心的输入部分划分到一起。之后，画一个主控模块（MC）、输入模块（MI）、事物调度模块（该模块名就是选择的事务中心的变换名）。最后，用和变换分析法类似的方法把数据流图“旋转”一下，在大模块下补上小模块。</p>
+<p>当然还有第三种方法，叫混合分析法，就是把两种方法综合一下，变换分析法的输出模块改成事物调度模块。</p>
+<h3 id="程序流程图"><a href="#程序流程图" class="headerlink" title="程序流程图"></a>程序流程图</h3><p>这是高中就学过的工具，用以描述程序设计的三种结构（顺序、分支、循环）。</p>
+<p>圆矩形表示开始结束，方矩形表示是操作，菱形表示判断，箭头表示控制流方向。</p>
+<h3 id="盒图"><a href="#盒图" class="headerlink" title="盒图"></a>盒图</h3><p>盒图也是用来描述程序设计的。相比程序流程图，盒图没有随意的控制流，能够更好地划分数据的区域。</p>
+<p>整个盒图画在一个方形中。具体形式看后面的示例。</p>
+<h3 id="问题分析图"><a href="#问题分析图" class="headerlink" title="问题分析图"></a>问题分析图</h3><p>问题分析图（PAD）也是用于程序设计的图。它也能规避控制流的任意性。</p>
+<p>PAD从上到下是流程，从左到右是模块的细分。</p>
+<p>例：</p>
+<p>把代码转换成盒图和PAD。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">A;</span><br><span class="line">B;</span><br><span class="line">if (C1)</span><br><span class="line">&#123;</span><br><span class="line">	while (C2)</span><br><span class="line">	&#123;</span><br><span class="line">		if (C3)</span><br><span class="line">		&#123;</span><br><span class="line">			D;</span><br><span class="line">		&#125;</span><br><span class="line">		else</span><br><span class="line">		&#123;</span><br><span class="line">			E;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">	do</span><br><span class="line">	&#123;</span><br><span class="line">		F;</span><br><span class="line">		if (C4)</span><br><span class="line">		&#123;</span><br><span class="line">			G;</span><br><span class="line">		&#125;</span><br><span class="line">		else</span><br><span class="line">		&#123;</span><br><span class="line">			H;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	while (C5);</span><br><span class="line">&#125;</span><br><span class="line">if (C6)</span><br><span class="line">&#123;</span><br><span class="line">	I;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（原题来自课本的一个流程图）</p>
+<p>解：</p>
+<p><img src="//zhouyifan.net/2020/01/11/Software-Engineering-course-review-1/NS.jpg" alt="NS"></p>
+<p><img src="//zhouyifan.net/2020/01/11/Software-Engineering-course-review-1/PAD.jpg" alt="OAD"></p>
+<h3 id="判定树"><a href="#判定树" class="headerlink" title="判定树"></a>判定树</h3><p>判定树用来表述复杂的条件判断。由于if语句本身符合树结构，用一棵树来表示判断语句是非常自然的。</p>
+<p>判定树画起来很简单，左边是条件，每个条件都可以分叉成多个子情况里的条件。最右边是该分支下的结构。</p>
+<h3 id="判定表"><a href="#判定表" class="headerlink" title="判定表"></a>判定表</h3><p>判定表和判定树作用一样，也是设计复杂条件判断的工具。</p>
+<p>判定表的行分成两部分，一部分是条件，另一部分是动作。判定表的每一列表示一个条件和动作的组合情况（条件用T、F表示，执行的动作打个勾）。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/note/" rel="tag"># note</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/09/Principles-of-Computer-Composition-exam-result/" rel="next" title="计算机组成原理考试结果">
+                <i class="fa fa-chevron-left"></i> 计算机组成原理考试结果
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Zhou Yifan</p>
+              <p class="site-description motion-element" itemprop="description">A foresighted strategist with big-picture thinking. 大局观选手。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#软件工程复习1：结构化编程"><span class="nav-number">1.</span> <span class="nav-text">软件工程复习1：结构化编程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#需求分析"><span class="nav-number">1.1.</span> <span class="nav-text">需求分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据建模"><span class="nav-number">1.1.1.</span> <span class="nav-text">数据建模</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#功能建模"><span class="nav-number">1.1.2.</span> <span class="nav-text">功能建模</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#行为建模"><span class="nav-number">1.1.3.</span> <span class="nav-text">行为建模</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#状态转换图"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">状态转换图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加工逻辑"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">加工逻辑</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据字典"><span class="nav-number">1.1.4.</span> <span class="nav-text">数据字典</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#词条描述"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">词条描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定义式"><span class="nav-number">1.1.4.2.</span> <span class="nav-text">定义式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据表"><span class="nav-number">1.1.4.3.</span> <span class="nav-text">数据表</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构化设计"><span class="nav-number">1.2.</span> <span class="nav-text">结构化设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#面向数据流的设计方法（画结构图）"><span class="nav-number">1.2.1.</span> <span class="nav-text">面向数据流的设计方法（画结构图）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#结构图"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">结构图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据流图转结构图"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">数据流图转结构图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序流程图"><span class="nav-number">1.2.2.</span> <span class="nav-text">程序流程图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#盒图"><span class="nav-number">1.2.3.</span> <span class="nav-text">盒图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题分析图"><span class="nav-number">1.2.4.</span> <span class="nav-text">问题分析图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#判定树"><span class="nav-number">1.2.5.</span> <span class="nav-text">判定树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#判定表"><span class="nav-number">1.2.6.</span> <span class="nav-text">判定表</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhou Yifan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.1</div>
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.1"></script>
+
+
+  
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
