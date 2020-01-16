@@ -607,13 +607,15 @@
 <h4 id="待求解数独生成"><a href="#待求解数独生成" class="headerlink" title="待求解数独生成"></a>待求解数独生成</h4><p>待求解数独要从终局中生成。根据需求，只需先随机总空数，再每个宫随机挖掉两个空，再随机挖空直至满足空格数即可。</p>
 <h2 id="设计实现过程"><a href="#设计实现过程" class="headerlink" title="设计实现过程"></a>设计实现过程</h2><h3 id="面向对象分析与设计"><a href="#面向对象分析与设计" class="headerlink" title="面向对象分析与设计"></a>面向对象分析与设计</h3><h4 id="用例图"><a href="#用例图" class="headerlink" title="用例图"></a>用例图</h4><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/UseCase.jpg" alt="用例图"></p>
 <p> 根据需求分析能够快速得到用例图。</p>
-<h4 id="基本类图"><a href="#基本类图" class="headerlink" title="基本类图"></a>基本类图</h4><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassDiagram1.jpg" alt="用例图"></p>
+<h4 id="基本类图"><a href="#基本类图" class="headerlink" title="基本类图"></a>基本类图</h4><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassDiagram1.jpg" alt="classdiagram"></p>
 <p>基本的类图建立如上。</p>
 <p>用户交互类负责处理输入输出，并且根据输入参数来调用执行该任务的类。</p>
 <p>为了使算法能够复用，每项任务的算法单独建立一个类。</p>
 <p>数独矩阵只存储了数独81个数的信息，该类被所有的任务类使用。在终局生成算法和求解算法中，会用到数独的其他信息，这些附加信息用一个新的数独状态类来存储。</p>
-<p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassDiagram1-2.jpg" alt="用例图"></p>
+<p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassDiagram1-2.jpg" alt="classdiagram"></p>
 <p>后来修改了一下类图的设计，三个任务器不应该做为用户交互类的子对象，应该是一种关联关系。</p>
+<p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassDiagram1-3.jpg" alt="classdiagram"></p>
+<p>后来写终局生成算法的时候发现终局生成器和终局生成算法的关联设计得不太对。</p>
 <p>（以上两个任务共花费27分钟）</p>
 <h4 id="活动图"><a href="#活动图" class="headerlink" title="活动图"></a>活动图</h4><h5 id="数独求解-1"><a href="#数独求解-1" class="headerlink" title="数独求解"></a>数独求解</h5><p>（花费40分钟）</p>
 <p>根据之前分析问题时的算法，得到以下活动图：</p>
@@ -624,11 +626,14 @@
 <h4 id="精化类图"><a href="#精化类图" class="headerlink" title="精化类图"></a>精化类图</h4><p>感觉visio建模很不方便，没有提供数组的定义。以下类图表示我在建类时的大致想法，与实际的类定义应该存在不小的出入。</p>
 <h5 id="数独矩阵"><a href="#数独矩阵" class="headerlink" title="数独矩阵"></a>数独矩阵</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassSudoMatrix.jpg" alt="用例图"></p>
 <h5 id="数独状态"><a href="#数独状态" class="headerlink" title="数独状态"></a>数独状态</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassSudoState.jpg" alt="用例图"></p>
-<h5 id="求解算法"><a href="#求解算法" class="headerlink" title="求解算法"></a>求解算法</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassSolver.jpg" alt="用例图"></p>
+<h5 id="求解算法"><a href="#求解算法" class="headerlink" title="求解算法"></a>求解算法</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassSolveAlgorithm.jpg" alt="solver"></p>
 <p>（以上三个任务共花费38分钟）</p>
+<h5 id="生成算法"><a href="#生成算法" class="headerlink" title="生成算法"></a>生成算法</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassGenerateAlgorithm.jpg" alt="solver"></p>
+<p>(花费5分钟)</p>
 <h3 id="程序设计"><a href="#程序设计" class="headerlink" title="程序设计"></a>程序设计</h3><p>（已花费1小时）</p>
 <p>（又花费了2小时）</p>
 <p>（又花费了1小时40分钟）</p>
+<p>（又花费了40分钟）</p>
 <h4 id="求解算法-1"><a href="#求解算法-1" class="headerlink" title="求解算法"></a>求解算法</h4><p>根据之前的面向对象分析与设计，我实现了4个类：<code>SudoMatrix, SudoChoice, SudoState, SudoSolveAlgorithm</code>。和设计的时候相比，每个类有一些变化。</p>
 <p><code>SudoMatrix</code>多写了很多方便调用的静态函数，比如位置坐标和第几个宫第几个数坐标的互相转换。</p>
 <p><code>SudoChoice</code>所有的操作都是封装好的，比如加入一个选项，去掉一个选项。</p>
@@ -715,6 +720,19 @@
 <ul>
 <li>博客进展<ol>
 <li>添加了终局生成的活动图。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>2020.1.16</p>
+<ul>
+<li>项目进展<ol>
+<li>设计并完成了终局生成算法模块。</li>
+<li>给SudoMatrix类增加比较函数与复制函数。</li>
+</ol>
+</li>
+<li>博客进展<ol>
+<li>再次修改了基本类图.</li>
 </ol>
 </li>
 </ul>
