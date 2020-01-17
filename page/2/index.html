@@ -632,11 +632,22 @@
 <p>(花费5分钟)</p>
 <h5 id="残局生成算法"><a href="#残局生成算法" class="headerlink" title="残局生成算法"></a>残局生成算法</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassGetEndGameAlgorithm.jpg" alt="GetEndGame"></p>
 <p>(花费5分钟)</p>
+<h5 id="终局生成器"><a href="#终局生成器" class="headerlink" title="终局生成器"></a>终局生成器</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassGenerator.jpg" alt="Generator"></p>
+<h5 id="求解器"><a href="#求解器" class="headerlink" title="求解器"></a>求解器</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassSolver.jpg" alt="Solver"></p>
+<h5 id="残局生成器"><a href="#残局生成器" class="headerlink" title="残局生成器"></a>残局生成器</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassEndGameGenerator.jpg" alt="EndGameGenerator"></p>
+<p>(共花费14分钟)</p>
+<h5 id="用户交互"><a href="#用户交互" class="headerlink" title="用户交互"></a>用户交互</h5><p>用户交互部分需要对数独矩阵进行输入输出。这一部分应该再用一个类来完成。</p>
+<p>用户的命令行命令可以分成两个部分：命令和参数。应该有检查命令和执行对应命令的函数也应该分成两大部分。</p>
+<p>执行命令的具体细节都交给对应的命令器完成。</p>
+<p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassCmdInteraction.jpg" alt="CmdInteraction"></p>
+<p>（花费35分钟）</p>
 <h3 id="程序设计"><a href="#程序设计" class="headerlink" title="程序设计"></a>程序设计</h3><p>（已花费1小时）</p>
 <p>（又花费了2小时）</p>
 <p>（又花费了1小时40分钟）</p>
 <p>（又花费了40分钟）</p>
 <p>（又花费了30分钟）</p>
+<p>（又花费了45分钟）</p>
+<p>（又花费了60分钟）</p>
 <h4 id="求解算法-1"><a href="#求解算法-1" class="headerlink" title="求解算法"></a>求解算法</h4><p>根据之前的面向对象分析与设计，我实现了4个类：<code>SudoMatrix, SudoChoice, SudoState, SudoSolveAlgorithm</code>。和设计的时候相比，每个类有一些变化。</p>
 <p><code>SudoMatrix</code>多写了很多方便调用的静态函数，比如位置坐标和第几个宫第几个数坐标的互相转换。</p>
 <p><code>SudoChoice</code>所有的操作都是封装好的，比如加入一个选项，去掉一个选项。</p>
@@ -653,8 +664,7 @@
 <p>我在main函数里添加了一些临时代码，以验证求解算法的正确性和效率。</p>
 <p>我在<a href="http://www.sudoku.name/index-cn.php" target="_blank" rel="noopener">http://www.sudoku.name/index-cn.php</a> 这个网站上随便找了一个难度为困难的数独，在Release模式下运行代码。从结果中可以看出，算法非常高效且正确的完成了任务。</p>
 <h2 id="性能分析及程序优化"><a href="#性能分析及程序优化" class="headerlink" title="性能分析及程序优化"></a>性能分析及程序优化</h2><h2 id="最终程序代码说明"><a href="#最终程序代码说明" class="headerlink" title="最终程序代码说明"></a>最终程序代码说明</h2><h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><ul>
-<li><p>19.12.24 11:36 </p>
-<ol>
+<li>19.12.24 11:36 <ol>
 <li>添加博客地址。</li>
 <li>完成PSP耗时表。</li>
 </ol>
@@ -751,6 +761,18 @@
 </li>
 <li>博客进展<ol>
 <li>添加了残局生成算法类图。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>2020.1.17 15:10</p>
+<ul>
+<li>项目进展<ol>
+<li>设计并完成终局生成器、残局生成器、求解器、用户交互、数独矩阵IO类，但没有测试。</li>
+</ol>
+</li>
+<li>博客进展<ol>
+<li>添加项目进展中的设计类图。</li>
 </ol>
 </li>
 </ul>
