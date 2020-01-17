@@ -114,8 +114,9 @@
 <meta property="og:image" content="https://zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassSudoState.jpg">
 <meta property="og:image" content="https://zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassSolveAlgorithm.jpg">
 <meta property="og:image" content="https://zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassGenerateAlgorithm.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassGetEndGameAlgorithm.jpg">
 <meta property="og:image" content="https://zhouyifan.net/2019/12/23/Software-Engineering-Project/Result1-1.jpg">
-<meta property="og:updated_time" content="2020-01-16T13:44:51.814Z">
+<meta property="og:updated_time" content="2020-01-17T02:35:47.576Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="软件工程个人项目：数独软件">
 <meta name="twitter:description" content="数独求解软件Github链接Sudoku Solver PSP耗时表    PSP2.1 Personal Software Process Stages Expected time (min) Actual time (min)     Planning 计划 20 50   · Estimate · 估计这个任务需要多少时间 20 50   Development 开发 980    · An">
@@ -635,14 +636,17 @@
 <h4 id="精化类图"><a href="#精化类图" class="headerlink" title="精化类图"></a>精化类图</h4><p>感觉visio建模很不方便，没有提供数组的定义。以下类图表示我在建类时的大致想法，与实际的类定义应该存在不小的出入。</p>
 <h5 id="数独矩阵"><a href="#数独矩阵" class="headerlink" title="数独矩阵"></a>数独矩阵</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassSudoMatrix.jpg" alt="用例图"></p>
 <h5 id="数独状态"><a href="#数独状态" class="headerlink" title="数独状态"></a>数独状态</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassSudoState.jpg" alt="用例图"></p>
-<h5 id="求解算法"><a href="#求解算法" class="headerlink" title="求解算法"></a>求解算法</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassSolveAlgorithm.jpg" alt="solver"></p>
+<h5 id="求解算法"><a href="#求解算法" class="headerlink" title="求解算法"></a>求解算法</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassSolveAlgorithm.jpg" alt="solve"></p>
 <p>（以上三个任务共花费38分钟）</p>
-<h5 id="生成算法"><a href="#生成算法" class="headerlink" title="生成算法"></a>生成算法</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassGenerateAlgorithm.jpg" alt="solver"></p>
+<h5 id="生成算法"><a href="#生成算法" class="headerlink" title="生成算法"></a>生成算法</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassGenerateAlgorithm.jpg" alt="Generate"></p>
+<p>(花费5分钟)</p>
+<h5 id="残局生成算法"><a href="#残局生成算法" class="headerlink" title="残局生成算法"></a>残局生成算法</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassGetEndGameAlgorithm.jpg" alt="GetEndGame"></p>
 <p>(花费5分钟)</p>
 <h3 id="程序设计"><a href="#程序设计" class="headerlink" title="程序设计"></a>程序设计</h3><p>（已花费1小时）</p>
 <p>（又花费了2小时）</p>
 <p>（又花费了1小时40分钟）</p>
 <p>（又花费了40分钟）</p>
+<p>（又花费了30分钟）</p>
 <h4 id="求解算法-1"><a href="#求解算法-1" class="headerlink" title="求解算法"></a>求解算法</h4><p>根据之前的面向对象分析与设计，我实现了4个类：<code>SudoMatrix, SudoChoice, SudoState, SudoSolveAlgorithm</code>。和设计的时候相比，每个类有一些变化。</p>
 <p><code>SudoMatrix</code>多写了很多方便调用的静态函数，比如位置坐标和第几个宫第几个数坐标的互相转换。</p>
 <p><code>SudoChoice</code>所有的操作都是封装好的，比如加入一个选项，去掉一个选项。</p>
@@ -741,7 +745,22 @@
 </ol>
 </li>
 <li>博客进展<ol>
-<li>再次修改了基本类图.</li>
+<li>再次修改了基本类图。</li>
+</ol>
+</li>
+</ul>
+<ol>
+<li>添加了终局生成算法类图。</li>
+</ol>
+</li>
+<li><p>2020.1.17 10:35</p>
+<ul>
+<li>项目进展<ol>
+<li>设计并完成残局生成算法模块。</li>
+</ol>
+</li>
+<li>博客进展<ol>
+<li>添加了残局生成算法类图。</li>
 </ol>
 </li>
 </ul>
@@ -956,7 +975,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数独求解软件"><span class="nav-number">1.</span> <span class="nav-text">数独求解软件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Github链接"><span class="nav-number">1.1.</span> <span class="nav-text">Github链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PSP耗时表"><span class="nav-number">1.2.</span> <span class="nav-text">PSP耗时表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解题思路"><span class="nav-number">1.3.</span> <span class="nav-text">解题思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#需求分析"><span class="nav-number">1.3.1.</span> <span class="nav-text">需求分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解法思考"><span class="nav-number">1.3.2.</span> <span class="nav-text">解法思考</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数独终局生成"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">数独终局生成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数独求解"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">数独求解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#待求解数独生成"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">待求解数独生成</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计实现过程"><span class="nav-number">1.4.</span> <span class="nav-text">设计实现过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#面向对象分析与设计"><span class="nav-number">1.4.1.</span> <span class="nav-text">面向对象分析与设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用例图"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">用例图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基本类图"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">基本类图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#活动图"><span class="nav-number">1.4.1.3.</span> <span class="nav-text">活动图</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#数独求解-1"><span class="nav-number">1.4.1.3.1.</span> <span class="nav-text">数独求解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#终局生成"><span class="nav-number">1.4.1.3.2.</span> <span class="nav-text">终局生成</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#精化类图"><span class="nav-number">1.4.1.4.</span> <span class="nav-text">精化类图</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#数独矩阵"><span class="nav-number">1.4.1.4.1.</span> <span class="nav-text">数独矩阵</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数独状态"><span class="nav-number">1.4.1.4.2.</span> <span class="nav-text">数独状态</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#求解算法"><span class="nav-number">1.4.1.4.3.</span> <span class="nav-text">求解算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#生成算法"><span class="nav-number">1.4.1.4.4.</span> <span class="nav-text">生成算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序设计"><span class="nav-number">1.4.2.</span> <span class="nav-text">程序设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#求解算法-1"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">求解算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">1.4.3.</span> <span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#求解算法-2"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">求解算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能分析及程序优化"><span class="nav-number">1.5.</span> <span class="nav-text">性能分析及程序优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最终程序代码说明"><span class="nav-number">1.6.</span> <span class="nav-text">最终程序代码说明</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#更新记录"><span class="nav-number">2.</span> <span class="nav-text">更新记录</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数独求解软件"><span class="nav-number">1.</span> <span class="nav-text">数独求解软件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Github链接"><span class="nav-number">1.1.</span> <span class="nav-text">Github链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PSP耗时表"><span class="nav-number">1.2.</span> <span class="nav-text">PSP耗时表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解题思路"><span class="nav-number">1.3.</span> <span class="nav-text">解题思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#需求分析"><span class="nav-number">1.3.1.</span> <span class="nav-text">需求分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解法思考"><span class="nav-number">1.3.2.</span> <span class="nav-text">解法思考</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数独终局生成"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">数独终局生成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数独求解"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">数独求解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#待求解数独生成"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">待求解数独生成</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计实现过程"><span class="nav-number">1.4.</span> <span class="nav-text">设计实现过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#面向对象分析与设计"><span class="nav-number">1.4.1.</span> <span class="nav-text">面向对象分析与设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用例图"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">用例图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基本类图"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">基本类图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#活动图"><span class="nav-number">1.4.1.3.</span> <span class="nav-text">活动图</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#数独求解-1"><span class="nav-number">1.4.1.3.1.</span> <span class="nav-text">数独求解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#终局生成"><span class="nav-number">1.4.1.3.2.</span> <span class="nav-text">终局生成</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#精化类图"><span class="nav-number">1.4.1.4.</span> <span class="nav-text">精化类图</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#数独矩阵"><span class="nav-number">1.4.1.4.1.</span> <span class="nav-text">数独矩阵</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数独状态"><span class="nav-number">1.4.1.4.2.</span> <span class="nav-text">数独状态</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#求解算法"><span class="nav-number">1.4.1.4.3.</span> <span class="nav-text">求解算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#生成算法"><span class="nav-number">1.4.1.4.4.</span> <span class="nav-text">生成算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#残局生成算法"><span class="nav-number">1.4.1.4.5.</span> <span class="nav-text">残局生成算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序设计"><span class="nav-number">1.4.2.</span> <span class="nav-text">程序设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#求解算法-1"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">求解算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">1.4.3.</span> <span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#求解算法-2"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">求解算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能分析及程序优化"><span class="nav-number">1.5.</span> <span class="nav-text">性能分析及程序优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最终程序代码说明"><span class="nav-number">1.6.</span> <span class="nav-text">最终程序代码说明</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#更新记录"><span class="nav-number">2.</span> <span class="nav-text">更新记录</span></a></li></ol></div>
             
 
           </div>

@@ -626,14 +626,17 @@
 <h4 id="精化类图"><a href="#精化类图" class="headerlink" title="精化类图"></a>精化类图</h4><p>感觉visio建模很不方便，没有提供数组的定义。以下类图表示我在建类时的大致想法，与实际的类定义应该存在不小的出入。</p>
 <h5 id="数独矩阵"><a href="#数独矩阵" class="headerlink" title="数独矩阵"></a>数独矩阵</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassSudoMatrix.jpg" alt="用例图"></p>
 <h5 id="数独状态"><a href="#数独状态" class="headerlink" title="数独状态"></a>数独状态</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassSudoState.jpg" alt="用例图"></p>
-<h5 id="求解算法"><a href="#求解算法" class="headerlink" title="求解算法"></a>求解算法</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassSolveAlgorithm.jpg" alt="solver"></p>
+<h5 id="求解算法"><a href="#求解算法" class="headerlink" title="求解算法"></a>求解算法</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassSolveAlgorithm.jpg" alt="solve"></p>
 <p>（以上三个任务共花费38分钟）</p>
-<h5 id="生成算法"><a href="#生成算法" class="headerlink" title="生成算法"></a>生成算法</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassGenerateAlgorithm.jpg" alt="solver"></p>
+<h5 id="生成算法"><a href="#生成算法" class="headerlink" title="生成算法"></a>生成算法</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassGenerateAlgorithm.jpg" alt="Generate"></p>
+<p>(花费5分钟)</p>
+<h5 id="残局生成算法"><a href="#残局生成算法" class="headerlink" title="残局生成算法"></a>残局生成算法</h5><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassGetEndGameAlgorithm.jpg" alt="GetEndGame"></p>
 <p>(花费5分钟)</p>
 <h3 id="程序设计"><a href="#程序设计" class="headerlink" title="程序设计"></a>程序设计</h3><p>（已花费1小时）</p>
 <p>（又花费了2小时）</p>
 <p>（又花费了1小时40分钟）</p>
 <p>（又花费了40分钟）</p>
+<p>（又花费了30分钟）</p>
 <h4 id="求解算法-1"><a href="#求解算法-1" class="headerlink" title="求解算法"></a>求解算法</h4><p>根据之前的面向对象分析与设计，我实现了4个类：<code>SudoMatrix, SudoChoice, SudoState, SudoSolveAlgorithm</code>。和设计的时候相比，每个类有一些变化。</p>
 <p><code>SudoMatrix</code>多写了很多方便调用的静态函数，比如位置坐标和第几个宫第几个数坐标的互相转换。</p>
 <p><code>SudoChoice</code>所有的操作都是封装好的，比如加入一个选项，去掉一个选项。</p>
@@ -732,7 +735,22 @@
 </ol>
 </li>
 <li>博客进展<ol>
-<li>再次修改了基本类图.</li>
+<li>再次修改了基本类图。</li>
+</ol>
+</li>
+</ul>
+<ol>
+<li>添加了终局生成算法类图。</li>
+</ol>
+</li>
+<li><p>2020.1.17 10:35</p>
+<ul>
+<li>项目进展<ol>
+<li>设计并完成残局生成算法模块。</li>
+</ol>
+</li>
+<li>博客进展<ol>
+<li>添加了残局生成算法类图。</li>
 </ol>
 </li>
 </ul>
