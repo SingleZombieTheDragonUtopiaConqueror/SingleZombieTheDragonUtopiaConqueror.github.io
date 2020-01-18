@@ -495,7 +495,7 @@
 <td>· Test</td>
 <td>· 测试（自我测试，修改代码，提交修改）</td>
 <td>180</td>
-<td></td>
+<td>186</td>
 </tr>
 <tr>
 <td>Reporting</td>
@@ -690,7 +690,30 @@
 <p>最后我把残局生成器单元测试中得到的9组数据放入求解器进行测试，仅考虑求解出来的数独是否完全合法。</p>
 <p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/SolverTest.jpg" alt="SolverTest"></p>
 <p>(之后共花了100分钟)</p>
-<h3 id="集成测试"><a href="#集成测试" class="headerlink" title="集成测试"></a>集成测试</h3><h3 id="代码复审"><a href="#代码复审" class="headerlink" title="代码复审"></a>代码复审</h3><h2 id="性能分析及程序优化"><a href="#性能分析及程序优化" class="headerlink" title="性能分析及程序优化"></a>性能分析及程序优化</h2><h2 id="最终程序代码说明"><a href="#最终程序代码说明" class="headerlink" title="最终程序代码说明"></a>最终程序代码说明</h2><h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><ul>
+<h3 id="集成测试"><a href="#集成测试" class="headerlink" title="集成测试"></a>集成测试</h3><p>我直接运行最终程序，做集成测试。</p>
+<p>交互模块的测试用例可分成以下等价类：</p>
+<ul>
+<li><p>命令个数错误</p>
+</li>
+<li><p>命令错误（无‘-’）</p>
+</li>
+<li>命令错误（有’-‘，第二个及后面的字符不对）</li>
+<li>命令参数错误</li>
+</ul>
+<p>命令参数错误根据具体的命令可以细分：</p>
+<ul>
+<li>-c 之后是字母</li>
+<li>-c 之后数字不合法</li>
+<li>-s 之后不是路径</li>
+<li>-s 之后文件不存在</li>
+</ul>
+<p>我先对以上七种情况设计了10个测试用例，运行结果如下：</p>
+<p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ITest1.jpg" alt="ITest1"></p>
+<p>最后我输入了两个正确的命令。（sudokuInput.txt里有预先生成好的20个数独题目）</p>
+<p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ITest2.jpg" alt="ITest2"></p>
+<p>在集成测试的时候，我发现我输出的最后一行有空行。经过修改后这个BUG被排除了。</p>
+<p>（花费56分钟）</p>
+<h3 id="代码复审"><a href="#代码复审" class="headerlink" title="代码复审"></a>代码复审</h3><h2 id="性能分析及程序优化"><a href="#性能分析及程序优化" class="headerlink" title="性能分析及程序优化"></a>性能分析及程序优化</h2><h2 id="最终程序代码说明"><a href="#最终程序代码说明" class="headerlink" title="最终程序代码说明"></a>最终程序代码说明</h2><h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><ul>
 <li><p>19.12.24 11:36 </p>
 <ol>
 <li>添加博客地址。</li>
@@ -814,6 +837,18 @@
 <li>博客进展<ol>
 <li>统计了设计文档、具体设计、编码的时间。</li>
 <li>更新了单元测试有关内容。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>2020.1.18 22:33</p>
+<ul>
+<li>项目进展<ol>
+<li>完成集成测试的BUG修改。</li>
+</ol>
+</li>
+<li>博客进展<ol>
+<li>更新集成测试有关内容。</li>
 </ol>
 </li>
 </ul>
