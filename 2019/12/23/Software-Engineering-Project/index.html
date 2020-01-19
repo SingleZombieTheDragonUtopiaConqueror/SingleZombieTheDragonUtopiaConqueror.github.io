@@ -96,13 +96,13 @@
 
 
 
-  <meta name="description" content="数独求解软件Github链接Sudoku Solver PSP耗时表    PSP2.1 Personal Software Process Stages Expected time (min) Actual time (min)     Planning 计划 20 50   · Estimate · 估计这个任务需要多少时间 20 50   Development 开发 980 1099">
+  <meta name="description" content="数独求解软件Github链接Sudoku Solver PSP耗时表    PSP2.1 Personal Software Process Stages Expected time (min) Actual time (min)     Planning 计划 20 50   · Estimate · 估计这个任务需要多少时间 20 50   Development 开发 980 1119">
 <meta name="keywords" content="homework">
 <meta property="og:type" content="article">
 <meta property="og:title" content="软件工程个人项目：数独软件">
 <meta property="og:url" content="https://zhouyifan.net/2019/12/23/Software-Engineering-Project/index.html">
 <meta property="og:site_name" content="周弈帆的博客">
-<meta property="og:description" content="数独求解软件Github链接Sudoku Solver PSP耗时表    PSP2.1 Personal Software Process Stages Expected time (min) Actual time (min)     Planning 计划 20 50   · Estimate · 估计这个任务需要多少时间 20 50   Development 开发 980 1099">
+<meta property="og:description" content="数独求解软件Github链接Sudoku Solver PSP耗时表    PSP2.1 Personal Software Process Stages Expected time (min) Actual time (min)     Planning 计划 20 50   · Estimate · 估计这个任务需要多少时间 20 50   Development 开发 980 1119">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://zhouyifan.net/2019/12/23/Software-Engineering-Project/UseCase.jpg">
 <meta property="og:image" content="https://zhouyifan.net/2019/12/23/Software-Engineering-Project/ClassDiagram1.jpg">
@@ -132,10 +132,10 @@
 <meta property="og:image" content="https://zhouyifan.net/2019/12/23/Software-Engineering-Project/Performance4.jpg">
 <meta property="og:image" content="https://zhouyifan.net/2019/12/23/Software-Engineering-Project/Performance5.jpg">
 <meta property="og:image" content="https://zhouyifan.net/2019/12/23/Software-Engineering-Project/UTest1.jpg">
-<meta property="og:updated_time" content="2020-01-19T03:09:38.815Z">
+<meta property="og:updated_time" content="2020-01-19T13:15:38.368Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="软件工程个人项目：数独软件">
-<meta name="twitter:description" content="数独求解软件Github链接Sudoku Solver PSP耗时表    PSP2.1 Personal Software Process Stages Expected time (min) Actual time (min)     Planning 计划 20 50   · Estimate · 估计这个任务需要多少时间 20 50   Development 开发 980 1099">
+<meta name="twitter:description" content="数独求解软件Github链接Sudoku Solver PSP耗时表    PSP2.1 Personal Software Process Stages Expected time (min) Actual time (min)     Planning 计划 20 50   · Estimate · 估计这个任务需要多少时间 20 50   Development 开发 980 1119">
 <meta name="twitter:image" content="https://zhouyifan.net/2019/12/23/Software-Engineering-Project/UseCase.jpg">
 
 
@@ -473,7 +473,7 @@
 <td>Development</td>
 <td>开发</td>
 <td>980</td>
-<td>1099</td>
+<td>1119</td>
 </tr>
 <tr>
 <td>· Analysis</td>
@@ -521,13 +521,13 @@
 <td>· Test</td>
 <td>· 测试（自我测试，修改代码，提交修改）</td>
 <td>180</td>
-<td>186</td>
+<td>206</td>
 </tr>
 <tr>
 <td>Reporting</td>
 <td>报告</td>
 <td>170</td>
-<td></td>
+<td>100</td>
 </tr>
 <tr>
 <td>· Test Report</td>
@@ -545,12 +545,13 @@
 <td>· Postmortem &amp; Process Improvement Plan</td>
 <td>· 事后总结，并提出过程改进计划</td>
 <td>60</td>
-<td></td>
+<td>30</td>
 </tr>
 <tr>
 <td></td>
 <td>合计</td>
 <td>1170</td>
+<td>1269</td>
 </tr>
 </tbody>
 </table>
@@ -713,7 +714,7 @@
 <h4 id="求解器-1"><a href="#求解器-1" class="headerlink" title="求解器"></a>求解器</h4><p>（测试求解算法正确性花费30分钟）</p>
 <p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/Result1-1.jpg" alt="Result1-1"></p>
 <p>我在main函数里添加了一些临时代码，以验证求解算法的正确性和效率。</p>
-<p>我在<a href="http://www.sudoku.name/index-cn.php" target="_blank" rel="noopener">http://www.sudoku.name/index-cn.php</a> 这个网站上随便找了一个难度为困难的数独，在Release模式下运行代码。从结果中可以看出，算法非常高效且正确的完成了任务。</p>
+<p>我在<a href="http://www.sudoku.name/index-cn.php" target="_blank" rel="noopener">http://www.sudoku.name/index-cn.php</a> 这个网站上随便找了一个难度为困难的数独，在Release模式下运行代码。从结果中可以看出，算法高效且正确的完成了任务。</p>
 <p>最后我把残局生成器单元测试中得到的9组数据放入求解器进行测试，仅考虑求解出来的数独是否完全合法。</p>
 <p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/SolverTest.jpg" alt="SolverTest"></p>
 <p>(之后共花了100分钟)</p>
@@ -778,7 +779,12 @@
 <p>生成算法类提供了排列构造的函数。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> FinalStateGenerator::generateFinalState(<span class="keyword">int</span> count, Sudo::SudoMatrix* matrixArr, <span class="keyword">int</span> fixFirstNumber) <span class="keyword">const</span></span><br><span class="line">&#123;</span><br><span class="line">    SudoGenerateAlgorithm::calTemplate();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> generateCount = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; permutation;</span><br><span class="line">    <span class="keyword">if</span> (fixFirstNumber == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        permutation = &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span> &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        permutation.push_back(fixFirstNumber);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">8</span>; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (i &gt;= fixFirstNumber)</span><br><span class="line">                permutation.push_back(i + <span class="number">1</span>);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                permutation.push_back(i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (fixFirstNumber != <span class="number">0</span> &amp;&amp; fixFirstNumber != permutation[<span class="number">0</span>])</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; SudoGenerateAlgorithm::MAX_TEMPLATE_COUNT &amp;&amp; generateCount &lt; count; i++, generateCount++)</span><br><span class="line">        &#123;</span><br><span class="line">            matrixArr[generateCount] = SudoGenerateAlgorithm::getSudokuFromPermutation(permutation, i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">while</span> (<span class="built_in">std</span>::next_permutation(permutation.begin(), permutation.end()) &amp;&amp; generateCount &lt; count);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> generateCount;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>按照需求生成数独的工作交给生成器来完成。生成器生成许多固定第一个数字的排列，利用排列生成数独，直到生成的数独满足数量要求为止。</p>
-<h2 id="心得体会"><a href="#心得体会" class="headerlink" title="心得体会"></a>心得体会</h2><h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><ul>
+<h2 id="心得体会"><a href="#心得体会" class="headerlink" title="心得体会"></a>心得体会</h2><p>从我对整个项目的评价和我学到的东西两个方面来谈我的体会。</p>
+<p>我对项目的评价可以分成我的开发时间管理评价和项目结果评价。我这次时间管理得非常不好。我一开始觉得这个项目难度较低，花费不了什么时间。我很早就想好整个项目的框架和具体算法，设计和编码的过程也还算顺利。但我错估了测试和项目优化的时间，项目后期的时间非常紧，我也没来得及完成附加题。</p>
+<p>项目完成得也不够好。我在设计数独状态类的时候没有设计好，返回给数独求解类的信息和数独状态类自己保存的信息应该分成两个类。我在后来代码优化的时候由于这两个类没有分开，碰到了一些麻烦。项目的性能还存在优化的空间，求解算法可以进一步压缩时间。</p>
+<p>在这个项目中，我学习到了一些工具的使用方法、软件工程知识、软件工程实践经历。我学会了VS单元测试工具、性能分析工具、代码分析工具的使用。我在画用例图、类图等UML图的过程中对于软件工程的理解进一步加深。在本次项目中，我不局限于编码，而是完成了整个软件的开发流程，体会到了软件开发的不易。</p>
+<p>我本身就有比较多的大型程序开发经验。在学过了软件工程课并经历了这次的开发过程后，我能把知识和我的经验结合起来，以后写出模块划分得更好、测试做得更全面、文档更完整的软件。</p>
+<h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><ul>
 <li><p>19.12.24 11:36 </p>
 <ol>
 <li>添加博客地址。</li>
@@ -931,6 +937,14 @@
 <li>更新代码复审内容</li>
 <li>更新优化内容</li>
 <li>更新最终代码说明</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>2020.1.19 21:14</p>
+<ul>
+<li>博客进展<ol>
+<li>完成了心得体会。</li>
 </ol>
 </li>
 </ul>
