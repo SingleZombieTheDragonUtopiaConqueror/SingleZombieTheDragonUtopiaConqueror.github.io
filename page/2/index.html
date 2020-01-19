@@ -447,7 +447,7 @@
 <td>Development</td>
 <td>开发</td>
 <td>980</td>
-<td></td>
+<td>1099</td>
 </tr>
 <tr>
 <td>· Analysis</td>
@@ -483,13 +483,13 @@
 <td>· Coding</td>
 <td>· 具体编码</td>
 <td>300</td>
-<td>455</td>
+<td>575</td>
 </tr>
 <tr>
 <td>· Code Review</td>
 <td>· 代码复审</td>
 <td>60</td>
-<td></td>
+<td>25</td>
 </tr>
 <tr>
 <td>· Test</td>
@@ -507,13 +507,13 @@
 <td>· Test Report</td>
 <td>· 测试报告</td>
 <td>80</td>
-<td></td>
+<td>60</td>
 </tr>
 <tr>
 <td>· Size Measurement</td>
 <td>· 计算工作量</td>
 <td>30</td>
-<td></td>
+<td>10</td>
 </tr>
 <tr>
 <td>· Postmortem &amp; Process Improvement Plan</td>
@@ -646,6 +646,7 @@
 <p>（又花费了30分钟）</p>
 <p>（又花费了45分钟）</p>
 <p>（又花费了60分钟）</p>
+<p>（优化花了120分钟）</p>
 <h4 id="求解算法-1"><a href="#求解算法-1" class="headerlink" title="求解算法"></a>求解算法</h4><p>根据之前的面向对象分析与设计，我实现了4个类：<code>SudoMatrix, SudoChoice, SudoState, SudoSolveAlgorithm</code>。和设计的时候相比，每个类有一些变化。</p>
 <p><code>SudoMatrix</code>多写了很多方便调用的静态函数，比如位置坐标和第几个宫第几个数坐标的互相转换。</p>
 <p><code>SudoChoice</code>所有的操作都是封装好的，比如加入一个选项，去掉一个选项。</p>
@@ -681,7 +682,7 @@
 <p>如图，我总共运行了两次测试。两次测试只有生成数独的数量不同，一次是1000，一次是100000.</p>
 <h4 id="残局生成器-1"><a href="#残局生成器-1" class="headerlink" title="残局生成器"></a>残局生成器</h4><p>我用终局生成器生成了终局，之后把终局放入残局生成器了生成残局。</p>
 <p>由于终局生成器已经验证过正确性，现在只对残局生成器验证两个指标：每个宫的最小空格数、所有空格数之和。</p>
-<p>我对3种难度的残局生成器各设置了3个种子进行测试。</p>
+<p>我对3种难度的残局生成器各设置了3个种子进行测试。生成数独的数量都是100个。</p>
 <p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/EndGameTest.jpg" alt="EndGameTest"></p>
 <h4 id="求解器-1"><a href="#求解器-1" class="headerlink" title="求解器"></a>求解器</h4><p>（测试求解算法正确性花费30分钟）</p>
 <p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/Result1-1.jpg" alt="Result1-1"></p>
@@ -713,7 +714,42 @@
 <p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/ITest2.jpg" alt="ITest2"></p>
 <p>在集成测试的时候，我发现我输出的最后一行有空行。经过修改后这个BUG被排除了。</p>
 <p>（花费56分钟）</p>
-<h3 id="代码复审"><a href="#代码复审" class="headerlink" title="代码复审"></a>代码复审</h3><h2 id="性能分析及程序优化"><a href="#性能分析及程序优化" class="headerlink" title="性能分析及程序优化"></a>性能分析及程序优化</h2><h2 id="最终程序代码说明"><a href="#最终程序代码说明" class="headerlink" title="最终程序代码说明"></a>最终程序代码说明</h2><h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><ul>
+<h3 id="代码复审"><a href="#代码复审" class="headerlink" title="代码复审"></a>代码复审</h3><p>我在VS中启用了代码分析，规则集为Mircrosoft本机建议规则。</p>
+<p>一开始，有很多警告：</p>
+<p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/CodeReview1.jpg" alt="CodeReview1"></p>
+<p>经过修改，警告被改掉了。</p>
+<p>比较特殊的是一个和迭代器有关的警告。迭代器的偏移量我提前计算好不会报错，如果直接把偏移量的计算式和迭代器放到一起运算就会报错。这个可能和64位平台有关的警告我没有太理解。</p>
+<p>（花费25分钟）</p>
+<h2 id="性能分析及程序优化"><a href="#性能分析及程序优化" class="headerlink" title="性能分析及程序优化"></a>性能分析及程序优化</h2><h3 id="数独生成"><a href="#数独生成" class="headerlink" title="数独生成"></a>数独生成</h3><h4 id="性能分析结果"><a href="#性能分析结果" class="headerlink" title="性能分析结果"></a>性能分析结果</h4><p>使用vs自带的性能分析，生成1000000个数独，得到的结果如下：</p>
+<p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/Performance1.jpg" alt="Performance1"></p>
+<p>可以发现，主要的时间都花在输入上。</p>
+<p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/Performance2.jpg" alt="Performance2"></p>
+<p>其中，最花时间的是fputc函数。</p>
+<h4 id="优化方法及结果"><a href="#优化方法及结果" class="headerlink" title="优化方法及结果"></a>优化方法及结果</h4><p>我把输出的字符先存到一个缓冲区里，每存100个矩阵的信息就输出一次。</p>
+<p>输出一次性用fwrite输出。</p>
+<p>另外，由于模板较少，我直接把最终的模板放进了代码里面，而不是每次都计算模板。</p>
+<p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/Performance3.jpg" alt="Performance3"></p>
+<p>从结果可以看出，运行效率有所提升。</p>
+<h3 id="数独求解-2"><a href="#数独求解-2" class="headerlink" title="数独求解"></a>数独求解</h3><h4 id="初次结果"><a href="#初次结果" class="headerlink" title="初次结果"></a>初次结果</h4><p>最开始的时候，求解1000000个数独的速度非常慢。我没有等程序跑完就关掉了程序。</p>
+<h4 id="优化方法及结果-1"><a href="#优化方法及结果-1" class="headerlink" title="优化方法及结果"></a>优化方法及结果</h4><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/Performance4.jpg" alt="Performance4"></p>
+<p>我用性能分析工具检查，发现很多时间都浪费在了数据结构操作上。</p>
+<p>我把存状态的set改成了bitset，把部分操作改成了位询问、修改。</p>
+<p>同时，我稍微优化了状态初始化部分的算法。在初始化一个数独的时候，不会再写入修改日志了。</p>
+<p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/Performance5.jpg" alt="Performance5"></p>
+<p>现在程序能90秒跑完了。</p>
+<h3 id="单元测试-1"><a href="#单元测试-1" class="headerlink" title="单元测试"></a>单元测试</h3><p><img src="//zhouyifan.net/2019/12/23/Software-Engineering-Project/UTest1.jpg" alt="UTest1"></p>
+<p>经过一些修改后，单元测试又能通过了。</p>
+<h2 id="最终程序代码说明"><a href="#最终程序代码说明" class="headerlink" title="最终程序代码说明"></a>最终程序代码说明</h2><h3 id="求解算法-2"><a href="#求解算法-2" class="headerlink" title="求解算法"></a>求解算法</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> SudoSolveAlgorithm::solve(SudoMatrix&amp; mat)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Fill the matrix with known message</span></span><br><span class="line">    <span class="keyword">if</span> (!fillState(mat))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Use dfs to find the solution</span></span><br><span class="line">    <span class="keyword">if</span> (!dfs())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Get result</span></span><br><span class="line">    mat = _sudoState.getMat();</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>求解算法是整个软件的核心。在求解时，算法先更新当前已知的信息，之后对其他部分做DFS。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> SudoState::fill(<span class="keyword">const</span> SudoMatrix&amp; mat)</span><br><span class="line">&#123;</span><br><span class="line">   <span class="comment">// It's the first(0) step.</span></span><br><span class="line">    _step = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Create a new matrix</span></span><br><span class="line">    _mat = SudoMatrix();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// For each entry and number, initialize their state</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; SudoMatrix::SUDO_SIDELENGTH; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; SudoMatrix::SUDO_SIDELENGTH; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            _entryChoises[i][j].init(SudoChoice::Type::ENTRY, i, j);</span><br><span class="line">            _numberChoises[i][j].init(SudoChoice::Type::NUMBER, i, j);</span><br><span class="line">            <span class="keyword">if</span> (mat(i, j) == <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                _entryChoises[i][j].setAllOne();</span><br><span class="line">            &#125;</span><br><span class="line">            _numberChoises[i][j].setAllOne();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// For each known number, update the message through setNumber()</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; SudoMatrix::SUDO_SIDELENGTH; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; SudoMatrix::SUDO_SIDELENGTH; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (mat(i, j) != <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (!setNumber(i, j, mat(i, j), <span class="literal">false</span>))</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>FillState</code>会调用<code>SudoState::fill</code>函数。该函数先初始化整体的信息：当前已经运行到第几步，当前的数独矩阵。并且把每个位置的候选数和每个数字在每个宫的侯选位置初始化。最后，对于每个已经存在的数，用<code>setNumber()</code>填入并更新状态。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> SudoSolveAlgorithm::dfs()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (_sudoState.getStep() &gt;= SudoMatrix::SUDO_ELEMENTS_CNT)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; op = _sudoState.getMinForkOperation();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (op.getType() == SudoChoice::ENTRY)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// ENRTY</span></span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">auto</span>&amp; <span class="built_in">set</span> = op.getChoices();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> num : <span class="built_in">set</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">bool</span> yes = <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">if</span> (_sudoState.setNumber(op.getPosIOrNumber(), op.getPosJOrPalace(), num + <span class="number">1</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (dfs())</span><br><span class="line">                    yes = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!yes)</span><br><span class="line">                _sudoState.recall();</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// NUMBER</span></span><br><span class="line">        .......<span class="comment">// do the same thing</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>dfs</code>函数是用于搜索解的函数。该函数每次从数独当前状态中获得候选情况最少的位置或数字，之后对这个地方进行搜索。搜索完全部解就会返回成功；<code>setNumber</code>返回false说明搜索失败，数独当前状态会进行回溯。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> SudoState::setNumber(<span class="keyword">int</span> i, <span class="keyword">int</span> j, <span class="keyword">int</span> num, <span class="keyword">bool</span> recordLog)</span><br><span class="line">&#123;</span><br><span class="line">    assert(_mat(i, j) == <span class="number">0</span>); <span class="comment">// the entry must be empty</span></span><br><span class="line">    assert(num &gt;= <span class="number">1</span> &amp;&amp; num &lt;= <span class="number">9</span>); <span class="comment">// number must in 1~9</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> palaceId = SudoMatrix::getPalaceId(i, j);</span><br><span class="line">    <span class="keyword">int</span> idInPalace = SudoMatrix::getIdInPalace(i, j);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">bool</span> valid = <span class="literal">true</span>;</span><br><span class="line">    _mat(i, j) = num;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// record currentLog</span></span><br><span class="line">    .....</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Ban all the choices in (i, j)</span></span><br><span class="line">    ......</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Update the choices of entries with same column</span></span><br><span class="line">  ......</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Update the choices of entries with same row</span></span><br><span class="line">   ......</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Update the choices of entries with same palace</span></span><br><span class="line">    ......</span><br><span class="line"></span><br><span class="line">    _step++;</span><br><span class="line">    <span class="keyword">return</span> valid;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>数独状态的<code>setNumber</code>函数是算法中的十分重要的函数。该函数在填入一个数字后，更新相关行、列、宫的候选数字信息及每个数的候选位置信息。同时，这一步的操作会被记录下来，以进行回溯。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">SudoChoice SudoState::getMinForkOperation()</span><br><span class="line">&#123;</span><br><span class="line">    SudoChoice minChoice;</span><br><span class="line">    <span class="keyword">bool</span> find = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; SudoMatrix::SUDO_SIDELENGTH; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; SudoMatrix::SUDO_SIDELENGTH; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!_entryChoises[i][j].empty())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (!find || _entryChoises[i][j] &lt; minChoice)</span><br><span class="line">                &#123;</span><br><span class="line">                    minChoice = _entryChoises[i][j];</span><br><span class="line">                    find = <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!_numberChoises[i][j].empty())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (!find || _numberChoises[i][j] &lt; minChoice)</span><br><span class="line">                &#123;</span><br><span class="line">                    minChoice = _numberChoises[i][j];</span><br><span class="line">                    find = <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> minChoice;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>getMinForkOperation</code>函数</p>
+<h2 id="心得体会"><a href="#心得体会" class="headerlink" title="心得体会"></a>心得体会</h2><h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><ul>
 <li><p>19.12.24 11:36 </p>
 <ol>
 <li>添加博客地址。</li>
@@ -849,6 +885,22 @@
 </li>
 <li>博客进展<ol>
 <li>更新集成测试有关内容。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>2020.1.19 </p>
+<ul>
+<li>项目进展<ol>
+<li>完成代码复审</li>
+<li>进行优化的分析</li>
+<li>完成优化及优化后的测试</li>
+<li>发布最终版本</li>
+</ol>
+</li>
+<li>博客进展<ol>
+<li>更新代码复审内容</li>
+<li>更新优化内容</li>
 </ol>
 </li>
 </ul>
