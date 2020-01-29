@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="我总算找到了博客的正确用法：给自己增加做事情的动力。 寒假回家后，我整个人变得很懒，这个学期最后一门课程的大作业也迟迟没有做完。恰好我发现，自从我把博客链接放到了社交媒体上后，有同学看了我的博客。让别人看到自己“作品”的感觉还是很好的。我打算用写博客的方式来更好地完成作业。 本文按照作业的要求，分为论文概要、代码模块分析、实验结果（使用自己的数据）三个部分。当然，由于我在博客里写东西比较随意，我提">
+<meta name="keywords" content="homework">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数字图像处理大作业：盲去模糊论文（Blind Deconvolution Using a Normalized Sparsity Measure）及代码阅读">
+<meta property="og:url" content="https://zhouyifan.net/2020/01/29/DIP-paper-code-reading/index.html">
+<meta property="og:site_name" content="周弈帆的博客">
+<meta property="og:description" content="我总算找到了博客的正确用法：给自己增加做事情的动力。 寒假回家后，我整个人变得很懒，这个学期最后一门课程的大作业也迟迟没有做完。恰好我发现，自从我把博客链接放到了社交媒体上后，有同学看了我的博客。让别人看到自己“作品”的感觉还是很好的。我打算用写博客的方式来更好地完成作业。 本文按照作业的要求，分为论文概要、代码模块分析、实验结果（使用自己的数据）三个部分。当然，由于我在博客里写东西比较随意，我提">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://zhouyifan.net/DIP-paper-code-reading/p1.jpg">
+<meta property="og:image" content="https://zhouyifan.net/DIP-paper-code-reading/p2.jpg">
+<meta property="og:image" content="https://zhouyifan.net/DIP-paper-code-reading/p3.jpg">
+<meta property="og:image" content="https://zhouyifan.net/DIP-paper-code-reading/p4.jpg">
+<meta property="og:image" content="https://zhouyifan.net/DIP-paper-code-reading/p5.jpg">
+<meta property="og:updated_time" content="2020-01-29T07:05:04.273Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数字图像处理大作业：盲去模糊论文（Blind Deconvolution Using a Normalized Sparsity Measure）及代码阅读">
+<meta name="twitter:description" content="我总算找到了博客的正确用法：给自己增加做事情的动力。 寒假回家后，我整个人变得很懒，这个学期最后一门课程的大作业也迟迟没有做完。恰好我发现，自从我把博客链接放到了社交媒体上后，有同学看了我的博客。让别人看到自己“作品”的感觉还是很好的。我打算用写博客的方式来更好地完成作业。 本文按照作业的要求，分为论文概要、代码模块分析、实验结果（使用自己的数据）三个部分。当然，由于我在博客里写东西比较随意，我提">
+<meta name="twitter:image" content="https://zhouyifan.net/DIP-paper-code-reading/p1.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="https://zhouyifan.net/2020/01/29/DIP-paper-code-reading/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>数字图像处理大作业：盲去模糊论文（Blind Deconvolution Using a Normalized Sparsity Measure）及代码阅读 | 周弈帆的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">周弈帆的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2020/01/29/DIP-paper-code-reading/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数字图像处理大作业：盲去模糊论文（Blind Deconvolution Using a Normalized Sparsity Measure）及代码阅读
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-01-29 15:05:04" itemprop="dateCreated datePublished" datetime="2020-01-29T15:05:04+08:00">2020-01-29</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/" itemprop="url" rel="index"><span itemprop="name">Computer Science</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/Digital-Image-Processing/" itemprop="url" rel="index"><span itemprop="name">Digital Image Processing</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我总算找到了博客的正确用法：给自己增加做事情的动力。</p>
+<p>寒假回家后，我整个人变得很懒，这个学期最后一门课程的大作业也迟迟没有做完。恰好我发现，自从我把博客链接放到了社交媒体上后，有同学看了我的博客。让别人看到自己“作品”的感觉还是很好的。我打算用写博客的方式来更好地完成作业。</p>
+<p>本文按照作业的要求，分为论文概要、代码模块分析、实验结果（使用自己的数据）三个部分。当然，由于我在博客里写东西比较随意，我提交的作业报告肯定会在这篇博客的基础上有所修改。</p>
+<h1 id="论文概要"><a href="#论文概要" class="headerlink" title="论文概要"></a>论文概要</h1><h2 id="问题定义"><a href="#问题定义" class="headerlink" title="问题定义"></a>问题定义</h2><p>本文解决的是一个非常经典的问题：如何恢复一张被模糊和添加噪声的图片。即假设模糊矩阵是$K$,原图像是$u$，噪声是$N$,模糊图像是$g$。那么$g = Ku+N$现在我们只知道$g$，如何得到$u$。</p>
+<p>更具体地，本文介绍的是盲去模糊，即不知道模糊卷积核的情况下，应该如何恢复模糊图像。我上次写的<a href="https://zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/">第二个小作业</a>解决的是类似的去模糊问题，但那次问题是一个非盲去模糊，即卷积核已知。</p>
+<h2 id="文章贡献"><a href="#文章贡献" class="headerlink" title="文章贡献"></a>文章贡献</h2><p>求未知模糊卷积核的问题可以被转换成一个优化问题，即求解某一个损失函数的最小值。文章主要的贡献是提出了一种在损失函数中添加正则化的方法，并且围绕这种方法提供了一套完整的去模糊算法。</p>
+<h2 id="方法思想"><a href="#方法思想" class="headerlink" title="方法思想"></a>方法思想</h2><p>求解模糊卷积核的优化问题有很多的局部最优解。为了获取一个更好的解，需要加入一些正则化项。正则化项似乎可以用在所有的优化问题里，来避免一些局部最优解。但正则化项的原理我一直都不是很理解，感觉这就是一个被人工设置出来的东西，没有比较清晰的理论依据。把一个参数的正则化项加入优化的损失函数，其直观意义就是让参数不能过大。</p>
+<p>在去模糊问题中优化问题中，一般使用的是复原图像的高频图像（后面会详细介绍这个是什么东西）的第一范式（每个分量的和）做为正则化项，加入到需要最小化的损失函数中。该文章发现，噪声增加能让第一范式项也增加，但是模糊却能减少第一范式项。如果单纯地把这一项放进优化目标里，可能得不到好的去模糊效果。文章发现，如果把第一范式和第二范式（每个分量平方和的平方根）的比值做为正则化项的话，无论是模糊增加还是噪声增加，都会让这一项增加。那么，最小化这一项，就能达到同时减少模糊和噪声的效果了。</p>
+<p>简而言之，这种新的正则化项较以往的方法，能更好地同时减少噪声和模糊。</p>
+<h2 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h2><p>整体上来看，算法分两步：第一步使用新的优化函数估计出模糊卷积核，这样盲去模糊问题就变成了一个非盲去模糊问题；第二步使用以往的非盲去模糊方法得到去模糊结果。</p>
+<h3 id="模糊卷积核估计"><a href="#模糊卷积核估计" class="headerlink" title="模糊卷积核估计"></a>模糊卷积核估计</h3><p>卷积核估计是在图像的高频图像进行的。所谓高频图像，就是对图像求x方向的一阶导数和y方向的一阶导数得到的图像。用$y$来表示模糊图像的高频图像，$x$表示修复图像的高频图像，那么优化目标可以写成：</p>
+<script type="math/tex; mode=display">min_{x,k} \lambda||x\bigotimes k-y||_2^2+\frac{||x||_1}{||x||_2}+\psi||k||</script><p>其中$k$是模糊卷积核，$\lambda,\phi$用来调节对应两项的权重。</p>
+<p>解决这一优化问题的方法是对两个优化参数$x,k$进行轮流优化。即优化$x$时，假设$k$是一个常量；反之亦然。</p>
+<h4 id="更新-x"><a href="#更新-x" class="headerlink" title="更新$x$"></a>更新$x$</h4><p>此时，优化目标被简化成以下形式：</p>
+<script type="math/tex; mode=display">min_{x} \lambda||x\bigotimes k-y||_2^2+\frac{||x||_1}{||x||_2}</script><p>但这个函数依然是一个没有极点，比较难优化的一个函数。文章中发现，如果第二范式的值固定，即求解</p>
+<p>$min_{x} \lambda||Kx-y||_2^2+{||x||_1}$这样一个优化目标的最小值的话，是有一个比较快的iterative shrinkage-thresholding algorithm(ISTA)算法的。</p>
+<p>因此，更新$x$又可以分成两层：先在固定第二范式的分母的情况下，使用ISTA更新几次$x$；之后重新计算第二范式，这个大的过程又重复进行几次。</p>
+<h4 id="更新-k"><a href="#更新-k" class="headerlink" title="更新$k$"></a>更新$k$</h4><p>此时，优化目标被简化成以下形式：</p>
+<script type="math/tex; mode=display">min_{k} \lambda||x\bigotimes k-y||_2^2+\psi||k||</script><p>这个问题也有现成的算法可以解决。文中用的是无约束的iterative re-weighted least squares (IRLS)算法。</p>
+<p>文章中也指出，在实际运用的算法的时候，每次计算出卷积核后要把其中值较小的数直接设为0，以更好应对噪声。</p>
+<h4 id="多级卷积核更新优化"><a href="#多级卷积核更新优化" class="headerlink" title="多级卷积核更新优化"></a>多级卷积核更新优化</h4><p>由于实际情况中，模糊卷积核可能很大。为了保证卷积核在较大时也能得到一个比较好的解，文章中使用了一种优化方法。该方法从粗到精地计算卷积核，即先假设卷积核很小，使用之前提到的算法计算出卷积核后，再把卷积核细分变大。</p>
+<p>在实现时，文章把最开始的卷积核设为3X3，每次以$\sqrt{2}$ 的比例扩大卷积核。对每一层卷积核的更新，$x$和$k$都进行200次交替更新。新一层卷积核使用上一层卷积核的双线性插值得到。</p>
+<h3 id="图像恢复"><a href="#图像恢复" class="headerlink" title="图像恢复"></a>图像恢复</h3><p>图像恢复用的是Fast image deconvolution using hyper-laplacian priors这篇论文的非盲去模糊方法。该方法大致思想是最小化复原图像做模糊卷积的结果图像和退化图像之间的均方误差。由于非盲去模糊的非适定性较小，不需要再用这篇文章开始提到的第一范数和第二范数的比值做为正则化项。</p>
+<h2 id="方法拓展"><a href="#方法拓展" class="headerlink" title="方法拓展"></a>方法拓展</h2><p>之前的描述都假设模糊操作是通过一个卷积核来完成的。如果图像因为旋转而扭曲，也可以用类似的方法，只需要修改优化目标中的卷积那一项就行了，大致思想不变。</p>
+<h2 id="实验结果与评估"><a href="#实验结果与评估" class="headerlink" title="实验结果与评估"></a>实验结果与评估</h2><p>文章首先对Understanding and evaluating blind deconvolution algorithms中提出的4幅用8个大小不同的模糊卷积核得到的32个模糊图片进行去模糊操作，并且用这篇文章中提出的方式来评估去模糊的效果。具体来说，评估的方法是比较还原结果图像与真实图像的均方误差与以已知卷积核还原图像与真实图像的均方误差的比值。这个比值肯定是大于1的，反映的是模糊卷积核复原的效果。文章统计了错误比值的分布（图片错误比值为1、2、3…所占所有图片的百分比）。</p>
+<p>文章把新提出的算法与之前的某两个算法进行了比较。</p>
+<p>同时，文章还使用了一些现实中的模糊图片实例来进行去模糊。文章还对一些经过旋转扭曲的图像进行复原。这些复原的结果没有经过数据上的评估，但经肉眼观察，这些图像复原的效果还是很好的。</p>
+<h1 id="代码模块分析"><a href="#代码模块分析" class="headerlink" title="代码模块分析"></a>代码模块分析</h1><h2 id="整体层次"><a href="#整体层次" class="headerlink" title="整体层次"></a>整体层次</h2><p>代码的模块调用层次如下：</p>
+<ul>
+<li><code>test_blind_deconv_params</code>(执行算法的函数版本)</li>
+<li><code>test_blind_deconv</code>（执行算法的脚本版本）<ul>
+<li><code>ms_blind_deconv</code>（多级盲去模糊，主函数）<ul>
+<li><code>ss_blind_deconv</code>（单级估计卷积核、原图像）<ul>
+<li><code>pcg_kernel_irls_conv</code>（IRLS算法）<ul>
+<li><code>pcg_kernel_core_irls_conv</code>（IRLS算法中计算一个公式中的值的函数）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>fast_deconv_bregman</code>（非盲去模糊算法）<ul>
+<li><code>solve_image_bregman</code>（解决非盲去模糊中的优化问题的算法）</li>
+</ul>
+</li>
+<li><code>center_kernel_separate</code>（把卷积核位置调整为居中）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="算法接口test-blind-deconv"><a href="#算法接口test-blind-deconv" class="headerlink" title="算法接口test_blind_deconv"></a>算法接口<code>test_blind_deconv</code></h2><p><code>test_blind_deconv</code>提供了一个对示例图片去模糊的脚本，而<code>test_blind_deconv_params</code>提供了一个接收文件名、模糊卷积核大小的去模糊函数。这两个文件里的内容相同。</p>
+<p>算法接口仅仅调用了主去模糊函数<code>ms_blind_deconv</code>，并且默认了一些可调的参数（文件名或模糊图像矩阵，$\lambda$等参数，优化算法循环次数、非盲去模糊的参数等）。</p>
+<h2 id="多级盲去模糊主函数ms-blind-deconv"><a href="#多级盲去模糊主函数ms-blind-deconv" class="headerlink" title="多级盲去模糊主函数ms_blind_deconv"></a>多级盲去模糊主函数<code>ms_blind_deconv</code></h2><p>该函数接收文件名和参数结构，返回原图像、模糊图像、模糊卷积核、参数结构。</p>
+<p>该函数描述整个算法的主要流程，在调用具体优化算法前对输入图像进行了繁琐的预处理，并最后把去模糊结果显示出来。</p>
+<p>和论文中的描述算法流程一样，该函数先对数据预处理，再分级估计卷积核，每一级里先循环更新$x$，再调用IRLS算法更新$k$，求得最终估计模糊卷积核后使用非盲去模糊算法计算复原图像。</p>
+<p>预处理部分大致干了以下事情：</p>
+<ul>
+<li>从文件或参数中读取图像矩阵</li>
+<li>更改图片的大小</li>
+<li>gamma校正</li>
+<li>RGB转灰度图</li>
+<li>计算各级卷积核大小</li>
+</ul>
+<p>在每一级估计卷积核前，函数还获取初始化卷积核、图像（从上一级插值得来）、计算高频图像。</p>
+<p>之后函数调用单级卷积核估计函数<code>ss_blind_deconv</code>。每次卷积核被计算出来后使用<code>center_kernel_separate</code>函数居中卷积核。</p>
+<p>最后一级的卷积核被估计出来后，这个卷积核会被存下来。该卷积核用于调用非盲去模糊算法<code>fast_deconv_bregman</code>，最终可以得到去模糊的图像。</p>
+<h2 id="单级估计卷积核、原图像ss-blind-deconv"><a href="#单级估计卷积核、原图像ss-blind-deconv" class="headerlink" title="单级估计卷积核、原图像ss_blind_deconv"></a>单级估计卷积核、原图像<code>ss_blind_deconv</code></h2><p>该函数接受模糊图像、初始化复原图像、初始化卷积核、优化函数参数、循环次数，输出复原图像核估计卷积核。</p>
+<p>该函数先初始化变量，之后按照论文中的方法，在固定第二范式项的情况下使用ISTA来更新几次$x$，之后更新第二范式项。更新$x$后调用IRLS算法更新$k$。</p>
+<p><code>pcg_kernel_irls_conv</code>函数是IRLS算法。算法中又调用了<code>pcg_kernel_core_irls_conv</code>来计算公式中的一个值。</p>
+<h2 id="非盲去模糊算法fast-deconv-bregman"><a href="#非盲去模糊算法fast-deconv-bregman" class="headerlink" title="非盲去模糊算法fast_deconv_bregman"></a>非盲去模糊算法<code>fast_deconv_bregman</code></h2><p>该算法在Fast image deconvolution using hyper-laplacian priors中被提出。算法把最小化损失函数中的可变参数加入x方向的高频图像和y方向的高频图像，在每一轮迭代中使用<code>solve_image_bregman</code>来计算可变参数的更新值。</p>
+<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><h2 id="现有数据"><a href="#现有数据" class="headerlink" title="现有数据"></a>现有数据</h2><p>使用自带的fishes.jpg</p>
+<p><img src="\DIP-paper-code-reading\p1.jpg" alt="p1"></p>
+<p><img src="\DIP-paper-code-reading\p2.jpg" alt="p2"></p>
+<h2 id="新数据"><a href="#新数据" class="headerlink" title="新数据"></a>新数据</h2><p>我使用第二次小作业的模糊图像作为输入，用<code>test_blind_deconv_params(&quot;I_n.jpg&quot;,9)</code>命令来执行算法。</p>
+<p><img src="\DIP-paper-code-reading\p3.jpg" alt="p3"></p>
+<p><img src="\DIP-paper-code-reading\p4.jpg" alt="p4"></p>
+<p><img src="\DIP-paper-code-reading\p5.jpg" alt="p5"></p>
+<p>实际的模糊卷积核是一个高斯模糊卷积核。估计的卷积核与真实的卷积核十分接近。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/homework/" rel="tag"># homework</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/11/Software-Engineering-course-review-1/" rel="next" title="软件工程复习1：结构化编程">
+                <i class="fa fa-chevron-left"></i> 软件工程复习1：结构化编程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Zhou Yifan</p>
+              <p class="site-description motion-element" itemprop="description">A foresighted strategist with big-picture thinking. 大局观选手。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#论文概要"><span class="nav-number">1.</span> <span class="nav-text">论文概要</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题定义"><span class="nav-number">1.1.</span> <span class="nav-text">问题定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文章贡献"><span class="nav-number">1.2.</span> <span class="nav-text">文章贡献</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法思想"><span class="nav-number">1.3.</span> <span class="nav-text">方法思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法流程"><span class="nav-number">1.4.</span> <span class="nav-text">算法流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模糊卷积核估计"><span class="nav-number">1.4.1.</span> <span class="nav-text">模糊卷积核估计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#更新-x"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">更新$x$</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更新-k"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">更新$k$</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多级卷积核更新优化"><span class="nav-number">1.4.1.3.</span> <span class="nav-text">多级卷积核更新优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图像恢复"><span class="nav-number">1.4.2.</span> <span class="nav-text">图像恢复</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法拓展"><span class="nav-number">1.5.</span> <span class="nav-text">方法拓展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验结果与评估"><span class="nav-number">1.6.</span> <span class="nav-text">实验结果与评估</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码模块分析"><span class="nav-number">2.</span> <span class="nav-text">代码模块分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#整体层次"><span class="nav-number">2.1.</span> <span class="nav-text">整体层次</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法接口test-blind-deconv"><span class="nav-number">2.2.</span> <span class="nav-text">算法接口test_blind_deconv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多级盲去模糊主函数ms-blind-deconv"><span class="nav-number">2.3.</span> <span class="nav-text">多级盲去模糊主函数ms_blind_deconv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单级估计卷积核、原图像ss-blind-deconv"><span class="nav-number">2.4.</span> <span class="nav-text">单级估计卷积核、原图像ss_blind_deconv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非盲去模糊算法fast-deconv-bregman"><span class="nav-number">2.5.</span> <span class="nav-text">非盲去模糊算法fast_deconv_bregman</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验结果"><span class="nav-number">3.</span> <span class="nav-text">实验结果</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#现有数据"><span class="nav-number">3.1.</span> <span class="nav-text">现有数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新数据"><span class="nav-number">3.2.</span> <span class="nav-text">新数据</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhou Yifan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.1</div>
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.1"></script>
+
+
+  
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+</style>
+
+    
+  
+
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
