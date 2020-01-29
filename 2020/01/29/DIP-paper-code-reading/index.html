@@ -109,7 +109,7 @@
 <meta property="og:image" content="https://zhouyifan.net/DIP-paper-code-reading/p3.jpg">
 <meta property="og:image" content="https://zhouyifan.net/DIP-paper-code-reading/p4.jpg">
 <meta property="og:image" content="https://zhouyifan.net/DIP-paper-code-reading/p5.jpg">
-<meta property="og:updated_time" content="2020-01-29T07:05:04.273Z">
+<meta property="og:updated_time" content="2020-01-29T07:08:29.463Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数字图像处理大作业：盲去模糊论文（Blind Deconvolution Using a Normalized Sparsity Measure）及代码阅读">
 <meta name="twitter:description" content="我总算找到了博客的正确用法：给自己增加做事情的动力。 寒假回家后，我整个人变得很懒，这个学期最后一门课程的大作业也迟迟没有做完。恰好我发现，自从我把博客链接放到了社交媒体上后，有同学看了我的博客。让别人看到自己“作品”的感觉还是很好的。我打算用写博客的方式来更好地完成作业。 本文按照作业的要求，分为论文概要、代码模块分析、实验结果（使用自己的数据）三个部分。当然，由于我在博客里写东西比较随意，我提">
@@ -425,7 +425,7 @@
         <p>我总算找到了博客的正确用法：给自己增加做事情的动力。</p>
 <p>寒假回家后，我整个人变得很懒，这个学期最后一门课程的大作业也迟迟没有做完。恰好我发现，自从我把博客链接放到了社交媒体上后，有同学看了我的博客。让别人看到自己“作品”的感觉还是很好的。我打算用写博客的方式来更好地完成作业。</p>
 <p>本文按照作业的要求，分为论文概要、代码模块分析、实验结果（使用自己的数据）三个部分。当然，由于我在博客里写东西比较随意，我提交的作业报告肯定会在这篇博客的基础上有所修改。</p>
-<h1 id="论文概要"><a href="#论文概要" class="headerlink" title="论文概要"></a>论文概要</h1><h2 id="问题定义"><a href="#问题定义" class="headerlink" title="问题定义"></a>问题定义</h2><p>本文解决的是一个非常经典的问题：如何恢复一张被模糊和添加噪声的图片。即假设模糊矩阵是$K$,原图像是$u$，噪声是$N$,模糊图像是$g$。那么$g = Ku+N$现在我们只知道$g$，如何得到$u$。</p>
+<h1 id="论文概要"><a href="#论文概要" class="headerlink" title="论文概要"></a>论文概要</h1><h2 id="问题定义"><a href="#问题定义" class="headerlink" title="问题定义"></a>问题定义</h2><p>本文解决的是一个非常经典的问题：如何恢复一张被模糊和添加噪声的图片。即假设模糊矩阵是$K$,原图像是$u$，噪声是$N$,模糊图像是$g$。那么$g = Ku+N$。现在我们只知道$g$，如何得到$u$。</p>
 <p>更具体地，本文介绍的是盲去模糊，即不知道模糊卷积核的情况下，应该如何恢复模糊图像。我上次写的<a href="https://zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/">第二个小作业</a>解决的是类似的去模糊问题，但那次问题是一个非盲去模糊，即卷积核已知。</p>
 <h2 id="文章贡献"><a href="#文章贡献" class="headerlink" title="文章贡献"></a>文章贡献</h2><p>求未知模糊卷积核的问题可以被转换成一个优化问题，即求解某一个损失函数的最小值。文章主要的贡献是提出了一种在损失函数中添加正则化的方法，并且围绕这种方法提供了一套完整的去模糊算法。</p>
 <h2 id="方法思想"><a href="#方法思想" class="headerlink" title="方法思想"></a>方法思想</h2><p>求解模糊卷积核的优化问题有很多的局部最优解。为了获取一个更好的解，需要加入一些正则化项。正则化项似乎可以用在所有的优化问题里，来避免一些局部最优解。但正则化项的原理我一直都不是很理解，感觉这就是一个被人工设置出来的东西，没有比较清晰的理论依据。把一个参数的正则化项加入优化的损失函数，其直观意义就是让参数不能过大。</p>
