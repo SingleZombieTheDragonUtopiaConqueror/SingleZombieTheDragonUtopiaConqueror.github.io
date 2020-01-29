@@ -104,16 +104,16 @@
 <meta property="og:site_name" content="周弈帆的博客">
 <meta property="og:description" content="我总算找到了博客的正确用法：给自己增加做事情的动力。 寒假回家后，我整个人变得很懒，这个学期最后一门课程的大作业也迟迟没有做完。恰好我发现，自从我把博客链接放到了社交媒体上后，有同学看了我的博客。让别人看到自己“作品”的感觉还是很好的。我打算用写博客的方式来更好地完成作业。 本文按照作业的要求，分为论文概要、代码模块分析、实验结果（使用自己的数据）三个部分。当然，由于我在博客里写东西比较随意，我提">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://zhouyifan.net/DIP-paper-code-reading/p1.jpg">
-<meta property="og:image" content="https://zhouyifan.net/DIP-paper-code-reading/p2.jpg">
-<meta property="og:image" content="https://zhouyifan.net/DIP-paper-code-reading/p3.jpg">
-<meta property="og:image" content="https://zhouyifan.net/DIP-paper-code-reading/p4.jpg">
-<meta property="og:image" content="https://zhouyifan.net/DIP-paper-code-reading/p5.jpg">
-<meta property="og:updated_time" content="2020-01-29T07:08:29.463Z">
+<meta property="og:image" content="https://zhouyifan.net/2020/01/29/DIP-paper-code-reading/p1.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2020/01/29/DIP-paper-code-reading/p2.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2020/01/29/DIP-paper-code-reading/p3.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2020/01/29/DIP-paper-code-reading/p4.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2020/01/29/DIP-paper-code-reading/p5.jpg">
+<meta property="og:updated_time" content="2020-01-29T08:32:57.463Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数字图像处理大作业：盲去模糊论文（Blind Deconvolution Using a Normalized Sparsity Measure）及代码阅读">
 <meta name="twitter:description" content="我总算找到了博客的正确用法：给自己增加做事情的动力。 寒假回家后，我整个人变得很懒，这个学期最后一门课程的大作业也迟迟没有做完。恰好我发现，自从我把博客链接放到了社交媒体上后，有同学看了我的博客。让别人看到自己“作品”的感觉还是很好的。我打算用写博客的方式来更好地完成作业。 本文按照作业的要求，分为论文概要、代码模块分析、实验结果（使用自己的数据）三个部分。当然，由于我在博客里写东西比较随意，我提">
-<meta name="twitter:image" content="https://zhouyifan.net/DIP-paper-code-reading/p1.jpg">
+<meta name="twitter:image" content="https://zhouyifan.net/2020/01/29/DIP-paper-code-reading/p1.jpg">
 
 
 
@@ -492,12 +492,12 @@
 <p><code>pcg_kernel_irls_conv</code>函数是IRLS算法。算法中又调用了<code>pcg_kernel_core_irls_conv</code>来计算公式中的一个值。</p>
 <h2 id="非盲去模糊算法fast-deconv-bregman"><a href="#非盲去模糊算法fast-deconv-bregman" class="headerlink" title="非盲去模糊算法fast_deconv_bregman"></a>非盲去模糊算法<code>fast_deconv_bregman</code></h2><p>该算法在Fast image deconvolution using hyper-laplacian priors中被提出。算法把最小化损失函数中的可变参数加入x方向的高频图像和y方向的高频图像，在每一轮迭代中使用<code>solve_image_bregman</code>来计算可变参数的更新值。</p>
 <h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><h2 id="现有数据"><a href="#现有数据" class="headerlink" title="现有数据"></a>现有数据</h2><p>使用自带的fishes.jpg</p>
-<p><img src="\DIP-paper-code-reading\p1.jpg" alt="p1"></p>
-<p><img src="\DIP-paper-code-reading\p2.jpg" alt="p2"></p>
+<p><img src="//zhouyifan.net/2020/01/29/DIP-paper-code-reading/p1.jpg" alt="p1"></p>
+<p><img src="//zhouyifan.net/2020/01/29/DIP-paper-code-reading/p2.jpg" alt="p2"></p>
 <h2 id="新数据"><a href="#新数据" class="headerlink" title="新数据"></a>新数据</h2><p>我使用第二次小作业的模糊图像作为输入，用<code>test_blind_deconv_params(&quot;I_n.jpg&quot;,9)</code>命令来执行算法。</p>
-<p><img src="\DIP-paper-code-reading\p3.jpg" alt="p3"></p>
-<p><img src="\DIP-paper-code-reading\p4.jpg" alt="p4"></p>
-<p><img src="\DIP-paper-code-reading\p5.jpg" alt="p5"></p>
+<p><img src="//zhouyifan.net/2020/01/29/DIP-paper-code-reading/p3.jpg" alt="p3"></p>
+<p><img src="//zhouyifan.net/2020/01/29/DIP-paper-code-reading/p4.jpg" alt="p4"></p>
+<p><img src="//zhouyifan.net/2020/01/29/DIP-paper-code-reading/p5.jpg" alt="p5"></p>
 <p>实际的模糊卷积核是一个高斯模糊卷积核。估计的卷积核与真实的卷积核十分接近。</p>
 
       
