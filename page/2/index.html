@@ -305,6 +305,280 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/12/30/Digital-Image-Processing-homework2/" class="post-title-link" itemprop="url">数字图像处理小作业2：图像扭曲与修复（高斯模糊、高斯噪声、维纳滤波）</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-12-30 11:33:00" itemprop="dateCreated datePublished" datetime="2019-12-30T11:33:00+08:00">2019-12-30</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/" itemprop="url" rel="index"><span itemprop="name">Computer Science</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/Digital-Image-Processing/" itemprop="url" rel="index"><span itemprop="name">Digital Image Processing</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="数字图像处理小作业2"><a href="#数字图像处理小作业2" class="headerlink" title="数字图像处理小作业2"></a>数字图像处理小作业2</h1><h2 id="代码仓库"><a href="#代码仓库" class="headerlink" title="代码仓库"></a>代码仓库</h2><p><a href="https://github.com/SingleZombie/WienerFilteringCpp" target="_blank" rel="noopener">https://github.com/SingleZombie/WienerFilteringCpp</a></p>
+<h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><p>老师给的需求如下：</p>
+<ul>
+<li>读入一幅灰度图像</li>
+<li>生成模糊图像：高斯模糊滤波+噪声</li>
+<li>利用维纳滤波去模糊</li>
+</ul>
+<p>总结来说，本次作业处理的图像对象是灰度图。灰度图要经过扭曲和修复两个过程。扭曲是高斯模糊和噪声（我选择了高斯噪声），修复用的是维纳滤波的方法。</p>
+<p>相比上次的作业，本次需求清晰了不少。</p>
+<h2 id="技术学习"><a href="#技术学习" class="headerlink" title="技术学习"></a>技术学习</h2><h3 id="高斯模糊"><a href="#高斯模糊" class="headerlink" title="高斯模糊"></a>高斯模糊</h3><p>模糊一个图像，可以通过卷积核来实现。具体来说，就是把一个像素的值加上它旁边几个像素的值。这样从直观上来看，像素之间的差异被减小了，图片就变模糊了。</p>
+<p>问题是，一个像素值该如何加上旁边几个像素的值？每个像素相加的权重是什么？有人把二维高斯分布函数当成概率密度函数，权重就是概率密度函数的值。这样的利用高斯函数来计算卷积核权重的模糊方法就是高斯模糊。</p>
+<h3 id="高斯噪声"><a href="#高斯噪声" class="headerlink" title="高斯噪声"></a>高斯噪声</h3><p>噪声就是把某个位置的像素值改变多少看成一个随机变量。如果随机变量符合高斯分布，那么这个噪声就是高斯噪声。随机变量和位置无关，只和随机变量自己的性质（均值、方差）有关。</p>
+<h3 id="维纳滤波"><a href="#维纳滤波" class="headerlink" title="维纳滤波"></a>维纳滤波</h3><p>图像修复就是假设一个扭曲模型（输入为原图像的一个函数），之后设法求出这个模型中的参数，再利用这些参数复原图像。</p>
+<p>维纳滤波就是假设原图像经过了一个卷积和一个噪声添加。该方法要的思想是让复原出的图像和原图像的”差异“尽可能小，这个”差异“被定义为均方误差。由于我没有学过信号处理这门课，而本课程又更关注算法的使用而非原理，这里不加证明地给出最终的式子：</p>
+<script type="math/tex; mode=display">
+\hat{F}(u,v) = [\frac{1}{H(u,v)} \cdot \frac{|H(u, v)|^2}{|H(u, v)|^2 + k}]G(u,v)</script><p>其中$\hat{F}(u,v)$是复原出来的图像的频域值，$H(u,v)$是退化函数在频域下的表示，$G(u,v)$是被扭曲过的图像。而$k$是一个可调的参数。</p>
+<p>本次任务的难点应该就是调试$k$这个参数。</p>
+<p>有一篇<a href="https://blog.csdn.net/baimafujinji/article/details/73882265" target="_blank" rel="noopener">博客</a>对维纳滤波的原理以及matlab下的实现做了讲解。</p>
+<h3 id="OpenCV用法"><a href="#OpenCV用法" class="headerlink" title="OpenCV用法"></a>OpenCV用法</h3><p>写着写着发现又碰到了很多不会用的函数。</p>
+<h4 id="cv-normalize"><a href="#cv-normalize" class="headerlink" title="cv::normalize"></a><code>cv::normalize</code></h4><p><code>cv::normalize(src, dest, upper_bound = 1, lower_bound = 0, norm_type = cv::NORM_L2);</code></p>
+<p>normalize用于归一化，避免一个向量的模变大。在图像中，卷积核做归一化可以保证图像的亮度不变。</p>
+<p>我只会用这个函数的前5个参数，有几个参数的名字是我取的。</p>
+<p><code>src</code>：原图像</p>
+<p><code>dest</code>：输出图像</p>
+<p><code>upper_bound</code>：归一化后的上界</p>
+<p><code>lower_bound</code>：归一化后的下界    </p>
+<p><code>norm_type</code>：归一化的范式</p>
+<p>归一化的基本操作就是要让模为1，因此输出的下界是0，上界是1。归一化的操作是把向量的每个分量都除以向量的模。</p>
+<p>范式就是模是如何计算的。第一范式把模计算成所有分量之和，第二范式把模计算成所有分量平方和开方…………无穷范式把模计算成最大分量。</p>
+<h4 id="cv-filter2D"><a href="#cv-filter2D" class="headerlink" title="cv::filter2D"></a><code>cv::filter2D</code></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cv::filter2D(srcMat, destMat, ddepth, kernel, anchor = (-1, -1))</span><br></pre></td></tr></table></figure>
+<p>这个函数用于做图像的卷积，省去了手写循环的无聊过程。</p>
+<p>同样，我只列出了我会的参数，参数名字是随意写的。</p>
+<p><code>srcMat</code>：原图像</p>
+<p><code>destMat</code>：输出图像</p>
+<p><code>ddepth</code>：输出图像深度，-1为和原图像相同</p>
+<p><code>kernel</code>：卷积核</p>
+<p><code>anchor</code>：锚点，也就是被卷积的点在卷积核的哪个位置。(-1, -1)是卷积核正中心</p>
+<h4 id="cv-dft"><a href="#cv-dft" class="headerlink" title="cv::dft"></a><code>cv::dft</code></h4><p><code>cv::dft(srcMat, destMat, flag)</code></p>
+<p>这个函数就是做离散傅里叶变换，内部实现方法肯定是用FFT做的。</p>
+<p><code>srcMat</code>：原图像</p>
+<p><code>destMat</code>：输出图像</p>
+<p><code>flag</code>：操作的一些参数。我知道的参数有：</p>
+<p>​    <code>cv::DFT_CCOMPLEX_OUTPUT</code>: 输出结果以复数形式存储，通道数增加。我输入单通道的图像出来是双通道的。</p>
+<p>​    <code>cv::DFT_REAL_OUTPUT</code>：仅保留结果复数的实数部分，通道数不变。</p>
+<p>​    <code>cv::DFT_SCALE</code>：运算结束后除以一个数，用于IFFT中</p>
+<p>​    <code>cv::DFT_INVERSE</code>：做的是逆变换。</p>
+<p>在我的程序里，FFT的写法是<code>cv::dft(src, dest, cv::DFT_COMPLEX_OUTPUT);</code>，IFFT的写法是<code>cv::dft(src, dest, cv::DFT_SCALE | cv::DFT_INVERSE | cv::DFT_REAL_OUTPUT);</code></p>
+<h3 id="C-标准库用法"><a href="#C-标准库用法" class="headerlink" title="C++标准库用法"></a>C++标准库用法</h3><p>本次程序中我竟然碰到了完全没见过的c++标准库函数。</p>
+<h4 id="std-normal-distribution"><a href="#std-normal-distribution" class="headerlink" title="std::normal_distribution"></a><code>std::normal_distribution</code></h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;random&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">std</span>::random_device divice;</span><br><span class="line"><span class="built_in">std</span>::<span class="function">default_random_engine <span class="title">rng</span><span class="params">(divice())</span></span>;</span><br><span class="line"><span class="built_in">std</span>::normal_distribution&lt;&gt; normDis(mu, sigma);</span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> randomNumber = normDis(rng);</span><br></pre></td></tr></table></figure>
+<p>正态分布函数在c++的随机数库中。使用c++的随机数库有一些麻烦。语句前两行貌似是一个分布函数的初始化步骤，我不求甚解地直接使用了。语句第三行用平均值和方差初始化一个正态分布。初始化了之后每次就能获取一个符合正态分布的值了。</p>
+<h3 id="用OpenCV完成的组合操作"><a href="#用OpenCV完成的组合操作" class="headerlink" title="用OpenCV完成的组合操作"></a>用OpenCV完成的组合操作</h3><p>本节讲的是完成某一功能的，使用到OpenCV的自定义函数。</p>
+<p>我在完成这个作业的时候，参考了很多别人的博客。但是有些人用的是matlab实现的，里面出现了C++OpenCV里没有的函数。我只好去搜了一些这些函数的原理，参考了别人的C++实现并自己实现了一下。</p>
+<h4 id="circShift"><a href="#circShift" class="headerlink" title="circShift"></a><code>circShift</code></h4><p><code>circShift(mat, x, y)</code></p>
+<p>该函数的作用是，把一个矩阵<code>mat</code>向x轴正方向移动x个单位，向y轴正方向移动y个单位。移动中溢出的数字会填补到空出来的地方，也就是整个矩阵是循环移动的。</p>
+<p>该函数实现起来很简单，先把x,y变成模意义下的值，再用临时矩阵做比较繁琐的<code>copyTo</code>就行了。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">cv::<span class="function">Mat <span class="title">circShift</span><span class="params">(<span class="keyword">const</span> cv::Mat&amp; mat, <span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> mWidth = mat.cols;</span><br><span class="line">	<span class="keyword">int</span> mHeight = mat.rows;</span><br><span class="line">	x = (x % mWidth + mWidth) % mWidth;</span><br><span class="line">	y = (y % mHeight + mHeight) % mHeight;</span><br><span class="line"></span><br><span class="line">	cv::<span class="function">Mat <span class="title">res</span><span class="params">(mat.size(), mat.type())</span></span>;</span><br><span class="line">	cv::<span class="function">Mat <span class="title">m1</span><span class="params">(mat, cv::Rect(<span class="number">0</span>, <span class="number">0</span>, mWidth - x, mHeight))</span></span>;</span><br><span class="line">	cv::<span class="function">Mat <span class="title">m2</span><span class="params">(mat, cv::Rect(mWidth - x, <span class="number">0</span>, x, mHeight))</span></span>;</span><br><span class="line">	m1.copyTo(res(cv::Rect(x, <span class="number">0</span>, mWidth - x, mHeight)));</span><br><span class="line">	m2.copyTo(res(cv::Rect(<span class="number">0</span>, <span class="number">0</span>, x, mHeight)));</span><br><span class="line">	</span><br><span class="line">	cv::<span class="function">Mat <span class="title">res2</span><span class="params">(mat.size(), mat.type())</span></span>;</span><br><span class="line">	m1 = cv::Mat(res, cv::Rect(<span class="number">0</span>, <span class="number">0</span>, mWidth, mHeight - y));</span><br><span class="line">	m2 = cv::Mat(res, cv::Rect(<span class="number">0</span>, mHeight - y, mWidth, y));</span><br><span class="line">	m1.copyTo(res2(cv::Rect(<span class="number">0</span>, y, mWidth, mHeight - y)));</span><br><span class="line">	m2.copyTo(res2(cv::Rect(<span class="number">0</span>, <span class="number">0</span>, mWidth, y)));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> res2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于我对OpenCV的用法不算很熟，没有写性能更好的方法，我感觉我的写法<code>copyTo</code>用得有点多了。我写的时候比较匆忙，只顾着实现，没有考虑到性能的问题。</p>
+<h4 id="psf2otf"><a href="#psf2otf" class="headerlink" title="psf2otf"></a><code>psf2otf</code></h4><p><code>psf2otf(mat, outSize = Size(-1, -1))</code></p>
+<p>该函数的作用是，把一个二维点扩散函数转换成指定大小频域形式。</p>
+<p>点扩散函数也许在数学上有其他定义，但根据我对该函数效果的理解，这里的点扩散函数指的就是一个用矩阵表示的二维函数，矩阵某位置的值表示二维函数在此处的函数值，该矩阵中心点是原点$(0, 0)$。</p>
+<p>该函数的直接作用非常不好理解，但知道该函数的应用后就容易理解了。一个图像用一个卷积核卷积在时域上的计算可能比较慢，但是把图像和卷积核转换到到频域后，只要相乘，再转换回时域就可以得到卷积的结果了。由于卷积核的原点在中心点而不在左上角，且其大小可能比图像小，因此在卷积操作前需要把卷积核调整位置，并且扩大到和原图像一样的大小。经过处理后的卷积核的频域表示就能和原图像的频域表示进行正确的计算了。</p>
+<p>该函数作用的宏观解释在明白函数的应用后，就比较容易理解了。但要理解其具体实现方法，需要了解FFT本身原理。我是通过理解一维FFT的原理后推广到二维的。</p>
+<p>这里不加解释地直接给出该函数的具体操作了。该函数先把卷积核扩展至指定大小，再把卷积核的中心移动到左上角（准确来说是原点，计算机里左上角是原点）。注意这一步移动是循环移动，卷积核的部分内容被循环移动到了 右上角、左下角，右下角。扩展和移动结束后，再做FFT就行了。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">cv::<span class="function">Mat <span class="title">psf2otf</span><span class="params">(<span class="keyword">const</span> cv::Mat&amp; mat, cv::Size outSize)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (outSize.height == <span class="number">-1</span> || outSize.width == <span class="number">-1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		outSize = mat.size();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	cv::Mat otf;</span><br><span class="line">	cv::Size paddleSize = outSize - mat.size();</span><br><span class="line">	cv::copyMakeBorder(mat, otf,</span><br><span class="line">		paddleSize.height - paddleSize.height / <span class="number">2</span>, paddleSize.height / <span class="number">2</span>,</span><br><span class="line">		paddleSize.width - paddleSize.width / <span class="number">2</span>, paddleSize.width / <span class="number">2</span>,</span><br><span class="line">		cv::BORDER_CONSTANT,</span><br><span class="line">		cv::Scalar::all(<span class="number">0</span>));</span><br><span class="line"></span><br><span class="line">	otf = circShift(otf, -otf.size().width / <span class="number">2</span>, -otf.size().height / <span class="number">2</span>);</span><br><span class="line">	otf = grayImageFFT(otf);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> otf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我在写这个函数的时候参考了<a href="https://www.cnblogs.com/phoenixdsg/p/9058044.html" target="_blank" rel="noopener">这篇博客</a>。这篇博客的实现 在卷积结束以后，还判断了虚数部分是否比较小，可以忽略。但我没有多加这一步判断。</p>
+<h4 id="图像与卷积核在频域的计算"><a href="#图像与卷积核在频域的计算" class="headerlink" title="图像与卷积核在频域的计算"></a>图像与卷积核在频域的计算</h4><p>这部分没什么新的内容，就是把代码组合了一下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Get frequent field of origin image</span></span><br><span class="line">cv::Mat fOrigin = grayImageFFT(origin);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Get frequent field of kernel and rearrange it</span></span><br><span class="line">cv::Mat h = getKernal(..........);</span><br><span class="line">cv::Mat funcH = psf2otf(h, mat.size());</span><br><span class="line"></span><br><span class="line"><span class="comment">// Execute complex number multiply</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; fOrigin.rows; i++)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; fOrigin.cols; j++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">std</span>::<span class="keyword">complex</span>&lt;<span class="keyword">double</span>&gt; g(fOrigin.at&lt;cv::Vec2f&gt;(i, j)[<span class="number">0</span>], fOrigin.at&lt;cv::Vec2f&gt;(i, j)[<span class="number">1</span>]);</span><br><span class="line">		<span class="built_in">std</span>::<span class="keyword">complex</span>&lt;<span class="keyword">double</span>&gt; h(funcH.at&lt;cv::Vec2f&gt;(i, j)[<span class="number">0</span>], funcH.at&lt;cv::Vec2f&gt;(i, j)[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">		g *= h;</span><br><span class="line"></span><br><span class="line">		fOrigin.at&lt;cv::Vec2f&gt;(i, j)[<span class="number">0</span>] = g.real();</span><br><span class="line">		fOrigin.at&lt;cv::Vec2f&gt;(i, j)[<span class="number">1</span>] = g.imag();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Do IFFT</span></span><br><span class="line">cv::Mat matRes = grayImageIFFT(fOrigin);</span><br><span class="line">cv::Mat result = cv::Mat(matRes, cv::Rect(<span class="number">0</span>, <span class="number">0</span>, origin.cols, origin.rows));</span><br></pre></td></tr></table></figure>
+<p>以上代码算半个伪代码，完成了普通的频域相乘操作。如果要做其它的操作（比如维纳滤波），改循环里的公式就行了。</p>
+<h2 id="结构设计"><a href="#结构设计" class="headerlink" title="结构设计"></a>结构设计</h2><p>同<a href="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/#structure">上次任务</a>。</p>
+<p>其中图像处理分成两个模块：退化图像生成与退化图像修复。</p>
+<p>退化图像生成又分两个模块：模糊和加噪声。</p>
+<p>最终实现的时候又加了一个交互模块，可以动态调参。这个模块要调用退化图像生成模块和退化图像修复模块。模块化设计的好处在这里就体现出来了。</p>
+<p>虽然我感觉我模块分得特别好，最终代码清晰简明，符合数据流的内在逻辑结构，但我还是不太想在这里炫耀了。</p>
+<h2 id="程序设计心路历程"><a href="#程序设计心路历程" class="headerlink" title="程序设计心路历程"></a>程序设计心路历程</h2><p>我看完高斯模糊和高斯噪声的原理后，很快就把这两部分实现了。</p>
+<p>在了解原理，知道了C++有正态分布生成器后，这部分应该非常容易实现。</p>
+<p>先提一句，最开始高斯模糊卷积我是直接拿<code>filter2D</code>做的。</p>
+<p>问题就出在维纳滤波上。</p>
+<p>一开始，我把原图像做了FFT，卷积核直接做了FFT再扩展到和原图像同样大小，再逐像素用公式计算，最后把计算结果IFFT。最终，我得到了一幅乱七八糟的图像。</p>
+<p>频域的操作难以可视化，难以调试。我甚至都不知道我哪一步错了。但是，我凭借着我冷静的大脑，准备把这个过程逐一调试。</p>
+<p>首先，我打算验证FFT和IFFT是否正确。我对一个图像进行FFT再IFFT回来，发现图像没有复原。果然，FFT和IFFT这步我就做错了。为了解决这个问题，我查了好多东西，还瞎照网上写了个FFT的优化函数。最后我理解了一下<code>cv::dft</code>的参数的含义，才把FFT和IFFT做对。</p>
+<p>接着，我开始怀疑我的卷积核是不是不太对。FFT的原点在左上角，而卷积核的原点在中间，这好像不太对劲。但我一时半会儿解决不了这个问题。于是我干脆把卷积核的原点改到了左上角，即每次卷积的时候只对右下角的部分卷积，忽略掉这个问题，先解决其他问题。</p>
+<p>我现在想验证除了卷积核外，我整个维纳滤波公式的运算是否有问题。我知道，如果没有噪声的话，逆滤波可以直接把图像复原，此时维纳滤波k值取0。因此，我暂时去掉了噪声，把k值设成0，看算法效果如何。结果图像确实复原出来了，但四周有一些不和谐的条状噪声。这个结果搞得我一头雾水。</p>
+<p>我进一步思考，逆滤波能够复原图像，是因为噪声卷积操作和逆变换互为逆操作。但我卷积是拿<code>filter2D</code>做的，逆变换是在频域做的，这二者会不会工作原理不一样？于是，我暂时把卷积操作也变成频域操作。</p>
+<p>终于，经过我这次的瞎折腾后，露娜sama美丽的面庞终于清晰地出现在了屏幕上。我又对退化图像加上了噪声。这次，k值取0的时候画面一片模糊，但k值只要稍稍增大，依旧能生成较退化图像更清晰的复原图像。至此，调试第一阶段结束，我高兴了好一会儿。</p>
+<p>顺带一提，这个阶段为了调试方便，我把调k值放进了GUI里面，这样可以动态看到调参的结果。由于Debug模式下性能捉鸡，我又把OpenCV的Release版本编译了一遍。</p>
+<p>问题是，现在我忽略了两个问题，一个是卷积核中心位置的问题，一个是用<code>Filter2D</code>的问题。我准备先解决第一个问题。</p>
+<p>我把卷积核的原点又放回了中心。这次修改后，复原图像倒是能够生成了，但是图像的位置完全乱了：图像的左上角在右下角，右下角在左上角……。整个图像的四周都颠倒了。我去写了个OpenCV的<code>fft2shift</code>，试图把图像移正。但移正之后发现图像复原是失败的，最终图像和退化图像长得差不多。</p>
+<p>在反复阅读了网上的代码后，我发现我代码唯一不太对的地方就是少了个<code>psf2otf</code>函数。我去搜了一下这个函数，竟然惊喜地搜到了这个函数的C++实现。我赶紧学了一下，看懂了函数的工作原理。我把这个函数加入了代码中，但怎么调都调不对。无奈之下，我只好双手离开键盘，选择冷静思考一波。</p>
+<p>吃饭的时候，我仔细想了一想FFT的原理。我通过我以前对一维FFT的认识，以及昨天搜索到的零碎知识，渐渐搞清了<code>psf2otf</code>的原理以及目的。原来，图像FFT溢出的部分会“往回填”，图像靠右的部分表示的是负频率。为了保证卷积操作的正确进行，卷积核也要在扩充至和图像一样大小后，循环移动到左上角。</p>
+<p>理清楚了每一条逻辑后，我修改了代码，在卷积核原点在中心时，图像终于能够正常地复原了。</p>
+<p>最后是<code>Filter2D</code>的问题。如果卷积操作是拿这个函数做，得到的复原图像四周就会有条纹。我开始分析这种问题出现的原因。从“只有四周有问题”这个事实上，我想到很可能是<code>Filter2D</code>对边界处理的方式和用FFT处理不同。FFT是把整幅图像当成一个循环的图像来处理，因此会出现最右边像素受到最左边的像素的影响这种问题。而<code>Filter2D</code>对边界的处理有多种方式。我查了一下函数说明，果然<code>Filter2D</code>默认是把边缘反射处理，和在频域运算的方法不相同。但我尝试把边缘循环处理的时候，函数却报错了。源代码Assert掉了循环处理，不允许使用。无奈之下，我只好不使用<code>Filter2D</code>。反正我已经完全理解了这些操作的细节了。</p>
+<p>最终程序的详细内容我就不讲了。感觉这份程序结构化做得非常棒，功能实现得非常完全。由于是作业，我还不得不加上了很多注释。相信大部分人都能看懂我那清晰易懂的代码。具体代码可以去代码仓库查看。</p>
+<h2 id="处理结果"><a href="#处理结果" class="headerlink" title="处理结果"></a>处理结果</h2><p><img src="//zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/I_o.jpg" alt></p>
+<p>原图</p>
+<p><img src="//zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/I_n.jpg" alt></p>
+<p>噪声图</p>
+<p><img src="//zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/I_d.jpg" alt></p>
+<p>修复结果</p>
+<p>附原图的彩图版本：</p>
+<p><img src="//zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/origin.jpg" alt></p>
+<h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>这个作业实在是太烦人了。原来我以为一个下午就能做完的东西，硬是做了两天。</p>
+<p>我遇到的问题实在是有些令人恼火。我既不是程序代码不会写，也不是算法原理没搞懂，而是API怎么调，某个操作的实现细节这些边界知识没有掌握。本次作业没增加多少我对复原算法的认识，倒是进一步强化了我搜索信息和理解信息的能力。</p>
+<p>之前，包括课本在内，很多介绍模糊和复原的文章都在用一个女性照片做为原图像。我一开始还没明白为什么。后来，在写程序碰到瓶颈之余，我好好分析了一下这个问题，总算得到了一个非常漂亮的结论：科研工作者大多为单身男性，每日面对的只有无情的代码和冷冰冰的文字。在这种恶劣的条件下，偶尔出现的女性照片，能给你黯淡的内心点上一丝救赎的光芒。所以，人们更多地选择那张女性照片。</p>
+<p>可惜我的内心对于这种照片不为所动。我想，凭什么只用三次元的照片？于是，我随便在电脑里找了一张露娜sama的图片。果然，看着这幅CG被一步一步复原，我被各种BUG蹂躏得受伤的心灵得到了安慰。我为自己的机智和随机应变能力而赞叹不已。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2789,251 +3063,11 @@ g(x) &= (1 + 3x + 3^2x^2 +...) - (1+2x+2^2x^2+...)
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/06/23/Theory-of-Computation-Review1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhou Yifan">
-      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="周弈帆的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/06/23/Theory-of-Computation-Review1/" class="post-title-link" itemprop="url">计算理论复习一：正则语言</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2019-06-23 01:49:19" itemprop="dateCreated datePublished" datetime="2019-06-23T01:49:19+08:00">2019-06-23</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/" itemprop="url" rel="index"><span itemprop="name">Computer Science</span></a></span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/Theory-of-Computation/" itemprop="url" rel="index"><span itemprop="name">Theory of Computation</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>计算是什么呢？</p>
-<p>数学，一门从数字与计算中出现的学科，在发展到一定阶段后，开始追问起了计算的本质。</p>
-<p>数学家们用数学的语言，把“计算”这个早就存在的词语严格定义。用自身定义自身，这正是数学之美。</p>
-<p>更令人开心的是，数学家在研究计算的过程中，开创了计算理论这门学科。人们在计算理论的基础上，制造了计算机。再随着计算机的应用不断变广，计算机成了一门单独的学科——计算机科学。</p>
-<p>又扯远了。计算理论研究了什么是计算的机器，哪些问题是人们可以计算出来的，可以计算的问题怎么才能计算得更快。为了开始计算理论的学习，我们需要从最简单的计算模型，来一步一步理解计算理论研究的内容。有穷自动机及正则语言，就是我们的第一个学习对象。</p>
-<h2 id="第1章-正则语言"><a href="#第1章-正则语言" class="headerlink" title="第1章 正则语言"></a>第1章 正则语言</h2><h3 id="事物的状态"><a href="#事物的状态" class="headerlink" title="事物的状态"></a>事物的状态</h3><p>每时每刻，世界的万物都在发生变化。比如，昼夜不断交替着，早晨太阳升起，傍晚太阳落下；今天的我，总是比昨天的我更加帅气一点。</p>
-<p>有些变化，它变来变去就是那么几种情况。比如，天要么是亮的，要么是暗的。有些变化则不然，是会一直进行下去的。我每天都在变帅，我的帅气程度永远在递增，不会有两个相同的值。</p>
-<p>为了更好地掌控那些状态有限的事物，人们用一个有向图来表示这些事物。在有向图中，顶点表示状态，边表示转移条件。比如</p>
-<p>黑夜——————-太阳升起————————&gt; 白天<br>&lt;—————太阳落下———————————-</p>
-<p>状态，就是事物本质的情况；状态发生转移，就是外界条件对事物的本质产生了改变。</p>
-<h3 id="有限自动机"><a href="#有限自动机" class="headerlink" title="有限自动机"></a>有限自动机</h3><p>人们在研究一个数学问题是否可以解决时，想到数学问题涉及的内容都可以转化成字符串。问题解决，就是问题对应的字符串在一系列验证过程后，该字符串被认为是正确的。比如问一个十进制数字是否是偶数，所有问题的输入都转换成一个十进制数字字符串。”1”被认为不是符合要求的字符串,”666”被认为是一个符合要求的字符串。而问题的所有解，则是一个字符串集合，也就是一个<strong>语言</strong>。</p>
-<p>于是人们把数学问题转换成字符串是否“正确”的问题。字符串的每一个字符，都会对字符串是否正确产生影响，都会改变字符串的整体性质。联系开始我。们对于状态有向图的分析，状态转移正是事物本质发生变化的过程。我们似乎可以用开始的状态有向图，来判定一个字符串。因此，人们把字符串的每个字符做为状态转移的条件，把一些状态设为“正确状态”，意味着能通过字符一步一步走到这里的字符串是正确的。当然，还有一个初始状态，表示在什么字符也没有读取时的状态。</p>
-<p>这样讲还是抽象了一点，还是举个例子吧。假设我们用的字符全部是0（也就是说字母表是$\{0\}$），我们现在碰到的问题是：给定一串字符串，问其长度是否为偶数。我们该怎么样用一个状态有向图来解决这个问题？或者说，如何把所有解表达出来呢？</p>
-<p>从本质上来看这个问题，一串只有0的字符串只有长度为奇数和长度为偶数这两种可能。每多加一个0，就会改变字符串长度的奇偶性。也就是说，我们有两个状态：“偶数长度状态”、“奇数长度状态”。在碰到0的时候，两个状态间会互相转移。最开始时，字符串处于“偶数长度状态”，因为我们读入的字符串长度为0，是个偶数。如果我们读完了字符串后，发现我们停留在了“偶数长度状态”，那么这就说明该字符串的长度是偶数。状态图画出来是这样的：</p>
-<p><img src="//zhouyifan.net/2019/06/23/Theory-of-Computation-Review1/picture1.png" alt="Sample"></p>
-<p>左上角的箭头表示最开始进入的是q0状态，也就是“偶数长度状态”。右边箭头上的0表示转移碰到0就往箭头的方向转移。左边q0状态里面有一个小圆圈，表示这个状态是最终我们能够认可的状态。</p>
-<p>我们构建的这个状态有向图，有一个十分大气的名字“有穷自动机”。这个名字为什么这么叫呢？大概有穷，指的是状态数是有限个。自动机，指的是我们只要把字符串到这个有向图里，按照规则在里面走迷宫，我们最终就可以知道这个字符串是否符合我们的要求。整个有向图就像一个自动工作的机器一样。虽然这个名字看上去很厉害，但正如我们分析的一样，有穷自动机就是一个有向图，它的概念十分容易理解。</p>
-<p>每一个有穷自动机都可以由5部分确定：$(Q,\Sigma,\delta,q_0,F)$。$Q$是状态（点）集合，$\sigma$是字母表，$\delta$是转移函数（边）集合，每个转移函数接受的参数是当前状态与碰到的结果，输出的是下一状态，也就是说转移函数集合是$Q\times\Sigma\to Q$。$q_0$是初始状态，也就是我们走迷宫的起点。$F$是接受状态集合，$F\subseteq Q$，也就是迷宫的所有终点。我们需要字母表，是因为无论碰到什么字母，我们都得确切地知道我们下一步该往哪里走。我们在转移函数中，必须写清楚每个字母的转移情况。因此也可以得出，转移函数的集合有$|Q|$行$|\Sigma|$列，代表每个点在碰到每个字母转移到的下一个点。</p>
-<p>显然这个定义是数学家给出来的。如果是程序员发明这个东西的话，一定会给每个量取一个好听的变量名，以更好地记忆和理解每个量的意思。不过和其他所有的数学定义一样，这些东西是不用背的，只要理解了它们的意思就好了。这些希腊字母和带下标的字母看起来确实让人头疼。</p>
-<h3 id="正则语言与正则运算"><a href="#正则语言与正则运算" class="headerlink" title="正则语言与正则运算"></a>正则语言与正则运算</h3><p>有一个很重要的名词，我们明明见过它，却只有现在才能介绍它。<strong>正则语言</strong>，就是某个有穷自动机可以识别的语言。既然有这个定义，就暗示世界上还有很多语言，很多字符串的集合，是有穷自动机表示不了的。话说回来，作为本章的标题，正则语言竟然是通过有穷自动机定义的，真是没有牌面。</p>
-<p>但是，正则语言之所以不叫有穷自动机语言，是因为还有一些概念是“姓”正则的。我们之前讲过，所有数学问题都可以被转换成字符串，问题间的运算就转化成了字符串集合运算，也就是语言运算。比如找到两个问题任一的解，就是这个字符串满足问题一的解或者问题二的解。也就是说，问题转化成了语言<strong>求并</strong>的过程。类似的，语言还可以互相<strong>连接</strong>(符号$\circ$)、<strong>自我重复</strong>（符号$\ast$，所以也被叫做<strong>星号</strong>)。$A\circ B = \{xy|x\in A \bigwedge y\in B \}$，$A\ast= \{x_1x_2..x_k |k \geq 0 \bigwedge x_i\in A\}$。当然，求并和连接是二元运算，自我重复是一元运算。这三种运算都叫做<strong>正则运算</strong>。为什么这些也“姓”正则呢？因为正则语言在做了正则运算后，还是正则语言，也就是正则语言在正则运算下封闭。</p>
-<p>正则语言在正则运算下封闭这个定理是可以证明的。要证明此定理，要分别证明正则语言在3种运算下封闭。不过在当前条件下，我们比较方便证明的只有求并运算。</p>
-<p>定理：正则语言在并运算下封闭。</p>
-<p>证明：<br>设原来的语言为$A_1$,$A_2$，状态集合$Q_1,Q_2$。现在我们构造一个新的自动机的状态集合$Q$，它有$|Q_1|\times|Q_2|$个元素，不妨把它们排成$|Q1|$行$|Q2|$列。其中，第$i$行第$j$列个状态表示处于原来自动机$A_1$的第$i$个状态和$A_2$的第$j$个状态。也就是说，我们在新的自动机上完全模拟出了之前两个自动机的状态。</p>
-<p>新自动机字母表是之前字母表的并。在新自动机上，每一列状态都按$A_2$的规则向左右转移，每一行状态都按$A_1$的规则上下转移，如果是碰到某个自动机之前不存在的字母，就转移到一个失败状态——不管碰到任何字符都回到自己，且不是接受状态的状态。初始状态是既处于$A_1$初始状态也处于$A_2$初始状态对应的状态。$A_1$接受状态对应行上、$A_2$接受状态对应列上的所有状态都是新自动机的接受状态。</p>
-<p>新自动机表示的语言就是前面两个语言的并。因此正则语言在并运算下封闭。</p>
-<p>为了证明另外两种运算，我们还需要一个新的工具。</p>
-<h3 id="非确定有限自动机"><a href="#非确定有限自动机" class="headerlink" title="非确定有限自动机"></a>非确定有限自动机</h3><p>在一个偌大的迷宫中，路径错综复杂，你会怎么办呢？在毫无办法的情况下，我们只能选择像无头苍蝇一样随便选择下一步了。毕竟，不停地往前走总比站在原地强。</p>
-<p>有一类比较任性的有穷自动机，它们在碰到了一个字符后，可能选择往多个地方走，甚至拒绝接受这个字符。它们在某个状态的时候，还没碰到下一个状态，就有可能急不可耐地往其它一些状态触发。这样的有限自动机叫做<strong>非确定有限自动机(Nondeterministic Finite Automation,NFA)</strong>，之前我们熟悉的有限自动机叫做<strong>确定有限自动机(Deterministic Finite Automation, DFA)</strong>。为了节约宝贵的时间，后文用简称来称呼它们。</p>
-<p>NFA可以看成是一个会影分身的人在自动机上走迷宫。读取到下一个字符后，他可能会召唤多个自己的分身，和自己走不一样的路；可能拒绝接受这个字符，让自己就此消失。没有读取到字符，或者说读取到空字符$\epsilon$时，它也有可能召唤一个分身。只要有一个分身到达了终点，那么他就胜利了，这个字符串就算是接收。如果怎么也走不到终点，或者他的所有分身都消失，那么字符串就算是拒绝。NFA中的非确定性，就是指在碰到某个字符后，下一步的状态是非确定，可能有多个的。</p>
-<p>要严谨地定义NFA的话，只需要稍微修改一下开始DFA的定义。DFA的状态转移集合$\delta$的类型是$Q\times\Sigma_{\epsilon}\to P(Q)$。$\Sigma_{\epsilon}$是原字母表中附加一个空字符$\epsilon$，$P(Q)$是$Q$的幂集，也就是$Q$的所有子集的集合。换言之，在每个状态，碰到了某个字符或不碰到字符后，下一步得到的状态是一个集合，而不是单个状态。</p>
-<p>配上图的话，理解NFA会更方便。但由于图不好放，这里就不贴了。随便翻开一本计算理论的课本，或者去网上搜索非确定有限自动机，都能找到一些很直观、易于理解的NFA运算过程图。</p>
-<p>NFA是如此强大，它用了一种很赖皮的方式来走迷宫：我尝试当前字符串表示的所有路径，有一条能走出去，就算我能走出迷宫。而在原来的DFA上，我们只能按照规则，一边读字符，一边往前走一步。但令人惊奇的是，<strong>NFA和DFA是等价的</strong>，每一个NFA都可以找到一个和它对应的DFA。我们还是使用构造性发发来证明这个定理，也就是证明每个NFA都可以转换成DFA。DFA可以转换成NFA是显然的，因为根据定义，DFA就是NFA。</p>
-<p>我们再次回顾一下NFA的定义。NFA转移函数的结果，从单个状态，变成了状态的集合。转移函数的结果集合，不是状态集合$Q$，而是幂集$P(Q)$。仔细一想，$P(Q)$的大小也只是$2^{|Q|}$个啊！它的大小是有限的。我们可以构造一个新的DFA，它有$2^{|Q|}$个状态，每个状态对应$P(Q)$的一个元素。要得到这个对应的话，只需考虑到计算机科学常用的二进制就行了。用一个$|Q|$位二进制数来表示子集，某一位是1就代表NFA中这一个状态里有一个分身。NFA是$Q$子集与子集之间的转移，但如果我们把子集看成单个元素的话，那么子集转移就等价于状态转移了。</p>
-<p>上面这段话其实不是用来读的，是用来启发思考的。对于一个证明，往往要通过自己的思考来理解，看别人的证明思路一般是很难看懂的。相信看到了二进制，二进制每一位对应原NFA中的一个状态，你就能灵光一闪地想出整个证明过程来了。</p>
-<p>现在，我们知道NFA和DFA等价，它们只是名字不同的同一事物罢了。DFA的有关性质，NFA都有。比如，<strong>能被NFA识别的语言都是正则语言</strong>。</p>
-<p>嗯？这说明我们以后可能通过NFA来证明语言的正则性了。正好，我们还差两个正则运算的定理没有证明呢！这两个定理可以用一些直观但不严谨的方法证明。</p>
-<p>还是把自动机想象成走迷宫，我们将构造出一台NFA，能在新NFA中走到终点的字符串，就是运算过后的字符串。</p>
-<p>先证明连接运算的封闭性，即证明有这样一个DFA或NFA，它可以识别连接后的字符串。但我们手里有的，只有识别之前两种语言的DFA或NFA。如果想用DFA来判定连接后的字符串的话，我们首先要面对一个问题：这个字符串应该在哪个位置拆成两半，使得前一半属于第一种语言，后一半属于第二种语言呢？但NFA就没有这个烦恼。先构造两个语言的DFA，取名为A，B。在机器A的所有接受状态中，连一条$\epsilon$的边到B的初始状态，表示任何一个到了A终点的人都可以影分身抵达B的起点。A的初始状态为新机器的初始状态，B的所有接受状态为新机器的接受状态。NFA没有在哪个位置拆开字符串的烦恼——反正我试遍所有可能就行了。</p>
-<p>再证明星号运算的封闭性。根据上面的思路，我们可以构造一台NFA，它的所有接受状态，都连一条$\epsilon$的边到初始状态，表示我们在任何时候从可以尝试把这个字符串“拆开”。但是，星号运算中空字符串一定会被接受，因此我们要额外建立一个初始状态，它一个被接收的状态，有且仅有一条$\epsilon$的边指向原DFA的初始状态。</p>
-<p>总算，我们证明了正则运算在正则语言下封闭，它们是一家人，有一样的姓也是理所当然的了。</p>
-<h3 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h3><p>有了正则运算这一新武器，我们有了一个新的表示语言的工具——<strong>正则表达式</strong>。如果用一个DFA来表示语言，每次都要画一张图，实在是太麻烦了。但是，使用正则表达式的话，我们只需要用一行文字就可以表达语言了。正则表达式和我们的数字表达式一样，运算符号就是并、连接、星号，“数字”就是空字符、空集和单个字符。数学表达式里有1+1=2，正则表达式里有0*0 = {至少有一个0且全部都是0的字符串}。</p>
-<p>等等！DFA可以表示语言，正则表达式也可以表示语言，还没有人说它们是等价的呢！但正则表达式也姓正则，暗示它表达的语言就是正则语言，<strong>正则表达式等价于DFA</strong>。我们接下来又要用构造来证明这一定理。</p>
-<p>唉，要是世界上有这样一台机器就好了。机器只有两个状态，第一个状态是初始状态，第二个状态是接收状态。第一个状态到第二个状态的转移条件是一个正则表达式。我要验证一个正则表达式的字符串，就等价于把字符串放入这个机器中判定。可惜我们的DFA只允许在转移条件上写字符啊！</p>
-<p>数学家们向来比较开放，喜欢扩大定义。没有这样的机器，我们就来创造这样的机器。<strong>广义非确定有限自动机（GNFA)</strong>是一个可以把正则表达式当成转移条件的自动机。为了证明正则表达式和DFA的等价，我们只需要一步一步地把DFA的转移条件变成正则表达式，最后变成我们开始说过的那个梦想中的机器——只有两个状态和一行正则表达式的机器。如果能构造出这样的转换方法，就能证明定理了。</p>
-<p>我们这次构造的GNFA，是在原来的DFA上一步一步改造过来的。改造的第一步，是新建两个状态——新起始状态$q_s$，新结束状态$q_e$。在保证正确性的前提下，$q_s$对其它每个点连边，每个点向$q_e$。由于正则表达式包括空集，所以连边总是可行的。我们新建的这两个状态就是保留到最后的状态。我们要删掉其它所有点，并修改转移条件，使得整个GNFA依然正确。</p>
-<p>对于任意要删的点$q_{rip}$，对于任意其它点$q_i$,$q_j$，设$q_i\to^{R1} q_{rip},q_{rip}\to^{R2} q_{rip},q_{rip}\to^{R3} q_{j}, q_i\to^{R4} q_{j}$，则$q_i$到$q_j$的正则表达式修改为$(R1)(R2)\ast(R3)\bigcup(R4)$。千言万语，胜不过下面这张图：<br><img src="//zhouyifan.net/2019/06/23/Theory-of-Computation-Review1/picture2.png" alt="Sample"></p>
-<p>按照这种方法，我们总能在保证正则表达式的意思不变的情况下把中间点删掉。总有一天，我们会删到只剩$q_s,q_e$两个点，这两个点靠一条正则表达式来转移。</p>
-<p>我们说明了DFA可以转换成正则表达式。为了证明等价，我们还得证明正则表达式可以转换成DFA。不过这一步要比开始简单得多。</p>
-<p>借助证明NFA与DFA等价的方法，我们用如下方法构造NFA，使之与正则表达式等价。一个字符或者是空字符，就连一条边。空集就不连边。并集就是一个点可以通过空字符$\epsilon$移动到并集所表示的两个部分。星号就是结束部分连$\epsilon$连回初始状态，同时再初始状态前加入一个接收状态。同样，说了这么多，不如放一张图：（声明：该图片来自《计算理论导引》(Michael Sipser)第三版 42页）</p>
-<p><img src="//zhouyifan.net/2019/06/23/Theory-of-Computation-Review1/picture3.jpg" alt="Sample"></p>
-<p>DFA和正则表达式互相转化，那它们肯定是等价的了。</p>
-<h3 id="非正则语言与泵引理"><a href="#非正则语言与泵引理" class="headerlink" title="非正则语言与泵引理"></a>非正则语言与泵引理</h3><p>开始我们提过，正则语言是可以被DFA表达的语言。换言之，还有许许多多的语言无法用DFA表达。举一个经典的例子：设语言$B = \{0^n1^n|n\geq0\}$，也是说该语言表示0和1个数相同，且先出现0再出现1的字符串。仔细一想，你哪怕使出浑身解数，也构造不出识别这种语言的DFA——为了构造一个这样的DFA，我们必须用状态来存储0的数量，但0的数量可以是无穷大，而状态数的有限的。</p>
-<p>但有些愣头青喜欢钻牛角尖，他们偏要说道：“我就不管！你构造不出一台DFA，万一别人构造出来了呢？你凭什么说世界上不存在一台DFA识别这种语言？！”</p>
-<p>科学家们又想出了一种证明语言不是正则语言的方法，来应对这些“对知识刨根问底”的热心青年。这种方法用了一个引理，叫做<strong>泵引理</strong>。</p>
-<p>如果一种语言$A$是正则语言，那么$\exists (int)p,\forall(string)s\bigwedge|s|\geq p\bigwedge s\in A \Rightarrow \exists  xyz = s \bigwedge xy^iz \in A (i \geq 0)\bigwedge |y| &gt; 0\bigwedge |xy| \leq p$。这一行一阶逻辑，能够让人充分复习离散数学的知识。但是，你很可能看完了也看不懂这一行话要干什么，或者干脆跳过了这行话。</p>
-<p>泵引理是说，如果A是正则语言，我们可以随便选一个泵长度p。对于A中的每一个很长很长，长度至少是p的字符串，我们都可以把它拆成3份xyz。其中y部分一定非空，且xy加起来很短很短，长度必须小于p。如果我们在中间不断插入y部分，也就是对于任意字符串$xy^iz，i\geq0$,这个字符串还是A的语言。这个引理中有很多存在和任意，需要仔细地多看几遍。</p>
-<p>泵引理的正确性的证明十分诡异。我们需要证明，一个正则语言对应的DFA，它满足泵引理的条件。引理说我们可以随便选一个泵长度p，那么不妨令p为$|Q|$，也就是这个DFA的状态数。对于语言中任意一个长度大于等于p的字符串s，它经过的状态大于等于p+1，因为p+1个状态需要通过p次状态转移，也就是需要读取p个字符。s经过了p+1个状态，但我们总共就只有$p = |Q|$个状态啊！这是怎么回事呢？这说明我们至少经过某个状态两次。我在走迷宫的时候，两次走到了同一个地方说明什么？说明我绕路了！我绕了一圈，又返回了原地。既然我经过了某个状态两次，就必然存在一个状态序列，通过这个状态序列可以回到同一个状态。状态的转移需要读取字符，也就是说，读取了一些字符后，我们又回到了之前的某个状态，我们绕路了。这些字符，我把它重复若干遍，我还是会回到这个状态，我永远会在这个状态绕不出去了。这个字符序列，就是我们拆成三部分xyz中的y。在第一次碰到重复字符时，也就是第一次绕路结束时，我们至多有一个状态走了两次，其它每个状态走了一次，也就是说最多走了p+1个状态，也就是最多读取p个字符，这一部分就是xy，$|xy| \leq p$。至此，泵引理得到一个描述性的证明。</p>
-<p>可以发现，泵引理中“存在一个p”这句话一点用也没有，因为我们在证明泵引理时，直接把p钦定为状态数|Q|了。</p>
-<p>等等，泵引理有什么用啊？泵引理说明如果A是正则语言，则可以干嘛干嘛。我都知道正则语言可以通过构造一个DFA来判断了，我要泵引理干嘛？</p>
-<p>泵引理给出的正则语言的必要条件。也就是说，泵引理的逆否命题，得到的是判断一个语言不是正则语言的充分条件。如果一个语言满足泵引理的逆否命题，那么很遗憾，这个语言一定不是正则语言。</p>
-<p>或者再从另一个角度上来讲，我们可以通过反证法来证明一个语言不是正则语言。我们把这个语言套进泵引理中，发现它无论如何都会导出矛盾，那么就可以得出这个语言不是正则语言了。</p>
-<p>泵引理反过来是这样说的：对于一个语言A，如果对于任意泵长度p，A中存在一个很长很长，长度至少是p的字符串，我们无论如何都不能把它拆成3份xyz，满足下列所有条件：y部分一定非空，且xy加起来很短很短，长度必须小于p。如果我们在中间不断插入y部分，也就是对于任意字符串$xy^iz，i\geq0$,这个字符串还是A的语言，那么A不是正则语言。我们把整个引理取反，所有的存在和任意都反了过来。这就是开始说要注意存在和任意的原因。现在我们也发现，泵长度p不是没有用的。正过来时，p可以任意取值；但反过来说时，p就是任意取值了。泵长度p在证明泵引理时是完全没有用途的，因为它是一个存在的条件，可以任意取值；而在说明一个语言不是正则语言的时候，就要考虑泵长度p为任意值的情况了。</p>
-<p>就考试而言，证明一个语言不是正则语言都是一个套路。因为要求证明的命题一定是正确的，所以我们可以无脑套入泵引理来导出矛盾反证。以经典的例子$B = \{0^n1^n|n\geq0\}$来说明一下证明语言不是正则语言的方法。</p>
-<p>证明：<br>假设$B = \{0^n1^n|n\geq0\}$是正则语言。令p为泵长度。随便选择一个字符串$0^p1^p$,它属于B，且长度大于等于p。泵引理保证，它可以拆成3部分xyz，且满足之前的三个条件。由于$|xy|\leq p$，所以$xy$肯定全部由0组成。$xy^iz(i\geq0)$也一定属于B。但很明显，假设我把y重复100遍，由于y非空，xyz的前半部分一定出现了许许多多的0.这样的字符串是不属于B的，矛盾产生。因此，我们假设错误，B不是正则语言。</p>
-<p>如果能仔细品味泵引理背后涉及的数学、逻辑原理，我相信人们都会被数学之美、思维之美所打动。这种美看不见摸不着，却深深埋藏在每个人脑中。对于那些爱思考的人来说，发现这些美，就能收获到一种无比的喜悦。能成为一名热爱自己的学科，并能在自己的学科里有所成就的科学家，真是一件令人羡慕的事情。可惜不是人人都适合科研，不是人人都有机遇把自己的一生都献给知识荒原的开拓。</p>
-<p>总结一下。这一章讲的是正则语言，也就是可以被有限自动机识别的语言。这一章介绍了许多在后面都会介绍的概念：机器、状态、接收与拒绝、非确定性等。这些概念，是研究后面一些更强大的计算机器的基础。从全书的角度来看，这一章为后续的知识学习奠定了最低层次的基础。同时，这一章也围绕有限自动机，讲了许多实际的内容。有限自动机本身是最低级的计算机器，通过学习它我们能隐隐体会到计算的本质。</p>
-<p>从考试的角度来看的话，这一章难点只有两个。一个是DFA向正则表达式的转换，一个是泵引理的理解与证明。而其他部分都不难。自动机名字看上去结构复杂，实际上就是一个有向图，哪怕不知道什么是图，会走迷宫，就能学会有限自动机的概念。非确定有限自动机的概念比较难理解，但一旦理解，一旦迈过那一道坎后，这个概念就会显得十分清晰。所有的证明都不会考，学习它们对于考试毫无益处。</p>
-<hr>
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>我写这篇文章的本意和之前复习概率论一样，是站在讲述者的角度来叙述这些知识，更好地把知识梳理清楚。从结果来看，复习效果是有，但是我花费了大量的时间，而且很多时间都花在了吹牛和一些我已经熟悉的知识的讲解上。而且，考虑到时间不是很够的原因，文章本身的质量也不够高，讲得也不够清楚。也就是说，我花了很多时间，就稍微复习了一些不太熟的知识，文章也没有写好来，总体上来看非常亏。我得到的结论是，复习还是不要写文章的好。如果想清楚地介绍一个知识，就在闲暇的时候慢慢地写文章；如果要复习，就用效率更高的方式来看书。这样复习的话，竹篮打水一场空，什么都没得到。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -3075,7 +3109,7 @@ g(x) &= (1 + 3x + 3^2x^2 +...) - (1+2x+2^2x^2+...)
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-count">31</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -3327,9 +3361,9 @@ g(x) &= (1 + 3x + 3^2x^2 +...) - (1+2x+2^2x^2+...)
   
     
       
-    
-      
         
+      
+    
       
     
       
