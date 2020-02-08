@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://zhouyifan.net/2020/02/08/Cpp-Ray-Tracing-running-on-CPU/</loc>
+    
+    <lastmod>2020-02-08T09:57:04.749Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://zhouyifan.net/about/index.html</loc>
     
     <lastmod>2020-02-07T13:43:36.680Z</lastmod>

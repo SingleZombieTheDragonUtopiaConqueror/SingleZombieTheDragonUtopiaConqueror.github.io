@@ -322,6 +322,192 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2020/02/08/Cpp-Ray-Tracing-running-on-CPU/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/02/08/Cpp-Ray-Tracing-running-on-CPU/" class="post-title-link" itemprop="url">CPU光线追踪C++OpenGL实现</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-02-08 17:57:04" itemprop="dateCreated datePublished" datetime="2020-02-08T17:57:04+08:00">2020-02-08</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/" itemprop="url" rel="index"><span itemprop="name">Computer Science</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/Computer-Graphics/" itemprop="url" rel="index"><span itemprop="name">Computer Graphics</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>由于套暑研要准备一个简单的简历，我打算总结一下之前做的一些项目，发博客并上传Github。虽然我能明确地知道，做这些事情对看我简历的人来说毫无影响，但写博客记录自己人生是我自己想做的一件事。</p>
+<p>做之前这些项目的时候我都没有去写博客，当时我还没有想好博客该怎么用。以后应该不会出现这些情况了。只要是有一些规模的项目，我都会把从技能学习到编程实现的整个过程发到博客上。</p>
+<p>写这个项目是因为我图形学的导师在写一本图形学教程书，其中有一些习题要附上源代码。他让我帮忙实现真实感渲染章节的习题，顺便学习一下这一章的内容。</p>
+<p>由于是项目总结，内容会十分简略。</p>
+<h1 id="CPU光线追踪C-OpenGL实现"><a href="#CPU光线追踪C-OpenGL实现" class="headerlink" title="CPU光线追踪C++OpenGL实现"></a>CPU光线追踪C++OpenGL实现</h1><h2 id="Github地址"><a href="#Github地址" class="headerlink" title="Github地址"></a>Github地址</h2><p><a href="https://github.com/SingleZombie/Ray-Tracing-OpenGL" target="_blank" rel="noopener">https://github.com/SingleZombie/Ray-Tracing-OpenGL</a></p>
+<p>编译项目需要包含一些额外的文件，具体的要求见Github里的readme。</p>
+<h2 id="任务定义"><a href="#任务定义" class="headerlink" title="任务定义"></a>任务定义</h2><p>实现一个使用光线追踪技术渲染的场景：一个带反射的球放在黑白相间的棋盘格地面上。</p>
+<h2 id="知识背景"><a href="#知识背景" class="headerlink" title="知识背景"></a>知识背景</h2><p>光线追踪的思想比较简单：以摄像机为端点，向屏幕上每一个像素的处发射一条光线。光线接触到第一个物体后，既会接收物体自身的颜色，还会进行反射和折射，产生更多的光线。这些后续的反射、折射以及物体本身的颜色都会对最开始的这条光线产生贡献。这条光线的强度就能转化成产生光线的像素的颜色值。</p>
+<p>从实现的角度来看，光线追踪就是一个递归的过程。为了计算一条光线的强度，还要计算它反射光和折射光的强度。</p>
+<p>由于光每次都可以反射和折射，光线与物体的碰撞次数与递归层数成指数级增长，并且客观上光线的反射和折射是无穷无尽的，光线追踪算法需要一些停止递归的规则。递归层数过多、光没碰到物体都能让算法中止。不过即使有了一些限制规则，不经过优化的光线追踪算法运行得依然很慢。</p>
+<h2 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h2><p>当时我写的伪代码如下：（不过是写完了程序再写的）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">// plane是一个平面结构，分量有平面上任意一点、平面法向量、材质</span><br><span class="line">// ball是一个球体结构，分量有中心点、半径、材质</span><br><span class="line">// scene是一个场景类，存储了平面、球等物体，存储了光照信息，可以进行光线追踪计算</span><br><span class="line">// pixelPos表示屏幕上某个像素在世界坐标的位置</span><br><span class="line">// ray是一个光线结构，表示从观察点射向pixelPos的一条光线</span><br><span class="line">// color(i, j)表示屏幕坐标为(i, j)处的颜色</span><br><span class="line">// CreatePlane(p, n)用平面上一点p和法向量n构造平面</span><br><span class="line">// CreateSphere(p, r)用点p和半径r构造球体</span><br><span class="line">// pixelToWorldPos(i, j)计算屏幕(i, j)处像素在世界坐标的位置</span><br><span class="line">// Ray(p, d)用点p和方向向量d构造光线</span><br><span class="line"></span><br><span class="line">plane = CreatePlane(vec3(0, 0, 0), vec3(0, 1, 0));</span><br><span class="line">plane.setMaterial(checkMaterial);</span><br><span class="line">ball = CreateSphere(vec3(0, 1, 0), 1);</span><br><span class="line">ball.setMaterial(ballMaterial);</span><br><span class="line">scene.add(plane);</span><br><span class="line">scene.add(ball);</span><br><span class="line"></span><br><span class="line">for i = 1:640</span><br><span class="line">	for j = 1:480</span><br><span class="line">		pixelPos = pixelToWorldPos(i, j);</span><br><span class="line">		ray = Ray(viewPos, pixelPos – viewPos);</span><br><span class="line">		color(i, j) = scene.traceRay(ray, 0);</span><br><span class="line">	end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">// traceRay(ray, recursionTime)接收参数当前光线ray,当前递归次数recursionTime,递归计算并返回光照强度light</span><br><span class="line">// MAX_RECURSION_TIME为常量最大递归次数，递归超过次次数函数会停止执行</span><br><span class="line">// intersectedPoint表示当前光线照射到的第一个物体的照射点</span><br><span class="line">// intersectedEntity表示当前光线照射到的第一个物体</span><br><span class="line">// normal表示照射点处物体的法向量</span><br><span class="line">// material是一个材质结构，表示照射点处物体的材质，分量有着色比例kShade、反射光比例kReflect、折射光比例kRefract。</span><br><span class="line">// light是表示当前点的光照强度</span><br><span class="line">// reflectDir表示光线经照射点反射后光的方向</span><br><span class="line">// refractDir表示光线经照射点折射后光的方向</span><br><span class="line">// getIntersection(ray)是场景scene的函数，用于计算场景中光线与物体的交点以及照射到的物体</span><br><span class="line">// shade(entity, fragPos, ray)接收参数物体、着色点、光线，利用Phong等局部着色模型计算出该点的光强</span><br><span class="line"></span><br><span class="line">function traceRay(ray, recursionTime)</span><br><span class="line">	if (recursionTime &gt;= MAX_RECURSION_TIME) then</span><br><span class="line">		return;</span><br><span class="line">	end</span><br><span class="line">	(intersectedPoint, intersectedEntity) = getIntersection(ray)</span><br><span class="line">	if (intersectedEntity == NULL) then</span><br><span class="line">		return;</span><br><span class="line">end</span><br><span class="line">	normal = intersectedEntity.calNormal(intersectedPoint);</span><br><span class="line">	material = intersectedEntity.calMaterial(intersectedPoint);</span><br><span class="line">	light = material.kShade * </span><br><span class="line">shade(intersectedEntity, intersectedPoint, ray);</span><br><span class="line">	if (material.kReflect &gt; 0) then</span><br><span class="line">reflectDir = reflect(ray.direcion, normal);</span><br><span class="line">		light += material.kReflect * </span><br><span class="line">traceRay(Ray(intersectedPoint, reflectDir), recursionTime + 1);</span><br><span class="line">	end</span><br><span class="line">	if (material.kRefract &gt; 0) then</span><br><span class="line">		if (intersectedEntity.rayEnterEntity(ray)) then</span><br><span class="line">			refractDir = </span><br><span class="line">refract(ray.direction, -normal, material.index, airIndex);</span><br><span class="line">else </span><br><span class="line">			refractDir = </span><br><span class="line">refract(ray.direction, normal, airIndex, material.index);</span><br><span class="line">end</span><br><span class="line">		light += material.kRefract * </span><br><span class="line">traceRay(Ray(intersectedPoint, refractDir), recursionTime + 1);</span><br><span class="line">	end</span><br><span class="line">	return light;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<h2 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h2><p>从软件工程的角度来看，根据光线追踪的描述，很快可以得到编程所涉及的对象：射线（光线）、物体、光源、场景。物体、光源属于场景，每帧从视点向所有像素发出光线与物体判断相交，计算颜色时要用到光源、物体参数。再具体来说，光源包含颜色等参数，物体包含自身的几何信息及材质信息。有了类和类间关系，代码结构很容易写出来。</p>
+<p>从算法实现的角度来看，只要理解了光线追踪算法，看懂了上面的伪代码，很容易写出对应的代码。</p>
+<p>由于光线追踪算法的像素值完全来自射线和物体的交，物体可以以解析式的形式定义。比如球只需要定义一个中心点位置，一个半径。在判断射线和物体的交时，求解一个射线的参数方程即可。</p>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p><img src="//zhouyifan.net/2020/02/08/Cpp-Ray-Tracing-running-on-CPU/ray tracing.jpg" alt></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2472,186 +2658,6 @@ B = M_B \times 2^{E_B}</script><p>浮点数加减前要对齐阶，阶小往阶�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2020/01/05/Principles-of-Computer-Composition-cources-review-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhou Yifan">
-      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="周弈帆的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/01/05/Principles-of-Computer-Composition-cources-review-2/" class="post-title-link" itemprop="url">计算机组成原理复习：第二章 数据表示</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2020-01-05 21:17:33" itemprop="dateCreated datePublished" datetime="2020-01-05T21:17:33+08:00">2020-01-05</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/" itemprop="url" rel="index"><span itemprop="name">Computer Science</span></a></span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/Principles-of-Composition/" itemprop="url" rel="index"><span itemprop="name">Principles of Composition</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="计算机组成原理复习：第二章-数据表示"><a href="#计算机组成原理复习：第二章-数据表示" class="headerlink" title="计算机组成原理复习：第二章 数据表示"></a>计算机组成原理复习：第二章 数据表示</h1><p>实际上，这章讲的是数据是怎么编码的。大部分时候，都是在讲二进制编码。本章编码不特别说明都是在指二进制下的编码。</p>
-<h2 id="数值"><a href="#数值" class="headerlink" title="数值"></a>数值</h2><p>数值是运算中最常见的成分。</p>
-<p>非得分类的话，数字可以分成整数和小数。但小数的表示方法中也是用到了整数的。因此本章先介绍整数怎么表示。</p>
-<h3 id="原码-补码-反码"><a href="#原码-补码-反码" class="headerlink" title="原码 补码 反码"></a>原码 补码 反码</h3><p>无符号的数直接用二进制表示。</p>
-<p>有符号的数因为有正负，所以编码的第一个任务就是把正数和负数区分开来。如果把最高位当成符号位，0表示正1表示负，后面当成无符号数表示，那么这种表述法就是原码表示。反码和补码都是对原码的负数表示进行更改。反码是把负数的每一位取反，补码是把原码的每一位取反加一。补码和反码的原理都是取模，把一个模意义下很大的正数视为一个负数。</p>
-<p>其中，补码的特点是0只有一种表示方法，从而负数可以多表示一个数；原码和补码都有一个+0一个-0.</p>
-<h3 id="定点表示"><a href="#定点表示" class="headerlink" title="定点表示"></a>定点表示</h3><p>定点可以表示小数和正数。</p>
-<p>定点小数的第一位是符号位，小数点固定在第一位后面。也就是说，所有数是零点几。定点整数第一位也是符号位，小数点固定在最后一个数后面，和之前讲的整数表示完全相同。</p>
-<p>定点小数根本不实用。但是它在后面会被利用到。</p>
-<h3 id="浮点表示"><a href="#浮点表示" class="headerlink" title="浮点表示"></a>浮点表示</h3><p>计算机中，小数都用浮点表示法，即小数点的位置可以移动。在这种表示法下，一个数的数位被拆成了两部分：一部分是指数，称为阶码；一部分是底数，称为尾数。</p>
-<h1 id="我写完了这篇文章，写完了忘了保存，直接上传到博客。我退出文章的时候提示是否要保存，由于文章上传到博客草稿文件消失，一定会提示是否保存，我就选择了丢弃。结果我辛辛苦苦写的内容全部消失了。复习时间太少，这篇文章今天晚上就不补了。以后有缘再补完这篇文章或者删掉这篇文章。气死我了！"><a href="#我写完了这篇文章，写完了忘了保存，直接上传到博客。我退出文章的时候提示是否要保存，由于文章上传到博客草稿文件消失，一定会提示是否保存，我就选择了丢弃。结果我辛辛苦苦写的内容全部消失了。复习时间太少，这篇文章今天晚上就不补了。以后有缘再补完这篇文章或者删掉这篇文章。气死我了！" class="headerlink" title="我写完了这篇文章，写完了忘了保存，直接上传到博客。我退出文章的时候提示是否要保存，由于文章上传到博客草稿文件消失，一定会提示是否保存，我就选择了丢弃。结果我辛辛苦苦写的内容全部消失了。复习时间太少，这篇文章今天晚上就不补了。以后有缘再补完这篇文章或者删掉这篇文章。气死我了！"></a>我写完了这篇文章，写完了忘了保存，直接上传到博客。我退出文章的时候提示是否要保存，由于文章上传到博客草稿文件消失，一定会提示是否保存，我就选择了丢弃。结果我辛辛苦苦写的内容全部消失了。复习时间太少，这篇文章今天晚上就不补了。以后有缘再补完这篇文章或者删掉这篇文章。气死我了！</h1>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2698,7 +2704,7 @@ B = M_B \times 2^{E_B}</script><p>浮点数加减前要对齐阶，阶小往阶�
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">32</span>
+                    <span class="site-state-item-count">33</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2735,7 +2741,7 @@ B = M_B \times 2^{E_B}</script><p>浮点数加减前要对齐阶，阶小往阶�
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -2758,7 +2764,7 @@ B = M_B \times 2^{E_B}</script><p>浮点数加减前要对齐阶，阶小往阶�
                     
                       
                     
-                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">tags</span>
                   
                 </div>
@@ -2954,9 +2960,9 @@ B = M_B \times 2^{E_B}</script><p>浮点数加减前要对齐阶，阶小往阶�
   
     
       
-        
-      
     
+      
+        
       
     
       
