@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://zhouyifan.net/about/index.html</loc>
+    
+    <lastmod>2020-02-09T05:34:08.560Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://zhouyifan.net/2020/02/09/Chinese-Spelling-Checker/</loc>
     
-    <lastmod>2020-02-09T03:48:22.419Z</lastmod>
+    <lastmod>2020-02-09T05:20:27.132Z</lastmod>
     
   </url>
   
@@ -12,13 +19,6 @@
     <loc>https://zhouyifan.net/2020/02/08/Cpp-Ray-Tracing-running-on-CPU/</loc>
     
     <lastmod>2020-02-08T09:57:04.749Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zhouyifan.net/about/index.html</loc>
-    
-    <lastmod>2020-02-07T13:43:36.680Z</lastmod>
     
   </url>
   
