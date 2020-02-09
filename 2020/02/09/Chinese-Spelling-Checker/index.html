@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="和上一篇博文一样，这篇博文也是一个项目总结。 这个项目是我NLP的第二个大作业。在这个大作业中，老师要求做一个能完成某个功能（而不是做句法分析等预处理工作）的NLP程序。选题时可以从老师给定的题目中选，也可以自己找一个题目。当时我时间并不是很充足（感觉这学期我就没有在时间充裕的情况下写过项目），准备尽快把项目做完，因此决定从老师给的题目里挑一个来实现。一开始我挑了垃圾评论检测，因为老师明确指出，只">
+<meta name="keywords" content="project,homework">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中文拼写检查器（基于图网格，C++实现）">
+<meta property="og:url" content="https://zhouyifan.net/2020/02/09/Chinese-Spelling-Checker/index.html">
+<meta property="og:site_name" content="周弈帆的博客">
+<meta property="og:description" content="和上一篇博文一样，这篇博文也是一个项目总结。 这个项目是我NLP的第二个大作业。在这个大作业中，老师要求做一个能完成某个功能（而不是做句法分析等预处理工作）的NLP程序。选题时可以从老师给定的题目中选，也可以自己找一个题目。当时我时间并不是很充足（感觉这学期我就没有在时间充裕的情况下写过项目），准备尽快把项目做完，因此决定从老师给的题目里挑一个来实现。一开始我挑了垃圾评论检测，因为老师明确指出，只">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://zhouyifan.net/2020/02/09/Chinese-Spelling-Checker/p1.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2020/02/09/Chinese-Spelling-Checker/p2.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2020/02/09/Chinese-Spelling-Checker/p3.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2020/02/09/Chinese-Spelling-Checker/p4.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2020/02/09/Chinese-Spelling-Checker/p5.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2020/02/09/Chinese-Spelling-Checker/p6.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2020/02/09/Chinese-Spelling-Checker/p7.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2020/02/09/Chinese-Spelling-Checker/p8.jpg">
+<meta property="og:updated_time" content="2020-02-09T03:48:22.419Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="中文拼写检查器（基于图网格，C++实现）">
+<meta name="twitter:description" content="和上一篇博文一样，这篇博文也是一个项目总结。 这个项目是我NLP的第二个大作业。在这个大作业中，老师要求做一个能完成某个功能（而不是做句法分析等预处理工作）的NLP程序。选题时可以从老师给定的题目中选，也可以自己找一个题目。当时我时间并不是很充足（感觉这学期我就没有在时间充裕的情况下写过项目），准备尽快把项目做完，因此决定从老师给的题目里挑一个来实现。一开始我挑了垃圾评论检测，因为老师明确指出，只">
+<meta name="twitter:image" content="https://zhouyifan.net/2020/02/09/Chinese-Spelling-Checker/p1.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="https://zhouyifan.net/2020/02/09/Chinese-Spelling-Checker/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>中文拼写检查器（基于图网格，C++实现） | 周弈帆的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">周弈帆的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2020/02/09/Chinese-Spelling-Checker/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">中文拼写检查器（基于图网格，C++实现）
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-02-09 11:48:22" itemprop="dateCreated datePublished" datetime="2020-02-09T11:48:22+08:00">2020-02-09</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/" itemprop="url" rel="index"><span itemprop="name">Computer Science</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/Natural-Language-Processing/" itemprop="url" rel="index"><span itemprop="name">Natural Language Processing</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>和上一篇博文一样，这篇博文也是一个项目总结。</p>
+<p>这个项目是我NLP的第二个大作业。在这个大作业中，老师要求做一个能完成某个功能（而不是做句法分析等预处理工作）的NLP程序。选题时可以从老师给定的题目中选，也可以自己找一个题目。当时我时间并不是很充足（感觉这学期我就没有在时间充裕的情况下写过项目），准备尽快把项目做完，因此决定从老师给的题目里挑一个来实现。一开始我挑了垃圾评论检测，因为老师明确指出，只要实现一篇论文的内容就行了。我去搜了那篇论文，却发现论文的数据集不是公开的，想获取数据集需要发邮件去申请，十分麻烦。我只好在剩下的题目中再找一个题目出来。排除掉了一些看上去不是那么实用的题目后，我选择了”汉语自动纠错系统“这个题目。在论文中，这个问题被称作”中文拼写检查(Chinese Spelling Check)”。</p>
+<p>我很快搜索到了一篇非常好的综述博客[4]。根据博客中的介绍，我去读了几篇论文。比较幸运的是，这些论文中的算法对我来说非常简单，我很快就理解了算法的细节。比较了各种方法的实现难度并参考了综述博客对各种方法的比较结果后，我选择了[3]中的方法。一般来说，拼写检查问题可以分成两个部分：先对句子进行分词，再根据分词结果进行拼写检查。[3]的方法可以同时完成这个两个步骤，处理起来比较方便。</p>
+<p>我很快实现了分词算法，并且按照评估标准评价了我的程序的表现。我本以为这个项目就这样结束了，但我对我程序极差的表现产生了一丝怀疑。我更仔细地阅读了一下论文，发现论文除了提出分词算法外，还提出了一种利用数据统计文字错误概率的方法。文章利用了谷歌1T的数据库来训练。我难以获取这个数据库，哪怕获取了电脑也存不下，哪怕存得下训练时间我也接受不了。考虑到这是大作业，老师不会只按结果给分，而更看重程序的原理、工作量。我于是决定用其他数据来代替论文中的1T数据，用论文中同样的方法来统计文字出错概率。</p>
+<p>找数据又花费了我很多工夫。我需要一个包含文字错误的语料，标注可有可无。我找来找去，总算在Github上一个比较出名的中文语料库中找到了一个<a href="https://github.com/zake7749/Gossiping-Chinese-Corpus" target="_blank" rel="noopener">台湾论坛聊天语料</a>。虽然数据量不够，但勉强可以在这个语料库上执行文章中的训练算法了。</p>
+<p>在统计文字出错概率之前，需要先用一个分词语料库训练出一个语言模型。我用的是比较常用的北大人民日报语料。但是，所有的中文拼写检查都是基于繁体字的，这就出现了一个问题：语言模型仅用了简体语料，无法处理繁体字。我决定把人民日报语料转换成繁体。一开始我用word转换，一按简繁转换按钮程序就卡死了。我又去网上随便下了一个简繁转换程序。这个程序的转换速度倒是很快，但我发现转换结果有一些问题：一个简体字可能对应多个繁体字，比如简体”后“字有”(皇)后“，”後(面)“这两个对应的繁体字，而转换程序只能进行一对一的转换。最后我在Github上找了一个运用了NLP技术的简繁体转换程序，总算得到了一个能用的繁体语料库了。</p>
+<p>至此，我总算解决了所有的问题，准备好了编程所需的所有资源。剩下的编程、写实验报告的工作就没什么值得讲的了。</p>
+<p>这次项目对我来说意义很大。倒不是说我在这个项目中学到了多少NLP知识，或者说留下了一段比较有趣的工作过程。我在这次项目中，最大的收获是初步掌握了检索文献并了解一个领域前沿知识的能力。我第一次了解了什么是综述，虽然这篇综述放在博客上，并不是按照标准的论文格式写的。我第一次读懂论文并实现了论文的算法。我之前一直觉得论文都很高深，涉及的方法非常复杂。多亏这几篇论文算法相对来说比较简单，给了我读论文的自信。在这个项目之后，我还碰到了很多需要自主学习领域前沿知识的项目。得益于这次项目的经验，我能够快速搜索到一篇好的综述文章并开展学习，高效率地完成对相关领域前沿知识的了解。</p>
+<p>以下项目介绍绝大多数内容摘自实验报告。</p>
+<h1 id="中文拼写检查器（基于图网格，C-实现）"><a href="#中文拼写检查器（基于图网格，C-实现）" class="headerlink" title="中文拼写检查器（基于图网格，C++实现）"></a>中文拼写检查器（基于图网格，C++实现）</h1><h2 id="Github链接"><a href="#Github链接" class="headerlink" title="Github链接"></a>Github链接</h2><p><a href="https://github.com/SingleZombie/Simple-Chinese-Spelling-Checker" target="_blank" rel="noopener">https://github.com/SingleZombie/Simple-Chinese-Spelling-Checker</a></p>
+<h2 id="任务定义"><a href="#任务定义" class="headerlink" title="任务定义"></a>任务定义</h2><ol>
+<li><p>找出一个句子中出错字的位置。</p>
+</li>
+<li><p>把出错的字修改成正确的字。</p>
+</li>
+</ol>
+<h2 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h2><p>实现思路和参考论文[3]大致相同。</p>
+<p>对一个句子同时进行分词和纠错。假设每个字都可能出错。列出每个字的混淆字，这样对于整个句子来说，就形成了一个图格。分词和纠错等于在图格上找一条权值最大的路径。在这个图格中，每个字都看成一个节点。如果相邻的几个字可能构成一个词（无论这些字是否来自混淆集），就把这个词当成一个节点。两个节点的之间的权值就是转移的概率。</p>
+<p>节点间的概率来自两个部分，一部分是语言模型概率（判断分词是否正确），一部分是字会出错的概率（判断修改的是否正确）。</p>
+<p>对于语言模型，使用大作业一的二元语言模型，即基于人民日报语料库构建的模型。每次可以查询前后两个词一起出现的概率。</p>
+<p>对于字会出错的概率，使用互联网文本来训练模型。对文本的每句话进行分词（分词采用大作业一的算法），之后考虑任意连续的两个或三个词，试图用混淆集的字替换其中的一个字（混淆集来自汉语的同音字、近音字），看看这两个或三个词能否合并成一个词。如果能，则把改之前和改之后的字符串作为一个pair储存。这些pair表示候选错误串。</p>
+<p>统计所有pair的情况。把每个pair的出错字符串的前面一个词看成一个向量（向量的维度是上一个字符串，向量该维度的值是上一个字符串出现次数）。同时，用同样方法统计pair的正确字符串的前一个向量，这个向量可以从语言模型中获得。对两个向量求cos值，该值可以表示两个向量的相似程度。若这个cos值大于一个人工设置的阈值，则认为错误串和正确串上文相同，这个串确实出错了。之后，把串中出错的字找到，统计一个字出错变成另一个字的个数。</p>
+<p>有了一个字出错成另一个字的个数，就可以统计一个字出错成另一个字的概率。一个字符串出错变成另一个字符串的概率，就是每个字出错成对应字概率的乘积。</p>
+<p>节点的转移权值由以上两部分概率相乘得到。</p>
+<p>由于图格构成一个DAG，且已经拓扑排序好，可以用DP找最大权值的路。寻找每一个可能的词以构成节点时，在词典的字典树上查找以减少时间开销。找到最大权值的路后倒序得到每一个节点，出错纠错结果。 </p>
+<h2 id="程序设计与实现"><a href="#程序设计与实现" class="headerlink" title="程序设计与实现"></a>程序设计与实现</h2><h3 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h3><p>由于测试集是繁体，词典用的分词语料、汉语词典被转换成了繁体。</p>
+<p>混淆集文本预处理模块如下所示：</p>
+<p><img src="//zhouyifan.net/2020/02/09/Chinese-Spelling-Checker/p1.jpg" alt></p>
+<p>由于原始数据是json型的，数据先被提取出来，保存到txt文件里。（这一步程序里没有，只保留了最后的txt文件）</p>
+<p>之后main函数调用<code>outputConfusionPair</code>进行候选串的获取。选取候选串的主要算法函数存在<code>ConfusionTrainer.cpp</code>文件中。其算法先对句子进行分词，再每次找相邻的两个、三个词，尝试从完整的混淆集（来自于汉语的同音、近音字）替换每个字，看这两个、三个词能否构成一个词典里的词。其具体算法和后面的替换算法类似，都是在词典的字典树上查找。最终这一步会输出三元组（上一个词，可能出错的词，正确的词）。</p>
+<p>之后main函数调用<code>calPotentialConfusionPair</code>，<code>LanguageModel</code>统计上一步得到的三元组，根据出现次数计算输出出混淆对概率信息，这个信息文件里包含每一个混淆对的cos值，混淆对的出现次数。cos值是把对可能错误的词的上一个词的出现次数乘上语言模型中正确的词也是这个上一个词的出现次数再相加，最后除以正确的词上一个词的总个数，除以可能错误词上一个词的总个数。和向量求cos值方法相同。</p>
+<p>最后<code>confusionSet</code>根据cos值和混淆对出现次数筛选掉一些不合法的混淆对（实现时cos值&gt;=0.2，出现次数&gt;=2），之后对合法的混淆对统计是哪个字出错了，最后得到一个字错误成另一个字的次数。根据一个字错成另一个字的个数，可以得到一个字错成另一个字的概率，具体公式是：</p>
+<p><img src="//zhouyifan.net/2020/02/09/Chinese-Spelling-Checker/p2.jpg" alt></p>
+<p><code>ch</code>是正确字符，<code>ch&#39;</code>是某一个被混淆的字符。<code>S(ch)</code>指字符<code>ch</code>的混淆集。由于样本数据较小，这里用了加1的数据平滑。</p>
+<p>由于最后一步预处理很快，这一步的结果没有写进文件，在程序执行的时候才会处理。</p>
+<h3 id="程序执行"><a href="#程序执行" class="headerlink" title="程序执行"></a>程序执行</h3><p>最终可执行程序的结构如下：</p>
+<p><img src="//zhouyifan.net/2020/02/09/Chinese-Spelling-Checker/p3.jpg" alt></p>
+<p>词典读入分词语料库，得到二元语法模型，同时所有词构成一个字典树。混淆集读入每个字所有可能的混淆字，以及每个混淆字的概率。语言模型综合二者的信息。算法模块提供了所有核心算法。主程序对整个程序的过程进行控制。</p>
+<p>程序开始运行后，会先读入分词语料库，以及一个成语库，二者会插入进语言模型的词典。词典在内部建一棵字典树以维护所有词语，并统计相邻两个词出现概率。之后主程序会读入一个有概率的混淆集。最后调用<code>Language Mode</code>再调用<code>NLPAlgorithm</code>文件中的算法对测试集进行纠错并评价结果。</p>
+<p><code>CSCAlgorithm.cpp</code>包含本程序主要的纠错算法。主要函数的算法流程图如下：</p>
+<p><img src="//zhouyifan.net/2020/02/09/Chinese-Spelling-Checker/p4.jpg" alt></p>
+<p><img src="//zhouyifan.net/2020/02/09/Chinese-Spelling-Checker/p5.jpg" alt></p>
+<p>分词函数先定义了节点二维数组<code>vertice[i][j]</code>,从字符串的每个位置开始进行DFS。DFS在递归过程中，会尝试替换每一个字符，并且在词典的字典树上移动。如果字典树上没这条路径，即当前节点号<code>crtTrieIndex==0</code>，就可以对DFS进行剪枝。通过DFS可以生成图网格中所有可能的词节点，并且得到每一节点的最大概率。通过最后一个节点可以反向遍历出结果字符串。</p>
+<p>具体节点概率（准确来说是权值）计算公式如下：</p>
+<p><img src="//zhouyifan.net/2020/02/09/Chinese-Spelling-Checker/p6.jpg" alt></p>
+<p><code>word</code>指当前词，<code>preword</code>是上一词。$P_{LM}$是语言模型的概率，直接调用二元语法模型的函数就可以计算。$P_{err}$为出错概率，其公式为：</p>
+<p><img src="//zhouyifan.net/2020/02/09/Chinese-Spelling-Checker/p7.jpg" alt></p>
+<p>公式就是把出错词中每一个出错字的出错概率累乘。其中：</p>
+<p><img src="//zhouyifan.net/2020/02/09/Chinese-Spelling-Checker/p8.jpg" alt></p>
+<p>根据这个字是否出错，这个概率分两部分来计算。其中<code>perr</code>是一个超参数，表示某个字出错的概率。如果这个字确实是错的字，就去之前的错误模型里寻找概率。程序中这个值是<code>CHARACTER_ERROR_P = 0.0003</code></p>
+<h2 id="程序结果"><a href="#程序结果" class="headerlink" title="程序结果"></a>程序结果</h2><p>使用SIGHAN Bake-off 2013作为测试集。其中subtask1用于错误查找，subtask2用于错误纠正。根据测试集论文的描述，评价标准有以下几项：</p>
+<p>错误查找：</p>
+<ul>
+<li><p>FAR（错误识别率）：没有笔误却被识别为有笔误的句子数/没有笔误的句子总数</p>
+</li>
+<li><p>DA（识别精准率）：正确识别是否有笔误的句子数（不管有没有笔误）/句子总数</p>
+</li>
+<li><p>DP（识别准确率）：识别有笔误的句子中正确的个数/识别有笔误的句子总数</p>
+</li>
+<li><p>DR（识别找回率）：识别有笔误的句子中正确的个数/有笔误的句子总数</p>
+</li>
+<li><p>DF1（识别F1值）：<code>2 * DP * DR/ (DP + DR)</code></p>
+</li>
+<li><p>ELA（错误位置精准率）：位置识别正确的句子（不管有没有笔误）/句子总数</p>
+</li>
+<li><p>ELP（错误位置准确率）：正确识别出笔误所在位置的句子/识别有笔误的句子总数</p>
+</li>
+<li><p>ELR（错误位置召回率）：正确识别出笔误所在位置的句子/有笔误的句子总数</p>
+</li>
+<li><p>ELF1（错误位置准确率）：<code>2 * ELP * ELR / (ELP+ELR)</code></p>
+</li>
+</ul>
+<p>错误纠正：</p>
+<ul>
+<li><p>LA位置精确率：识别出笔误位置的句子／总的句子</p>
+</li>
+<li><p>CA修改精确率：修改正确的句子／句子总数</p>
+</li>
+<li><p>CP修改准确率：修改正确的句子／修改过的句子</p>
+</li>
+</ul>
+<p>我的结果：</p>
+<p>FAR:16.5714% DA:70.0000% DP:50.0000% DR:38.6667% DF1:43.6090%</p>
+<p>ELA:63.7000% ELP:22.8448% ELR:17.6667% ELF1:19.9248%</p>
+<p>LA:16.3000% CA:15.2000% CP:37.1638%</p>
+<h2 id="使用的公共资源"><a href="#使用的公共资源" class="headerlink" title="使用的公共资源"></a>使用的公共资源</h2><h3 id="语言模型"><a href="#语言模型" class="headerlink" title="语言模型"></a>语言模型</h3><p>北大人民日报语料库</p>
+<p>新华成语词典：<a href="https://github.com/pwxcoo/chinese-xinhua" target="_blank" rel="noopener">https://github.com/pwxcoo/chinese-xinhua</a></p>
+<h3 id="混淆集"><a href="#混淆集" class="headerlink" title="混淆集"></a>混淆集</h3><p>原始混淆集：<code>SIGHAN2013 ConfusionSet</code></p>
+<p>训练用互联网语料：<a href="https://github.com/zake7749/Gossiping-Chinese-Corpus" target="_blank" rel="noopener">https://github.com/zake7749/Gossiping-Chinese-Corpus</a></p>
+<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><p>简体繁体转换程序：<a href="https://github.com/hankcs/HanLP" target="_blank" rel="noopener">https://github.com/hankcs/HanLP</a></p>
+<h3 id="测试集"><a href="#测试集" class="headerlink" title="测试集"></a>测试集</h3><p>  <code>SIGHAN2013 finalTest</code></p>
+<h2 id="程序实用说明"><a href="#程序实用说明" class="headerlink" title="程序实用说明"></a>程序实用说明</h2><p>输入文件的格式必须是Unicode BE。</p>
+<p>   txt文件描述：</p>
+<p>   ChatData.txt 混淆集训练用的互联网原始文本</p>
+<p>   ChatDataConfusionSet.txt 互联网文本中提取的候选混淆对</p>
+<p>   ConfusionInfo.txt 候选混淆对筛选出的词对cos值和出现次数</p>
+<p>   FinalTest.txt SIGHAN测试集subtask2</p>
+<p>   FinalTest_Result.txt 程序跑出来的subtask2结果</p>
+<p>   FinalTest_Truth.txt subtask2正确答案</p>
+<p>   FinalTest_SubTask1.txt SIGHAN 测试集 subtask1</p>
+<p>   FinalTest_SubTask1_result.txt 程序跑出来的subtask1结果</p>
+<p>   FinalTest_SubTask1_Truth.txt subtask1正确答案</p>
+<p>   IdiomDictionary.txt 成语词典</p>
+<p>   SimilarPronunciation.txt SIGHAN原始混淆集</p>
+<p>   SimilarShape.txt SIGHAN原始混淆集</p>
+<p>   TrainDataCht.txt 北大分词语料</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1].  Shih-Hung Wu, Chao-Lin Liu, and Lung-Hao Lee (2013). Chinese Spelling Check Evaluation at SIGHAN Bake-off 2013. Proceedings of the 7th SIGHAN Workshop on Chinese Language Processing (SIGHAN’13), Nagoya, Japan, 14 October, 2013, pp. 35-42.</p>
+<p>[2].  Chao-Lin Liu, Min-Hua Lai, Kan-Wen Tien, Yi-Hsuan Chuang, Shih-Hung Wu, and Chia-Ying Lee. Visually and Phonologically similar characters in incorrect Chinese Words: analyses, Identification, and Applications. ACM Transactions on Asian Language Information Processing, 10(2), 10:1-39.</p>
+<p>[3].  Hsieh Y M, Bai M H, Huang S L, et al. Correcting Chinese spelling errors with word lattice decoding[J]. ACM Transactions on Asian and Low-Resource Language Information Processing (TALLIP), 2015, 14(4): 18.</p>
+<p>[4].  hqc888688.中文输入纠错任务整理[EB/OL].<a href="https://blog.csdn.net/hqc888688/article/details/74858126,2017-07-09" target="_blank" rel="noopener">https://blog.csdn.net/hqc888688/article/details/74858126,2017-07-09</a>.</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/project/" rel="tag"># project</a>
+          
+            <a href="/tags/homework/" rel="tag"># homework</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/08/Cpp-Ray-Tracing-running-on-CPU/" rel="next" title="CPU光线追踪C++OpenGL实现">
+                <i class="fa fa-chevron-left"></i> CPU光线追踪C++OpenGL实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Zhou Yifan</p>
+              <p class="site-description motion-element" itemprop="description">A foresighted strategist with big-picture thinking. 大局观选手。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#中文拼写检查器（基于图网格，C-实现）"><span class="nav-number">1.</span> <span class="nav-text">中文拼写检查器（基于图网格，C++实现）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Github链接"><span class="nav-number">1.1.</span> <span class="nav-text">Github链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#任务定义"><span class="nav-number">1.2.</span> <span class="nav-text">任务定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现思路"><span class="nav-number">1.3.</span> <span class="nav-text">实现思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序设计与实现"><span class="nav-number">1.4.</span> <span class="nav-text">程序设计与实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据预处理"><span class="nav-number">1.4.1.</span> <span class="nav-text">数据预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序执行"><span class="nav-number">1.4.2.</span> <span class="nav-text">程序执行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序结果"><span class="nav-number">1.5.</span> <span class="nav-text">程序结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用的公共资源"><span class="nav-number">1.6.</span> <span class="nav-text">使用的公共资源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语言模型"><span class="nav-number">1.6.1.</span> <span class="nav-text">语言模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#混淆集"><span class="nav-number">1.6.2.</span> <span class="nav-text">混淆集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工具"><span class="nav-number">1.6.3.</span> <span class="nav-text">工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试集"><span class="nav-number">1.6.4.</span> <span class="nav-text">测试集</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序实用说明"><span class="nav-number">1.7.</span> <span class="nav-text">程序实用说明</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">2.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhou Yifan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.1</div>
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.1"></script>
+
+
+  
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
