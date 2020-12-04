@@ -322,6 +322,297 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2020/01/07/Principles-of-Computer-Composition-cources-review-5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/01/07/Principles-of-Computer-Composition-cources-review-5/" class="post-title-link" itemprop="url">计算机组成原理复习：第五章 存储系统和结构</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-01-07 01:28:55" itemprop="dateCreated datePublished" datetime="2020-01-07T01:28:55+08:00">2020-01-07</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/" itemprop="url" rel="index"><span itemprop="name">Computer Science</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/Principles-of-Composition/" itemprop="url" rel="index"><span itemprop="name">Principles of Composition</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>比较可惜的是，从这章开始，这门课的内容就讲得很不细致了。很多内容只能从一个很高的层次进行介绍，无法深入细节。一旦讲到了偏硬件的东西，由于难以进行实践，又和数学等理科知识关系不大，和电路等学科关系密切，课本就只能划水。</p>
+<h1 id="计算机组成原理复习：第五章-存储系统和结构"><a href="#计算机组成原理复习：第五章-存储系统和结构" class="headerlink" title="计算机组成原理复习：第五章 存储系统和结构"></a>计算机组成原理复习：第五章 存储系统和结构</h1><p>本章先从整体上介绍了计算机的存储结构，再着重介绍主存的存储思想以及具体的主存种类。之后讲了多个主存储器是如何构成一个系统的。最后稍微介绍了一些其他cache、虚拟内存等内容。</p>
+<p>我只针对复习PPT提到的重点和我们课后习题涉及到的内容进行复习。</p>
+<h2 id="主存储器的组织"><a href="#主存储器的组织" class="headerlink" title="主存储器的组织"></a>主存储器的组织</h2><p>这一节围绕主存是如何存储数据的，介绍了主存储器整体的工作原理，和前面编码的内容有一些关联。主存储器本身的结构在后面的小节里介绍。</p>
+<h3 id="存储单元"><a href="#存储单元" class="headerlink" title="存储单元"></a>存储单元</h3><p>数据的最小单位是位，被叫做<strong>存储位</strong>。按位存取效率太低，多个存储位在一起就成了<strong>存储字</strong>，这是访问的最小单元。存存储字的结构叫<strong>存储单元</strong>，地址和存储单元是一一对应的。大量存储单元构成了<strong>存储体</strong>。</p>
+<h3 id="主存部分技术指标"><a href="#主存部分技术指标" class="headerlink" title="主存部分技术指标"></a>主存部分技术指标</h3><h4 id="存取时间"><a href="#存取时间" class="headerlink" title="存取时间"></a>存取时间</h4><p>执行一次读或写操作的时间。</p>
+<h4 id="存取周期"><a href="#存取周期" class="headerlink" title="存取周期"></a>存取周期</h4><p>两次执行访问操作的间隔时间。因为除了完成存取操作外，主存内部还有一些其他的操作，存取周期一般略大于存取时间。</p>
+<h4 id="带宽"><a href="#带宽" class="headerlink" title="带宽"></a>带宽</h4><p>等于主存等效工作频率乘主存位宽。</p>
+<h3 id="数据在主存的存放"><a href="#数据在主存的存放" class="headerlink" title="数据在主存的存放"></a>数据在主存的存放</h3><p>可能出现主存的存储字长比较大，而计算机传来的数据比较小的情况。比如主存的存储字长是64位，而计算机传来的数据可能是8~64位的。如何存这些数据是一个问题：</p>
+<p>如果每个数据紧挨着存，那么主存空间没有浪费。但是万一一个存储字剩余容量较小，突然来了一个64位数据，那么这个数据就得拆成两半，存在两个存储字里了。</p>
+<p>如果每个数据都存在一个存储字里，那就太浪费了。如果所有数据都是一个字节，那么大量的空间要被浪费。</p>
+<p>因此，边界对齐的存取法被提出。这种方法综合了以上两种方法的优点。比如，在存储字为64位的主存储器里，64位数据只能从一个存储字开头从，32位数据只能从半个存储字开头存，16位位数据只能从四分之一个存储字开头存。</p>
+<h2 id="主存储器结构与工作原理"><a href="#主存储器结构与工作原理" class="headerlink" title="主存储器结构与工作原理"></a>主存储器结构与工作原理</h2><p>这一节前面讲了很多和电路的东西，我们缺乏基础知识，学不懂。我只复习DRAM的刷新以及RAM芯片的一些参数。</p>
+<h3 id="DRAM的刷新"><a href="#DRAM的刷新" class="headerlink" title="DRAM的刷新"></a>DRAM的刷新</h3><p>由于DRAM电路的问题，需要经常刷新才能维护数据。</p>
+<p>注意，刷新是指对每个芯片的刷新。芯片一般会排成正方向阵列，比如16K的芯片，就会排成128*128。之后谈到的按行刷新，这个“行”指的就是128。刷新就等于读了一遍，因此刷新周期等于读写周期。这个刷新周期是以行为单位的。</p>
+<p>为了提高整体的工作效率，有几种不同的刷新策略：</p>
+<h4 id="集中刷新"><a href="#集中刷新" class="headerlink" title="集中刷新"></a>集中刷新</h4><p>在最大允许的刷新间隔内，把工作分成两个阶段：读写操作和刷新。在所有读写操作执行一段时间后，集中刷新所有的存储芯片，再继续读写。等于说每个刷新间隔构成了一个循环的工作周期。</p>
+<h4 id="分散刷新"><a href="#分散刷新" class="headerlink" title="分散刷新"></a>分散刷新</h4><p>每次读或写之后，立刻刷新。也就是读写操作和刷新绑定。这样可以保证内存正常，但是刷新过于频繁，读写周期变长，没有充分利用最大允许刷新间隔</p>
+<h4 id="异步刷新"><a href="#异步刷新" class="headerlink" title="异步刷新"></a>异步刷新</h4><p>异步刷新综合以上两种方法，把主存按行分组。先做一会儿读写操作，就停下来刷新第一行；再做一会儿读写操作，就刷新第二行……。在最大允许刷新间隔内，把所有行都刷新一遍。</p>
+<p>课本上对以上三种方法都画了一个图，看了图就很好理解。</p>
+<h3 id="RAM芯片引脚"><a href="#RAM芯片引脚" class="headerlink" title="RAM芯片引脚"></a>RAM芯片引脚</h3><ul>
+<li>地址线</li>
+<li>数据线</li>
+<li>片选线 CS</li>
+<li>读写控制线 WE</li>
+<li>Vcc 电源</li>
+<li>GND 地</li>
+</ul>
+<p>其中片选线的意思可能不能通过字面来理解。片选线决定该芯片是否工作。</p>
+<p>上述引脚的字母打的不是很准确。这篇文章我不打算渲染公式，所以就简单写一下。</p>
+<p>先复习一下这些引脚是因为之后的内容会用到。</p>
+<h2 id="主存储器的连接与控制"><a href="#主存储器的连接与控制" class="headerlink" title="主存储器的连接与控制"></a>主存储器的连接与控制</h2><p>本节讲的是多个主存储器是如何协作的。</p>
+<h3 id="主存储器扩展"><a href="#主存储器扩展" class="headerlink" title="主存储器扩展"></a>主存储器扩展</h3><p>存储芯片一般比较小。为了得到一个较大的主存储器，需要把存储芯片连接扩展。</p>
+<p>先提一句，芯片用数据量和数据位数来表示。比如64K X 1就是地址64K，数据只有1位的芯片。</p>
+<p>考试主要考察的就是画图。注意，一堆线要画成粗的线。箭头表示数据传输方向，数据线的箭头是双向的，其他线的箭头是单向的。</p>
+<p>有以下三种扩展方法：</p>
+<h4 id="位扩展"><a href="#位扩展" class="headerlink" title="位扩展"></a>位扩展</h4><p>用一堆地址一样的芯片扩展位数。</p>
+<p>地址线、片选线并联进每一个芯片。</p>
+<p>数据线每一根接一个芯片。</p>
+<p>以64K X 1拓展到64K X 8为例：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>芯片1</th>
+<th>芯片2</th>
+<th>芯片3</th>
+<th>…</th>
+<th>芯片8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A0</td>
+<td>——l——</td>
+<td>——l——</td>
+<td>——l——</td>
+<td>——l——</td>
+<td>——l——</td>
+</tr>
+<tr>
+<td>…</td>
+<td>——l——</td>
+<td>——l——</td>
+<td>——l——</td>
+<td>——l——</td>
+<td>——l——</td>
+</tr>
+<tr>
+<td>A15</td>
+<td>——l——</td>
+<td>——l——</td>
+<td>——l——</td>
+<td>——l——</td>
+<td>——l——</td>
+</tr>
+<tr>
+<td>CS</td>
+<td>——l——</td>
+<td>——l——</td>
+<td>——l——</td>
+<td>——l——</td>
+<td>——l——</td>
+</tr>
+<tr>
+<td>D0</td>
+<td>——l——</td>
+<td>—————</td>
+<td>—————</td>
+<td>—————</td>
+<td>—————</td>
+</tr>
+<tr>
+<td>…</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>D7</td>
+<td>—————</td>
+<td>—————</td>
+<td>—————</td>
+<td>—————</td>
+<td>——l——</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="地址扩展"><a href="#地址扩展" class="headerlink" title="地址扩展"></a>地址扩展</h4><p>假设一堆芯片位数相同，但存储量不够，可以把它们并在一起扩展地址</p>
+<p>这种方法的思想是，地址线的高位用来片选，也就是选择使用那片芯片；低位直接输入芯片。</p>
+<p>此处看书上的图很好理解。</p>
+<h4 id="字和位同时扩展"><a href="#字和位同时扩展" class="headerlink" title="字和位同时扩展"></a>字和位同时扩展</h4><p>同时执行上面两种扩展。</p>
+<p>看书上的图很好理解。</p>
+<h3 id="存储芯片的地址分配与片选"><a href="#存储芯片的地址分配与片选" class="headerlink" title="存储芯片的地址分配与片选"></a>存储芯片的地址分配与片选</h3><p>上一节地址扩展中，出现了如何分配地址这个问题。上一节是用一个译码器来分配地址高位，得到片选结果。本节具体介绍了分配地址时存储芯片片选的方式。</p>
+<h4 id="线选法"><a href="#线选法" class="headerlink" title="线选法"></a>线选法</h4><p>地址高位的每一位直接就代表是否选中某个芯片，而不经过移码。由于片选时0表示有效，因此用于片选的地址高位只能有一个0。</p>
+<h4 id="全译码法"><a href="#全译码法" class="headerlink" title="全译码法"></a>全译码法</h4><p>就是上一节的方法，把高位输入译码器进行译码，输出选择哪一个芯片。有可能输入的地址组合量大于需要的量，比如输入9位，但只有4个芯片。这个时候译码结果只有4个是有效的，其他508个都是无效的。</p>
+<h4 id="部分译码法"><a href="#部分译码法" class="headerlink" title="　部分译码法"></a>　部分译码法</h4><p>在全移码的基础上，只把部分位输入译码器。比如要选择4个芯片，只输入2位就行了。这样的话地址的高位完全用不到，会产生地址重叠。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2020/01/06/Principles-of-Computer-Composition-cources-review-4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2752,255 +3043,6 @@ B = M_B \times 2^{E_B}</script><p>浮点数加减前要对齐阶，阶小往阶�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/08/09/slope-optimization-dp-glance/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhou Yifan">
-      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="周弈帆的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/08/09/slope-optimization-dp-glance/" class="post-title-link" itemprop="url">速通斜率优化DP</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2019-08-09 00:22:18" itemprop="dateCreated datePublished" datetime="2019-08-09T00:22:18+08:00">2019-08-09</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/" itemprop="url" rel="index"><span itemprop="name">Study</span></a></span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/" itemprop="url" rel="index"><span itemprop="name">Computer Science</span></a></span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/ACM/" itemprop="url" rel="index"><span itemprop="name">ACM</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>前几天在写<a href="http://acm.hdu.edu.cn/showproblem.php?pid=6619" target="_blank" rel="noopener">HDU6619</a>的时候，问题最终转化成了一个形如下式的DP：</p>
-<script type="math/tex; mode=display">
-dp[i] =
-\left\{
-\begin{aligned}
-   &x &i = 0 \\
-   &max_{0\leq j < i}\{dp[j] + (n - i)(\Sigma_{k = j}^{i - 1}arr[k])\} &0 < i \leq n
-\end{aligned}
-\right.
-\\</script><p>这个式子很简单，也就是当前状态的值由前面某个状态的值加上两个状态之间的数组值的和得到，且当前状态的值要尽可能大。按照式子直接枚举当前状态的上一状态的话，复杂度是$O(n^2)$。但本题的$n$是$10^5$，直接写肯定会T掉。我一时半会没有想出优化的方法，看了题解才想起来，这个DP可以用<strong>斜率优化</strong>来加速转移。于是，我准备快速复习一下斜率优化的用法。</p>
-<h2 id="斜率优化DP用法示例"><a href="#斜率优化DP用法示例" class="headerlink" title="斜率优化DP用法示例"></a>斜率优化DP用法示例</h2><p>还是回到刚刚那个式子:</p>
-<script type="math/tex; mode=display">
-dp[i] =
-\left\{
-\begin{aligned}
-   &x &i = 0 \\
-   &max_{0\leq j < i}\{dp[j] + (n - i)(\Sigma_{k = j}^{i - 1}arr[k])\} &i>0
-\end{aligned}
-\right.
-\\</script><p>右边一堆求和实在是太碍眼了。我们可以先对数组求前缀和，这样求和直接被前缀和做差代替：</p>
-<script type="math/tex; mode=display">
-dp[i] =
-\left\{
-\begin{aligned}
-   &x &i = 0 \\
-   &max_{0\leq j < i}\{dp[j] + (n - i)(sum[i] - sum[j])\} &i>0
-\end{aligned}
-\right.
-\\</script><p>如果没有那个$(n - i)$就好了。这样上一状态的贡献永远是$dp[j] + sum[j]$，只要对每个状态求这个值再取最大就可以直接$O(1)$获取之前答案的最大贡献了。问题是，前面乘了一个$(n - i)$后，之前状态的贡献就和当前的$i$有关系了。之前所有状态的部分贡献$dp[j],sum[j]$已经是完全确定的东西了，加上当前的$i$就能算出之前状态的全部贡献。那么，有没有一个仅通过当前的$i$来衡量之前哪个方案更优的方法呢？</p>
-<p>如果之前存在两个状态$a,b$，不妨设$a &lt; b$。那么，当从$a$比从$b$转移更优的时候是怎么样的呢？我们不妨列出此时两个状态的贡献值不等式，并且把含$i$的部分移到不等号的一边去。</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-dp[a] + (n - i)(sum[i] - sum[a]) &> dp[b] + (n - i)(sum[i] - sum[b]) \\
-dp[a] - (n - i)sum[a] &> dp[b] - (n - i)sum[b] \\
-dp[a] - dp[b] &> (n - i)(sum[a] - sum[b]) \\
-\frac{dp[a] - dp[b]}{sum[a] - sum[b]} &> n - i
-\end{aligned}</script><p>由于前缀和数组递增，$sum[a] &gt; sum[b]$，不等式不用变号。</p>
-<p>也就是说，通过计算两个状态的$dp$数组差除以$sum$数组差，并将这个结果与$n - i$比较，我们就能知道之前两个状态孰优孰劣。这个计算出的值是反映状态好坏的本质属性，因为这个值的计算与当前的$i$无关。由于这个计算值和数学上斜率的计算十分相似，因此才有斜率优化这个名字。</p>
-<p>如果把之前所有状态都看成一个$(sum[j], dp[j])$的二维点，现在我们知道了$n - i$的值，那么之前哪个状态最优呢？</p>
-<p>我们从左到右从两两相邻的点连线。如果两两相邻的点的斜率是递减的，那就好办了：这就说明，前面有很多点对的斜率大于$n - i$，后面有很多点对的斜率小于$n - i$。那么中间的某个点就是最优的，那个点和它前一个点的斜率大于$n - i$，和它下一个点的斜率小于$n - i$。它比左边的点优，也比右边的点优。</p>
-<p>问题是，如果出现了某三个从左到右相邻点$a, b, c$，且$ab$斜率小于$bc$呢？也就是相邻点对的斜率不是增减的。这种情况下，若斜率$ab$和$bc$都比$n - i$小，则最左边的$a$点最优；反之，若两个斜率都比$n - i$大，则最右边的点$c$最优。剩下的情况只有斜率$ab$小于$n - i$，斜率$bc$大于$n - i$这种情况。但是，此时$a$比$b$优，$c$也比$b$优。可以看到，无论什么情况下，$b$都不是最优的。因此，$b$点永远不会是上一个最优状态，可以把它“抛走”，再也不考虑它了。</p>
-<p>也就是说，可能作为上一个最优状态的点，它们的$(sum[j], dp[j])$构成的二维点的斜率永远是单调递减的。这个单调性，是斜率优化DP的根本原因。</p>
-<p>有了上述的分析，选上一个最优状态，不再需要枚举每一个之前的状态，而是维护一个可能作为上一状态的集合就可以了。这个集合从左到右存了一系列的可能的状态。每次要找最优状态的话，就像之前分析的那样，找到第一个斜率小于的$n - i$的左边的点，那个点对应状态就是最优的上一状态。由于单调性的存在，这个过程可以用二分完成。但由于我们每次的$n - i$是一个递减的量，也就是说我们每次需要找的斜率只会越来越小。那么那些斜率很大的点都可以扔掉去。因此，在本题中，可以不去二分查找，而去删掉前面那些已经斜率过大的点。最后剩下来的第一个点，它和下一个点的斜率小于$n - i$，它就是本次要寻找的最优上一状态。这个集合可以用双端队列Deque来维护。</p>
-<p>同时，这个集合还需要进行维护。每次新得到了一个dp值后，我们就要试图把新的状态加入这个集合中。为了保证集合中点斜率的单调性，我们要取出集合最后两个点，拿它们和当前的点算出两个斜率，看看这个斜率是否满足单调递减的性质。如果不满足，就把中间的那个点去掉，也就是把原来集合中的最后一个点去掉。</p>
-<h2 id="Deque实现斜率优化DP方法简述"><a href="#Deque实现斜率优化DP方法简述" class="headerlink" title="Deque实现斜率优化DP方法简述"></a>Deque实现斜率优化DP方法简述</h2><p>其实上面那道题并不适合用来学习斜率DP，因为它实际上牵扯的细节很多，dp式子并没有上面写得那么简单。<a href="http://acm.hdu.edu.cn/showproblem.php?pid=3507" target="_blank" rel="noopener">HDU3507</a>应该是最适合写的第一道斜率优化DP题。</p>
-<p>这道题状态转移的式子比上面那个例子要复杂一点，而且是取最小值，需要维护的斜率应该满足单调递增而不是单调递减，但本质还是对前缀和什么的做一些运算，再进行斜率的比较，最终优化的方法还是完全一样的。</p>
-<p>这道题中，不等式右边的与当前状态$i$有关的值是$sum[i]$，它是一个单调递增的量，正好与我们维护的是一个单调递增的斜率集合“相符合”（这里“符合”的意义比较微妙，也就是说，如果这里$sum[i]$不是单调递减，是递增或是无规律的，那么就不能用Deque来做了）。因此，我们在找最优状态的时候，不用去二分的找第一个斜率大于某个值的点，而是把前面斜率小的点都删掉去，把剩下来的第一个点作为上一状态。这个东西可以用Deque维护。</p>
-<p>因此，在写代码时，应该按照下列步骤。</p>
-<ol>
-<li>读入数据，初始化dp等数组，该求前缀和求前缀和。</li>
-<li>声明一个deque\&lt; int &gt;，作为上一状态的集合。如果0位置的状态一开始就能被转移，就往deque里push一个0。</li>
-<li>开始for循环，遍历每一个当前状态$i$。</li>
-<li>for循环体中：如果deque的大小大于等于2，说明deque中可能存在斜率不合法的点，循环寻找是否存在这样的点。每次循环得到front()，再pop_front()，再得到front()，也就是取出队列中前面两个点。判断这这两点的斜率，若斜率小于（大于）关键值（本例是2 * sum[i]），则continue掉，也就是扔掉第一个点，继续循环判断；否则，把取出的第一个点push_front()放回去，退出循环。这样，第一个斜率大于（小于）关键值的点就变成了que.front()。</li>
-<li>不妨设j = que.front()，这个j就是最优的上一状态。用推好的dp式子计算dp[i]。</li>
-<li>把状态i加入队列并维护队列的单调性。和开始的操作类似，循环判断deque大小是否大于等于2，若是，则取出队列队尾的两个点，计算它们和新的点$i$的两个斜率是否满足应该具有的单调性。若不满足单调性，则扔掉队尾的点，循环继续。</li>
-<li>把状态i用push_back()扔进队列的队尾。</li>
-<li>for循环结束</li>
-<li>输出dp数组中的答案。</li>
-</ol>
-<h2 id="二分查找实现斜率优化DP方法简述"><a href="#二分查找实现斜率优化DP方法简述" class="headerlink" title="二分查找实现斜率优化DP方法简述"></a>二分查找实现斜率优化DP方法简述</h2><p><a href="http://codeforces.com/problemset/problem/674/C" target="_blank" rel="noopener">CodeForces 674C</a>也是一道斜率优化DP的题目。这道题递推式子相较之前两题更复杂了一些，而且它进行比较的和$i$有关的关键值并不是单调的。因此，这题不能再用Deque来维护最优上一答案，而是要用一个vector来存可能的状态，并进行二分查找。</p>
-<p>写代码的步骤也类似，只是寻找上一最优答案的过程有所变更。</p>
-<ol>
-<li>读入数据，初始化dp等数组，求好所需变量。</li>
-<li>声明一些vector\&lt; int &gt;，作为上一状态的集合。如果dp某一维的0位置的状态一开始就能被转移，就往对应vector里push一个0。</li>
-<li>开始for循环，遍历每一个当前状态$i$。如果dp数组和本题一样是多维的，那么再加一层for循环，按照顺序遍历dp数组的每一维。</li>
-<li>for循环体中：如果对应vector数组是空的，那么说明该状态不存在上一状态，直接跳过；否则，声明一个存储最优上一个状态的变量ii。ii的初始值是vector数组的第一项，因为我们将要二分查找的是最后一个斜率满足不等式的右端点，若二分查找什么都没找到，那么说明最优的点就是数组中的第一项。</li>
-<li>二分查找最后一个斜率满足不等式的右端点。实现时把二分查找的mid对应状态套入不等式判断即可，若满足不等式则更新临时变量ii为vector中mid处对应的状态。</li>
-<li>二分查找结束，ii就是最优的上一状态。用推好的dp式子计算dp[i]。</li>
-<li>把状态i加入数组并维护数组的单调性。循环判断deque大小是否大于等于2，若是，则取出数组尾的两个点，计算它们和新的点$i$的两个斜率是否满足应该具有的单调性。若不满足单调性，则扔掉数组尾的点，循环继续。</li>
-<li>把状态i用push_back()扔进数组尾。</li>
-<li>for循环结束</li>
-<li>输出dp数组中的答案。</li>
-</ol>
-<h2 id="写代码的注意事项"><a href="#写代码的注意事项" class="headerlink" title="写代码的注意事项"></a>写代码的注意事项</h2><p>写代码的时候会发现，不等式左边分子的那个量会被反复地用到。用一个函数来计算这个值会更加方便可靠。</p>
-<p>在比较相邻两个斜率，而分子分母都是整数的时候，得用交叉相乘来比较斜率，规避除法。</p>
-<h2 id="总结-感想"><a href="#总结-感想" class="headerlink" title="总结/感想"></a>总结/感想</h2><h3 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h3><p>我算是大概理解了斜率优化DP的原理，但对什么时候可以用这个算法还有一点模糊。斜率优化DP本质上是在寻找最优上一状态时，找到衡量每一个状态的本质量，也就是那个二维点。对于每一对二维点，都有同一个判断它们两个谁更优的标准，那就是比较二者斜率是大于还是小于某个值（等于的情况可以忽略）。由于判断条件相同，只有斜率单调的点才可能成为最优上一状态。又由于有了单调的性质，才能在状态中进行二分查找。如果进行判断的斜率值还相对应是单调的，那么二分查找都可以省略，直接就可以得到最优的上一个状态。</p>
-<p>能用斜率DP优化问题的核心原因就在于，对每一对二维点，判断它们谁更优的标准是一样的。但是，如果对于一个dp递推式子推导出的不等式中，作为分母的不是$(sum[a] - sum[b])$，而是另一组值，这一组值并不满足单调。这样的话，哪怕对于$a &gt; b$的点，算出来的分母可能是个负数，除过去的话不等式要变号。对于相邻的两个点，有的时候斜率大于某个值更优，有的时候是斜率小于某个值更优。好像在这种情况下就不能用斜率优化DP了。</p>
-<h3 id="算法适用情况"><a href="#算法适用情况" class="headerlink" title="算法适用情况"></a>算法适用情况</h3><p>能够用斜率优化DP的题都有类似的地方。这些题的dp在计算新值时，是在旧dp值的基础上加上一个和当前状态$i$有关的贡献。这个贡献往往是和上一位置到这一位置的区间和有关，以保证不等式分母是永远是正的。当看到一个类似这样的DP，且数据范围不允许$O(n^2)$时，就要考虑用斜率优化DP了。</p>
-<p>和大部分DP题目一样，这种题目推式子是最重要的，代码实现上只要写个2、3题就能学会套路，很难出错。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3047,7 +3089,7 @@ dp[a] - dp[b] &> (n - i)(sum[a] - sum[b]) \\
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-count">36</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -3092,7 +3134,7 @@ dp[a] - dp[b] &> (n - i)(sum[a] - sum[b]) \\
                     
                       
                     
-                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-count">14</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -3119,7 +3161,7 @@ dp[a] - dp[b] &> (n - i)(sum[a] - sum[b]) \\
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">tags</span>
                   
                 </div>
@@ -3315,9 +3357,9 @@ dp[a] - dp[b] &> (n - i)(sum[a] - sum[b]) \\
   
     
       
-        
-      
     
+      
+        
       
     
       
