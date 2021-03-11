@@ -96,26 +96,28 @@
 
 
 
-  <meta name="description" content="Description给一个由左右括号组成的正确括号序列（保证一个左括号一定对应右边的一个右括号）。   通过这个括号序列，我们可以构建一棵树：左括号表示进入子树，右括号表示从当前子树返回。括号相当于描述了一棵树先序遍历的出入栈过程。   现在，我们有q次操作。每次操作会交换括号序列中的两个的括号位置，该操作保证括号序列的正确性。每次操作后，都能得到一颗新的树。要求输出最开始和每次操作后树的直径（">
+  <meta name="description" content="Poisson Image Editing 图像融合/图像无缝编辑经典文献阅读想不想把自己的头P到别人的图片中？ 想不想把别人图片里的彩虹放进自己拍的风景照中？ 想不想自己修掉脸上的皱纹？ 掌握图像融合技术，以上的一切图像编辑任务都可以轻松完成。  (图片来自论文) 如图所示，利用图像融合技术，可以把一幅图片的部分区域复制到一幅图片（可以是同一幅图片）上，并且让复制过去的图片块保持之前的色彩风格。">
+<meta name="keywords" content="homework">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CodeForces 1149C Tree Generator™">
-<meta property="og:url" content="https://zhouyifan.net/2019/04/30/CF-1149C/index.html">
+<meta property="og:title" content="Poisson Image Editing 图像融合经典文献阅读">
+<meta property="og:url" content="https://zhouyifan.net/2021/03/12/20210311-Poisson-Image-Editing-Paper-Reading/index.html">
 <meta property="og:site_name" content="周弈帆的博客">
-<meta property="og:description" content="Description给一个由左右括号组成的正确括号序列（保证一个左括号一定对应右边的一个右括号）。   通过这个括号序列，我们可以构建一棵树：左括号表示进入子树，右括号表示从当前子树返回。括号相当于描述了一棵树先序遍历的出入栈过程。   现在，我们有q次操作。每次操作会交换括号序列中的两个的括号位置，该操作保证括号序列的正确性。每次操作后，都能得到一颗新的树。要求输出最开始和每次操作后树的直径（">
+<meta property="og:description" content="Poisson Image Editing 图像融合/图像无缝编辑经典文献阅读想不想把自己的头P到别人的图片中？ 想不想把别人图片里的彩虹放进自己拍的风景照中？ 想不想自己修掉脸上的皱纹？ 掌握图像融合技术，以上的一切图像编辑任务都可以轻松完成。  (图片来自论文) 如图所示，利用图像融合技术，可以把一幅图片的部分区域复制到一幅图片（可以是同一幅图片）上，并且让复制过去的图片块保持之前的色彩风格。">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://zhouyifan.net/2019/04/30/CF-1149C/example.png">
-<meta property="og:updated_time" content="2019-04-30T06:52:46.661Z">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/12/20210311-Poisson-Image-Editing-Paper-Reading/20210311-Poisson-Image-Editing-Paper-Reading/fig1.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/12/20210311-Poisson-Image-Editing-Paper-Reading/20210311-Poisson-Image-Editing-Paper-Reading/fig2.jpg">
+<meta property="og:updated_time" content="2021-03-11T16:03:48.226Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CodeForces 1149C Tree Generator™">
-<meta name="twitter:description" content="Description给一个由左右括号组成的正确括号序列（保证一个左括号一定对应右边的一个右括号）。   通过这个括号序列，我们可以构建一棵树：左括号表示进入子树，右括号表示从当前子树返回。括号相当于描述了一棵树先序遍历的出入栈过程。   现在，我们有q次操作。每次操作会交换括号序列中的两个的括号位置，该操作保证括号序列的正确性。每次操作后，都能得到一颗新的树。要求输出最开始和每次操作后树的直径（">
-<meta name="twitter:image" content="https://zhouyifan.net/2019/04/30/CF-1149C/example.png">
+<meta name="twitter:title" content="Poisson Image Editing 图像融合经典文献阅读">
+<meta name="twitter:description" content="Poisson Image Editing 图像融合/图像无缝编辑经典文献阅读想不想把自己的头P到别人的图片中？ 想不想把别人图片里的彩虹放进自己拍的风景照中？ 想不想自己修掉脸上的皱纹？ 掌握图像融合技术，以上的一切图像编辑任务都可以轻松完成。  (图片来自论文) 如图所示，利用图像融合技术，可以把一幅图片的部分区域复制到一幅图片（可以是同一幅图片）上，并且让复制过去的图片块保持之前的色彩风格。">
+<meta name="twitter:image" content="https://zhouyifan.net/2021/03/12/20210311-Poisson-Image-Editing-Paper-Reading/20210311-Poisson-Image-Editing-Paper-Reading/fig1.jpg">
 
 
 
 
 
 
-  <link rel="canonical" href="https://zhouyifan.net/2019/04/30/CF-1149C/">
+  <link rel="canonical" href="https://zhouyifan.net/2021/03/12/20210311-Poisson-Image-Editing-Paper-Reading/">
 
 
 
@@ -125,7 +127,7 @@
   };
 </script>
 
-  <title>CodeForces 1149C Tree Generator™ | 周弈帆的博客</title>
+  <title>Poisson Image Editing 图像融合经典文献阅读 | 周弈帆的博客</title>
   
 
 
@@ -324,7 +326,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/04/30/CF-1149C/">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2021/03/12/20210311-Poisson-Image-Editing-Paper-Reading/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhou Yifan">
@@ -341,7 +343,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">CodeForces 1149C Tree Generator™
+          <h1 class="post-title" itemprop="name headline">Poisson Image Editing 图像融合经典文献阅读
 
               
             
@@ -367,7 +369,7 @@
                 
               
 
-              <time title="Created: 2019-04-30 14:05:00" itemprop="dateCreated datePublished" datetime="2019-04-30T14:05:00+08:00">2019-04-30</time>
+              <time title="Created: 2021-03-12 00:03:48" itemprop="dateCreated datePublished" datetime="2021-03-12T00:03:48+08:00">2021-03-12</time>
             
 
             
@@ -399,7 +401,7 @@
                   , 
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/ACM/" itemprop="url" rel="index"><span itemprop="name">ACM</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Study/Computer-Science/Digital-Image-Processing/" itemprop="url" rel="index"><span itemprop="name">Digital Image Processing</span></a></span>
 
                 
                 
@@ -434,28 +436,33 @@
       
 
       
-        <h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>给一个由左右括号组成的正确括号序列（保证一个左括号一定对应右边的一个右括号）。  </p>
-<p>通过这个括号序列，我们可以构建一棵树：左括号表示进入子树，右括号表示从当前子树返回。括号相当于描述了一棵树先序遍历的出入栈过程。  </p>
-<p>现在，我们有q次操作。每次操作会交换括号序列中的两个的括号位置，该操作保证括号序列的正确性。每次操作后，都能得到一颗新的树。要求输出最开始和每次操作后树的<em>直径</em>（树上某两点距离的最大值）。</p>
-<p>序列代表的树有$n$个节点，操作共$q$次。$3 \leq n \leq 100 000, q \leq100 000$<br>输出$n+1$棵树的直径  </p>
-<h2 id="Sample-Input-amp-Output"><a href="#Sample-Input-amp-Output" class="headerlink" title="Sample Input &amp; Output"></a>Sample Input &amp; Output</h2><p>5 5<br>(((())))<br>4 5<br>3 4<br>5 6<br>3 6<br>2 5</p>
-<hr>
-<p>4<br>3<br>3<br>2<br>4<br>4  </p>
-<p><img src="//zhouyifan.net/2019/04/30/CF-1149C/example.png" alt="Sample"></p>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>首先考虑到树的子树具有子结构性质。每一步操作都没有完全改变整棵树，有很多子结构的信息是相同的。</p>
-<p>那么可以这样思考，在括号序列的任意一个位置开始往后走，我都可以得到一颗与这个位置前面的节点独立的一颗树。这棵树不一定是子树，因为从任意一个位置开始的括号序列可能会多出几个右括号，这种情况下这棵树会往回生长。</p>
-<p>再从题目的问题入手，题目要我们求出每颗树的直径来。路径长可以看成两个树的深度减去两倍他们lca的深度。即：设点$u$的深度为$d(u)$,那么$u$到$v$的路径长$l(u, v)=d(u)+d(v)-2\times d(lca(u,v))$。而直径就是所有路径长的最大值。也就是说，如果能得知每个点的深度，并设法维护最大的路径长，就能得到答案。通过括号序列得到每个点每个时刻的深度是很容易的，现在我们就要设法维护路径长，得知路径长又必须知道点对的lca是谁。</p>
-<p>恰好，题目给的是树的一个dfs序。任意两点的lca，都是在左边节点之后，右边节点之前访问。那我们也不用管lca是谁了，随便拿$u,v$点中间的一个点$w$，使得$d(u)+d(v)-2\times d(w)$最大的$w$就是它们的lca。即：$l(u, v)=max \{ d(u)+d(v)-2\times d(w) | t_u \leq t_w \leq t_v \}$ ，其中 $t$ 为括号序列中访问节点的时间(也可以说是序列中的下标）。</p>
-<p>那问题就变得更简单了。只要是满足 $t_a \leq t_b \leq t_c$ 的三元组 $a,b,c$ ，$d(a) + d(c) - 2 * d(b)$ 就可能是一条路径长。维护最大的这个值，就可以得到直径。</p>
-<p>如果只是算一次的话，一边维护当前深度，一边记录下最大的$d(a)$，最小的$d(b)$等值很容易就可以地$O(n)$维护当前直径。但问题是，题目有q次操作。这就得回到开始的分析了——每次操作过后，还有很多子结构的信息保留了下来。</p>
-<p>我们需要的是子结构的哪些信息呢？注意到我们计算答案只用到了深度，在每一个子结构代表的树中，我们也必须得维护一些用于计算最大的 $d(a)+d(c)-2\times d(b)$ 的一些深度信息。我们可以把某个子结构开始位置当作相对深度，并记录在这个相对深度下，深度的最大最小值，路径左半边（左边的点到lca距离）的最大值和路径右半边的最大值。同时，还要记录这个子结构的总深度，以得到它和后面一个子结构的相对深度。通过以上信息，就可以维护子结构中最大的 $d(a)+d(c)-2\times d(b)$了。</p>
-<p>这种用子结构来解决问题的思想和分治是类似的。分治的每一个结果都可以存在线段树中。虽然第一次求解的复杂度是$O(nlogn)$，但对于每次修改，都能在$O(logn)$的时间里得到新的答案。</p>
-<p>总的时间复杂度$O((n + q)logn)$</p>
-<h2 id="Review"><a href="#Review" class="headerlink" title="Review"></a>Review</h2><p>这道题实际上算法并没有很难，写起来也很容易，但比较考验思维，需要把问题进行巧妙地转换。我一直没有想出解法，是看完官方题解才写出这道题的。虽然我没有自己想出来，但在回味题目巧妙的解法时，还是学到了很多东西的。</p>
-<p>在每次操作中，一定是有一些子结构没有改变的。这一点我一直都很清楚，一直都想找出这个子结构。但我一直都拘泥于树的结构，希望先把括号序列转变成树，再找出交换括号是对应树上的把哪一个子树移到哪个地方的操作。这样想下去的话，是怎么也找不出正解的。</p>
-<p>想出这道题的关键，应该是想出lca可以用深度表示，而括号序列保证了lca在两点之间。这样的话，求直径就变成了维护几个最大最小值再做计算的问题。这里可以反映出我对树上的一些计算的表达形式还不够熟悉，没有第一时间把求直径的方法转换。而且，我对dfs序的性质不够敏感，没有利用好这个性质。</p>
-<p>这样想出了用最大最小值维护答案，怎么建线段树，要维护哪些变量稍微想一想就能想出来。而其中能用线段树维护答案是这道题可以在时限内被解出来的关键。能够用线段树维护子结构，是因为每个路径包含的$a,b,c$三个值的时间是在一个连续区间里的，即$t_a \leq t_b \leq t_c$。这一个序列上的连续性使得问题能够通过线段树来维护。</p>
-<p>这也给了我一些启示：线段树不是只能做那些给一个$[l,r]$区间，做一些修改操作的题目的。线段树维护的是连续区间上的性质。如果一个题目中看到了子结构性质，且这些结构构成了连续区间，就可以考虑用线段树来维护。或者换一种想法，如果一个问题可以用连续区间的分治来解决，那么分治的每一步结果就可以用线段树来保存。</p>
+        <h1 id="Poisson-Image-Editing-图像融合-图像无缝编辑经典文献阅读"><a href="#Poisson-Image-Editing-图像融合-图像无缝编辑经典文献阅读" class="headerlink" title="Poisson Image Editing 图像融合/图像无缝编辑经典文献阅读"></a>Poisson Image Editing 图像融合/图像无缝编辑经典文献阅读</h1><p>想不想把自己的头P到别人的图片中？</p>
+<p>想不想把别人图片里的彩虹放进自己拍的风景照中？</p>
+<p>想不想自己修掉脸上的皱纹？</p>
+<p>掌握图像融合技术，以上的一切图像编辑任务都可以轻松完成。</p>
+<p><img src="//zhouyifan.net/2021/03/12/20210311-Poisson-Image-Editing-Paper-Reading/20210311-Poisson-Image-Editing-Paper-Reading\fig1.jpg" alt="fig1"></p>
+<p>(图片来自论文)</p>
+<p>如图所示，利用图像融合技术，可以把一幅图片的部分区域复制到一幅图片（可以是同一幅图片）上，并且让复制过去的图片块保持之前的色彩风格。因此，这种技术有时可以叫做图像无缝复制(image seamless cloning)</p>
+<h2 id="论文整体结构"><a href="#论文整体结构" class="headerlink" title="论文整体结构"></a>论文整体结构</h2><p>该论文介绍了一种图像编辑的方法，其主要作用是图像边缘的无缝拼合。该方法可以应用到图像融合和图像风格变换等任务中。论文的结构如下：</p>
+<p><img src="//zhouyifan.net/2021/03/12/20210311-Poisson-Image-Editing-Paper-Reading/20210311-Poisson-Image-Editing-Paper-Reading\fig2.jpg" alt="fig2"></p>
+<p>从结构图可以看出，这种方法的输入是待修改图像、待修改区域及待修改区域的目标梯度，输出是编辑后的图像。基于该图像编辑方法，能产生各式各样的图像融合结果，产生不同结果的方法是修改输入中目标梯度的获取方法。</p>
+<p>具体介绍一下这种图像融合方法。这种方法的思想是让图像编辑后的梯度域尽可能和源图像（图像编辑是从源图像复制一块到目标图像）一样，并且编辑区域边缘的梯度值和目标图像一样。图像的梯度可以理解为图像相邻像素的变化量。有研究指出，比起绝对的像素值，人眼对梯度值更敏感，因此维持编辑区域内部梯度不变，边界和目标图像“接轨”能让图像融合的质量更高。梯度值尽可能不变，就是让图像编辑前后梯度域的差值尽可能小，问题就变成了一个纯数学问题。通过相关的数学工具，可以求解出编辑后的图像来。</p>
+<h2 id="论文细节"><a href="#论文细节" class="headerlink" title="论文细节"></a>论文细节</h2><h3 id="优化目标的建模与求解"><a href="#优化目标的建模与求解" class="headerlink" title="优化目标的建模与求解"></a>优化目标的建模与求解</h3><p>该论文方法的核心是建立了梯度域的优化目标后，如何用数学方法对这个问题求解。</p>
+<p>首先，稍微介绍一下这个优化问题是如何建模的。输入图像、输出图像都可以看成一个定义域在平面上的一个函数。对输出图像的求解即对一个未知函数的求解。求解未知函数，涉及泛函的知识，需要用到欧拉-拉格朗日方程，有<a href="https://www.cnblogs.com/bigmonkey/p/9519387.html" target="_blank" rel="noopener">一篇非常好的博客</a>[2]介绍了有关的数学知识。</p>
+<p>有了对问题的建模后，论文直接给出化简后的待求解方程。该方程是一个泊松方程，即与函数二阶导数相关的偏微分方程。对该方程求解，即可得到最终的图像。</p>
+<p>图像的数值都是离散的，对一个图像的求解，最终可以转化成对该图像每个像素值的求解，即求解一个多元方程。此问题中，该方程是一个线性方程。利用求解多元线性方程的方法即可解出此问题。</p>
+<p>事实上，该问题的建模和求解中涉及了很多数学定义，这些数学的细节是否理解对整篇文章的理解、方法的创新不是十分重要。对于一个研究计算机技术的人来说，优化目标的设定才是最重要的。</p>
+<h3 id="利用方法产生不同的编辑效果"><a href="#利用方法产生不同的编辑效果" class="headerlink" title="利用方法产生不同的编辑效果"></a>利用方法产生不同的编辑效果</h3><p>论文的所有图像效果都是基于同一种方法。也就是说，只要理解了最基本的把一幅图片无缝融合进另一幅图片的原理，其他图像编辑效果都可以通过同样的原理推导而来。</p>
+<p>如果把源图像的待修改区域的梯度做为目标梯度直接输入进方法，由于图像边缘梯度和目标图像一样，内部和源图像一样，复制过去的图像可以无缝地对接到目标图像上。利用该图像融合方法，可以实现“图像隐藏”：比如把脸上没有皱纹的地方复制到有皱纹的地方，达到去皱纹效果。</p>
+<p>只用源图像的梯度，而忽视目标图像待修改区域的梯度，则会完全抛弃待修改区域原来的信息。在复制一些半透明的图像（如彩虹）时，如果抛弃掉目标图像待修改区域本身的性质，就会产生很差的效果。论文中提出，可以把源图像梯度和目标梯度的较大值做为方法的目标梯度，这样经过图像编辑后图像的待修改区域能融合两幅图像的性质。</p>
+<p>通过上述例子，可以得知目标区域的梯度是如何决定图像编辑效果的。对目标区域的梯度进行一些“魔改”，就能得到不同的结果，比如结构图中提到的扁平化、光照修改和地砖无缝拼接等。</p>
+<h2 id="论文实现"><a href="#论文实现" class="headerlink" title="论文实现"></a>论文实现</h2><p>理论上，我会对论文进行实现。以后我会更新此文，加入实现的代码仓库链接。</p>
+<p>当然，随便一搜就能找到很多该论文的实现，毕竟这篇论文是图像融合的一个非常经典的方法。很多matlab代码技术性较弱，很多东西都写好了，因此我附上了一个<a href="https://github.com/cheind/poisson-image-editing" target="_blank" rel="noopener">该论文的C++实现</a>[3]。当然，用C++的话也要调用不少库函数，最烦人的线性方程组求解是必须得调一下库的。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文对论文“Poisson Image Editing”进行了一个简要介绍，其本意是通过总结论文大意来加深我自己对论文的认识，并且方便之后对其他图像融合领域的对比阅读。</p>
+<p>当然，这篇文章对读者来说也有一定可读性。本文并没有对原文进行死板的翻译，而是从整体到局部，大致介绍了论文中的主要内容。对于只是想浏览该文章的读者，可以学到一种新的P图方法，图一乐；对于在精读论文之前看到这篇文章的读者，可以大致知晓文章是在讲什么，解决什么问题，用了什么方法，产生什么结果；对于读完论文之后的读者，可以把这篇文章和自己的收获进行对比，看看哪些内容是读到了的，哪些内容文章没有提到，甚至哪些地方写错了，写得不够好，以加深自己对论文的理解。当然了，如果你觉得我讲的你都读到了，你也可以写出一样的东西，那说明你是个高手，学得很不错，毕竟想要掌握我这种概述能力是十分困难的。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>[1] Pérez P, Gangnet M, Blake A. Poisson image editing[M]//ACM SIGGRAPH 2003 Papers. 2003: 313-318.</p>
+<p>[2] <a href="https://www.cnblogs.com/bigmonkey/p/9519387.html" target="_blank" rel="noopener">https://www.cnblogs.com/bigmonkey/p/9519387.html</a></p>
+<p>[3] <a href="https://github.com/cheind/poisson-image-editing" target="_blank" rel="noopener">https://github.com/cheind/poisson-image-editing</a></p>
 
       
     </div>
@@ -477,6 +484,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/homework/" rel="tag"># homework</a>
+          
+        </div>
+      
 
       
       
@@ -486,8 +499,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/25/HowToWriteSolutionToACMProblem/" rel="next" title="如何写ACM解题记录 ~ Introspection">
-                <i class="fa fa-chevron-left"></i> 如何写ACM解题记录 ~ Introspection
+              <a href="/2021/01/28/phd-email/" rel="next" title="如果套磁信可以用中文写">
+                <i class="fa fa-chevron-left"></i> 如果套磁信可以用中文写
               </a>
             
           </div>
@@ -495,10 +508,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/05/15/SociologyHomework/" rel="prev" title="社会学与生活作业——《群体性孤独》读后感">
-                社会学与生活作业——《群体性孤独》读后感 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -677,7 +686,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Description"><span class="nav-number">1.</span> <span class="nav-text">Description</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sample-Input-amp-Output"><span class="nav-number">2.</span> <span class="nav-text">Sample Input &amp; Output</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution"><span class="nav-number">3.</span> <span class="nav-text">Solution</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Review"><span class="nav-number">4.</span> <span class="nav-text">Review</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Poisson-Image-Editing-图像融合-图像无缝编辑经典文献阅读"><span class="nav-number">1.</span> <span class="nav-text">Poisson Image Editing 图像融合/图像无缝编辑经典文献阅读</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#论文整体结构"><span class="nav-number">1.1.</span> <span class="nav-text">论文整体结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#论文细节"><span class="nav-number">1.2.</span> <span class="nav-text">论文细节</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优化目标的建模与求解"><span class="nav-number">1.2.1.</span> <span class="nav-text">优化目标的建模与求解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用方法产生不同的编辑效果"><span class="nav-number">1.2.2.</span> <span class="nav-text">利用方法产生不同的编辑效果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#论文实现"><span class="nav-number">1.3.</span> <span class="nav-text">论文实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.4.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">2.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
 
           </div>
