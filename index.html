@@ -440,11 +440,11 @@
 <p>想不想把别人图片里的彩虹放进自己拍的风景照中？</p>
 <p>想不想自己修掉脸上的皱纹？</p>
 <p>掌握图像融合技术，以上的一切图像编辑任务都可以轻松完成。</p>
-<p><img src="//zhouyifan.net/2021/03/12/20210311-Poisson-Image-Editing-Paper-Reading/20210311-Poisson-Image-Editing-Paper-Reading\fig1.jpg" alt="fig1"></p>
+<p><img src="//zhouyifan.net/2021/03/12/20210311-Poisson-Image-Editing-Paper-Reading/fig1.jpg" alt="fig1"></p>
 <p>(图片来自论文)</p>
 <p>如图所示，利用图像融合技术，可以把一幅图片的部分区域复制到一幅图片（可以是同一幅图片）上，并且让复制过去的图片块保持之前的色彩风格。因此，这种技术有时可以叫做图像无缝复制(image seamless cloning)</p>
 <h2 id="论文整体结构"><a href="#论文整体结构" class="headerlink" title="论文整体结构"></a>论文整体结构</h2><p>该论文介绍了一种图像编辑的方法，其主要作用是图像边缘的无缝拼合。该方法可以应用到图像融合和图像风格变换等任务中。论文的结构如下：</p>
-<p><img src="//zhouyifan.net/2021/03/12/20210311-Poisson-Image-Editing-Paper-Reading/20210311-Poisson-Image-Editing-Paper-Reading\fig2.jpg" alt="fig2"></p>
+<p><img src="//zhouyifan.net/2021/03/12/20210311-Poisson-Image-Editing-Paper-Reading/fig2.jpg" alt="fig2"></p>
 <p>从结构图可以看出，这种方法的输入是待修改图像、待修改区域及待修改区域的目标梯度，输出是编辑后的图像。基于该图像编辑方法，能产生各式各样的图像融合结果，产生不同结果的方法是修改输入中目标梯度的获取方法。</p>
 <p>具体介绍一下这种图像融合方法。这种方法的思想是让图像编辑后的梯度域尽可能和源图像（图像编辑是从源图像复制一块到目标图像）一样，并且编辑区域边缘的梯度值和目标图像一样。图像的梯度可以理解为图像相邻像素的变化量。有研究指出，比起绝对的像素值，人眼对梯度值更敏感，因此维持编辑区域内部梯度不变，边界和目标图像“接轨”能让图像融合的质量更高。梯度值尽可能不变，就是让图像编辑前后梯度域的差值尽可能小，问题就变成了一个纯数学问题。通过相关的数学工具，可以求解出编辑后的图像来。</p>
 <h2 id="论文细节"><a href="#论文细节" class="headerlink" title="论文细节"></a>论文细节</h2><h3 id="优化目标的建模与求解"><a href="#优化目标的建模与求解" class="headerlink" title="优化目标的建模与求解"></a>优化目标的建模与求解</h3><p>该论文方法的核心是建立了梯度域的优化目标后，如何用数学方法对这个问题求解。</p>
