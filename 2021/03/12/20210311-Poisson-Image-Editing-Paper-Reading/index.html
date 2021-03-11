@@ -106,7 +106,7 @@
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://zhouyifan.net/2021/03/12/20210311-Poisson-Image-Editing-Paper-Reading/fig1.jpg">
 <meta property="og:image" content="https://zhouyifan.net/2021/03/12/20210311-Poisson-Image-Editing-Paper-Reading/fig2.jpg">
-<meta property="og:updated_time" content="2021-03-11T16:09:57.687Z">
+<meta property="og:updated_time" content="2021-03-11T16:11:22.963Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Poisson Image Editing 图像融合经典文献阅读">
 <meta name="twitter:description" content="Poisson Image Editing 图像融合/图像无缝编辑经典文献阅读想不想把自己的头P到别人的图片中？ 想不想把别人图片里的彩虹放进自己拍的风景照中？ 想不想自己修掉脸上的皱纹？ 掌握图像融合技术，以上的一切图像编辑任务都可以轻松完成。  (图片来自论文) 如图所示，利用图像融合技术，可以把一幅图片的部分区域复制到一幅图片（可以是同一幅图片）上，并且让复制过去的图片块保持之前的色彩风格。">
@@ -457,7 +457,7 @@
 <p>只用源图像的梯度，而忽视目标图像待修改区域的梯度，则会完全抛弃待修改区域原来的信息。在复制一些半透明的图像（如彩虹）时，如果抛弃掉目标图像待修改区域本身的性质，就会产生很差的效果。论文中提出，可以把源图像梯度和目标梯度的较大值做为方法的目标梯度，这样经过图像编辑后图像的待修改区域能融合两幅图像的性质。</p>
 <p>通过上述例子，可以得知目标区域的梯度是如何决定图像编辑效果的。对目标区域的梯度进行一些“魔改”，就能得到不同的结果，比如结构图中提到的扁平化、光照修改和地砖无缝拼接等。</p>
 <h2 id="论文实现"><a href="#论文实现" class="headerlink" title="论文实现"></a>论文实现</h2><p>理论上，我会对论文进行实现。以后我会更新此文，加入实现的代码仓库链接。</p>
-<p>当然，随便一搜就能找到很多该论文的实现，毕竟这篇论文是图像融合的一个非常经典的方法。很多matlab代码技术性较弱，很多东西都写好了，因此我附上了一个<a href="https://github.com/cheind/poisson-image-editing" target="_blank" rel="noopener">该论文的C++实现</a>[3]。当然，用C++的话也要调用不少库函数，最烦人的线性方程组求解是必须得调一下库的。</p>
+<p>其实随便一搜就能找到很多该论文的实现，毕竟这篇论文是图像融合的一个非常经典的方法。很多matlab代码技术性较弱，很多东西都写好了，因此我附上了一个<a href="https://github.com/cheind/poisson-image-editing" target="_blank" rel="noopener">该论文的C++实现</a>[3]。当然，用C++的话也要调用不少库函数，最烦人的线性方程组求解是必须得调一下库的。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文对论文“Poisson Image Editing”进行了一个简要介绍，其本意是通过总结论文大意来加深我自己对论文的认识，并且方便之后对其他图像融合领域的对比阅读。</p>
 <p>当然，这篇文章对读者来说也有一定可读性。本文并没有对原文进行死板的翻译，而是从整体到局部，大致介绍了论文中的主要内容。对于只是想浏览该文章的读者，可以学到一种新的P图方法，图一乐；对于在精读论文之前看到这篇文章的读者，可以大致知晓文章是在讲什么，解决什么问题，用了什么方法，产生什么结果；对于读完论文之后的读者，可以把这篇文章和自己的收获进行对比，看看哪些内容是读到了的，哪些内容文章没有提到，甚至哪些地方写错了，写得不够好，以加深自己对论文的理解。当然了，如果你觉得我讲的你都读到了，你也可以写出一样的东西，那说明你是个高手，学得很不错，毕竟想要掌握我这种概述能力是十分困难的。</p>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>[1] Pérez P, Gangnet M, Blake A. Poisson image editing[M]//ACM SIGGRAPH 2003 Papers. 2003: 313-318.</p>
