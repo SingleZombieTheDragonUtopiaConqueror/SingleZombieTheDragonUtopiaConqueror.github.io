@@ -339,6 +339,246 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2020/01/29/DIP-paper-code-reading/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/01/29/DIP-paper-code-reading/" class="post-title-link" itemprop="url">数字图像处理大作业：盲去模糊论文（Blind Deconvolution Using a Normalized Sparsity Measure）及代码阅读</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-01-29 15:05:04" itemprop="dateCreated datePublished" datetime="2020-01-29T15:05:04+08:00">2020-01-29</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/" itemprop="url" rel="index"><span itemprop="name">记录</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/项目/" itemprop="url" rel="index"><span itemprop="name">项目</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>我总算找到了博客的正确用法：给自己增加做事情的动力。</p>
+<p>寒假回家后，我整个人变得很懒，这个学期最后一门课程的大作业也迟迟没有做完。恰好我发现，自从我把博客链接放到了社交媒体上后，有同学看了我的博客。让别人看到自己“作品”的感觉还是很好的。我打算用写博客的方式来更好地完成作业。</p>
+<p>本文按照作业的要求，分为论文概要、代码模块分析、实验结果（使用自己的数据）三个部分。当然，由于我在博客里写东西比较随意，我提交的作业报告肯定会在这篇博客的基础上有所修改。</p>
+<h1 id="论文概要"><a href="#论文概要" class="headerlink" title="论文概要"></a>论文概要</h1><h2 id="问题定义"><a href="#问题定义" class="headerlink" title="问题定义"></a>问题定义</h2><p>本文解决的是一个非常经典的问题：如何恢复一张被模糊和添加噪声的图片。即假设模糊矩阵是$K$,原图像是$u$，噪声是$N$,模糊图像是$g$。那么$g = Ku+N$。现在我们只知道$g$，如何得到$u$。</p>
+<p>更具体地，本文介绍的是盲去模糊，即不知道模糊卷积核的情况下，应该如何恢复模糊图像。我上次写的<a href="https://zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/">第二个小作业</a>解决的是类似的去模糊问题，但那次问题是一个非盲去模糊，即卷积核已知。</p>
+<h2 id="文章贡献"><a href="#文章贡献" class="headerlink" title="文章贡献"></a>文章贡献</h2><p>求未知模糊卷积核的问题可以被转换成一个优化问题，即求解某一个损失函数的最小值。文章主要的贡献是提出了一种在损失函数中添加正则化的方法，并且围绕这种方法提供了一套完整的去模糊算法。</p>
+<h2 id="方法思想"><a href="#方法思想" class="headerlink" title="方法思想"></a>方法思想</h2><p>求解模糊卷积核的优化问题有很多的局部最优解。为了获取一个更好的解，需要加入一些正则化项。正则化项似乎可以用在所有的优化问题里，来避免一些局部最优解。但正则化项的原理我一直都不是很理解，感觉这就是一个被人工设置出来的东西，没有比较清晰的理论依据。把一个参数的正则化项加入优化的损失函数，其直观意义就是让参数不能过大。</p>
+<p>在去模糊问题中优化问题中，一般使用的是复原图像的高频图像（后面会详细介绍这个是什么东西）的第一范式（每个分量的和）做为正则化项，加入到需要最小化的损失函数中。该文章发现，噪声增加能让第一范式项也增加，但是模糊却能减少第一范式项。如果单纯地把这一项放进优化目标里，可能得不到好的去模糊效果。文章发现，如果把第一范式和第二范式（每个分量平方和的平方根）的比值做为正则化项的话，无论是模糊增加还是噪声增加，都会让这一项增加。那么，最小化这一项，就能达到同时减少模糊和噪声的效果了。</p>
+<p>简而言之，这种新的正则化项较以往的方法，能更好地同时减少噪声和模糊。</p>
+<h2 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h2><p>整体上来看，算法分两步：第一步使用新的优化函数估计出模糊卷积核，这样盲去模糊问题就变成了一个非盲去模糊问题；第二步使用以往的非盲去模糊方法得到去模糊结果。</p>
+<h3 id="模糊卷积核估计"><a href="#模糊卷积核估计" class="headerlink" title="模糊卷积核估计"></a>模糊卷积核估计</h3><p>卷积核估计是在图像的高频图像进行的。所谓高频图像，就是对图像求x方向的一阶导数和y方向的一阶导数得到的图像。用$y$来表示模糊图像的高频图像，$x$表示修复图像的高频图像，那么优化目标可以写成：</p>
+<script type="math/tex; mode=display">min_{x,k} \lambda||x\bigotimes k-y||_2^2+\frac{||x||_1}{||x||_2}+\psi||k||</script><p>其中$k$是模糊卷积核，$\lambda,\phi$用来调节对应两项的权重。</p>
+<p>解决这一优化问题的方法是对两个优化参数$x,k$进行轮流优化。即优化$x$时，假设$k$是一个常量；反之亦然。</p>
+<h4 id="更新-x"><a href="#更新-x" class="headerlink" title="更新$x$"></a>更新$x$</h4><p>此时，优化目标被简化成以下形式：</p>
+<script type="math/tex; mode=display">min_{x} \lambda||x\bigotimes k-y||_2^2+\frac{||x||_1}{||x||_2}</script><p>但这个函数依然是一个没有极点，比较难优化的一个函数。文章中发现，如果第二范式的值固定，即求解</p>
+<p>$min_{x} \lambda||Kx-y||_2^2+{||x||_1}$这样一个优化目标的最小值的话，是有一个比较快的iterative shrinkage-thresholding algorithm(ISTA)算法的。</p>
+<p>因此，更新$x$又可以分成两层：先在固定第二范式的分母的情况下，使用ISTA更新几次$x$；之后重新计算第二范式，这个大的过程又重复进行几次。</p>
+<h4 id="更新-k"><a href="#更新-k" class="headerlink" title="更新$k$"></a>更新$k$</h4><p>此时，优化目标被简化成以下形式：</p>
+<script type="math/tex; mode=display">min_{k} \lambda||x\bigotimes k-y||_2^2+\psi||k||</script><p>这个问题也有现成的算法可以解决。文中用的是无约束的iterative re-weighted least squares (IRLS)算法。</p>
+<p>文章中也指出，在实际运用的算法的时候，每次计算出卷积核后要把其中值较小的数直接设为0，以更好应对噪声。</p>
+<h4 id="多级卷积核更新优化"><a href="#多级卷积核更新优化" class="headerlink" title="多级卷积核更新优化"></a>多级卷积核更新优化</h4><p>由于实际情况中，模糊卷积核可能很大。为了保证卷积核在较大时也能得到一个比较好的解，文章中使用了一种优化方法。该方法从粗到精地计算卷积核，即先假设卷积核很小，使用之前提到的算法计算出卷积核后，再把卷积核细分变大。</p>
+<p>在实现时，文章把最开始的卷积核设为3X3，每次以$\sqrt{2}$ 的比例扩大卷积核。对每一层卷积核的更新，$x$和$k$都进行200次交替更新。新一层卷积核使用上一层卷积核的双线性插值得到。</p>
+<h3 id="图像恢复"><a href="#图像恢复" class="headerlink" title="图像恢复"></a>图像恢复</h3><p>图像恢复用的是Fast image deconvolution using hyper-laplacian priors这篇论文的非盲去模糊方法。该方法大致思想是最小化复原图像做模糊卷积的结果图像和退化图像之间的均方误差。由于非盲去模糊的非适定性较小，不需要再用这篇文章开始提到的第一范数和第二范数的比值做为正则化项。</p>
+<h2 id="方法拓展"><a href="#方法拓展" class="headerlink" title="方法拓展"></a>方法拓展</h2><p>之前的描述都假设模糊操作是通过一个卷积核来完成的。如果图像因为旋转而扭曲，也可以用类似的方法，只需要修改优化目标中的卷积那一项就行了，大致思想不变。</p>
+<h2 id="实验结果与评估"><a href="#实验结果与评估" class="headerlink" title="实验结果与评估"></a>实验结果与评估</h2><p>文章首先对Understanding and evaluating blind deconvolution algorithms中提出的4幅用8个大小不同的模糊卷积核得到的32个模糊图片进行去模糊操作，并且用这篇文章中提出的方式来评估去模糊的效果。具体来说，评估的方法是比较还原结果图像与真实图像的均方误差与以已知卷积核还原图像与真实图像的均方误差的比值。这个比值肯定是大于1的，反映的是模糊卷积核复原的效果。文章统计了错误比值的分布（图片错误比值为1、2、3…所占所有图片的百分比）。</p>
+<p>文章把新提出的算法与之前的某两个算法进行了比较。</p>
+<p>同时，文章还使用了一些现实中的模糊图片实例来进行去模糊。文章还对一些经过旋转扭曲的图像进行复原。这些复原的结果没有经过数据上的评估，但经肉眼观察，这些图像复原的效果还是很好的。</p>
+<h1 id="代码模块分析"><a href="#代码模块分析" class="headerlink" title="代码模块分析"></a>代码模块分析</h1><h2 id="整体层次"><a href="#整体层次" class="headerlink" title="整体层次"></a>整体层次</h2><p>代码的模块调用层次如下：</p>
+<ul>
+<li><code>test_blind_deconv_params</code>(执行算法的函数版本)</li>
+<li><code>test_blind_deconv</code>（执行算法的脚本版本）<ul>
+<li><code>ms_blind_deconv</code>（多级盲去模糊，主函数）<ul>
+<li><code>ss_blind_deconv</code>（单级估计卷积核、原图像）<ul>
+<li><code>pcg_kernel_irls_conv</code>（IRLS算法）<ul>
+<li><code>pcg_kernel_core_irls_conv</code>（IRLS算法中计算一个公式中的值的函数）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>fast_deconv_bregman</code>（非盲去模糊算法）<ul>
+<li><code>solve_image_bregman</code>（解决非盲去模糊中的优化问题的算法）</li>
+</ul>
+</li>
+<li><code>center_kernel_separate</code>（把卷积核位置调整为居中）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="算法接口test-blind-deconv"><a href="#算法接口test-blind-deconv" class="headerlink" title="算法接口test_blind_deconv"></a>算法接口<code>test_blind_deconv</code></h2><p><code>test_blind_deconv</code>提供了一个对示例图片去模糊的脚本，而<code>test_blind_deconv_params</code>提供了一个接收文件名、模糊卷积核大小的去模糊函数。这两个文件里的内容相同。</p>
+<p>算法接口仅仅调用了主去模糊函数<code>ms_blind_deconv</code>，并且默认了一些可调的参数（文件名或模糊图像矩阵，$\lambda$等参数，优化算法循环次数、非盲去模糊的参数等）。</p>
+<h2 id="多级盲去模糊主函数ms-blind-deconv"><a href="#多级盲去模糊主函数ms-blind-deconv" class="headerlink" title="多级盲去模糊主函数ms_blind_deconv"></a>多级盲去模糊主函数<code>ms_blind_deconv</code></h2><p>该函数接收文件名和参数结构，返回原图像、模糊图像、模糊卷积核、参数结构。</p>
+<p>该函数描述整个算法的主要流程，在调用具体优化算法前对输入图像进行了繁琐的预处理，并最后把去模糊结果显示出来。</p>
+<p>和论文中的描述算法流程一样，该函数先对数据预处理，再分级估计卷积核，每一级里先循环更新$x$，再调用IRLS算法更新$k$，求得最终估计模糊卷积核后使用非盲去模糊算法计算复原图像。</p>
+<p>预处理部分大致干了以下事情：</p>
+<ul>
+<li>从文件或参数中读取图像矩阵</li>
+<li>更改图片的大小</li>
+<li>gamma校正</li>
+<li>RGB转灰度图</li>
+<li>计算各级卷积核大小</li>
+</ul>
+<p>在每一级估计卷积核前，函数还获取初始化卷积核、图像（从上一级插值得来）、计算高频图像。</p>
+<p>之后函数调用单级卷积核估计函数<code>ss_blind_deconv</code>。每次卷积核被计算出来后使用<code>center_kernel_separate</code>函数居中卷积核。</p>
+<p>最后一级的卷积核被估计出来后，这个卷积核会被存下来。该卷积核用于调用非盲去模糊算法<code>fast_deconv_bregman</code>，最终可以得到去模糊的图像。</p>
+<h2 id="单级估计卷积核、原图像ss-blind-deconv"><a href="#单级估计卷积核、原图像ss-blind-deconv" class="headerlink" title="单级估计卷积核、原图像ss_blind_deconv"></a>单级估计卷积核、原图像<code>ss_blind_deconv</code></h2><p>该函数接受模糊图像、初始化复原图像、初始化卷积核、优化函数参数、循环次数，输出复原图像核估计卷积核。</p>
+<p>该函数先初始化变量，之后按照论文中的方法，在固定第二范式项的情况下使用ISTA来更新几次$x$，之后更新第二范式项。更新$x$后调用IRLS算法更新$k$。</p>
+<p><code>pcg_kernel_irls_conv</code>函数是IRLS算法。算法中又调用了<code>pcg_kernel_core_irls_conv</code>来计算公式中的一个值。</p>
+<h2 id="非盲去模糊算法fast-deconv-bregman"><a href="#非盲去模糊算法fast-deconv-bregman" class="headerlink" title="非盲去模糊算法fast_deconv_bregman"></a>非盲去模糊算法<code>fast_deconv_bregman</code></h2><p>该算法在Fast image deconvolution using hyper-laplacian priors中被提出。算法把最小化损失函数中的可变参数加入x方向的高频图像和y方向的高频图像，在每一轮迭代中使用<code>solve_image_bregman</code>来计算可变参数的更新值。</p>
+<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><h2 id="现有数据"><a href="#现有数据" class="headerlink" title="现有数据"></a>现有数据</h2><p>使用自带的fishes.jpg</p>
+<p><img src="//zhouyifan.net/2020/01/29/DIP-paper-code-reading/p1.jpg" alt="p1"></p>
+<p><img src="//zhouyifan.net/2020/01/29/DIP-paper-code-reading/p2.jpg" alt="p2"></p>
+<h2 id="新数据"><a href="#新数据" class="headerlink" title="新数据"></a>新数据</h2><p>我使用第二次小作业的模糊图像作为输入，用<code>test_blind_deconv_params(&quot;I_n.jpg&quot;,9)</code>命令来执行算法。</p>
+<p><img src="//zhouyifan.net/2020/01/29/DIP-paper-code-reading/p3.jpg" alt="p3"></p>
+<p><img src="//zhouyifan.net/2020/01/29/DIP-paper-code-reading/p4.jpg" alt="p4"></p>
+<p><img src="//zhouyifan.net/2020/01/29/DIP-paper-code-reading/p5.jpg" alt="p5"></p>
+<p>实际的模糊卷积核是一个高斯模糊卷积核。估计的卷积核与真实的卷积核十分接近。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2020/01/11/Software-Engineering-course-review-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2404,242 +2644,6 @@ B = M_B \times 2^{E_B}</script><p>浮点数加减前要对齐阶，阶小往阶�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhou Yifan">
-      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="周弈帆的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/12/26/Digital-Image-Processing-homework1/" class="post-title-link" itemprop="url">数字图像处理小作业1：RGB转CMY转HCI及简单风格化（附OpenCV安装及基本使用方法）</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2019-12-26 15:11:59" itemprop="dateCreated datePublished" datetime="2019-12-26T15:11:59+08:00">2019-12-26</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/" itemprop="url" rel="index"><span itemprop="name">记录</span></a></span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/项目/" itemprop="url" rel="index"><span itemprop="name">项目</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="数字图像处理小作业1"><a href="#数字图像处理小作业1" class="headerlink" title="数字图像处理小作业1"></a>数字图像处理小作业1</h1><p>最近软件工程课要我们用博客记录项目。我感觉这样做挺好的，一来可以让项目的开发更规范化，二来可以给博客和github添加一些内容，不让大学生活看起来很空虚。以后我所有项目作业尽量都建立仓库和博客。</p>
-<h2 id="代码仓库"><a href="#代码仓库" class="headerlink" title="代码仓库"></a>代码仓库</h2><p><a href="https://github.com/SingleZombie/RGB-CMY-HSI-transformer-homework" target="_blank" rel="noopener">https://github.com/SingleZombie/RGB-CMY-HSI-transformer-homework</a></p>
-<h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><ul>
-<li>原图像一张RGB（彩色图像）</li>
-<li>分别在RGB，CMY，和HSI三个空间通过调整颜色实现一种风格化转换（风格自选）</li>
-<li>需要提交源码以及不超过半页的代码说明(说明使用的库和参数)</li>
-<li>压缩包内文件命名方式为:<br>  -图像命名：<br>  0(此原图像)<br>  1RGB,2CMY,3HSI（此为处理结果）<br>  -文档命名：学号_姓名_1<br>  -代码包命名：学号_姓名_1</li>
-</ul>
-<p>以上是老师给的作业要求。据说老师上课的时候还提到，三种通道的风格化结果要看起来相等。</p>
-<p>我对风格化的理解是，改变某种彩色表示下某个分量后得到的结果。</p>
-<p>经总结，需求有以下内容：</p>
-<ul>
-<li>实现RGB到CMY和HSI的转换</li>
-<li>在某种表示下改变图片风格，并调整另两种表示下的结果使得图片看起来相同</li>
-<li>写说明文档</li>
-</ul>
-<h2 id="技术学习"><a href="#技术学习" class="headerlink" title="技术学习"></a>技术学习</h2><h3 id="OpenCV入门"><a href="#OpenCV入门" class="headerlink" title="OpenCV入门"></a>OpenCV入门</h3><h4 id="OpenCV安装与配置"><a href="#OpenCV安装与配置" class="headerlink" title="OpenCV安装与配置"></a>OpenCV安装与配置</h4><p>在本作业中，我打算用OpenCV来读、写、显示图像文件。在一些任务开始前，我要先学OpenCV的用法。</p>
-<p>我是在Win10下用VS2017编程，生成的是x86程序。</p>
-<ul>
-<li>去 <a href="https://opencv.org/releases/" target="_blank" rel="noopener">https://opencv.org/releases/</a> 下载Windows版本的库文件。下载后能得到一个exe文件，把该文件“解压”到一个路径即可。解压的文件夹里有一个opencv子文件夹。记此子文件夹为<code>$(OPENCV)</code>。</li>
-<li><p>x86的OpenCV库编译（可选）</p>
-<ol>
-<li>去<a href="https://opencv.org/releases/" target="_blank" rel="noopener">https://opencv.org/releases/</a> 下载Sources，这样编译出来的库可以满足当前编译器的配置。（直接安装的话没有x86的文件）</li>
-<li>用cmake配置源代码。注意源代码的路径最好不要包含中文。（我第一次包含了中文，结果vs编译到一半出错了）</li>
-<li>用vs打开cmake生成的目录下的OpenCV.sln，编译源代码。</li>
-<li>编译结束后在目录的lib文件夹中找到编译的结果文件夹(Debug或Release)，里面所有.lib文件就是编译的结果，把它们放到上一步的build文件夹里。我按照格式放到了<code>$(OPENCV)\build\x86\vc15\lib</code>文件夹里。</li>
-<li>编译出的bin文件夹需要加入系统环境变量，因为里面的dll会被用到。改完环境变量重启电脑。</li>
-</ol>
-</li>
-<li>在VS中的属性管理器新建配置，添加用户宏OPENCV，宏值就是开始那个解压出的opencv子文件夹。<code>$(OPENCV)</code>现在就表示库目录了。</li>
-<li>在属性的包含目录里加上<code>$(OPENCV)\build\include</code>，库目录改成对应版本的库的目录，比如我的就是<code>$(OPENCV)\build\x86\vc15\lib</code>。</li>
-<li>VS链接器-输入-附加依赖项中加入需要的.lib文件。我的第一个程序加入了opencv_highgui420d.lib;opencv_core420d.lib;opencv_imgcodecs420d.lib这三个库</li>
-<li>我随便到网上找了下函数，依葫芦画瓢地写了以下代码。如果一切都配置好了，程序会显示main.cpp目录下wallpaper.jpg这张图片。</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/core/core.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/highgui/highgui.hpp&gt;  </span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> windowName = <span class="string">"window1"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cv::Mat mat = cv::imread(<span class="string">"wallpaper.jpg"</span>);</span><br><span class="line"></span><br><span class="line">	cv::namedWindow(windowName);</span><br><span class="line">	cv::imshow(windowName, mat);</span><br><span class="line"></span><br><span class="line">	cv::waitKey();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="OpenCV-像素获取与修改"><a href="#OpenCV-像素获取与修改" class="headerlink" title="OpenCV 像素获取与修改"></a>OpenCV 像素获取与修改</h4><p>OpenCV的操作很多都基于<code>Mat</code>的对象，也就是图像矩阵。 </p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> R, G, B;</span><br><span class="line">B = mat.at&lt;cv::Vec3b&gt;(i, j)[<span class="number">0</span>];</span><br><span class="line">G = mat.at&lt;cv::Vec3b&gt;(i, j)[<span class="number">1</span>];</span><br><span class="line">R = mat.at&lt;cv::Vec3b&gt;(i, j)[<span class="number">2</span>];</span><br></pre></td></tr></table></figure>
-<p>对矩阵的at操作可以get或set颜色分量的值。</p>
-<p>注意RGB是反的。</p>
-<h4 id="OpenCV输入输出图像"><a href="#OpenCV输入输出图像" class="headerlink" title="OpenCV输入输出图像"></a>OpenCV输入输出图像</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cv::Mat mat = cv::imread(<span class="string">"in.png"</span>);</span><br><span class="line">cv::imwrite(<span class="string">"out.png"</span>, mat);</span><br></pre></td></tr></table></figure>
-<p>输入输出都是基于<code>Mat</code>的对象。</p>
-<h3 id="RGB转CMY、HSI"><a href="#RGB转CMY、HSI" class="headerlink" title="RGB转CMY、HSI"></a>RGB转CMY、HSI</h3><h4 id="RGB转CMY"><a href="#RGB转CMY" class="headerlink" title="RGB转CMY"></a>RGB转CMY</h4><p>看了一下，RGB符合人对颜色的认知。但现实中，为了方便打印出黑色，用CMY表示颜料的颜色更加方便。</p>
-<p>CMY就是RGB取反，即：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C = 255 - R;</span><br><span class="line">M = 255 - G;</span><br><span class="line">Y = 255 - B;</span><br></pre></td></tr></table></figure>
-<h4 id="RGB转HSI"><a href="#RGB转HSI" class="headerlink" title="RGB转HSI"></a>RGB转HSI</h4><p>我对HSI的大致理解是：H是颜色的属性，比如是红色、绿色、蓝色还是其他颜色；S是颜色被稀释的属性，也就是颜色的深浅；I是光强，是颜色向量的模的大小。</p>
-<p><a href="https://blog.csdn.net/yangleo1987/article/details/53171623" target="_blank" rel="noopener">https://blog.csdn.net/yangleo1987/article/details/53171623</a> 里有好几个RGB转HSI方法的介绍。其中第一种是上课提到的方法。</p>
-<h3 id="风格转换"><a href="#风格转换" class="headerlink" title="风格转换"></a>风格转换</h3><p>我问了一下别人，又看了一下书。感觉风格转换就是对某个颜色通道做一个函数映射，使得图片整体风格改变。</p>
-<h2 id="结构设计"><a href="#结构设计" class="headerlink" title="结构设计 "></a>结构设计 <div id="structure"></div></h2><p>由于程序过于简单，该程序用结构化的设计方法。</p>
-<p>输入经过输入预处理模块，进入处理模块，最后进入输出模块输出。整个结构非常简明而无趣。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//         ******************    ***********************    *******************</span><br><span class="line">// data -&gt; ** input module ** -&gt; ** processing module ** -&gt; ** output module ** -&gt; output</span><br><span class="line">//         ******************    ***********************    *******************</span><br></pre></td></tr></table></figure>
-<p>由于要提交源代码文件，我把代码全部放到一个main.cpp里面了。但在我心中，还是为每个模块各建了一个头文件和cpp文件的。</p>
-<h2 id="程序设计"><a href="#程序设计" class="headerlink" title="程序设计"></a>程序设计</h2><h3 id="程序概览"><a href="#程序概览" class="headerlink" title="程序概览"></a>程序概览</h3><p>代码放在Github上：<a href="https://github.com/SingleZombie/RGB-CMY-HSI-transformer-homework" target="_blank" rel="noopener">代码仓库</a></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cv::Mat mat = getInput(<span class="string">"0.jpg"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">auto</span> matArr = processImage(mat);</span><br><span class="line"></span><br><span class="line">	outputImage(matArr[<span class="number">0</span>], <span class="string">"1RGB.jpg"</span>);</span><br><span class="line">	outputImage(matArr[<span class="number">1</span>], <span class="string">"2CMY.jpg"</span>);</span><br><span class="line">	outputImage(matArr[<span class="number">2</span>], <span class="string">"3HSI.jpg"</span>);</span><br><span class="line"></span><br><span class="line">	cv::imshow(<span class="string">"w1"</span>, matArr[<span class="number">0</span>]);</span><br><span class="line">	cv::imshow(<span class="string">"w2"</span>, matArr[<span class="number">1</span>]);</span><br><span class="line">	cv::imshow(<span class="string">"w3"</span>, matArr[<span class="number">2</span>]);</span><br><span class="line"></span><br><span class="line">	cv::waitKey();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>main函数非常简明，<code>getInput</code>和<code>outputImage</code>隐藏了输入输出细节，方便修改。事实上，图像读入时像素是用unsigned char存储的，我在输入的时候把它转换成了float，输出的时候又转了回去。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mat.rows; i++)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; mat.cols; j++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// tranformation</span></span><br><span class="line">		matCMY.at&lt;cv::Vec3f&gt;(i, j) = bgrToYmc(matCMY.at&lt;cv::Vec3f&gt;(i, j));</span><br><span class="line">		matHSI.at&lt;cv::Vec3f&gt;(i, j) = bgrToHsi(matHSI.at&lt;cv::Vec3f&gt;(i, j));</span><br><span class="line"></span><br><span class="line">		<span class="comment">// tonal function</span></span><br><span class="line">		<span class="comment">// ........</span></span><br><span class="line">		</span><br><span class="line"></span><br><span class="line">		<span class="comment">// inverse transformation</span></span><br><span class="line">		matCMY.at&lt;cv::Vec3f&gt;(i, j) = ymcToBgr(matCMY.at&lt;cv::Vec3f&gt;(i, j));</span><br><span class="line">		matHSI.at&lt;cv::Vec3f&gt;(i, j) = hsiToBgr(matHSI.at&lt;cv::Vec3f&gt;(i, j));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>processImage</code>的主体是遍历像素，先把原图像做格式转换，再用自己的风格转换函数瞎搞，最后转换回正常的格式。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">inline</span> cv::<span class="function">Vec3f <span class="title">bgrToYmc</span><span class="params">(<span class="keyword">const</span> cv::Vec3f&amp; vec)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> cv::Vec3f(<span class="number">1.0f</span> - vec[<span class="number">0</span>], <span class="number">1.0f</span> - vec[<span class="number">1</span>], <span class="number">1.0f</span> - vec[<span class="number">2</span>]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">inline</span> cv::<span class="function">Vec3f <span class="title">ymcToBgr</span><span class="params">(<span class="keyword">const</span> cv::Vec3f&amp; vec)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> cv::Vec3f(<span class="number">1.0f</span> - vec[<span class="number">0</span>], <span class="number">1.0f</span> - vec[<span class="number">1</span>], <span class="number">1.0f</span> - vec[<span class="number">2</span>]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">inline</span> cv::<span class="function">Vec3f <span class="title">bgrToHsi</span><span class="params">(<span class="keyword">const</span> cv::Vec3f&amp; vec)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">float</span> R = vec[<span class="number">2</span>], G = vec[<span class="number">1</span>], B = vec[<span class="number">0</span>];</span><br><span class="line">	<span class="keyword">float</span> RG = (R - G), RB = (R - B);</span><br><span class="line">	<span class="keyword">float</span> tmp = <span class="built_in">sqrt</span>(RG * RG + RB * (G - B)); <span class="comment">// 分母不能为0！！！</span></span><br><span class="line">	<span class="keyword">float</span> theta = tmp != <span class="number">0</span> ? <span class="built_in">acos</span>(<span class="number">0.5f</span> * (RG + RB) / tmp) : <span class="number">0</span>;</span><br><span class="line">	theta = B &gt; G + EPS ? CV_2PI - theta : theta;</span><br><span class="line">	<span class="keyword">return</span> cv::Vec3f(</span><br><span class="line">		theta / CV_2PI,</span><br><span class="line">		<span class="number">1.0f</span> - <span class="number">3.0f</span> * <span class="built_in">std</span>::min(<span class="built_in">std</span>::min(R, G), B) / (R + G + B),</span><br><span class="line">		(R + G + B) / <span class="number">3.0f</span></span><br><span class="line">	);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">inline</span> cv::<span class="function">Vec3f <span class="title">hsiToBgr</span><span class="params">(<span class="keyword">const</span> cv::Vec3f&amp; vec)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">float</span> H = vec[<span class="number">0</span>] * CV_2PI, S = vec[<span class="number">1</span>], I = vec[<span class="number">2</span>];</span><br><span class="line">	<span class="keyword">float</span> H2 = <span class="built_in">fmod</span>(H, CV_2PI / <span class="number">3</span>);</span><br><span class="line">	<span class="keyword">float</span> v1 = I * (<span class="number">1.0f</span> - S);</span><br><span class="line">	<span class="keyword">float</span> v2 = I * (<span class="number">1.0f</span> + S * <span class="built_in">cos</span>(H2) / <span class="built_in">cos</span>(CV_PI / <span class="number">3</span> - H2));</span><br><span class="line">	<span class="keyword">float</span> v3 = <span class="number">3</span> * I - v1 - v2;</span><br><span class="line">	<span class="keyword">if</span> (H + EPS &lt; CV_2PI / <span class="number">3.0f</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> cv::Vec3f(v1, v3, v2);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (H + EPS &lt; <span class="number">2.0f</span> * CV_2PI / <span class="number">3.0f</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> cv::Vec3f(v3, v2, v1);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> cv::Vec3f(v2, v1, v3);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>格式转换函数完全是在照搬公式而已，没有什么价值。</p>
-<h3 id="写程序过程中碰到的问题"><a href="#写程序过程中碰到的问题" class="headerlink" title="写程序过程中碰到的问题"></a>写程序过程中碰到的问题</h3><ol>
-<li>为了公式处理方便，我把像素格式转换成了float。我一开始以为直接就能通过<code>mat.at&lt;Vec3f&gt;</code>来访问浮点格式像素，但是发现<code>cv::Mat</code>的机制好像是只能允许像素按一种格式存。要把图像矩阵用<code>.convertTo(mat, CV_32FC3, 1 / 255.0)</code>来转换成浮点表示，最后输出的时候还要用<code>.convertTo(tmpMat, CV_8UC3, 255.0f)</code>转换回去。</li>
-<li>我还好提前看了一下<code>cv::Mat</code>的工作原理。该类只存了图像数据的指针，要复制图像数据的话要调用<code>src.copyTo(dest)</code></li>
-<li>图片转HSI再转回来后，我发现图像中出现一些绿色方块。经调试发现，H分量在运算的时候变成了nan。计算H的时候一定要判断分母是否为0！</li>
-<li>图像的RGB是倒着存的。我之前测试OpenCV的时候碰到了这个问题，写这个程序的时候就跳过了这个坑。</li>
-</ol>
-<h2 id="处理结果"><a href="#处理结果" class="headerlink" title="处理结果"></a>处理结果</h2><p><img src="//zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/0.jpg" alt="0.jpg"></p>
-<p>原图 </p>
-<p><img src="//zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/1RGB.jpg" alt="1.jpg"></p>
-<p>RGB风格转换结果</p>
-<p><img src="//zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/2CMY.jpg" alt="2.jpg"></p>
-<p>CMY风格转换结果</p>
-<p><img src="//zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/3HSI.jpg" alt="3.jpg"></p>
-<p>HSI风格转换结果</p>
-<h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>写博客真浪费时间。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2686,7 +2690,7 @@ B = M_B \times 2^{E_B}</script><p>浮点数加减前要对齐阶，阶小往阶�
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">39</span>
+                    <span class="site-state-item-count">40</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2698,10 +2702,6 @@ B = M_B \times 2^{E_B}</script><p>浮点数加减前要对齐阶，阶小往阶�
                 <div class="site-state-item site-state-categories">
                   <a href="/categories/index.html">
                     
-                    
-                      
-                    
-                      
                     
                       
                     
@@ -2814,9 +2814,7 @@ B = M_B \times 2^{E_B}</script><p>浮点数加减前要对齐阶，阶小往阶�
                     
                       
                     
-                      
-                    
-                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -3012,15 +3010,15 @@ B = M_B \times 2^{E_B}</script><p>浮点数加减前要对齐阶，阶小往阶�
   
     
       
-    
-      
-    
-      
-    
-      
-    
-      
         
+      
+    
+      
+    
+      
+    
+      
+    
       
     
       
