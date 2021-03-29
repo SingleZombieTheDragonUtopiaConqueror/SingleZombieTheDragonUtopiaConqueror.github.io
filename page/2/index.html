@@ -339,6 +339,208 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2020/01/30/DIP-image-segmentation-project/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/01/30/DIP-image-segmentation-project/" class="post-title-link" itemprop="url">数字图像处理大作业：图像分割项目之论文阅读（使用SLIC获取超像素，对超像素使用AP聚类）</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-01-30 19:13:54" itemprop="dateCreated datePublished" datetime="2020-01-30T19:13:54+08:00">2020-01-30</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/" itemprop="url" rel="index"><span itemprop="name">记录</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/项目/" itemprop="url" rel="index"><span itemprop="name">项目</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本文先对论文“SLIC Superpixels Compared to State-of-the-Art Superpixel Methods”做一个论文阅读报告，再稍微介绍一下其他论文，介绍算法原理。下一篇文章会按之前小作业的格式写技能学习、编程过程、代码结构介绍、实验结果分析与感想。</p>
+<h1 id="SLIC论文阅读报告"><a href="#SLIC论文阅读报告" class="headerlink" title="SLIC论文阅读报告"></a>SLIC论文阅读报告</h1><p>在搜索引擎中可以找到很多分析此论文的中文博客。比如<a href="https://blog.csdn.net/electech6/article/details/45535203" target="_blank" rel="noopener">这篇博客</a>分析了代码实现原理。论文中的代码实现网页我怎么都打不开，只能从这篇博客里来获取代码实现的细节。<a href="https://www.cnblogs.com/Imageshop/p/6193433.html" target="_blank" rel="noopener">另一篇博客</a>分析了论文代码实现上的性能缺陷。直接看一些中文博客的分析就能对论文的方法理解个大概，再看论文的时候就会比较顺利。</p>
+<h2 id="内容梗概"><a href="#内容梗概" class="headerlink" title="内容梗概"></a>内容梗概</h2><p>本文对当时的5种超像素方法进行了比较，并提出了一种simple linear iterative clustering (SLIC)(简单线性迭代聚类)的生成超像素的算法。</p>
+<p><img src="//zhouyifan.net/2020/01/30/DIP-image-segmentation-project/superpixel.jpg" alt="superpixel"></p>
+<p>超像素就是一些像素的集合。超像素的边缘要和图像中物体边缘大致符合。一般获取超像素是其他数字图像处理的预处理工作。图像分割就可以先进行超像素预处理，把每个超像素当成原来算法中的像素来处理，减少数据规模。</p>
+<h2 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h2><p>算法整体上接受一个参数$k$，表示期望的超像素的个数。算法输出$k$个超像素中心以及每个像素属于哪个超像素。</p>
+<p>每个像素被看成一个五维量$(l,a,b,x,y)$，前三维是LAB颜色空间信息，后两维是像素位置信息。算法均匀地初始化$k$个超像素中心，并计算超像素间距$S=\sqrt{N/k}$（$N$是像素个数）。之后遍历所有<strong>像素中心</strong>，找到每个像素周围$2S\times2S$范围内在一种距离度量下”最近“的超像素中心。每个像素”分类“完成后，把一类像素的五维平均值当成新的超像素中心，并以计算本轮分类方式和上一轮的残差。算法不断重复上述过程直到残差收敛至0。</p>
+<p>以上只是一个算法的大致描述，算法的具体细节如下：</p>
+<h3 id="距离度量方式"><a href="#距离度量方式" class="headerlink" title="距离度量方式"></a>距离度量方式</h3><p>如果单纯地把两个像素的距离定义成五维量的距离，就会出现一个问题：像素距离给整体距离的影响是不确定的。如果要求的$k$值较小，每个像素离超像素中心的距离较大，那么像素距离就会给整体的距离带来更大的影响。为了让像素距离和颜色距离对距离的影响权重更为平衡，文章提出了如下的距离度量方式：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+d_c &= \sqrt{(l_j-l_i)^2+(a_j-a_i)^2+(b_j-b_i)^2} \\ 
+d_s &= \sqrt{(x_j-x_i)^2+(y_j-y_i)^2} \\ 
+D' &= \sqrt{(\frac{d_c}{N_c})^2+(\frac{d_s}{N_s})^2}
+\end{aligned}</script><p>其中$i,j$表示两个进行距离比较的像素，$N_c,N_s$是用于标准化颜色距离和像素距离的量。</p>
+<p>文章取 $N_s = S=\sqrt{N/k} $，$N_c$直接定义为一个常数$m$。文章建议$m$取$[1,40]$。现在距离定义成了如下形式：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}D' &= \sqrt{(\frac{d_c}{m})^2+(\frac{d_s}{S})^2}\end{aligned}</script><p>实际实现时出于方便，距离用以下公式计算：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}D &= \sqrt{ {d_c}^2+(\frac{d_s}{S})^2m^2}\end{aligned}</script><p>另外，当图片的形式发生变化时，公式可以很方便地修改。如果图片是灰度图，那么颜色度量只需要考虑灰度之间的差就行了；如果不是图片而是三维体素，那么只需要把空间距离加上$z$分量。</p>
+<h3 id="保证超像素连续性"><a href="#保证超像素连续性" class="headerlink" title="保证超像素连续性"></a>保证超像素连续性</h3><p>由于像素分类的时候除了位置的相似性外，还考虑了颜色的相似性，这样会出现一些问题：一个靠左的像素，可能属于右边像素中心；一个靠右的像素，可能属于左边像素中心。这样的话同类的像素可能被另一类的像素切成了两块，在图像上并不连续。</p>
+<p>为了强制同一类超像素连通，算法在迭代结束后又对超像素进行了处理。算法从上到下，从左到右尝试搜索未标记的像素。对正在搜索的像素，把其四邻域中与它属于同一个旧超像素的像素加入搜索队列，并标记其和当前搜索像素属于同一个新超像素。当前这片新超像素搜索结束后，若新超像素总数少于期望超像素大小的一半，则把当前超像素的标记改成上一个新超像素的标记。上一个新超像素是当前新超像素搜索起点四邻域中的一个新超像素。</p>
+<h3 id="初始超像素中心优化"><a href="#初始超像素中心优化" class="headerlink" title="初始超像素中心优化"></a>初始超像素中心优化</h3><p>初始的超像素中心如果处于梯度比较大的点的话，可能会影响算法之后的表现。</p>
+<p>该算法实现时，计算每个初步选择的超像素中心的$3\times3$邻域的梯度，把梯度最小的像素作为最终的初始超像素中心。</p>
+<p>梯度的计算是$x,y$方向上梯度之和。$x$方向梯度是左右两个像素颜色向量的差平方和，$y$方向梯度是上下两个像素颜色向量的差平方和。</p>
+<h3 id="默认参数"><a href="#默认参数" class="headerlink" title="默认参数"></a>默认参数</h3><p>由于残差收敛很快，算法默认迭代10次。这样残差可以不用计算了。</p>
+<p>颜色距离参数$m$固定为10。</p>
+<h1 id="基于超像素的图像分割"><a href="#基于超像素的图像分割" class="headerlink" title="基于超像素的图像分割"></a>基于超像素的图像分割</h1><p>仅获得了图像的超像素还不够，还需要一些其他的方法来做图像分割。我又去找了一些基于超像素的图像分割论文。</p>
+<p>我浏览了以下论文：</p>
+<p>[1] Li Z, Wu X M, Chang S F. Segmentation using superpixels: A bipartite graph partitioning approach[C]//2012 IEEE Conference on Computer Vision and Pattern Recognition. IEEE, 2012: 789-796.</p>
+<p>[2] Zhou B. Image segmentation using SLIC superpixels and affinity propagation clustering[J]. Int. J. Sci. Res, 2015, 4(4): 1525-1529.</p>
+<p>[1]论文本身质量较高，且没有使用深度学习的方法。论文提出了一种基于超像素和二分图分割的图像分割方法，需要输入类别数$k$，输出图像分割结果。我一开始看到了标题中的二分图，以为图像分割会被转换成一个可以用我十分熟悉的二分图算法解决的问题。但是文章莫名其妙地把问题变成了一个我很陌生的二分图分割的问题。我既没有从文章不清晰的叙述中理解问题转换的原理，也不愿去学一个看起来比较复杂的二分图分割算法。所以最后放弃了实现这篇论文的方法。</p>
+<p>在Google上搜索”superpixel based segemenataion”或”image segmentation using superpixel”，都能搜出<a href="https://cran.r-project.org/web/packages/OpenImageR/vignettes/Image_segmentation_superpixels_clustering.html" target="_blank" rel="noopener">这个网站</a>。该网站的作者实现了一个基于超像素的图像分割算法，其算法来自论文[2]。论文[2]非常直接地把SLIC和AP聚类两个算法拼接起来，得到了一种基于超像素和聚类的图像分割算法，<strong>该算法不用指定类别数</strong>。正好，我觉得超像素这个预处理已经对图像分割帮助很大了，只需要一个简单的超像素分类算法即可。我最终决定学习论文[2]的方法。</p>
+<p>学论文[2]不应该去看那篇论文，而应该去看AP聚类算法的论文Clustering by Passing Messages Between Data Points。这种聚类算法比较有名气，搜索引擎上可以找到不少分析此算法的中文内容。</p>
+<p>AP算法需要提供数据间的相似度这一二元关系矩阵，输出每个数据点属于的数据中心。AP算法的思想我没有理解，但其流程十分简单：算法构建了两个关系矩阵$r，a$，用以描述某个点适合作为另一个但数据中心的程度。算法用两个公式来更新这两个关系矩阵直至矩阵收敛。特别地，为了防止数值上的问题，算法引入了一个更新系数$\lambda$，每次保留$\lambda$倍的上一轮值，加上$(1 - \lambda)$倍更新值。这个比例系数在数值算法中非常常见，有点像梯度下降中的学习率。</p>
+<p>如果我把AP算法理解了，会写一篇博客来详细介绍这一算法。</p>
+<p>把AP算法运用在图像分割中，只需要定义图像任意两个超像素间的相似度就行了。论文[2]的主要贡献也就是定义相似度。论文[2]比较了3种相似度定义方式，最终选择了效果最好，也最简单的一种定义方式：相似度定义为负带权颜色向量差平方和，即：</p>
+<script type="math/tex; mode=display">s(i,j)=-[w_l(L_i-L_j)^2+w_a(a_i - a_j)^2+w_b(b_i-b_j)^2]</script><p>其中$s(i,j)$表示超像素$i,j$间相似度，$L,a,b$是超像素平均LAB颜色空间颜色向量分量。</p>
+<p>论文中超像素数$K=600$，超像素颜色距离参数$m=20$，颜色权值$w_l=3,w_a=10,w_b=10$。理论上这些参数都是可以调的，甚至相似度的定义参数也是可以调的。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2020/01/29/DIP-paper-code-reading/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2377,278 +2579,11 @@ B = M_B \times 2^{E_B}</script><p>浮点数加减前要对齐阶，阶小往阶�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhou Yifan">
-      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="周弈帆的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/12/30/Digital-Image-Processing-homework2/" class="post-title-link" itemprop="url">数字图像处理小作业2：图像扭曲与修复（高斯模糊、高斯噪声、维纳滤波）</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2019-12-30 11:33:00" itemprop="dateCreated datePublished" datetime="2019-12-30T11:33:00+08:00">2019-12-30</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/" itemprop="url" rel="index"><span itemprop="name">记录</span></a></span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/项目/" itemprop="url" rel="index"><span itemprop="name">项目</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="数字图像处理小作业2"><a href="#数字图像处理小作业2" class="headerlink" title="数字图像处理小作业2"></a>数字图像处理小作业2</h1><h2 id="代码仓库"><a href="#代码仓库" class="headerlink" title="代码仓库"></a>代码仓库</h2><p><a href="https://github.com/SingleZombie/WienerFilteringCpp" target="_blank" rel="noopener">https://github.com/SingleZombie/WienerFilteringCpp</a></p>
-<h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><p>老师给的需求如下：</p>
-<ul>
-<li>读入一幅灰度图像</li>
-<li>生成模糊图像：高斯模糊滤波+噪声</li>
-<li>利用维纳滤波去模糊</li>
-</ul>
-<p>总结来说，本次作业处理的图像对象是灰度图。灰度图要经过扭曲和修复两个过程。扭曲是高斯模糊和噪声（我选择了高斯噪声），修复用的是维纳滤波的方法。</p>
-<p>相比上次的作业，本次需求清晰了不少。</p>
-<h2 id="技术学习"><a href="#技术学习" class="headerlink" title="技术学习"></a>技术学习</h2><h3 id="高斯模糊"><a href="#高斯模糊" class="headerlink" title="高斯模糊"></a>高斯模糊</h3><p>模糊一个图像，可以通过卷积核来实现。具体来说，就是把一个像素的值加上它旁边几个像素的值。这样从直观上来看，像素之间的差异被减小了，图片就变模糊了。</p>
-<p>问题是，一个像素值该如何加上旁边几个像素的值？每个像素相加的权重是什么？有人把二维高斯分布函数当成概率密度函数，权重就是概率密度函数的值。这样的利用高斯函数来计算卷积核权重的模糊方法就是高斯模糊。</p>
-<h3 id="高斯噪声"><a href="#高斯噪声" class="headerlink" title="高斯噪声"></a>高斯噪声</h3><p>噪声就是把某个位置的像素值改变多少看成一个随机变量。如果随机变量符合高斯分布，那么这个噪声就是高斯噪声。随机变量和位置无关，只和随机变量自己的性质（均值、方差）有关。</p>
-<h3 id="维纳滤波"><a href="#维纳滤波" class="headerlink" title="维纳滤波"></a>维纳滤波</h3><p>图像修复就是假设一个扭曲模型（输入为原图像的一个函数），之后设法求出这个模型中的参数，再利用这些参数复原图像。</p>
-<p>维纳滤波就是假设原图像经过了一个卷积和一个噪声添加。该方法要的思想是让复原出的图像和原图像的”差异“尽可能小，这个”差异“被定义为均方误差。由于我没有学过信号处理这门课，而本课程又更关注算法的使用而非原理，这里不加证明地给出最终的式子：</p>
-<script type="math/tex; mode=display">
-\hat{F}(u,v) = [\frac{1}{H(u,v)} \cdot \frac{|H(u, v)|^2}{|H(u, v)|^2 + k}]G(u,v)</script><p>其中$\hat{F}(u,v)$是复原出来的图像的频域值，$H(u,v)$是退化函数在频域下的表示，$G(u,v)$是被扭曲过的图像。而$k$是一个可调的参数。</p>
-<p>本次任务的难点应该就是调试$k$这个参数。</p>
-<p>有一篇<a href="https://blog.csdn.net/baimafujinji/article/details/73882265" target="_blank" rel="noopener">博客</a>对维纳滤波的原理以及matlab下的实现做了讲解。</p>
-<h3 id="OpenCV用法"><a href="#OpenCV用法" class="headerlink" title="OpenCV用法"></a>OpenCV用法</h3><p>写着写着发现又碰到了很多不会用的函数。</p>
-<h4 id="cv-normalize"><a href="#cv-normalize" class="headerlink" title="cv::normalize"></a><code>cv::normalize</code></h4><p><code>cv::normalize(src, dest, upper_bound = 1, lower_bound = 0, norm_type = cv::NORM_L2);</code></p>
-<p>normalize用于归一化，避免一个向量的模变大。在图像中，卷积核做归一化可以保证图像的亮度不变。</p>
-<p>我只会用这个函数的前5个参数，有几个参数的名字是我取的。</p>
-<p><code>src</code>：原图像</p>
-<p><code>dest</code>：输出图像</p>
-<p><code>upper_bound</code>：归一化后的上界</p>
-<p><code>lower_bound</code>：归一化后的下界    </p>
-<p><code>norm_type</code>：归一化的范式</p>
-<p>归一化的基本操作就是要让模为1，因此输出的下界是0，上界是1。归一化的操作是把向量的每个分量都除以向量的模。</p>
-<p>范式就是模是如何计算的。第一范式把模计算成所有分量之和，第二范式把模计算成所有分量平方和开方…………无穷范式把模计算成最大分量。</p>
-<h4 id="cv-filter2D"><a href="#cv-filter2D" class="headerlink" title="cv::filter2D"></a><code>cv::filter2D</code></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cv::filter2D(srcMat, destMat, ddepth, kernel, anchor = (-1, -1))</span><br></pre></td></tr></table></figure>
-<p>这个函数用于做图像的卷积，省去了手写循环的无聊过程。</p>
-<p>同样，我只列出了我会的参数，参数名字是随意写的。</p>
-<p><code>srcMat</code>：原图像</p>
-<p><code>destMat</code>：输出图像</p>
-<p><code>ddepth</code>：输出图像深度，-1为和原图像相同</p>
-<p><code>kernel</code>：卷积核</p>
-<p><code>anchor</code>：锚点，也就是被卷积的点在卷积核的哪个位置。(-1, -1)是卷积核正中心</p>
-<h4 id="cv-dft"><a href="#cv-dft" class="headerlink" title="cv::dft"></a><code>cv::dft</code></h4><p><code>cv::dft(srcMat, destMat, flag)</code></p>
-<p>这个函数就是做离散傅里叶变换，内部实现方法肯定是用FFT做的。</p>
-<p><code>srcMat</code>：原图像</p>
-<p><code>destMat</code>：输出图像</p>
-<p><code>flag</code>：操作的一些参数。我知道的参数有：</p>
-<p>​    <code>cv::DFT_CCOMPLEX_OUTPUT</code>: 输出结果以复数形式存储，通道数增加。我输入单通道的图像出来是双通道的。</p>
-<p>​    <code>cv::DFT_REAL_OUTPUT</code>：仅保留结果复数的实数部分，通道数不变。</p>
-<p>​    <code>cv::DFT_SCALE</code>：运算结束后除以一个数，用于IFFT中</p>
-<p>​    <code>cv::DFT_INVERSE</code>：做的是逆变换。</p>
-<p>在我的程序里，FFT的写法是<code>cv::dft(src, dest, cv::DFT_COMPLEX_OUTPUT);</code>，IFFT的写法是<code>cv::dft(src, dest, cv::DFT_SCALE | cv::DFT_INVERSE | cv::DFT_REAL_OUTPUT);</code></p>
-<h3 id="C-标准库用法"><a href="#C-标准库用法" class="headerlink" title="C++标准库用法"></a>C++标准库用法</h3><p>本次程序中我竟然碰到了完全没见过的c++标准库函数。</p>
-<h4 id="std-normal-distribution"><a href="#std-normal-distribution" class="headerlink" title="std::normal_distribution"></a><code>std::normal_distribution</code></h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;random&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">std</span>::random_device divice;</span><br><span class="line"><span class="built_in">std</span>::<span class="function">default_random_engine <span class="title">rng</span><span class="params">(divice())</span></span>;</span><br><span class="line"><span class="built_in">std</span>::normal_distribution&lt;&gt; normDis(mu, sigma);</span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> randomNumber = normDis(rng);</span><br></pre></td></tr></table></figure>
-<p>正态分布函数在c++的随机数库中。使用c++的随机数库有一些麻烦。语句前两行貌似是一个分布函数的初始化步骤，我不求甚解地直接使用了。语句第三行用平均值和方差初始化一个正态分布。初始化了之后每次就能获取一个符合正态分布的值了。</p>
-<h3 id="用OpenCV完成的组合操作"><a href="#用OpenCV完成的组合操作" class="headerlink" title="用OpenCV完成的组合操作"></a>用OpenCV完成的组合操作</h3><p>本节讲的是完成某一功能的，使用到OpenCV的自定义函数。</p>
-<p>我在完成这个作业的时候，参考了很多别人的博客。但是有些人用的是matlab实现的，里面出现了C++OpenCV里没有的函数。我只好去搜了一些这些函数的原理，参考了别人的C++实现并自己实现了一下。</p>
-<h4 id="circShift"><a href="#circShift" class="headerlink" title="circShift"></a><code>circShift</code></h4><p><code>circShift(mat, x, y)</code></p>
-<p>该函数的作用是，把一个矩阵<code>mat</code>向x轴正方向移动x个单位，向y轴正方向移动y个单位。移动中溢出的数字会填补到空出来的地方，也就是整个矩阵是循环移动的。</p>
-<p>该函数实现起来很简单，先把x,y变成模意义下的值，再用临时矩阵做比较繁琐的<code>copyTo</code>就行了。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">cv::<span class="function">Mat <span class="title">circShift</span><span class="params">(<span class="keyword">const</span> cv::Mat&amp; mat, <span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> mWidth = mat.cols;</span><br><span class="line">	<span class="keyword">int</span> mHeight = mat.rows;</span><br><span class="line">	x = (x % mWidth + mWidth) % mWidth;</span><br><span class="line">	y = (y % mHeight + mHeight) % mHeight;</span><br><span class="line"></span><br><span class="line">	cv::<span class="function">Mat <span class="title">res</span><span class="params">(mat.size(), mat.type())</span></span>;</span><br><span class="line">	cv::<span class="function">Mat <span class="title">m1</span><span class="params">(mat, cv::Rect(<span class="number">0</span>, <span class="number">0</span>, mWidth - x, mHeight))</span></span>;</span><br><span class="line">	cv::<span class="function">Mat <span class="title">m2</span><span class="params">(mat, cv::Rect(mWidth - x, <span class="number">0</span>, x, mHeight))</span></span>;</span><br><span class="line">	m1.copyTo(res(cv::Rect(x, <span class="number">0</span>, mWidth - x, mHeight)));</span><br><span class="line">	m2.copyTo(res(cv::Rect(<span class="number">0</span>, <span class="number">0</span>, x, mHeight)));</span><br><span class="line">	</span><br><span class="line">	cv::<span class="function">Mat <span class="title">res2</span><span class="params">(mat.size(), mat.type())</span></span>;</span><br><span class="line">	m1 = cv::Mat(res, cv::Rect(<span class="number">0</span>, <span class="number">0</span>, mWidth, mHeight - y));</span><br><span class="line">	m2 = cv::Mat(res, cv::Rect(<span class="number">0</span>, mHeight - y, mWidth, y));</span><br><span class="line">	m1.copyTo(res2(cv::Rect(<span class="number">0</span>, y, mWidth, mHeight - y)));</span><br><span class="line">	m2.copyTo(res2(cv::Rect(<span class="number">0</span>, <span class="number">0</span>, mWidth, y)));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> res2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>由于我对OpenCV的用法不算很熟，没有写性能更好的方法，我感觉我的写法<code>copyTo</code>用得有点多了。我写的时候比较匆忙，只顾着实现，没有考虑到性能的问题。</p>
-<h4 id="psf2otf"><a href="#psf2otf" class="headerlink" title="psf2otf"></a><code>psf2otf</code></h4><p><code>psf2otf(mat, outSize = Size(-1, -1))</code></p>
-<p>该函数的作用是，把一个二维点扩散函数转换成指定大小频域形式。</p>
-<p>点扩散函数也许在数学上有其他定义，但根据我对该函数效果的理解，这里的点扩散函数指的就是一个用矩阵表示的二维函数，矩阵某位置的值表示二维函数在此处的函数值，该矩阵中心点是原点$(0, 0)$。</p>
-<p>该函数的直接作用非常不好理解，但知道该函数的应用后就容易理解了。一个图像用一个卷积核卷积在时域上的计算可能比较慢，但是把图像和卷积核转换到到频域后，只要相乘，再转换回时域就可以得到卷积的结果了。由于卷积核的原点在中心点而不在左上角，且其大小可能比图像小，因此在卷积操作前需要把卷积核调整位置，并且扩大到和原图像一样的大小。经过处理后的卷积核的频域表示就能和原图像的频域表示进行正确的计算了。</p>
-<p>该函数作用的宏观解释在明白函数的应用后，就比较容易理解了。但要理解其具体实现方法，需要了解FFT本身原理。我是通过理解一维FFT的原理后推广到二维的。</p>
-<p>这里不加解释地直接给出该函数的具体操作了。该函数先把卷积核扩展至指定大小，再把卷积核的中心移动到左上角（准确来说是原点，计算机里左上角是原点）。注意这一步移动是循环移动，卷积核的部分内容被循环移动到了 右上角、左下角，右下角。扩展和移动结束后，再做FFT就行了。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">cv::<span class="function">Mat <span class="title">psf2otf</span><span class="params">(<span class="keyword">const</span> cv::Mat&amp; mat, cv::Size outSize)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (outSize.height == <span class="number">-1</span> || outSize.width == <span class="number">-1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		outSize = mat.size();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	cv::Mat otf;</span><br><span class="line">	cv::Size paddleSize = outSize - mat.size();</span><br><span class="line">	cv::copyMakeBorder(mat, otf,</span><br><span class="line">		paddleSize.height - paddleSize.height / <span class="number">2</span>, paddleSize.height / <span class="number">2</span>,</span><br><span class="line">		paddleSize.width - paddleSize.width / <span class="number">2</span>, paddleSize.width / <span class="number">2</span>,</span><br><span class="line">		cv::BORDER_CONSTANT,</span><br><span class="line">		cv::Scalar::all(<span class="number">0</span>));</span><br><span class="line"></span><br><span class="line">	otf = circShift(otf, -otf.size().width / <span class="number">2</span>, -otf.size().height / <span class="number">2</span>);</span><br><span class="line">	otf = grayImageFFT(otf);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> otf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我在写这个函数的时候参考了<a href="https://www.cnblogs.com/phoenixdsg/p/9058044.html" target="_blank" rel="noopener">这篇博客</a>。这篇博客的实现 在卷积结束以后，还判断了虚数部分是否比较小，可以忽略。但我没有多加这一步判断。</p>
-<h4 id="图像与卷积核在频域的计算"><a href="#图像与卷积核在频域的计算" class="headerlink" title="图像与卷积核在频域的计算"></a>图像与卷积核在频域的计算</h4><p>这部分没什么新的内容，就是把代码组合了一下：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Get frequent field of origin image</span></span><br><span class="line">cv::Mat fOrigin = grayImageFFT(origin);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Get frequent field of kernel and rearrange it</span></span><br><span class="line">cv::Mat h = getKernal(..........);</span><br><span class="line">cv::Mat funcH = psf2otf(h, mat.size());</span><br><span class="line"></span><br><span class="line"><span class="comment">// Execute complex number multiply</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; fOrigin.rows; i++)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; fOrigin.cols; j++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">std</span>::<span class="keyword">complex</span>&lt;<span class="keyword">double</span>&gt; g(fOrigin.at&lt;cv::Vec2f&gt;(i, j)[<span class="number">0</span>], fOrigin.at&lt;cv::Vec2f&gt;(i, j)[<span class="number">1</span>]);</span><br><span class="line">		<span class="built_in">std</span>::<span class="keyword">complex</span>&lt;<span class="keyword">double</span>&gt; h(funcH.at&lt;cv::Vec2f&gt;(i, j)[<span class="number">0</span>], funcH.at&lt;cv::Vec2f&gt;(i, j)[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">		g *= h;</span><br><span class="line"></span><br><span class="line">		fOrigin.at&lt;cv::Vec2f&gt;(i, j)[<span class="number">0</span>] = g.real();</span><br><span class="line">		fOrigin.at&lt;cv::Vec2f&gt;(i, j)[<span class="number">1</span>] = g.imag();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Do IFFT</span></span><br><span class="line">cv::Mat matRes = grayImageIFFT(fOrigin);</span><br><span class="line">cv::Mat result = cv::Mat(matRes, cv::Rect(<span class="number">0</span>, <span class="number">0</span>, origin.cols, origin.rows));</span><br></pre></td></tr></table></figure>
-<p>以上代码算半个伪代码，完成了普通的频域相乘操作。如果要做其它的操作（比如维纳滤波），改循环里的公式就行了。</p>
-<h2 id="结构设计"><a href="#结构设计" class="headerlink" title="结构设计"></a>结构设计</h2><p>同<a href="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/#structure">上次任务</a>。</p>
-<p>其中图像处理分成两个模块：退化图像生成与退化图像修复。</p>
-<p>退化图像生成又分两个模块：模糊和加噪声。</p>
-<p>最终实现的时候又加了一个交互模块，可以动态调参。这个模块要调用退化图像生成模块和退化图像修复模块。模块化设计的好处在这里就体现出来了。</p>
-<p>虽然我感觉我模块分得特别好，最终代码清晰简明，符合数据流的内在逻辑结构，但我还是不太想在这里炫耀了。</p>
-<h2 id="程序设计心路历程"><a href="#程序设计心路历程" class="headerlink" title="程序设计心路历程"></a>程序设计心路历程</h2><p>我看完高斯模糊和高斯噪声的原理后，很快就把这两部分实现了。</p>
-<p>在了解原理，知道了C++有正态分布生成器后，这部分应该非常容易实现。</p>
-<p>先提一句，最开始高斯模糊卷积我是直接拿<code>filter2D</code>做的。</p>
-<p>问题就出在维纳滤波上。</p>
-<p>一开始，我把原图像做了FFT，卷积核直接做了FFT再扩展到和原图像同样大小，再逐像素用公式计算，最后把计算结果IFFT。最终，我得到了一幅乱七八糟的图像。</p>
-<p>频域的操作难以可视化，难以调试。我甚至都不知道我哪一步错了。但是，我凭借着我冷静的大脑，准备把这个过程逐一调试。</p>
-<p>首先，我打算验证FFT和IFFT是否正确。我对一个图像进行FFT再IFFT回来，发现图像没有复原。果然，FFT和IFFT这步我就做错了。为了解决这个问题，我查了好多东西，还瞎照网上写了个FFT的优化函数。最后我理解了一下<code>cv::dft</code>的参数的含义，才把FFT和IFFT做对。</p>
-<p>接着，我开始怀疑我的卷积核是不是不太对。FFT的原点在左上角，而卷积核的原点在中间，这好像不太对劲。但我一时半会儿解决不了这个问题。于是我干脆把卷积核的原点改到了左上角，即每次卷积的时候只对右下角的部分卷积，忽略掉这个问题，先解决其他问题。</p>
-<p>我现在想验证除了卷积核外，我整个维纳滤波公式的运算是否有问题。我知道，如果没有噪声的话，逆滤波可以直接把图像复原，此时维纳滤波k值取0。因此，我暂时去掉了噪声，把k值设成0，看算法效果如何。结果图像确实复原出来了，但四周有一些不和谐的条状噪声。这个结果搞得我一头雾水。</p>
-<p>我进一步思考，逆滤波能够复原图像，是因为噪声卷积操作和逆变换互为逆操作。但我卷积是拿<code>filter2D</code>做的，逆变换是在频域做的，这二者会不会工作原理不一样？于是，我暂时把卷积操作也变成频域操作。</p>
-<p>终于，经过我这次的瞎折腾后，露娜sama美丽的面庞终于清晰地出现在了屏幕上。我又对退化图像加上了噪声。这次，k值取0的时候画面一片模糊，但k值只要稍稍增大，依旧能生成较退化图像更清晰的复原图像。至此，调试第一阶段结束，我高兴了好一会儿。</p>
-<p>顺带一提，这个阶段为了调试方便，我把调k值放进了GUI里面，这样可以动态看到调参的结果。由于Debug模式下性能捉鸡，我又把OpenCV的Release版本编译了一遍。</p>
-<p>问题是，现在我忽略了两个问题，一个是卷积核中心位置的问题，一个是用<code>Filter2D</code>的问题。我准备先解决第一个问题。</p>
-<p>我把卷积核的原点又放回了中心。这次修改后，复原图像倒是能够生成了，但是图像的位置完全乱了：图像的左上角在右下角，右下角在左上角……。整个图像的四周都颠倒了。我去写了个OpenCV的<code>fft2shift</code>，试图把图像移正。但移正之后发现图像复原是失败的，最终图像和退化图像长得差不多。</p>
-<p>在反复阅读了网上的代码后，我发现我代码唯一不太对的地方就是少了个<code>psf2otf</code>函数。我去搜了一下这个函数，竟然惊喜地搜到了这个函数的C++实现。我赶紧学了一下，看懂了函数的工作原理。我把这个函数加入了代码中，但怎么调都调不对。无奈之下，我只好双手离开键盘，选择冷静思考一波。</p>
-<p>吃饭的时候，我仔细想了一想FFT的原理。我通过我以前对一维FFT的认识，以及昨天搜索到的零碎知识，渐渐搞清了<code>psf2otf</code>的原理以及目的。原来，图像FFT溢出的部分会“往回填”，图像靠右的部分表示的是负频率。为了保证卷积操作的正确进行，卷积核也要在扩充至和图像一样大小后，循环移动到左上角。</p>
-<p>理清楚了每一条逻辑后，我修改了代码，在卷积核原点在中心时，图像终于能够正常地复原了。</p>
-<p>最后是<code>Filter2D</code>的问题。如果卷积操作是拿这个函数做，得到的复原图像四周就会有条纹。我开始分析这种问题出现的原因。从“只有四周有问题”这个事实上，我想到很可能是<code>Filter2D</code>对边界处理的方式和用FFT处理不同。FFT是把整幅图像当成一个循环的图像来处理，因此会出现最右边像素受到最左边的像素的影响这种问题。而<code>Filter2D</code>对边界的处理有多种方式。我查了一下函数说明，果然<code>Filter2D</code>默认是把边缘反射处理，和在频域运算的方法不相同。但我尝试把边缘循环处理的时候，函数却报错了。源代码Assert掉了循环处理，不允许使用。无奈之下，我只好不使用<code>Filter2D</code>。反正我已经完全理解了这些操作的细节了。</p>
-<p>最终程序的详细内容我就不讲了。感觉这份程序结构化做得非常棒，功能实现得非常完全。由于是作业，我还不得不加上了很多注释。相信大部分人都能看懂我那清晰易懂的代码。具体代码可以去代码仓库查看。</p>
-<h2 id="处理结果"><a href="#处理结果" class="headerlink" title="处理结果"></a>处理结果</h2><p><img src="//zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/I_o.jpg" alt></p>
-<p>原图</p>
-<p><img src="//zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/I_n.jpg" alt></p>
-<p>噪声图</p>
-<p><img src="//zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/I_d.jpg" alt></p>
-<p>修复结果</p>
-<p>附原图的彩图版本：</p>
-<p><img src="//zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/origin.jpg" alt></p>
-<h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>这个作业实在是太烦人了。原来我以为一个下午就能做完的东西，硬是做了两天。</p>
-<p>我遇到的问题实在是有些令人恼火。我既不是程序代码不会写，也不是算法原理没搞懂，而是API怎么调，某个操作的实现细节这些边界知识没有掌握。本次作业没增加多少我对复原算法的认识，倒是进一步强化了我搜索信息和理解信息的能力。</p>
-<p>之前，包括课本在内，很多介绍模糊和复原的文章都在用一个女性照片做为原图像。我一开始还没明白为什么。后来，在写程序碰到瓶颈之余，我好好分析了一下这个问题，总算得到了一个非常漂亮的结论：科研工作者大多为单身男性，每日面对的只有无情的代码和冷冰冰的文字。在这种恶劣的条件下，偶尔出现的女性照片，能给你黯淡的内心点上一丝救赎的光芒。所以，人们更多地选择那张女性照片。</p>
-<p>可惜我的内心对于这种照片不为所动。我想，凭什么只用三次元的照片？于是，我随便在电脑里找了一张露娜sama的图片。果然，看着这幅CG被一步一步复原，我被各种BUG蹂躏得受伤的心灵得到了安慰。我为自己的机智和随机应变能力而赞叹不已。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -2690,7 +2625,7 @@ B = M_B \times 2^{E_B}</script><p>浮点数加减前要对齐阶，阶小往阶�
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">40</span>
+                    <span class="site-state-item-count">41</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2814,7 +2749,15 @@ B = M_B \times 2^{E_B}</script><p>浮点数加减前要对齐阶，阶小往阶�
                     
                       
                     
-                    <span class="site-state-item-count">23</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">27</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

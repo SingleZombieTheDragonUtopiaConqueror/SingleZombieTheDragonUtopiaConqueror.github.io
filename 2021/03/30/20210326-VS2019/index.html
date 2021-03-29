@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="最近买了台新电脑，所有编程都需要重新配置，可以写很多水博文了。 Visual Studio 2019（VS2019）安装教程（解决VS scanf问题）准确来说，这是VS2019在Windows 10下为了配置C++编程环境而写的教程。 在下载前，请务必保证C盘的空间比较充裕，因为不论安装在哪，VS都会挤占C盘的很多空间。 下载 打开官方网站https://www.visualstudio.c">
+<meta name="keywords" content="Visual Studio,C++,编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="20210326-VS2019">
+<meta property="og:url" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/index.html">
+<meta property="og:site_name" content="周弈帆的博客">
+<meta property="og:description" content="最近买了台新电脑，所有编程都需要重新配置，可以写很多水博文了。 Visual Studio 2019（VS2019）安装教程（解决VS scanf问题）准确来说，这是VS2019在Windows 10下为了配置C++编程环境而写的教程。 在下载前，请务必保证C盘的空间比较充裕，因为不论安装在哪，VS都会挤占C盘的很多空间。 下载 打开官方网站https://www.visualstudio.c">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/1.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/2.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/3.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/4.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/5.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/6.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/7.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/8.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/9.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/10.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/11.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/12.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/13.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/14.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/15.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/16.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/17.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/18.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/19.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/20.jpg">
+<meta property="og:updated_time" content="2021-03-29T18:14:31.279Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="20210326-VS2019">
+<meta name="twitter:description" content="最近买了台新电脑，所有编程都需要重新配置，可以写很多水博文了。 Visual Studio 2019（VS2019）安装教程（解决VS scanf问题）准确来说，这是VS2019在Windows 10下为了配置C++编程环境而写的教程。 在下载前，请务必保证C盘的空间比较充裕，因为不论安装在哪，VS都会挤占C盘的很多空间。 下载 打开官方网站https://www.visualstudio.c">
+<meta name="twitter:image" content="https://zhouyifan.net/2021/03/30/20210326-VS2019/1.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="https://zhouyifan.net/2021/03/30/20210326-VS2019/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>20210326-VS2019 | 周弈帆的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">周弈帆的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2021/03/30/20210326-VS2019/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">20210326-VS2019
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2021-03-30 02:14:31" itemprop="dateCreated datePublished" datetime="2021-03-30T02:14:31+08:00">2021-03-30</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/工具用法指南/" itemprop="url" rel="index"><span itemprop="name">工具用法指南</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<hr>
+<p>最近买了台新电脑，所有编程都需要重新配置，可以写很多水博文了。</p>
+<h1 id="Visual-Studio-2019（VS2019）安装教程（解决VS-scanf问题）"><a href="#Visual-Studio-2019（VS2019）安装教程（解决VS-scanf问题）" class="headerlink" title="Visual Studio 2019（VS2019）安装教程（解决VS scanf问题）"></a>Visual Studio 2019（VS2019）安装教程（解决VS scanf问题）</h1><p>准确来说，这是VS2019在Windows 10下为了配置C++编程环境而写的教程。</p>
+<p>在下载前，请务必保证C盘的空间比较充裕，因为不论安装在哪，VS都会挤占C盘的很多空间。</p>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><ol>
+<li><p>打开官方网站<a href="https://www.visualstudio.com/vs，点击网站中间那个醒目的“下载" target="_blank" rel="noopener">https://www.visualstudio.com/vs，点击网站中间那个醒目的“下载</a> Visual Studio”按钮，再选择”Community 2019”（即社区版）。社区版是免费的，其他几个版本都要付费。作为普通的程序员，使用社区版就够了。<img src="//zhouyifan.net/2021/03/30/20210326-VS2019/1.jpg" alt="1"></p>
+</li>
+<li><p>由于我们点击了下载按钮，为VS贡献了宝贵的+1下载量，我们得到了来自微软公司的感谢。浏览器此时会自动开始下载。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/2.jpg" alt="2">下载很快就会结束。规模这么庞大的编程软件，几分钟就下载完了？其实我们现在只下载了一个下载器，待会才会正式开始下载VS的本体。</p>
+</li>
+</ol>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ol>
+<li><p>下载完成后，在文件夹里找到下载好的可执行文件并点击执行。处理掉操作系统弹出的烦人的提示后，我们可以看到如下界面：</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/3.jpg" alt="3"></p>
+<p>这说明安装正式开始了。</p>
+</li>
+<li><p>点击继续后，下载器会读一个进度条。读条结束后，可以看到如下的安装配置界面：</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/4.jpg" alt="4">刚看到这个界面，第一次用VS的人肯定会有点懵：哎呀！怎么这么多选项啊！该点哪个呀？</p>
+<p>但如果你是一个有推理能力的人，你看到这个界面，哪怕不去网上查询VS的使用方法，也能猜出这个页面的意思：VS是一个集成开发环境（IDE），可以进行不同语言的开发。这个界面是用来让用户选择要开发的语言的。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/5.jpg" alt="5">所以，我们应该根据自己的需要选择要开发的语言。只进行C++的开发的话，只点击”使用C++的桌面开发“即可。上图中，我多点了几个选项。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/6.jpg" alt="6"></p>
+<p>下载之前，如果C盘空间吃紧的话，可以点击“安装位置”选项卡，把VS的部分文件装在其他盘上。不过在右下角可以看到，VS的大部分依赖文件还是得装在C盘的。</p>
+<p>点击安装按钮后，VS就会开始下载安装了。</p>
+</li>
+<li><p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/7.jpg" alt="7"></p>
+<p>下载结束后，就可以正式使用VS了。使用之前，会弹出如上的登录界面。可以点击“以后再说”不登录直接使用程序，也可以创建账户并登录。创建账户的好处是，你在一个账户上配置了VS的界面布局后，无论在哪台电脑上都可以直接使用自己这套界面布局。</p>
+<p>通过了登录界面后，还有一个主题选择界面，可以按自己的喜好定义VS的“外貌”。</p>
+</li>
+</ol>
+<h2 id="使用VS写C-的Hello-World"><a href="#使用VS写C-的Hello-World" class="headerlink" title="使用VS写C++的Hello World"></a>使用VS写C++的Hello World</h2><p>第一次打开VS2019，应该会看到如下的界面：</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/8.jpg" alt="8"></p>
+<p>又是琳琅满目的按钮。我们不必感到慌乱，只需点击最后一个选项“创建新项目”即可。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/9.jpg" alt="9"></p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/10.jpg" alt="10"></p>
+<p>要在一堆选项中选择项目模板。作为一个初学者，我们要从零开始学习。因此，我们先在所有语言下拉栏中选择”C++”，再选择“空项目”.</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/11.jpg" alt="11"></p>
+<p>终于，激动人心的编程就要开始了。再次之前，我们要给项目取一个好听的名字。这里我们取名叫做”Hello World”。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/12.jpg" alt="12"></p>
+<p>好了，总算正式进入VS了。代码需要写到文件里，而我们现在还没有创建文件呢。所以，我们要创建一个源代码文件。右键点击右边的“源文件”文件夹，点击添加-&gt;新建项。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/13.jpg" alt="13"></p>
+<p>在新窗口里点击”C++文件(.cpp)”，然后在下面的“名称”输入框中输入一个响亮的名字。按照传统，我们给第一个源代码的文件取名为”main.cpp”。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/14.jpg" alt="14"></p>
+<p>接下来，第一份源代码文件就打开了，我们可以编辑这份文件了。无论你是否学过C++，可以往文本编辑器中输入以下代码，达到和上图一样的效果：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"Hello World"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>按下F5就可以编译并调试这份代码，如果得到了下图的结果，就说明VS能成功编译运行C++程序了。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/15.jpg" alt="15"></p>
+<p>当然，如果使用老的VS版本，或者因为其他一些原因，按下F5后控制台会一闪而过。这个时候。你需要在<code>return 0</code>这一行左边的灰色部分点一下，加一个断点，让程序运行到这行的时候停下来。这样就可以看清控制台的输入了。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/16.jpg" alt="16"></p>
+<h2 id="在VS中使用scanf"><a href="#在VS中使用scanf" class="headerlink" title="在VS中使用scanf"></a>在VS中使用scanf</h2><p>理论上，这篇教程已经写完了，大家可以快乐地用VS写C/C++程序了。但是，有些人会用VS写纯C语言代码。为了保险起见，我们不妨测试一下一份C语言的“A +　Ｂ“程序。输入以下代码并按F5调试运行：</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/17.jpg" alt="17"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a, b;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d %d"</span>, &amp;a, &amp;b);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d\n"</span>, a + b);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果编译器会报错，不让这份代码通过。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/18.jpg" alt="18"></p>
+<p>这是为什么呢？事实上，VS不支持纯C语言的编写，只支持C++的编写。很多早期C标准库有安全问题，VS不允许使用这些库函数。但在学习C语言，尤其是要把C语言代码提交到在线评测平台(Online Judge)的时候，不得不去使用这些C标准库的函数。为了解决这个矛盾，我们需要对VS的设置进行一些更改。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/19.jpg" alt="19"></p>
+<p>在右边”解决方案资源管理器“窗口中，在项目名”Hello World”上点击右键，再点击”属性”。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/20.jpg" alt="20"></p>
+<p>在左侧点击C/C++，把右边的SDL检查改成“否”。这样就可以使用C语言中<code>scanf</code>等不太安全的标准库函数了。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Visual-Studio/" rel="tag"># Visual Studio</a>
+          
+            <a href="/tags/C/" rel="tag"># C++</a>
+          
+            <a href="/tags/编程/" rel="tag"># 编程</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/03/20/20210314-Mendeley/" rel="next" title="十分钟学会用Mendeley进行文献管理">
+                <i class="fa fa-chevron-left"></i> 十分钟学会用Mendeley进行文献管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Zhou Yifan</p>
+              <p class="site-description motion-element" itemprop="description">A foresighted strategist with big-picture thinking. 大局观选手。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">41</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Visual-Studio-2019（VS2019）安装教程（解决VS-scanf问题）"><span class="nav-number">1.</span> <span class="nav-text">Visual Studio 2019（VS2019）安装教程（解决VS scanf问题）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载"><span class="nav-number">1.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用VS写C-的Hello-World"><span class="nav-number">1.3.</span> <span class="nav-text">使用VS写C++的Hello World</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在VS中使用scanf"><span class="nav-number">1.4.</span> <span class="nav-text">在VS中使用scanf</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhou Yifan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.1</div>
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.1"></script>
+
+
+  
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+</style>
+
+    
+  
+
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

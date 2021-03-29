@@ -339,6 +339,228 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2021/03/30/20210326-VS2019/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2021/03/30/20210326-VS2019/" class="post-title-link" itemprop="url">20210326-VS2019</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2021-03-30 02:14:31" itemprop="dateCreated datePublished" datetime="2021-03-30T02:14:31+08:00">2021-03-30</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/工具用法指南/" itemprop="url" rel="index"><span itemprop="name">工具用法指南</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <hr>
+<hr>
+<p>最近买了台新电脑，所有编程都需要重新配置，可以写很多水博文了。</p>
+<h1 id="Visual-Studio-2019（VS2019）安装教程（解决VS-scanf问题）"><a href="#Visual-Studio-2019（VS2019）安装教程（解决VS-scanf问题）" class="headerlink" title="Visual Studio 2019（VS2019）安装教程（解决VS scanf问题）"></a>Visual Studio 2019（VS2019）安装教程（解决VS scanf问题）</h1><p>准确来说，这是VS2019在Windows 10下为了配置C++编程环境而写的教程。</p>
+<p>在下载前，请务必保证C盘的空间比较充裕，因为不论安装在哪，VS都会挤占C盘的很多空间。</p>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><ol>
+<li><p>打开官方网站<a href="https://www.visualstudio.com/vs，点击网站中间那个醒目的“下载" target="_blank" rel="noopener">https://www.visualstudio.com/vs，点击网站中间那个醒目的“下载</a> Visual Studio”按钮，再选择”Community 2019”（即社区版）。社区版是免费的，其他几个版本都要付费。作为普通的程序员，使用社区版就够了。<img src="//zhouyifan.net/2021/03/30/20210326-VS2019/1.jpg" alt="1"></p>
+</li>
+<li><p>由于我们点击了下载按钮，为VS贡献了宝贵的+1下载量，我们得到了来自微软公司的感谢。浏览器此时会自动开始下载。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/2.jpg" alt="2">下载很快就会结束。规模这么庞大的编程软件，几分钟就下载完了？其实我们现在只下载了一个下载器，待会才会正式开始下载VS的本体。</p>
+</li>
+</ol>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ol>
+<li><p>下载完成后，在文件夹里找到下载好的可执行文件并点击执行。处理掉操作系统弹出的烦人的提示后，我们可以看到如下界面：</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/3.jpg" alt="3"></p>
+<p>这说明安装正式开始了。</p>
+</li>
+<li><p>点击继续后，下载器会读一个进度条。读条结束后，可以看到如下的安装配置界面：</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/4.jpg" alt="4">刚看到这个界面，第一次用VS的人肯定会有点懵：哎呀！怎么这么多选项啊！该点哪个呀？</p>
+<p>但如果你是一个有推理能力的人，你看到这个界面，哪怕不去网上查询VS的使用方法，也能猜出这个页面的意思：VS是一个集成开发环境（IDE），可以进行不同语言的开发。这个界面是用来让用户选择要开发的语言的。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/5.jpg" alt="5">所以，我们应该根据自己的需要选择要开发的语言。只进行C++的开发的话，只点击”使用C++的桌面开发“即可。上图中，我多点了几个选项。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/6.jpg" alt="6"></p>
+<p>下载之前，如果C盘空间吃紧的话，可以点击“安装位置”选项卡，把VS的部分文件装在其他盘上。不过在右下角可以看到，VS的大部分依赖文件还是得装在C盘的。</p>
+<p>点击安装按钮后，VS就会开始下载安装了。</p>
+</li>
+<li><p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/7.jpg" alt="7"></p>
+<p>下载结束后，就可以正式使用VS了。使用之前，会弹出如上的登录界面。可以点击“以后再说”不登录直接使用程序，也可以创建账户并登录。创建账户的好处是，你在一个账户上配置了VS的界面布局后，无论在哪台电脑上都可以直接使用自己这套界面布局。</p>
+<p>通过了登录界面后，还有一个主题选择界面，可以按自己的喜好定义VS的“外貌”。</p>
+</li>
+</ol>
+<h2 id="使用VS写C-的Hello-World"><a href="#使用VS写C-的Hello-World" class="headerlink" title="使用VS写C++的Hello World"></a>使用VS写C++的Hello World</h2><p>第一次打开VS2019，应该会看到如下的界面：</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/8.jpg" alt="8"></p>
+<p>又是琳琅满目的按钮。我们不必感到慌乱，只需点击最后一个选项“创建新项目”即可。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/9.jpg" alt="9"></p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/10.jpg" alt="10"></p>
+<p>要在一堆选项中选择项目模板。作为一个初学者，我们要从零开始学习。因此，我们先在所有语言下拉栏中选择”C++”，再选择“空项目”.</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/11.jpg" alt="11"></p>
+<p>终于，激动人心的编程就要开始了。再次之前，我们要给项目取一个好听的名字。这里我们取名叫做”Hello World”。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/12.jpg" alt="12"></p>
+<p>好了，总算正式进入VS了。代码需要写到文件里，而我们现在还没有创建文件呢。所以，我们要创建一个源代码文件。右键点击右边的“源文件”文件夹，点击添加-&gt;新建项。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/13.jpg" alt="13"></p>
+<p>在新窗口里点击”C++文件(.cpp)”，然后在下面的“名称”输入框中输入一个响亮的名字。按照传统，我们给第一个源代码的文件取名为”main.cpp”。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/14.jpg" alt="14"></p>
+<p>接下来，第一份源代码文件就打开了，我们可以编辑这份文件了。无论你是否学过C++，可以往文本编辑器中输入以下代码，达到和上图一样的效果：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"Hello World"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>按下F5就可以编译并调试这份代码，如果得到了下图的结果，就说明VS能成功编译运行C++程序了。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/15.jpg" alt="15"></p>
+<p>当然，如果使用老的VS版本，或者因为其他一些原因，按下F5后控制台会一闪而过。这个时候。你需要在<code>return 0</code>这一行左边的灰色部分点一下，加一个断点，让程序运行到这行的时候停下来。这样就可以看清控制台的输入了。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/16.jpg" alt="16"></p>
+<h2 id="在VS中使用scanf"><a href="#在VS中使用scanf" class="headerlink" title="在VS中使用scanf"></a>在VS中使用scanf</h2><p>理论上，这篇教程已经写完了，大家可以快乐地用VS写C/C++程序了。但是，有些人会用VS写纯C语言代码。为了保险起见，我们不妨测试一下一份C语言的“A +　Ｂ“程序。输入以下代码并按F5调试运行：</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/17.jpg" alt="17"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a, b;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d %d"</span>, &amp;a, &amp;b);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d\n"</span>, a + b);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果编译器会报错，不让这份代码通过。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/18.jpg" alt="18"></p>
+<p>这是为什么呢？事实上，VS不支持纯C语言的编写，只支持C++的编写。很多早期C标准库有安全问题，VS不允许使用这些库函数。但在学习C语言，尤其是要把C语言代码提交到在线评测平台(Online Judge)的时候，不得不去使用这些C标准库的函数。为了解决这个矛盾，我们需要对VS的设置进行一些更改。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/19.jpg" alt="19"></p>
+<p>在右边”解决方案资源管理器“窗口中，在项目名”Hello World”上点击右键，再点击”属性”。</p>
+<p><img src="//zhouyifan.net/2021/03/30/20210326-VS2019/20.jpg" alt="20"></p>
+<p>在左侧点击C/C++，把右边的SDL检查改成“否”。这样就可以使用C语言中<code>scanf</code>等不太安全的标准库函数了。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2021/03/20/20210314-Mendeley/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2180,213 +2402,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2020/01/30/DIP-image-segmentation-project/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhou Yifan">
-      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="周弈帆的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/01/30/DIP-image-segmentation-project/" class="post-title-link" itemprop="url">数字图像处理大作业：图像分割项目之论文阅读（使用SLIC获取超像素，对超像素使用AP聚类）</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2020-01-30 19:13:54" itemprop="dateCreated datePublished" datetime="2020-01-30T19:13:54+08:00">2020-01-30</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/" itemprop="url" rel="index"><span itemprop="name">记录</span></a></span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/项目/" itemprop="url" rel="index"><span itemprop="name">项目</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>本文先对论文“SLIC Superpixels Compared to State-of-the-Art Superpixel Methods”做一个论文阅读报告，再稍微介绍一下其他论文，介绍算法原理。下一篇文章会按之前小作业的格式写技能学习、编程过程、代码结构介绍、实验结果分析与感想。</p>
-<h1 id="SLIC论文阅读报告"><a href="#SLIC论文阅读报告" class="headerlink" title="SLIC论文阅读报告"></a>SLIC论文阅读报告</h1><p>在搜索引擎中可以找到很多分析此论文的中文博客。比如<a href="https://blog.csdn.net/electech6/article/details/45535203" target="_blank" rel="noopener">这篇博客</a>分析了代码实现原理。论文中的代码实现网页我怎么都打不开，只能从这篇博客里来获取代码实现的细节。<a href="https://www.cnblogs.com/Imageshop/p/6193433.html" target="_blank" rel="noopener">另一篇博客</a>分析了论文代码实现上的性能缺陷。直接看一些中文博客的分析就能对论文的方法理解个大概，再看论文的时候就会比较顺利。</p>
-<h2 id="内容梗概"><a href="#内容梗概" class="headerlink" title="内容梗概"></a>内容梗概</h2><p>本文对当时的5种超像素方法进行了比较，并提出了一种simple linear iterative clustering (SLIC)(简单线性迭代聚类)的生成超像素的算法。</p>
-<p><img src="//zhouyifan.net/2020/01/30/DIP-image-segmentation-project/superpixel.jpg" alt="superpixel"></p>
-<p>超像素就是一些像素的集合。超像素的边缘要和图像中物体边缘大致符合。一般获取超像素是其他数字图像处理的预处理工作。图像分割就可以先进行超像素预处理，把每个超像素当成原来算法中的像素来处理，减少数据规模。</p>
-<h2 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h2><p>算法整体上接受一个参数$k$，表示期望的超像素的个数。算法输出$k$个超像素中心以及每个像素属于哪个超像素。</p>
-<p>每个像素被看成一个五维量$(l,a,b,x,y)$，前三维是LAB颜色空间信息，后两维是像素位置信息。算法均匀地初始化$k$个超像素中心，并计算超像素间距$S=\sqrt{N/k}$（$N$是像素个数）。之后遍历所有<strong>像素中心</strong>，找到每个像素周围$2S\times2S$范围内在一种距离度量下”最近“的超像素中心。每个像素”分类“完成后，把一类像素的五维平均值当成新的超像素中心，并以计算本轮分类方式和上一轮的残差。算法不断重复上述过程直到残差收敛至0。</p>
-<p>以上只是一个算法的大致描述，算法的具体细节如下：</p>
-<h3 id="距离度量方式"><a href="#距离度量方式" class="headerlink" title="距离度量方式"></a>距离度量方式</h3><p>如果单纯地把两个像素的距离定义成五维量的距离，就会出现一个问题：像素距离给整体距离的影响是不确定的。如果要求的$k$值较小，每个像素离超像素中心的距离较大，那么像素距离就会给整体的距离带来更大的影响。为了让像素距离和颜色距离对距离的影响权重更为平衡，文章提出了如下的距离度量方式：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-d_c &= \sqrt{(l_j-l_i)^2+(a_j-a_i)^2+(b_j-b_i)^2} \\ 
-d_s &= \sqrt{(x_j-x_i)^2+(y_j-y_i)^2} \\ 
-D' &= \sqrt{(\frac{d_c}{N_c})^2+(\frac{d_s}{N_s})^2}
-\end{aligned}</script><p>其中$i,j$表示两个进行距离比较的像素，$N_c,N_s$是用于标准化颜色距离和像素距离的量。</p>
-<p>文章取 $N_s = S=\sqrt{N/k} $，$N_c$直接定义为一个常数$m$。文章建议$m$取$[1,40]$。现在距离定义成了如下形式：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}D' &= \sqrt{(\frac{d_c}{m})^2+(\frac{d_s}{S})^2}\end{aligned}</script><p>实际实现时出于方便，距离用以下公式计算：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}D &= \sqrt{ {d_c}^2+(\frac{d_s}{S})^2m^2}\end{aligned}</script><p>另外，当图片的形式发生变化时，公式可以很方便地修改。如果图片是灰度图，那么颜色度量只需要考虑灰度之间的差就行了；如果不是图片而是三维体素，那么只需要把空间距离加上$z$分量。</p>
-<h3 id="保证超像素连续性"><a href="#保证超像素连续性" class="headerlink" title="保证超像素连续性"></a>保证超像素连续性</h3><p>由于像素分类的时候除了位置的相似性外，还考虑了颜色的相似性，这样会出现一些问题：一个靠左的像素，可能属于右边像素中心；一个靠右的像素，可能属于左边像素中心。这样的话同类的像素可能被另一类的像素切成了两块，在图像上并不连续。</p>
-<p>为了强制同一类超像素连通，算法在迭代结束后又对超像素进行了处理。算法从上到下，从左到右尝试搜索未标记的像素。对正在搜索的像素，把其四邻域中与它属于同一个旧超像素的像素加入搜索队列，并标记其和当前搜索像素属于同一个新超像素。当前这片新超像素搜索结束后，若新超像素总数少于期望超像素大小的一半，则把当前超像素的标记改成上一个新超像素的标记。上一个新超像素是当前新超像素搜索起点四邻域中的一个新超像素。</p>
-<h3 id="初始超像素中心优化"><a href="#初始超像素中心优化" class="headerlink" title="初始超像素中心优化"></a>初始超像素中心优化</h3><p>初始的超像素中心如果处于梯度比较大的点的话，可能会影响算法之后的表现。</p>
-<p>该算法实现时，计算每个初步选择的超像素中心的$3\times3$邻域的梯度，把梯度最小的像素作为最终的初始超像素中心。</p>
-<p>梯度的计算是$x,y$方向上梯度之和。$x$方向梯度是左右两个像素颜色向量的差平方和，$y$方向梯度是上下两个像素颜色向量的差平方和。</p>
-<h3 id="默认参数"><a href="#默认参数" class="headerlink" title="默认参数"></a>默认参数</h3><p>由于残差收敛很快，算法默认迭代10次。这样残差可以不用计算了。</p>
-<p>颜色距离参数$m$固定为10。</p>
-<h1 id="基于超像素的图像分割"><a href="#基于超像素的图像分割" class="headerlink" title="基于超像素的图像分割"></a>基于超像素的图像分割</h1><p>仅获得了图像的超像素还不够，还需要一些其他的方法来做图像分割。我又去找了一些基于超像素的图像分割论文。</p>
-<p>我浏览了以下论文：</p>
-<p>[1] Li Z, Wu X M, Chang S F. Segmentation using superpixels: A bipartite graph partitioning approach[C]//2012 IEEE Conference on Computer Vision and Pattern Recognition. IEEE, 2012: 789-796.</p>
-<p>[2] Zhou B. Image segmentation using SLIC superpixels and affinity propagation clustering[J]. Int. J. Sci. Res, 2015, 4(4): 1525-1529.</p>
-<p>[1]论文本身质量较高，且没有使用深度学习的方法。论文提出了一种基于超像素和二分图分割的图像分割方法，需要输入类别数$k$，输出图像分割结果。我一开始看到了标题中的二分图，以为图像分割会被转换成一个可以用我十分熟悉的二分图算法解决的问题。但是文章莫名其妙地把问题变成了一个我很陌生的二分图分割的问题。我既没有从文章不清晰的叙述中理解问题转换的原理，也不愿去学一个看起来比较复杂的二分图分割算法。所以最后放弃了实现这篇论文的方法。</p>
-<p>在Google上搜索”superpixel based segemenataion”或”image segmentation using superpixel”，都能搜出<a href="https://cran.r-project.org/web/packages/OpenImageR/vignettes/Image_segmentation_superpixels_clustering.html" target="_blank" rel="noopener">这个网站</a>。该网站的作者实现了一个基于超像素的图像分割算法，其算法来自论文[2]。论文[2]非常直接地把SLIC和AP聚类两个算法拼接起来，得到了一种基于超像素和聚类的图像分割算法，<strong>该算法不用指定类别数</strong>。正好，我觉得超像素这个预处理已经对图像分割帮助很大了，只需要一个简单的超像素分类算法即可。我最终决定学习论文[2]的方法。</p>
-<p>学论文[2]不应该去看那篇论文，而应该去看AP聚类算法的论文Clustering by Passing Messages Between Data Points。这种聚类算法比较有名气，搜索引擎上可以找到不少分析此算法的中文内容。</p>
-<p>AP算法需要提供数据间的相似度这一二元关系矩阵，输出每个数据点属于的数据中心。AP算法的思想我没有理解，但其流程十分简单：算法构建了两个关系矩阵$r，a$，用以描述某个点适合作为另一个但数据中心的程度。算法用两个公式来更新这两个关系矩阵直至矩阵收敛。特别地，为了防止数值上的问题，算法引入了一个更新系数$\lambda$，每次保留$\lambda$倍的上一轮值，加上$(1 - \lambda)$倍更新值。这个比例系数在数值算法中非常常见，有点像梯度下降中的学习率。</p>
-<p>如果我把AP算法理解了，会写一篇博客来详细介绍这一算法。</p>
-<p>把AP算法运用在图像分割中，只需要定义图像任意两个超像素间的相似度就行了。论文[2]的主要贡献也就是定义相似度。论文[2]比较了3种相似度定义方式，最终选择了效果最好，也最简单的一种定义方式：相似度定义为负带权颜色向量差平方和，即：</p>
-<script type="math/tex; mode=display">s(i,j)=-[w_l(L_i-L_j)^2+w_a(a_i - a_j)^2+w_b(b_i-b_j)^2]</script><p>其中$s(i,j)$表示超像素$i,j$间相似度，$L,a,b$是超像素平均LAB颜色空间颜色向量分量。</p>
-<p>论文中超像素数$K=600$，超像素颜色距离参数$m=20$，颜色权值$w_l=3,w_a=10,w_b=10$。理论上这些参数都是可以调的，甚至相似度的定义参数也是可以调的。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -2428,7 +2448,7 @@ D' &= \sqrt{(\frac{d_c}{N_c})^2+(\frac{d_s}{N_s})^2}
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">40</span>
+                    <span class="site-state-item-count">41</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2552,7 +2572,15 @@ D' &= \sqrt{(\frac{d_c}{N_c})^2+(\frac{d_s}{N_s})^2}
                     
                       
                     
-                    <span class="site-state-item-count">23</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">27</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -2748,9 +2776,9 @@ D' &= \sqrt{(\frac{d_c}{N_c})^2+(\frac{d_s}{N_s})^2}
   
     
       
-    
-      
         
+      
+    
       
     
       
