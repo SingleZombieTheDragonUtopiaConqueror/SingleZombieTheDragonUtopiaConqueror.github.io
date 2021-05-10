@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="“Poisson Image Editing”论文方法实现在上上篇博文中（现在是上上上了），我介绍了一下这篇图像融合的经典论文。今天，我将记录一下这篇论文的C++代码实现。我已经三个多月没碰C++了，手很生。但是，我会凭借着我高超的编程底力和过人的天赋，三小时内完成代码实现。稍微对工作量有一点了解的人都会产生疑问：“你在开玩笑吧？论文实现不比写算法题，你要先去看懂论文，再调一调别人的库函数，写代码">
+<meta name="keywords" content="计算机科学,数字图像处理,梯度域图像处理,C++,代码,OpenCV,Eigen">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Poisson Image Editing 论文方法实现">
+<meta property="og:url" content="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/index.html">
+<meta property="og:site_name" content="周弈帆的博客">
+<meta property="og:description" content="“Poisson Image Editing”论文方法实现在上上篇博文中（现在是上上上了），我介绍了一下这篇图像融合的经典论文。今天，我将记录一下这篇论文的C++代码实现。我已经三个多月没碰C++了，手很生。但是，我会凭借着我高超的编程底力和过人的天赋，三小时内完成代码实现。稍微对工作量有一点了解的人都会产生疑问：“你在开玩笑吧？论文实现不比写算法题，你要先去看懂论文，再调一调别人的库函数，写代码">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/2.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/3.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/f1.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/f2.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/f3.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/1.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/a1.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/a2.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/a3.jpg">
+<meta property="og:image" content="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/4.jpg">
+<meta property="og:updated_time" content="2021-05-10T14:42:52.216Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Poisson Image Editing 论文方法实现">
+<meta name="twitter:description" content="“Poisson Image Editing”论文方法实现在上上篇博文中（现在是上上上了），我介绍了一下这篇图像融合的经典论文。今天，我将记录一下这篇论文的C++代码实现。我已经三个多月没碰C++了，手很生。但是，我会凭借着我高超的编程底力和过人的天赋，三小时内完成代码实现。稍微对工作量有一点了解的人都会产生疑问：“你在开玩笑吧？论文实现不比写算法题，你要先去看懂论文，再调一调别人的库函数，写代码">
+<meta name="twitter:image" content="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/2.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Poisson Image Editing 论文方法实现 | 周弈帆的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">周弈帆的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Poisson Image Editing 论文方法实现
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2021-05-10 22:42:52" itemprop="dateCreated datePublished" datetime="2021-05-10T22:42:52+08:00">2021-05-10</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/" itemprop="url" rel="index"><span itemprop="name">记录</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/科研/" itemprop="url" rel="index"><span itemprop="name">科研</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="“Poisson-Image-Editing”论文方法实现"><a href="#“Poisson-Image-Editing”论文方法实现" class="headerlink" title="“Poisson Image Editing”论文方法实现"></a>“Poisson Image Editing”论文方法实现</h1><p>在<a href="https://zhouyifan.net/2021/03/12/20210311-Poisson-Image-Editing-Paper-Reading/">上上篇博文</a>中（现在是上上上了），我介绍了一下这篇图像融合的经典论文。今天，我将记录一下这篇论文的C++代码实现。我已经三个多月没碰C++了，手很生。但是，我会凭借着我高超的编程底力和过人的天赋，三小时内完成代码实现。稍微对工作量有一点了解的人都会产生疑问：“你在开玩笑吧？论文实现不比写算法题，你要先去看懂论文，再调一调别人的库函数，写代码之前有很多准备工作要做。你这不可能完成。”肯定有人这样想。但是，我可以说，包括学习前置知识在内，我可以三小时完成实现。这是一个七年编程王者应该有的自信。这篇博文的正文和会按之前的格式对项目的实现做一个比较全面的记录，最后一个章节会写下我完成此项目的实况。</p>
+<p>代码仓库：<a href="https://github.com/SingleZombie/Gradient-Domain-Image-Processing-Cpp" target="_blank" rel="noopener">https://github.com/SingleZombie/Gradient-Domain-Image-Processing-Cpp</a></p>
+<p>由于种种原因，在记录了编程的实况后，我就把这篇博文搁置下来了。但马上要写毕业论文了，这篇博文和论文的内容有很多重合之处，我打算先把博文写完。</p>
+<h2 id="知识准备"><a href="#知识准备" class="headerlink" title="知识准备"></a>知识准备</h2><p>在代码实现前，我们先整理一下实现方法的整体思路，再提取出实现中涉及的知识点，对每个知识点有关的实现方法和具体的实现技术进行介绍，最后对方法的核心——结果图像求解进行一个详细的介绍。</p>
+<h3 id="方法思想"><a href="#方法思想" class="headerlink" title="方法思想"></a>方法思想</h3><p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/2.jpg" alt></p>
+<p>整个方法的总流程图如上。和普通的图像复制类似，方法需要输入一幅源图像、一幅目标图像及复制区域（步骤1），输出一幅融合好的图像（步骤4）。为了得到最终的图像，需要先计算出源图像的梯度（步骤2），再根据目标图像在复制区域边缘的像素值和源图像复制区域的梯度值对结果图像求解（步骤3）。实际上，其他步骤都十分简单，方法的关键就在于第三步结果图像求解。</p>
+<p>方法中设计的知识点有：</p>
+<ol>
+<li>图像输入/输出：这项操作的内容很显然：把操作系统中的图像文件读入到程序的一个数组中，再把一个数组输出成一个图像文件。这个可以通过OpenCV库来轻松实现。图像输入输出是OpenCV最基本的操作，网上随便搜一搜OpenCV的教程就能找到。我自己也有<a href="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/">一篇博文</a>讲了这项知识。</li>
+<li>图像梯度计算：所谓图像的梯度，就是每个像素与它左边和上边像素的颜色值之差，某处的梯度值表示此处颜色变化速度的快慢。由于后续操作需要源图像的梯度，在实际进行结果图像求解前需要先预处理出图像梯度。实现的时候用一个滤波器对图像做一次滤波即可，OpenCV包括了滤波功能。我的<a href="https://zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/">这篇博客</a>简单介绍了OpenCV滤波函数fillter2D的用法。</li>
+<li>结果图像求解：图像融合方法的思想是在融合区域边缘的颜色和目标图像一样的前提下，让源图像的梯度尽可能不变。这是一个最优化问题，最后问题可以转换成求解线性方程组。因此，这一步的目的就是通过求解线性方程组来得到我们想要的结果图像。这是本程序最关键、困难的一步，C++的Eigen库提供了高性能的矩阵运算函数。</li>
+<li>图像拼接：最后输出前，要把处理过的图像区域和整幅目标图像拼起来。OpenCV提供了方便的图像区域覆盖函数。</li>
+</ol>
+<p>本程序设计的图像处理操作都十分基础，用一些简单的OpenCV库函数即可。如前面多次强调的，该程序的关键是第三步。下一节将对第三步进行详细介绍。</p>
+<h3 id="结果图像的问题建立与求解"><a href="#结果图像的问题建立与求解" class="headerlink" title="结果图像的问题建立与求解"></a>结果图像的问题建立与求解</h3><p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/3.jpg" alt></p>
+<p>(导向插值标记，来自论文[1])</p>
+<p>一般来说，用公式描述一件事是方便描述者，而折磨倾听者的。但是，为了把问题准确无误的描述出来，有时不得不使用严谨的公式标记。</p>
+<p>在此问题中，我们把图像看成一个函数。如图所示，$S$是一个二维点的集合，即一堆可以用$(x,y)$这样的坐标描述的点。集合$S$就是图像函数的定义域。图像的值域呢？自然是图像的像素值了，这取决于实际情况，比如RGB像素值的范围是$[0, 2^{24})$。</p>
+<p>现在，理解了图像其实可以表达为定义域是二维点，值域是颜色空间的值域的一个函数后，就可以继续理解符号标记了。令$g$是源图像，$f^<em>$是目标图像，$f$是我们把源图像复制到目标区域后，经过图像融合，得到的结果图像。按上一节的话说，$g$和$f^</em>$是输入，$f$是输出的结果图像。我们还有一个输入，就是进行图像融合的区域$\Omega$。既然我们把图像看成了函数，那么区域$\Omega$就是整个定义域$S$的一个子集。</p>
+<p>$v$是$g$的梯度，$\partial\Omega$是区域$\Omega$的梯度，这两个量都是计算得到的。</p>
+<p>我们还要引入一个符号——梯度算子$\triangledown$。$v$是$g$的梯度，可以写成$v=\triangledown g$。</p>
+<p>重申一下结果图像求解的思想：在融合区域边缘的颜色和目标图像一样的前提下，让源图像的梯度尽可能不变（最小化差值）。用数学语言就是：</p>
+<p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/f1.jpg" alt></p>
+<p>如果理解了求解的思想，那么看懂，或者说推导出这个公式是十分简单的。</p>
+<p>这个公式是理想情况：图像在一个连续的二维数集上定义。但实际上，我们图像是离散是，只有在整数的位置处有值。我们要把问题用离散的形式表达出来。这里又要提出一些标记，对于$S$中的每个像素$p$，令$N_p$为其4邻域中仍在$S$的像素集合。也就是说，这个符号表示的某个像素上下左右这四个像素的集合，在这些像素没有跑出整幅图像的前提下。令$<p,q>$为一个像素对，其中$q\in N_p$。再令$v_{pq}$表示$pq$两点间的像素值之差，即p到q方向的梯度值。则上面那个离散化的式子可以被转换成：</p,q></p>
+<p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/f2.jpg" alt></p>
+<p>能看懂之前的式子，看懂新的式子也不难。</p>
+<p>经过一系列数学推导，上面这个离散域的最优化问题可以被转换成一个线性方程组：</p>
+<p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/f3.jpg" alt></p>
+<p>这个方程组就比较难懂了。不过，可以用一个直观的方法描述出来：待求解的结果图像的每个像素与周围四个像素的像素值之差（梯度）的求和等于源图像与周围四个点的像素值之差（梯度）的求和。公式中结果图像的每个像素与周围的梯度的求和分了两部分，是因为如果这个像素来自图像边界，则这个值是指定的（来自约束条件，边界像素值等于目标图像的像素值），在等式右边；如果像素不来自边界，则这个值是未知的，在等式左边。</p>
+<p>有了联立的线性方程组，问题就变成了纯粹的数学问题，有很多的工具和方法来求解。</p>
+<h2 id="程序实现"><a href="#程序实现" class="headerlink" title="程序实现"></a>程序实现</h2><h3 id="程序结构图"><a href="#程序结构图" class="headerlink" title="程序结构图"></a>程序结构图</h3><p>在理想情况下，程序的结构图如下：（目前的代码很乱，没有严格按照这个图来）</p>
+<p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/1.jpg" alt></p>
+<p>整体分成输入、输出、和图像处理模块，非常简明。</p>
+<p>如方法思想中所介绍的，图像处理可以分成图像梯度计算和目标图像求解。而求解又可以分成方程组建立和方程组求解。</p>
+<p>这里仅介绍图像处理模块的实现细节。该模块整体的伪代码如下：</p>
+<p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/a1.jpg" alt></p>
+<p>这份伪代码只能算是把整个流程用英文表达出来了而已，前文的梯度计算、方程组建立、方程组求解等内容均有体现。接下来几节介绍这三个重要步骤的细节。其他诸如获取图像的一个区域、填充图形一个区域的操作十分简单，可以用OpenCV轻松实现。OpenCV用<code>Rect</code>表示一个矩形区域，假设其有实例<code>rect</code>。令<code>mat</code>为任意一个图像，则<code>mat[rect]</code>就是图像的一个区域，可以执行读写操作。</p>
+<h3 id="图像梯度计算"><a href="#图像梯度计算" class="headerlink" title="图像梯度计算"></a>图像梯度计算</h3><p>梯度计算是学数字图像处理时的一个基本作业，由于有库函数的帮助，实现起来很方便，其伪代码如下：</p>
+<p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/a2.jpg" alt></p>
+<p>拉普拉斯滤波器就是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[[0, -1, 0],</span><br><span class="line">[-1, 4, -1],</span><br><span class="line">[0, -1, 0]]</span><br></pre></td></tr></table></figure>
+<p>这样一个3X3的滤波器。手动建立一个滤波器后，调用OpenCV的filter2D就可以完成滤波了。</p>
+<h3 id="方程组建立"><a href="#方程组建立" class="headerlink" title="方程组建立"></a>方程组建立</h3><p>问题的方程组就是“结果图像的问题建立与求解”一节中最后一个公式所表示的方程组。只有彻底理解了那个公式中每一项的由来，才能把方程组建好。方程组求解时用到了矩阵，这其实就是把方程组的所有有关参数塞入了一个二维的存储结构中，没有太深奥的东西。</p>
+<p>方程组主要有3项：系数矩阵项，边缘像素值项和梯度项。系数矩阵是方程组的左端项，后两者之和就是方程组的右端项。这一步的伪代码如下：</p>
+<p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/a3.jpg" alt></p>
+<p>系数矩阵项<code>lhs</code>只由融合区域的大小决定。设矩阵的第<code>i</code>行表示第<code>i</code>个像素有关的方程，则第<code>i</code>列就是表示<code>i</code>像素自己的系数，由公式可知系数值是$|N_p|$；而其他至多4个在这个像素上下左右，且在融合区域内部的像素的系数是$-1$。</p>
+<p>边缘像素值来自原问题的限制条件：融合区域的边缘像素值等于目标图像在此处的像素值。因此，这一部分的值要根据目标图像及融合区域得到。由于边缘项的出现没有什么规律，实际实现时可以在计算系数矩阵的同时计算边缘项：对每个像素四周判断，如果这一项在边缘上，则更新返回的边缘项；否则更新系数矩阵。</p>
+<p>梯度项则完全来自源图像区域的梯度，甚至每个元素的位置都没有变，只要把它的形状改成列数为1的矩阵。</p>
+<h3 id="方程组求解"><a href="#方程组求解" class="headerlink" title="方程组求解"></a>方程组求解</h3><p>有了所有参数，调库求解方程组就是几行的事情了。下面是Eigen求解<code>Ax=B</code>方程组的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Eigen::SparseLU&lt;Eigen::SparseMatrix&lt;float&gt;&gt; solver;</span><br><span class="line">solver.analyzePattern(A);</span><br><span class="line">solver.factorize(A);</span><br><span class="line">Eigen::VectorXf tmpRes = solver.solve(b);</span><br></pre></td></tr></table></figure>
+<p> 我只有在这一部分贴了代码，因为其他步骤都是比较灵活的，每个人都有自己的实现方式。只有这一步调库的写法是固定的。</p>
+<p>求解完方程组，程序其实就基本写完了。</p>
+<h2 id="结果展示"><a href="#结果展示" class="headerlink" title="结果展示"></a>结果展示</h2><p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/4.jpg" alt></p>
+<p>如图，(a)是源图像，(b)是目标图像，(c)是直接复制的结果，(d)是图像融合的结果。从视觉上来看，图像融合的效果还是不错的。如果能够用套索工具代替方框工具选择区域。用套索工具的话，难点在于实现套索工具本身，这已经脱离了本程序的主要任务了。有了套索的选定区域后，就是获取边缘项烦了一点，大部分的步骤还是一样的。</p>
+<h2 id="后续工作"><a href="#后续工作" class="headerlink" title="后续工作"></a>后续工作</h2><p>在下面的”实况记录“一节中，你会发现，我5个小时不到就完成了没有bug的程序，基本完成了整个毕业设计。得知了这一事实，你能得到哪些结论？</p>
+<p>首先，你会说：”哇，你好强啊，这么快就把一个看上去那么复杂的项目写完了。“确实，这说得很正确。但这对于我来说是基本操作，甚至我还对自己有些不够满意，写代码的时候急躁了一点，不然可以更快写完。比起学东西，写论文和博客等文档的时间，实际编程的时间确实占比很小。</p>
+<p>层次高一点的人，会评论道：”你这项目太水了吧！你干了什么？不久求个线性方程组？高中生都会解这种问题，叫一个大一新生学一学也能写出求解线性方程组的程序。“这说得不错。确实这个项目实现起来很简单。但是，你要注意到，这是一个科研性质的毕业设计。什么是科研？写代码是科研吗？不是。科研是要针对一个问题，提出某些解法，或者说改进现有的解法。重点是思路。我刚刚也说了，我的大多数时间其实花在了看文章、学习上面。这十分合理。</p>
+<p>对科研有一点经验的人，又能找到我的漏洞了：”你刚刚说科研的定义，说得很好。但你做了什么呢？你复现了别人的方法。这是科研吗？这有任何创新吗？有任何改进吗？“能说出这种话的人，一定是高手。确实，本文的内容是不太够的。我的创新点在其他地方。这篇文章，只是我毕业设计的核心部分，还有一些内容没有展示出来。敬请期待以后的博客。</p>
+<p>真正善于见微知著的人，还能得到其他的结论：”这就是本科教育吗？本科论文就这么水吗？“我只能说：“是的。”本科教育基本没有给学生们提供接触科研的机会，而学校为了方便大家毕业，不会在毕业设计上为难大家。没有了GPA，奖学金这些功利的东西，大家也没有认真做这个项目的理由了。本科毕业设计，就是一个从学校、导师到学生，基本没有人会认真对待的东西，从动机的角度来说，十分合理。</p>
+<p>要是你再想得透彻一点，会发现这一切都是不是事。还是我最喜欢强调的，重点是你学到什么，你能得到什么。对于我来说，本科毕设强化了我的科研能力，让我找回了一点写代码的熟练度，锻炼了逻辑表达能力。虽然我花费的很多心思没有任何功利的作用，没有人会注意到我做的那些东西，但我知道我能得到什么就够了，不需要得到别人的认可。本科教育也是这样。本科究竟是为了什么呢？说来可笑，一部分去就业，一部分人继续科研。无论是工业界的知识，还是科研能力，本科一概不教。对于大学来说，能通过高考把优秀的人才招进来，本科设立的意义就已经达到了。既然如此，毕业设计怎么搞不都一样了吗。</p>
+<h2 id="实况记录"><a href="#实况记录" class="headerlink" title="实况记录"></a>实况记录</h2><p>3.22 18:13</p>
+<p>现在，游戏开始。先稍微讲一下我已经做好了哪些准备：我已经建立好了VS项目，导入了之前了OpenCV环境，并成功实现了普通的图像复制。我下好了别人实现论文的代码，以及代码中将用到的Eigen数学库。我还没有学过Eigen的用法，也没有把整个方法的实现流程完全想好。</p>
+<p>18:26</p>
+<p>理解了此方法中如何构建最后的求解矩阵。现在学习如何用Eigen求解稀疏矩阵。</p>
+<p>18:36</p>
+<p>知道如何用Eigen创建矩阵，求解矩阵了。可以考虑写代码了。先想办法把Eigen导入项目，并且测试一下Eigen解方程代码。</p>
+<p>18:39</p>
+<p>很烦！Eigen还要编译，计划中断。我准备一边编译一边盲写代码（写的代码无法进行测试）。</p>
+<p>18:57</p>
+<p>一边复习OpenCV，一边写完了拉普拉斯滤波代码。同时Eigen似乎编译完了。</p>
+<p>19:09</p>
+<p>Eigen编译到一半，出了问题，开始向搜索引擎求教。最烦人的配环境时间开始了。</p>
+<p>19:21</p>
+<p>气死了，这个库可以不编译直接使用。重新开始Eigen的使用测试。</p>
+<p>19:36</p>
+<p>写到一半，OpenCV配置又出错了。原来是之前写的OpenCV配置文件少包含了一个库文件。批评一下过去的自己，太坑了吧。</p>
+<p>19:47</p>
+<p>OK，Eigen测试完了，游戏结束。现在所有不确定的东西都搞定了，前置知识学习完毕。接下来我可以展示王者级别的写代码能力了。</p>
+<p>20:26</p>
+<p>潇潇洒洒写了几十行，突然发现我不会对OpenCV和Eigen两个库的矩阵进行互相转化，又开始查东西了。时间还很充裕，问题不大。</p>
+<p>20:30</p>
+<p>原来OpenCV提供了转换函数。好，工作继续。</p>
+<p>20:37</p>
+<p>虽然我没有花半秒钟在程序的软件工程设计上，但我潜意识里已经把代码的结构、实现顺序给想好了。凭借着强大的功底，我本能地使用了自底向上的思想，先把每个细节的实现函数写好了。现在我准备把整个程序拼起来。</p>
+<p>20:46</p>
+<p>好，程序拼完了，已经开始编译了。说实话，第一遍能不能过（没有BUG）？肯定过不了。无论多强的高手，都会写BUG，都有大意的时候。BUG本身并不可怕，可怕的是不会调试BUG。编程能力展示结束，现在展示我发现BUG的洞察力和解决BUG的决断力。</p>
+<p>20:54</p>
+<p>代码还是倒在了OpenCV和Eigen两个库的互相兼容上。三个小时快到了，你会不会觉得我很慌？你会不会觉得我已经写不完了？不好意思，现在我才刚刚登上展示实力的舞台。只有在逆境中绝处逢生，才能体现出一个人的过人之处。</p>
+<p>20:58</p>
+<p>突然发现代码漏写了！图像有RGB三个颜色通道，该方法要对每个颜色通道单独处理，我忘了拆开颜色通道了！</p>
+<p>21:03</p>
+<p>OpenCV和Eigen相互转换的库函数不能用，我就自己动手！总算，稍加调试之下，代码可以运行了！只不过代码的运行效果明显不对……这下调试起来就麻烦了。很好，最尴尬的情况出现了。我不会放弃的！</p>
+<p>21:17</p>
+<p>时间已经过了。但我有大约10分27秒花费在了写博文上，这些时间应该不算。继续计时。</p>
+<p>21:45</p>
+<p> 我发现我对论文方法的理解出现了问题。</p>
+<p>22:25</p>
+<p>更改对论文理解上的逻辑BUG后，又发现8位颜色通道溢出了。</p>
+<p>22:34</p>
+<p>历经千辛万苦，程序总算是成功实现了。总耗时约260分钟。多花费了约50%的时间，你肯定说我很菜，说我写代码写得烂。但是这种说法并不对。仔细看一看这份文字实况，你能看出什么？没错，我一直在强调我纯粹的编程实力，并没有强调我有快速把论文转换成代码的能力，也没有强调我有快速学会调用那些坑爹的公共库的能力。我写代码写了多久？19:47~20:26,39分钟；20:30~20:46，16分钟，一共55分钟。第一版本的代码，我花55分钟就写完了。后面又调试了一下，20：54~22：34，100分钟，减去重看论文的21：17~21：45这28分钟，又花了72分钟调试，最后也就改了5%不到的代码。我说这么多数据是为了什么？是为了说明，恰恰是这份实况记录，强调了我编程能力之强，强调了时间其实都耗费在一些编程之外的时间上。虽然没有在规定时间内写完，但我感觉虽败犹荣。</p>
+<p>当然，你要说我每个方面的表现都很好吗？也不是这样的。我自己也承认，理解论文的时候急躁了一些，学库函数的时候学的不仔细了一些，到这我这个第一版的程序，出现了一点小小的偏差。不过真要说起来，我今天确实有点急于求成。因为立下了3小时完成的flag，所以我做事火急火燎，忽略了工作质量，结果败给了自己。如果一开始没有这个flag，我能不能3小时内完成呢？你可能会认为我会说：“会”。好，实际情况是，我不立这个flag，我今天会玩一个晚上，不会来做这个项目，哈哈。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1].  Pérez P, Gangnet M, Blake A. Poisson image editing[M]//ACM SIGGRAPH 2003 Papers. 2003: 313-318.</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机科学/" rel="tag"># 计算机科学</a>
+          
+            <a href="/tags/数字图像处理/" rel="tag"># 数字图像处理</a>
+          
+            <a href="/tags/梯度域图像处理/" rel="tag"># 梯度域图像处理</a>
+          
+            <a href="/tags/C/" rel="tag"># C++</a>
+          
+            <a href="/tags/代码/" rel="tag"># 代码</a>
+          
+            <a href="/tags/OpenCV/" rel="tag"># OpenCV</a>
+          
+            <a href="/tags/Eigen/" rel="tag"># Eigen</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/03/30/20210326-VS2019/" rel="next" title="Visual Studio 2019（VS2019）安装教程（解决VS scanf问题）">
+                <i class="fa fa-chevron-left"></i> Visual Studio 2019（VS2019）安装教程（解决VS scanf问题）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Zhou Yifan</p>
+              <p class="site-description motion-element" itemprop="description">A foresighted strategist with big-picture thinking. 大局观选手。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">42</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#“Poisson-Image-Editing”论文方法实现"><span class="nav-number">1.</span> <span class="nav-text">“Poisson Image Editing”论文方法实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#知识准备"><span class="nav-number">1.1.</span> <span class="nav-text">知识准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法思想"><span class="nav-number">1.1.1.</span> <span class="nav-text">方法思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结果图像的问题建立与求解"><span class="nav-number">1.1.2.</span> <span class="nav-text">结果图像的问题建立与求解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序实现"><span class="nav-number">1.2.</span> <span class="nav-text">程序实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#程序结构图"><span class="nav-number">1.2.1.</span> <span class="nav-text">程序结构图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图像梯度计算"><span class="nav-number">1.2.2.</span> <span class="nav-text">图像梯度计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方程组建立"><span class="nav-number">1.2.3.</span> <span class="nav-text">方程组建立</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方程组求解"><span class="nav-number">1.2.4.</span> <span class="nav-text">方程组求解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结果展示"><span class="nav-number">1.3.</span> <span class="nav-text">结果展示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后续工作"><span class="nav-number">1.4.</span> <span class="nav-text">后续工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实况记录"><span class="nav-number">1.5.</span> <span class="nav-text">实况记录</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">2.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhou Yifan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.1</div>
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.1"></script>
+
+
+  
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+</style>
+
+    
+  
+
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

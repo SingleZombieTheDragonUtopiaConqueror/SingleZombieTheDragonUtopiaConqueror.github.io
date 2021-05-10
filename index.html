@@ -339,6 +339,272 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2021/05/10/20210322-PoissonImgaeEditImplementation/" class="post-title-link" itemprop="url">Poisson Image Editing 论文方法实现</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2021-05-10 22:42:52" itemprop="dateCreated datePublished" datetime="2021-05-10T22:42:52+08:00">2021-05-10</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/" itemprop="url" rel="index"><span itemprop="name">记录</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/科研/" itemprop="url" rel="index"><span itemprop="name">科研</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="“Poisson-Image-Editing”论文方法实现"><a href="#“Poisson-Image-Editing”论文方法实现" class="headerlink" title="“Poisson Image Editing”论文方法实现"></a>“Poisson Image Editing”论文方法实现</h1><p>在<a href="https://zhouyifan.net/2021/03/12/20210311-Poisson-Image-Editing-Paper-Reading/">上上篇博文</a>中（现在是上上上了），我介绍了一下这篇图像融合的经典论文。今天，我将记录一下这篇论文的C++代码实现。我已经三个多月没碰C++了，手很生。但是，我会凭借着我高超的编程底力和过人的天赋，三小时内完成代码实现。稍微对工作量有一点了解的人都会产生疑问：“你在开玩笑吧？论文实现不比写算法题，你要先去看懂论文，再调一调别人的库函数，写代码之前有很多准备工作要做。你这不可能完成。”肯定有人这样想。但是，我可以说，包括学习前置知识在内，我可以三小时完成实现。这是一个七年编程王者应该有的自信。这篇博文的正文和会按之前的格式对项目的实现做一个比较全面的记录，最后一个章节会写下我完成此项目的实况。</p>
+<p>代码仓库：<a href="https://github.com/SingleZombie/Gradient-Domain-Image-Processing-Cpp" target="_blank" rel="noopener">https://github.com/SingleZombie/Gradient-Domain-Image-Processing-Cpp</a></p>
+<p>由于种种原因，在记录了编程的实况后，我就把这篇博文搁置下来了。但马上要写毕业论文了，这篇博文和论文的内容有很多重合之处，我打算先把博文写完。</p>
+<h2 id="知识准备"><a href="#知识准备" class="headerlink" title="知识准备"></a>知识准备</h2><p>在代码实现前，我们先整理一下实现方法的整体思路，再提取出实现中涉及的知识点，对每个知识点有关的实现方法和具体的实现技术进行介绍，最后对方法的核心——结果图像求解进行一个详细的介绍。</p>
+<h3 id="方法思想"><a href="#方法思想" class="headerlink" title="方法思想"></a>方法思想</h3><p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/2.jpg" alt></p>
+<p>整个方法的总流程图如上。和普通的图像复制类似，方法需要输入一幅源图像、一幅目标图像及复制区域（步骤1），输出一幅融合好的图像（步骤4）。为了得到最终的图像，需要先计算出源图像的梯度（步骤2），再根据目标图像在复制区域边缘的像素值和源图像复制区域的梯度值对结果图像求解（步骤3）。实际上，其他步骤都十分简单，方法的关键就在于第三步结果图像求解。</p>
+<p>方法中设计的知识点有：</p>
+<ol>
+<li>图像输入/输出：这项操作的内容很显然：把操作系统中的图像文件读入到程序的一个数组中，再把一个数组输出成一个图像文件。这个可以通过OpenCV库来轻松实现。图像输入输出是OpenCV最基本的操作，网上随便搜一搜OpenCV的教程就能找到。我自己也有<a href="https://zhouyifan.net/2019/12/26/Digital-Image-Processing-homework1/">一篇博文</a>讲了这项知识。</li>
+<li>图像梯度计算：所谓图像的梯度，就是每个像素与它左边和上边像素的颜色值之差，某处的梯度值表示此处颜色变化速度的快慢。由于后续操作需要源图像的梯度，在实际进行结果图像求解前需要先预处理出图像梯度。实现的时候用一个滤波器对图像做一次滤波即可，OpenCV包括了滤波功能。我的<a href="https://zhouyifan.net/2019/12/30/Digital-Image-Processing-homework2/">这篇博客</a>简单介绍了OpenCV滤波函数fillter2D的用法。</li>
+<li>结果图像求解：图像融合方法的思想是在融合区域边缘的颜色和目标图像一样的前提下，让源图像的梯度尽可能不变。这是一个最优化问题，最后问题可以转换成求解线性方程组。因此，这一步的目的就是通过求解线性方程组来得到我们想要的结果图像。这是本程序最关键、困难的一步，C++的Eigen库提供了高性能的矩阵运算函数。</li>
+<li>图像拼接：最后输出前，要把处理过的图像区域和整幅目标图像拼起来。OpenCV提供了方便的图像区域覆盖函数。</li>
+</ol>
+<p>本程序设计的图像处理操作都十分基础，用一些简单的OpenCV库函数即可。如前面多次强调的，该程序的关键是第三步。下一节将对第三步进行详细介绍。</p>
+<h3 id="结果图像的问题建立与求解"><a href="#结果图像的问题建立与求解" class="headerlink" title="结果图像的问题建立与求解"></a>结果图像的问题建立与求解</h3><p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/3.jpg" alt></p>
+<p>(导向插值标记，来自论文[1])</p>
+<p>一般来说，用公式描述一件事是方便描述者，而折磨倾听者的。但是，为了把问题准确无误的描述出来，有时不得不使用严谨的公式标记。</p>
+<p>在此问题中，我们把图像看成一个函数。如图所示，$S$是一个二维点的集合，即一堆可以用$(x,y)$这样的坐标描述的点。集合$S$就是图像函数的定义域。图像的值域呢？自然是图像的像素值了，这取决于实际情况，比如RGB像素值的范围是$[0, 2^{24})$。</p>
+<p>现在，理解了图像其实可以表达为定义域是二维点，值域是颜色空间的值域的一个函数后，就可以继续理解符号标记了。令$g$是源图像，$f^<em>$是目标图像，$f$是我们把源图像复制到目标区域后，经过图像融合，得到的结果图像。按上一节的话说，$g$和$f^</em>$是输入，$f$是输出的结果图像。我们还有一个输入，就是进行图像融合的区域$\Omega$。既然我们把图像看成了函数，那么区域$\Omega$就是整个定义域$S$的一个子集。</p>
+<p>$v$是$g$的梯度，$\partial\Omega$是区域$\Omega$的梯度，这两个量都是计算得到的。</p>
+<p>我们还要引入一个符号——梯度算子$\triangledown$。$v$是$g$的梯度，可以写成$v=\triangledown g$。</p>
+<p>重申一下结果图像求解的思想：在融合区域边缘的颜色和目标图像一样的前提下，让源图像的梯度尽可能不变（最小化差值）。用数学语言就是：</p>
+<p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/f1.jpg" alt></p>
+<p>如果理解了求解的思想，那么看懂，或者说推导出这个公式是十分简单的。</p>
+<p>这个公式是理想情况：图像在一个连续的二维数集上定义。但实际上，我们图像是离散是，只有在整数的位置处有值。我们要把问题用离散的形式表达出来。这里又要提出一些标记，对于$S$中的每个像素$p$，令$N_p$为其4邻域中仍在$S$的像素集合。也就是说，这个符号表示的某个像素上下左右这四个像素的集合，在这些像素没有跑出整幅图像的前提下。令$<p,q>$为一个像素对，其中$q\in N_p$。再令$v_{pq}$表示$pq$两点间的像素值之差，即p到q方向的梯度值。则上面那个离散化的式子可以被转换成：</p,q></p>
+<p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/f2.jpg" alt></p>
+<p>能看懂之前的式子，看懂新的式子也不难。</p>
+<p>经过一系列数学推导，上面这个离散域的最优化问题可以被转换成一个线性方程组：</p>
+<p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/f3.jpg" alt></p>
+<p>这个方程组就比较难懂了。不过，可以用一个直观的方法描述出来：待求解的结果图像的每个像素与周围四个像素的像素值之差（梯度）的求和等于源图像与周围四个点的像素值之差（梯度）的求和。公式中结果图像的每个像素与周围的梯度的求和分了两部分，是因为如果这个像素来自图像边界，则这个值是指定的（来自约束条件，边界像素值等于目标图像的像素值），在等式右边；如果像素不来自边界，则这个值是未知的，在等式左边。</p>
+<p>有了联立的线性方程组，问题就变成了纯粹的数学问题，有很多的工具和方法来求解。</p>
+<h2 id="程序实现"><a href="#程序实现" class="headerlink" title="程序实现"></a>程序实现</h2><h3 id="程序结构图"><a href="#程序结构图" class="headerlink" title="程序结构图"></a>程序结构图</h3><p>在理想情况下，程序的结构图如下：（目前的代码很乱，没有严格按照这个图来）</p>
+<p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/1.jpg" alt></p>
+<p>整体分成输入、输出、和图像处理模块，非常简明。</p>
+<p>如方法思想中所介绍的，图像处理可以分成图像梯度计算和目标图像求解。而求解又可以分成方程组建立和方程组求解。</p>
+<p>这里仅介绍图像处理模块的实现细节。该模块整体的伪代码如下：</p>
+<p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/a1.jpg" alt></p>
+<p>这份伪代码只能算是把整个流程用英文表达出来了而已，前文的梯度计算、方程组建立、方程组求解等内容均有体现。接下来几节介绍这三个重要步骤的细节。其他诸如获取图像的一个区域、填充图形一个区域的操作十分简单，可以用OpenCV轻松实现。OpenCV用<code>Rect</code>表示一个矩形区域，假设其有实例<code>rect</code>。令<code>mat</code>为任意一个图像，则<code>mat[rect]</code>就是图像的一个区域，可以执行读写操作。</p>
+<h3 id="图像梯度计算"><a href="#图像梯度计算" class="headerlink" title="图像梯度计算"></a>图像梯度计算</h3><p>梯度计算是学数字图像处理时的一个基本作业，由于有库函数的帮助，实现起来很方便，其伪代码如下：</p>
+<p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/a2.jpg" alt></p>
+<p>拉普拉斯滤波器就是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[[0, -1, 0],</span><br><span class="line">[-1, 4, -1],</span><br><span class="line">[0, -1, 0]]</span><br></pre></td></tr></table></figure>
+<p>这样一个3X3的滤波器。手动建立一个滤波器后，调用OpenCV的filter2D就可以完成滤波了。</p>
+<h3 id="方程组建立"><a href="#方程组建立" class="headerlink" title="方程组建立"></a>方程组建立</h3><p>问题的方程组就是“结果图像的问题建立与求解”一节中最后一个公式所表示的方程组。只有彻底理解了那个公式中每一项的由来，才能把方程组建好。方程组求解时用到了矩阵，这其实就是把方程组的所有有关参数塞入了一个二维的存储结构中，没有太深奥的东西。</p>
+<p>方程组主要有3项：系数矩阵项，边缘像素值项和梯度项。系数矩阵是方程组的左端项，后两者之和就是方程组的右端项。这一步的伪代码如下：</p>
+<p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/a3.jpg" alt></p>
+<p>系数矩阵项<code>lhs</code>只由融合区域的大小决定。设矩阵的第<code>i</code>行表示第<code>i</code>个像素有关的方程，则第<code>i</code>列就是表示<code>i</code>像素自己的系数，由公式可知系数值是$|N_p|$；而其他至多4个在这个像素上下左右，且在融合区域内部的像素的系数是$-1$。</p>
+<p>边缘像素值来自原问题的限制条件：融合区域的边缘像素值等于目标图像在此处的像素值。因此，这一部分的值要根据目标图像及融合区域得到。由于边缘项的出现没有什么规律，实际实现时可以在计算系数矩阵的同时计算边缘项：对每个像素四周判断，如果这一项在边缘上，则更新返回的边缘项；否则更新系数矩阵。</p>
+<p>梯度项则完全来自源图像区域的梯度，甚至每个元素的位置都没有变，只要把它的形状改成列数为1的矩阵。</p>
+<h3 id="方程组求解"><a href="#方程组求解" class="headerlink" title="方程组求解"></a>方程组求解</h3><p>有了所有参数，调库求解方程组就是几行的事情了。下面是Eigen求解<code>Ax=B</code>方程组的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Eigen::SparseLU&lt;Eigen::SparseMatrix&lt;float&gt;&gt; solver;</span><br><span class="line">solver.analyzePattern(A);</span><br><span class="line">solver.factorize(A);</span><br><span class="line">Eigen::VectorXf tmpRes = solver.solve(b);</span><br></pre></td></tr></table></figure>
+<p> 我只有在这一部分贴了代码，因为其他步骤都是比较灵活的，每个人都有自己的实现方式。只有这一步调库的写法是固定的。</p>
+<p>求解完方程组，程序其实就基本写完了。</p>
+<h2 id="结果展示"><a href="#结果展示" class="headerlink" title="结果展示"></a>结果展示</h2><p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/4.jpg" alt></p>
+<p>如图，(a)是源图像，(b)是目标图像，(c)是直接复制的结果，(d)是图像融合的结果。从视觉上来看，图像融合的效果还是不错的。如果能够用套索工具代替方框工具选择区域。用套索工具的话，难点在于实现套索工具本身，这已经脱离了本程序的主要任务了。有了套索的选定区域后，就是获取边缘项烦了一点，大部分的步骤还是一样的。</p>
+<h2 id="后续工作"><a href="#后续工作" class="headerlink" title="后续工作"></a>后续工作</h2><p>在下面的”实况记录“一节中，你会发现，我5个小时不到就完成了没有bug的程序，基本完成了整个毕业设计。得知了这一事实，你能得到哪些结论？</p>
+<p>首先，你会说：”哇，你好强啊，这么快就把一个看上去那么复杂的项目写完了。“确实，这说得很正确。但这对于我来说是基本操作，甚至我还对自己有些不够满意，写代码的时候急躁了一点，不然可以更快写完。比起学东西，写论文和博客等文档的时间，实际编程的时间确实占比很小。</p>
+<p>层次高一点的人，会评论道：”你这项目太水了吧！你干了什么？不久求个线性方程组？高中生都会解这种问题，叫一个大一新生学一学也能写出求解线性方程组的程序。“这说得不错。确实这个项目实现起来很简单。但是，你要注意到，这是一个科研性质的毕业设计。什么是科研？写代码是科研吗？不是。科研是要针对一个问题，提出某些解法，或者说改进现有的解法。重点是思路。我刚刚也说了，我的大多数时间其实花在了看文章、学习上面。这十分合理。</p>
+<p>对科研有一点经验的人，又能找到我的漏洞了：”你刚刚说科研的定义，说得很好。但你做了什么呢？你复现了别人的方法。这是科研吗？这有任何创新吗？有任何改进吗？“能说出这种话的人，一定是高手。确实，本文的内容是不太够的。我的创新点在其他地方。这篇文章，只是我毕业设计的核心部分，还有一些内容没有展示出来。敬请期待以后的博客。</p>
+<p>真正善于见微知著的人，还能得到其他的结论：”这就是本科教育吗？本科论文就这么水吗？“我只能说：“是的。”本科教育基本没有给学生们提供接触科研的机会，而学校为了方便大家毕业，不会在毕业设计上为难大家。没有了GPA，奖学金这些功利的东西，大家也没有认真做这个项目的理由了。本科毕业设计，就是一个从学校、导师到学生，基本没有人会认真对待的东西，从动机的角度来说，十分合理。</p>
+<p>要是你再想得透彻一点，会发现这一切都是不是事。还是我最喜欢强调的，重点是你学到什么，你能得到什么。对于我来说，本科毕设强化了我的科研能力，让我找回了一点写代码的熟练度，锻炼了逻辑表达能力。虽然我花费的很多心思没有任何功利的作用，没有人会注意到我做的那些东西，但我知道我能得到什么就够了，不需要得到别人的认可。本科教育也是这样。本科究竟是为了什么呢？说来可笑，一部分去就业，一部分人继续科研。无论是工业界的知识，还是科研能力，本科一概不教。对于大学来说，能通过高考把优秀的人才招进来，本科设立的意义就已经达到了。既然如此，毕业设计怎么搞不都一样了吗。</p>
+<h2 id="实况记录"><a href="#实况记录" class="headerlink" title="实况记录"></a>实况记录</h2><p>3.22 18:13</p>
+<p>现在，游戏开始。先稍微讲一下我已经做好了哪些准备：我已经建立好了VS项目，导入了之前了OpenCV环境，并成功实现了普通的图像复制。我下好了别人实现论文的代码，以及代码中将用到的Eigen数学库。我还没有学过Eigen的用法，也没有把整个方法的实现流程完全想好。</p>
+<p>18:26</p>
+<p>理解了此方法中如何构建最后的求解矩阵。现在学习如何用Eigen求解稀疏矩阵。</p>
+<p>18:36</p>
+<p>知道如何用Eigen创建矩阵，求解矩阵了。可以考虑写代码了。先想办法把Eigen导入项目，并且测试一下Eigen解方程代码。</p>
+<p>18:39</p>
+<p>很烦！Eigen还要编译，计划中断。我准备一边编译一边盲写代码（写的代码无法进行测试）。</p>
+<p>18:57</p>
+<p>一边复习OpenCV，一边写完了拉普拉斯滤波代码。同时Eigen似乎编译完了。</p>
+<p>19:09</p>
+<p>Eigen编译到一半，出了问题，开始向搜索引擎求教。最烦人的配环境时间开始了。</p>
+<p>19:21</p>
+<p>气死了，这个库可以不编译直接使用。重新开始Eigen的使用测试。</p>
+<p>19:36</p>
+<p>写到一半，OpenCV配置又出错了。原来是之前写的OpenCV配置文件少包含了一个库文件。批评一下过去的自己，太坑了吧。</p>
+<p>19:47</p>
+<p>OK，Eigen测试完了，游戏结束。现在所有不确定的东西都搞定了，前置知识学习完毕。接下来我可以展示王者级别的写代码能力了。</p>
+<p>20:26</p>
+<p>潇潇洒洒写了几十行，突然发现我不会对OpenCV和Eigen两个库的矩阵进行互相转化，又开始查东西了。时间还很充裕，问题不大。</p>
+<p>20:30</p>
+<p>原来OpenCV提供了转换函数。好，工作继续。</p>
+<p>20:37</p>
+<p>虽然我没有花半秒钟在程序的软件工程设计上，但我潜意识里已经把代码的结构、实现顺序给想好了。凭借着强大的功底，我本能地使用了自底向上的思想，先把每个细节的实现函数写好了。现在我准备把整个程序拼起来。</p>
+<p>20:46</p>
+<p>好，程序拼完了，已经开始编译了。说实话，第一遍能不能过（没有BUG）？肯定过不了。无论多强的高手，都会写BUG，都有大意的时候。BUG本身并不可怕，可怕的是不会调试BUG。编程能力展示结束，现在展示我发现BUG的洞察力和解决BUG的决断力。</p>
+<p>20:54</p>
+<p>代码还是倒在了OpenCV和Eigen两个库的互相兼容上。三个小时快到了，你会不会觉得我很慌？你会不会觉得我已经写不完了？不好意思，现在我才刚刚登上展示实力的舞台。只有在逆境中绝处逢生，才能体现出一个人的过人之处。</p>
+<p>20:58</p>
+<p>突然发现代码漏写了！图像有RGB三个颜色通道，该方法要对每个颜色通道单独处理，我忘了拆开颜色通道了！</p>
+<p>21:03</p>
+<p>OpenCV和Eigen相互转换的库函数不能用，我就自己动手！总算，稍加调试之下，代码可以运行了！只不过代码的运行效果明显不对……这下调试起来就麻烦了。很好，最尴尬的情况出现了。我不会放弃的！</p>
+<p>21:17</p>
+<p>时间已经过了。但我有大约10分27秒花费在了写博文上，这些时间应该不算。继续计时。</p>
+<p>21:45</p>
+<p> 我发现我对论文方法的理解出现了问题。</p>
+<p>22:25</p>
+<p>更改对论文理解上的逻辑BUG后，又发现8位颜色通道溢出了。</p>
+<p>22:34</p>
+<p>历经千辛万苦，程序总算是成功实现了。总耗时约260分钟。多花费了约50%的时间，你肯定说我很菜，说我写代码写得烂。但是这种说法并不对。仔细看一看这份文字实况，你能看出什么？没错，我一直在强调我纯粹的编程实力，并没有强调我有快速把论文转换成代码的能力，也没有强调我有快速学会调用那些坑爹的公共库的能力。我写代码写了多久？19:47~20:26,39分钟；20:30~20:46，16分钟，一共55分钟。第一版本的代码，我花55分钟就写完了。后面又调试了一下，20：54~22：34，100分钟，减去重看论文的21：17~21：45这28分钟，又花了72分钟调试，最后也就改了5%不到的代码。我说这么多数据是为了什么？是为了说明，恰恰是这份实况记录，强调了我编程能力之强，强调了时间其实都耗费在一些编程之外的时间上。虽然没有在规定时间内写完，但我感觉虽败犹荣。</p>
+<p>当然，你要说我每个方面的表现都很好吗？也不是这样的。我自己也承认，理解论文的时候急躁了一些，学库函数的时候学的不仔细了一些，到这我这个第一版的程序，出现了一点小小的偏差。不过真要说起来，我今天确实有点急于求成。因为立下了3小时完成的flag，所以我做事火急火燎，忽略了工作质量，结果败给了自己。如果一开始没有这个flag，我能不能3小时内完成呢？你可能会认为我会说：“会”。好，实际情况是，我不立这个flag，我今天会玩一个晚上，不会来做这个项目，哈哈。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1].  Pérez P, Gangnet M, Blake A. Poisson image editing[M]//ACM SIGGRAPH 2003 Papers. 2003: 313-318.</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2021/03/30/20210326-VS2019/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -446,9 +712,7 @@
       
         
           
-            <hr>
-<hr>
-<p>最近买了台新电脑，所有编程都需要重新配置，可以写很多水博文了。</p>
+            <p>最近买了台新电脑，所有编程都需要重新配置，可以写很多水博文了。</p>
 <h1 id="Visual-Studio-2019（VS2019）安装教程（解决VS-scanf问题）"><a href="#Visual-Studio-2019（VS2019）安装教程（解决VS-scanf问题）" class="headerlink" title="Visual Studio 2019（VS2019）安装教程（解决VS scanf问题）"></a>Visual Studio 2019（VS2019）安装教程（解决VS scanf问题）</h1><p>准确来说，这是VS2019在Windows 10下为了配置C++编程环境而写的教程。</p>
 <p>在下载前，请务必保证C盘的空间比较充裕，因为不论安装在哪，VS都会挤占C盘的很多空间。</p>
 <h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><ol>
@@ -2179,229 +2443,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhou Yifan">
-      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="周弈帆的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/02/01/DIP-image-segmentation-project-2/" class="post-title-link" itemprop="url">数字图像处理大作业：图像分割项目之代码实现（基于SLIC和AP的图像分割算法C++实现）</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2020-02-01 12:21:59" itemprop="dateCreated datePublished" datetime="2020-02-01T12:21:59+08:00">2020-02-01</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/" itemprop="url" rel="index"><span itemprop="name">记录</span></a></span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/项目/" itemprop="url" rel="index"><span itemprop="name">项目</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="SLICAP图像分割C-实现"><a href="#SLICAP图像分割C-实现" class="headerlink" title="SLICAP图像分割C++实现"></a>SLICAP图像分割C++实现</h1><h2 id="代码仓库"><a href="#代码仓库" class="headerlink" title="代码仓库"></a>代码仓库</h2><p><a href="https://github.com/SingleZombie/SLICAP-image-segmentation-cpp" target="_blank" rel="noopener">https://github.com/SingleZombie/SLICAP-image-segmentation-cpp</a></p>
-<h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><p>输入一幅图像，输入图像中每个像素的分类。比如产生以下的效果：</p>
-<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/Requirement.jpg" alt="Requirement"></p>
-<p>由于我的软件工程天赋过于高超，加上用户、产品经理、程序员都是我自己，因此分析阶段的功能建模部分就略过了。</p>
-<h2 id="技能学习"><a href="#技能学习" class="headerlink" title="技能学习"></a>技能学习</h2><h3 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h3><p>见<a href="https://zhouyifan.net/2020/01/30/DIP-image-segmentation-project/">上一篇博客</a></p>
-<h2 id="概要设计"><a href="#概要设计" class="headerlink" title="概要设计"></a>概要设计</h2><p>学完算法，准备开始写程序后，我的脑中立刻就浮现了以下的程序结构图：</p>
-<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/design1.jpg" alt="design1"></p>
-<p>和以往一样，主函数分成预处理、执行操作、输出处理三个模块。执行操作可以分成生成超像素和利用超像素进行图像分割，在用超像素模块分割模块中会利用到AP聚类算法。</p>
-<p>这次程序的两个主要模块非常清晰：用SLIC生成超像素的模块和用AP聚类的模块。两个模块独立性高，且具有先后关系。应该逐模块进行开发，每个模块开发完成后进行单元测试，确认模块工作正常后再进行后续的开发。同时，由于项目时间十分紧张，我还需要采用敏捷开发，不浪费一分一秒在无谓的写文档上。</p>
-<h2 id="详细设计"><a href="#详细设计" class="headerlink" title="详细设计"></a>详细设计</h2><p>虽然划分模块用的是结构化设计的思想，但我还是喜欢设计类并进行面向对象编程。</p>
-<h3 id="超像素生成模块"><a href="#超像素生成模块" class="headerlink" title="超像素生成模块"></a>超像素生成模块</h3><p>时间紧张，不画UML图了，直接用文字表达思想，之后直接写代码。</p>
-<p>首先要有一个<code>SuperPixels</code>类。该类用于在超像素生成和超像素图像分割模块间传递信息。该类存了一个图像矩阵、一个存储每个像素所述超像素类的数组、一个存储每个超像素信息（平均颜色向量）的数组。外部操作有根据图像矩阵创建新对象。由于算法对数据操作较多，该类可以被看成一个“结构”，标记数组、超像素信息是透明的。超像素信息用<code>SuperPixel</code>结构表示，该结构就是一个五维量（颜色和坐标）加一个像素数。</p>
-<p><code>SuperPixelsGenerator</code>提供生成超像素的算法，与一个<code>SuperPixels</code>关联，被处理模块调用。该类要存储一个图像矩阵，超像素期望的个数<code>superPixelCount</code>, 颜色距离参数<code>colorDisM</code>，最大迭代次数<code>maxIterTime</code>，计算一个期望距离<code>expectedDis</code>。我按算法流程顺序来设计每一个部分。设计时参考了<a href="https://www.cnblogs.com/Imageshop/p/6193433.html" target="_blank" rel="noopener">这篇博客</a>。</p>
-<p>首先我需要一个RGB和LAB互相转换的函数，供<code>SuperPixelsGenerator</code>调用。这个函数应该单独写在一个模块中。上面那篇博客的作者还写了一篇RGB转LAB的<a href="https://www.cnblogs.com/Imageshop/archive/2013/02/02/2889897.html" target="_blank" rel="noopener">博客</a>。但由于自己实现比较复杂，我打算直接用OpenCV自带的方法转换。    </p>
-<p><code>std::vector SuperPixelsGenerator::computeGradient()</code>，计算图像每一点的梯度。</p>
-<p><code>void SuperPixelsGenerator::initSuperPixelsCenter()</code>调用<code>computeGradient()</code>来计算初始的超像素中心。</p>
-<p><code>void SuperPixelsGenerator::updateEachPixel()</code>更新每个像素的标记（类别）。</p>
-<p><code>void SuperPixelsGenerator::updateSuperPixelsCenter()</code>更新超像素中心为平均值。</p>
-<p><code>void SuperPixelsGenerator::enforceConnectivity()</code>对最终的标记进行强制连续性的处理。</p>
-<h3 id="超像素聚类模块"><a href="#超像素聚类模块" class="headerlink" title="超像素聚类模块"></a>超像素聚类模块</h3><p>我先完成AP算法模块的设计，再完成调用AP算法模块的设计。</p>
-<p>AP算法应该可以对任何形式的数据进行。因此，AP算法应该写成一个模板函数。</p>
-<p>AP算法接收一个数据间相似二元关系的矩阵，输出一个标记表，表示每一个数据的数据中心是哪个数据。唯一一个可调参数是更新率$\lambda$。我本来想写一个和STL风格类似的模板函数，结果发现我忘记了怎么声明一个参数的指针或迭代器参数。再进一步思考，不管什么类型的数据，都可以用一个整数索引来表示，相似度可以直接存在一个数组里。那么我就不需要使用模板函数了。最终，函数声明写成了这样：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; apClustering(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; similarity, <span class="keyword">unsigned</span> dataCount,<span class="keyword">double</span> lambda = <span class="number">0.5</span>)</span><br></pre></td></tr></table></figure>
-<p>再思考一下程序设计细节。对于每对数据，要计算除某点之外的某值的最大值，这个可以通过记录每对点某值的最大值和次大值实现（打ACM做树形dp的时候实现了好多遍了）。另外，每对数据间还需要一个除了某两点以外的累计值，这个直接存一个累计值，用的时候减掉那两个不要的值就可以了。</p>
-<p>这个算法直接写在一个函数里没什么问题。要让代码模块性更好的话，可以把$r,a$矩阵的更新分别写一个函数。</p>
-<p>超像素聚类算法单独写一个类。该类初始化时接收算法权值参数。调用该类的<code>clustering</code>函数可以对一个超像素集合进行聚类，直接返回AP聚类的标记数组。该函数调用一个函数计算相似度，在调用AP算法返回结果。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SuperPixelClusteringAlgorithm::SuperPixelClusteringAlgorithm(<span class="keyword">int</span> wl = <span class="number">3</span>, <span class="keyword">int</span> wa = <span class="number">10</span>, <span class="keyword">int</span> wb = <span class="number">10</span>);</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; SuperPixelClusteringAlgorithm::clustering(<span class="keyword">const</span> SuperPixel&amp;);</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; SuperPixelClusteringAlgorithm::getSimilarity(<span class="keyword">const</span> SuperPixel&amp;);</span><br></pre></td></tr></table></figure>
-<h2 id="程序设计及性能优化"><a href="#程序设计及性能优化" class="headerlink" title="程序设计及性能优化"></a>程序设计及性能优化</h2><p>由于时间紧、算法对数据操作量复杂而软件流程复杂性低，本次程序我写得十分“暴力”，很多地方都没有进行模块化、封装。</p>
-<h3 id="超像素生成模块-1"><a href="#超像素生成模块-1" class="headerlink" title="超像素生成模块"></a>超像素生成模块</h3><p>我用四个半小时的实际工作时间完成了看似正确的超像素生成模块。在三种参数下的生成结果如下：（鼠标放到图片上可以看到参数信息）</p>
-<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/res1-1.jpg" alt="K = 500 m = 10 iter = 2"></p>
-<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/res1-2.jpg" alt="K = 500 m = 5 iter = 2"></p>
-<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/res1-3.jpg" alt="K = 500 m = 10 iter = 4"></p>
-<p>但是，程序的性能非常差。明明我已经有意识地降低时间和空间使用程度，但程序依然要20多秒才能完成4次迭代的生成算法（生成上面的第三幅图）。</p>
-<p>凭借着上次软件工程项目的经验，我使用VS的性能分析工具来改进程序，结果如下：</p>
-<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/opt1-1.jpg" alt="opt1-1"></p>
-<p>大部分时间都是画在迭代函数上。令我惊讶的是，几乎所有时间都浪费在了这个计算五维量距离的函数上。</p>
-<p>仔细看了一遍网上实现代码和论文中的算法，发现我对算法的理解错了！每次是搜索超像素中心附近的$2S\times2S$个像素，不是对每个像素进行搜索。我立马修改了上一篇博客和代码。</p>
-<p>这下算法的结果也正常了，性能也正常了。程序1.7秒可以完成4次迭代、500个超像素、图片大小510X385的超像素生成算法。哪怕不经过任何优化，这个性能也能满足一般的要求。调试的时候不会浪费太多时间，做为作业提交也十分足够。有机会的话，我还是会优化一下代码。</p>
-<p>在算法正确的基础上，我又做了3次实验：</p>
-<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/res2-1.jpg" alt="K = 500 m = 10 iter = 4"></p>
-<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/res2-2.jpg" alt="K = 500 m = 5 iter = 4"></p>
-<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/res2-3.jpg" alt="K = 500 m = 10 iter = 10"></p>
-<p>目前开发调试外加吹牛的时间共计五个半小时。</p>
-<h3 id="超像素聚类模块-1"><a href="#超像素聚类模块-1" class="headerlink" title="超像素聚类模块"></a>超像素聚类模块</h3><p>这个模块实现起来并不复杂，但我还是浪费了很多时间在调试上。</p>
-<p>一开始，我发现我没有正确理解AP算法，没有对相似度矩阵对角线上的值进行特殊处理。我把对角线的值设为平均值后，还是发现聚类算法只会把每一块的数据中心划成自己。由于图片不好调试，我构造了6个点相似度矩阵进行算法调试，其中每三个点有一个很明确的数据中心。算法迟迟得不到正确结果。我浪费了大量时间在代码比对上。突然，我一气之下修改了AP算法的循环停止条件，让它迭代进行100次，结果竟然正常了。我发现在AP算法迭代的过程中，每个点的数据中心可能会固定一段时间，但实际上两个矩阵的值还没有收敛。我把循环停止条件改成了数据中心连续5次迭代都不变才解决AP算法的收敛问题。可是，我把数据从6个点换成了原图像，算法还是进行失败。我又偶然间把计算相似度矩阵对角线的公式去掉了SLICAP论文中提到的比例系数，算法竟然正常工作了。不知道是不是我没有认真看那篇论文，我觉得那篇论文太坑人了，加上比例系数后算法完全工作不了，我还以为是自己写错了。</p>
-<p>和设计的一样<code>SuperPixelClusteringAlgorithm</code>类只负责相似度计算和算法调用，AP算法的细节在<code>APClustering</code>中。</p>
-<p>程序设计真的没什么可以说的。假设有$N$个数据，迭代$I$次，那么AP算法时间复杂度是$O(IN^2)$，空间复杂度$O(N^2)$。稍微优化一下求最大值和求和的过程就能把看似$O(N^3)$的单次迭代变成$O(N^2)$。</p>
-<h3 id="图片显示模块"><a href="#图片显示模块" class="headerlink" title="图片显示模块"></a>图片显示模块</h3><p>我打算显示3幅图片：超像素分割结果、超像素聚类结果、图片分割处理结果。</p>
-<p>理论上需要一个模块来专门处理输出图片的处理。由于时间不够，我也很懒，只把超像素聚类结果生成函数放到了单独的文件里。超像素分割结果图像放到了超像素类里，图像分割处理结果直接放到了<code>main</code>函数里。这样写程序是非常不好的，我会在之后的版本中修改。</p>
-<h3 id="命令行参数模块"><a href="#命令行参数模块" class="headerlink" title="命令行参数模块"></a>命令行参数模块</h3><p>理论上，所有的参数都是可以调整的，而且程序可以在不关闭的情况下保存之前的参数设定，循环处理图片。做为一个完整的软件来说，应该提供这些丰富的功能。但我暂时没有写，我写的东西暂时只能算一个程序。</p>
-<h2 id="最终结果"><a href="#最终结果" class="headerlink" title="最终结果"></a>最终结果</h2><p>（我也忘了当时参数是什么了，但这绝对是程序生成出来的）</p>
-<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/res3-1.jpg" alt="p1 tag"></p>
-<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/res3-2.jpg" alt="p1 result"></p>
-<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/res3-3.jpg" alt="p2 tag"></p>
-<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/res3-4.jpg" alt="p2 result"></p>
-<h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>我觉得自己很帅。在一天之内不仅实现了图像分割程序的功能，而且凭借着强大的心理抗挫折能力，没有被烦人的BUG击溃，最终站到了胜利的高点。当我回首过去，看着一条条充满荆棘的路，看着我踩的一个个坑，我感到一丝心酸；但当我俯视大地，看着程序能够产生较好的图像分割结果时，我又感到苦尽甘来，心旷神怡。</p>
-<h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><p>20.2.1</p>
-<ul>
-<li>上传博客</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2448,7 +2489,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">41</span>
+                    <span class="site-state-item-count">42</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2580,7 +2621,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">27</span>
+                      
+                    
+                    <span class="site-state-item-count">28</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

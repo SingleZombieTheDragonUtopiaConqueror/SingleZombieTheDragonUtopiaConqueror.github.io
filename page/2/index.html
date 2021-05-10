@@ -339,6 +339,229 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/02/01/DIP-image-segmentation-project-2/" class="post-title-link" itemprop="url">数字图像处理大作业：图像分割项目之代码实现（基于SLIC和AP的图像分割算法C++实现）</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-02-01 12:21:59" itemprop="dateCreated datePublished" datetime="2020-02-01T12:21:59+08:00">2020-02-01</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/" itemprop="url" rel="index"><span itemprop="name">记录</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/项目/" itemprop="url" rel="index"><span itemprop="name">项目</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="SLICAP图像分割C-实现"><a href="#SLICAP图像分割C-实现" class="headerlink" title="SLICAP图像分割C++实现"></a>SLICAP图像分割C++实现</h1><h2 id="代码仓库"><a href="#代码仓库" class="headerlink" title="代码仓库"></a>代码仓库</h2><p><a href="https://github.com/SingleZombie/SLICAP-image-segmentation-cpp" target="_blank" rel="noopener">https://github.com/SingleZombie/SLICAP-image-segmentation-cpp</a></p>
+<h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><p>输入一幅图像，输入图像中每个像素的分类。比如产生以下的效果：</p>
+<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/Requirement.jpg" alt="Requirement"></p>
+<p>由于我的软件工程天赋过于高超，加上用户、产品经理、程序员都是我自己，因此分析阶段的功能建模部分就略过了。</p>
+<h2 id="技能学习"><a href="#技能学习" class="headerlink" title="技能学习"></a>技能学习</h2><h3 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h3><p>见<a href="https://zhouyifan.net/2020/01/30/DIP-image-segmentation-project/">上一篇博客</a></p>
+<h2 id="概要设计"><a href="#概要设计" class="headerlink" title="概要设计"></a>概要设计</h2><p>学完算法，准备开始写程序后，我的脑中立刻就浮现了以下的程序结构图：</p>
+<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/design1.jpg" alt="design1"></p>
+<p>和以往一样，主函数分成预处理、执行操作、输出处理三个模块。执行操作可以分成生成超像素和利用超像素进行图像分割，在用超像素模块分割模块中会利用到AP聚类算法。</p>
+<p>这次程序的两个主要模块非常清晰：用SLIC生成超像素的模块和用AP聚类的模块。两个模块独立性高，且具有先后关系。应该逐模块进行开发，每个模块开发完成后进行单元测试，确认模块工作正常后再进行后续的开发。同时，由于项目时间十分紧张，我还需要采用敏捷开发，不浪费一分一秒在无谓的写文档上。</p>
+<h2 id="详细设计"><a href="#详细设计" class="headerlink" title="详细设计"></a>详细设计</h2><p>虽然划分模块用的是结构化设计的思想，但我还是喜欢设计类并进行面向对象编程。</p>
+<h3 id="超像素生成模块"><a href="#超像素生成模块" class="headerlink" title="超像素生成模块"></a>超像素生成模块</h3><p>时间紧张，不画UML图了，直接用文字表达思想，之后直接写代码。</p>
+<p>首先要有一个<code>SuperPixels</code>类。该类用于在超像素生成和超像素图像分割模块间传递信息。该类存了一个图像矩阵、一个存储每个像素所述超像素类的数组、一个存储每个超像素信息（平均颜色向量）的数组。外部操作有根据图像矩阵创建新对象。由于算法对数据操作较多，该类可以被看成一个“结构”，标记数组、超像素信息是透明的。超像素信息用<code>SuperPixel</code>结构表示，该结构就是一个五维量（颜色和坐标）加一个像素数。</p>
+<p><code>SuperPixelsGenerator</code>提供生成超像素的算法，与一个<code>SuperPixels</code>关联，被处理模块调用。该类要存储一个图像矩阵，超像素期望的个数<code>superPixelCount</code>, 颜色距离参数<code>colorDisM</code>，最大迭代次数<code>maxIterTime</code>，计算一个期望距离<code>expectedDis</code>。我按算法流程顺序来设计每一个部分。设计时参考了<a href="https://www.cnblogs.com/Imageshop/p/6193433.html" target="_blank" rel="noopener">这篇博客</a>。</p>
+<p>首先我需要一个RGB和LAB互相转换的函数，供<code>SuperPixelsGenerator</code>调用。这个函数应该单独写在一个模块中。上面那篇博客的作者还写了一篇RGB转LAB的<a href="https://www.cnblogs.com/Imageshop/archive/2013/02/02/2889897.html" target="_blank" rel="noopener">博客</a>。但由于自己实现比较复杂，我打算直接用OpenCV自带的方法转换。    </p>
+<p><code>std::vector SuperPixelsGenerator::computeGradient()</code>，计算图像每一点的梯度。</p>
+<p><code>void SuperPixelsGenerator::initSuperPixelsCenter()</code>调用<code>computeGradient()</code>来计算初始的超像素中心。</p>
+<p><code>void SuperPixelsGenerator::updateEachPixel()</code>更新每个像素的标记（类别）。</p>
+<p><code>void SuperPixelsGenerator::updateSuperPixelsCenter()</code>更新超像素中心为平均值。</p>
+<p><code>void SuperPixelsGenerator::enforceConnectivity()</code>对最终的标记进行强制连续性的处理。</p>
+<h3 id="超像素聚类模块"><a href="#超像素聚类模块" class="headerlink" title="超像素聚类模块"></a>超像素聚类模块</h3><p>我先完成AP算法模块的设计，再完成调用AP算法模块的设计。</p>
+<p>AP算法应该可以对任何形式的数据进行。因此，AP算法应该写成一个模板函数。</p>
+<p>AP算法接收一个数据间相似二元关系的矩阵，输出一个标记表，表示每一个数据的数据中心是哪个数据。唯一一个可调参数是更新率$\lambda$。我本来想写一个和STL风格类似的模板函数，结果发现我忘记了怎么声明一个参数的指针或迭代器参数。再进一步思考，不管什么类型的数据，都可以用一个整数索引来表示，相似度可以直接存在一个数组里。那么我就不需要使用模板函数了。最终，函数声明写成了这样：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; apClustering(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; similarity, <span class="keyword">unsigned</span> dataCount,<span class="keyword">double</span> lambda = <span class="number">0.5</span>)</span><br></pre></td></tr></table></figure>
+<p>再思考一下程序设计细节。对于每对数据，要计算除某点之外的某值的最大值，这个可以通过记录每对点某值的最大值和次大值实现（打ACM做树形dp的时候实现了好多遍了）。另外，每对数据间还需要一个除了某两点以外的累计值，这个直接存一个累计值，用的时候减掉那两个不要的值就可以了。</p>
+<p>这个算法直接写在一个函数里没什么问题。要让代码模块性更好的话，可以把$r,a$矩阵的更新分别写一个函数。</p>
+<p>超像素聚类算法单独写一个类。该类初始化时接收算法权值参数。调用该类的<code>clustering</code>函数可以对一个超像素集合进行聚类，直接返回AP聚类的标记数组。该函数调用一个函数计算相似度，在调用AP算法返回结果。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SuperPixelClusteringAlgorithm::SuperPixelClusteringAlgorithm(<span class="keyword">int</span> wl = <span class="number">3</span>, <span class="keyword">int</span> wa = <span class="number">10</span>, <span class="keyword">int</span> wb = <span class="number">10</span>);</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; SuperPixelClusteringAlgorithm::clustering(<span class="keyword">const</span> SuperPixel&amp;);</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; SuperPixelClusteringAlgorithm::getSimilarity(<span class="keyword">const</span> SuperPixel&amp;);</span><br></pre></td></tr></table></figure>
+<h2 id="程序设计及性能优化"><a href="#程序设计及性能优化" class="headerlink" title="程序设计及性能优化"></a>程序设计及性能优化</h2><p>由于时间紧、算法对数据操作量复杂而软件流程复杂性低，本次程序我写得十分“暴力”，很多地方都没有进行模块化、封装。</p>
+<h3 id="超像素生成模块-1"><a href="#超像素生成模块-1" class="headerlink" title="超像素生成模块"></a>超像素生成模块</h3><p>我用四个半小时的实际工作时间完成了看似正确的超像素生成模块。在三种参数下的生成结果如下：（鼠标放到图片上可以看到参数信息）</p>
+<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/res1-1.jpg" alt="K = 500 m = 10 iter = 2"></p>
+<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/res1-2.jpg" alt="K = 500 m = 5 iter = 2"></p>
+<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/res1-3.jpg" alt="K = 500 m = 10 iter = 4"></p>
+<p>但是，程序的性能非常差。明明我已经有意识地降低时间和空间使用程度，但程序依然要20多秒才能完成4次迭代的生成算法（生成上面的第三幅图）。</p>
+<p>凭借着上次软件工程项目的经验，我使用VS的性能分析工具来改进程序，结果如下：</p>
+<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/opt1-1.jpg" alt="opt1-1"></p>
+<p>大部分时间都是画在迭代函数上。令我惊讶的是，几乎所有时间都浪费在了这个计算五维量距离的函数上。</p>
+<p>仔细看了一遍网上实现代码和论文中的算法，发现我对算法的理解错了！每次是搜索超像素中心附近的$2S\times2S$个像素，不是对每个像素进行搜索。我立马修改了上一篇博客和代码。</p>
+<p>这下算法的结果也正常了，性能也正常了。程序1.7秒可以完成4次迭代、500个超像素、图片大小510X385的超像素生成算法。哪怕不经过任何优化，这个性能也能满足一般的要求。调试的时候不会浪费太多时间，做为作业提交也十分足够。有机会的话，我还是会优化一下代码。</p>
+<p>在算法正确的基础上，我又做了3次实验：</p>
+<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/res2-1.jpg" alt="K = 500 m = 10 iter = 4"></p>
+<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/res2-2.jpg" alt="K = 500 m = 5 iter = 4"></p>
+<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/res2-3.jpg" alt="K = 500 m = 10 iter = 10"></p>
+<p>目前开发调试外加吹牛的时间共计五个半小时。</p>
+<h3 id="超像素聚类模块-1"><a href="#超像素聚类模块-1" class="headerlink" title="超像素聚类模块"></a>超像素聚类模块</h3><p>这个模块实现起来并不复杂，但我还是浪费了很多时间在调试上。</p>
+<p>一开始，我发现我没有正确理解AP算法，没有对相似度矩阵对角线上的值进行特殊处理。我把对角线的值设为平均值后，还是发现聚类算法只会把每一块的数据中心划成自己。由于图片不好调试，我构造了6个点相似度矩阵进行算法调试，其中每三个点有一个很明确的数据中心。算法迟迟得不到正确结果。我浪费了大量时间在代码比对上。突然，我一气之下修改了AP算法的循环停止条件，让它迭代进行100次，结果竟然正常了。我发现在AP算法迭代的过程中，每个点的数据中心可能会固定一段时间，但实际上两个矩阵的值还没有收敛。我把循环停止条件改成了数据中心连续5次迭代都不变才解决AP算法的收敛问题。可是，我把数据从6个点换成了原图像，算法还是进行失败。我又偶然间把计算相似度矩阵对角线的公式去掉了SLICAP论文中提到的比例系数，算法竟然正常工作了。不知道是不是我没有认真看那篇论文，我觉得那篇论文太坑人了，加上比例系数后算法完全工作不了，我还以为是自己写错了。</p>
+<p>和设计的一样<code>SuperPixelClusteringAlgorithm</code>类只负责相似度计算和算法调用，AP算法的细节在<code>APClustering</code>中。</p>
+<p>程序设计真的没什么可以说的。假设有$N$个数据，迭代$I$次，那么AP算法时间复杂度是$O(IN^2)$，空间复杂度$O(N^2)$。稍微优化一下求最大值和求和的过程就能把看似$O(N^3)$的单次迭代变成$O(N^2)$。</p>
+<h3 id="图片显示模块"><a href="#图片显示模块" class="headerlink" title="图片显示模块"></a>图片显示模块</h3><p>我打算显示3幅图片：超像素分割结果、超像素聚类结果、图片分割处理结果。</p>
+<p>理论上需要一个模块来专门处理输出图片的处理。由于时间不够，我也很懒，只把超像素聚类结果生成函数放到了单独的文件里。超像素分割结果图像放到了超像素类里，图像分割处理结果直接放到了<code>main</code>函数里。这样写程序是非常不好的，我会在之后的版本中修改。</p>
+<h3 id="命令行参数模块"><a href="#命令行参数模块" class="headerlink" title="命令行参数模块"></a>命令行参数模块</h3><p>理论上，所有的参数都是可以调整的，而且程序可以在不关闭的情况下保存之前的参数设定，循环处理图片。做为一个完整的软件来说，应该提供这些丰富的功能。但我暂时没有写，我写的东西暂时只能算一个程序。</p>
+<h2 id="最终结果"><a href="#最终结果" class="headerlink" title="最终结果"></a>最终结果</h2><p>（我也忘了当时参数是什么了，但这绝对是程序生成出来的）</p>
+<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/res3-1.jpg" alt="p1 tag"></p>
+<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/res3-2.jpg" alt="p1 result"></p>
+<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/res3-3.jpg" alt="p2 tag"></p>
+<p><img src="//zhouyifan.net/2020/02/01/DIP-image-segmentation-project-2/res3-4.jpg" alt="p2 result"></p>
+<h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>我觉得自己很帅。在一天之内不仅实现了图像分割程序的功能，而且凭借着强大的心理抗挫折能力，没有被烦人的BUG击溃，最终站到了胜利的高点。当我回首过去，看着一条条充满荆棘的路，看着我踩的一个个坑，我感到一丝心酸；但当我俯视大地，看着程序能够产生较好的图像分割结果时，我又感到苦尽甘来，心旷神怡。</p>
+<h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><p>20.2.1</p>
+<ul>
+<li>上传博客</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2020/01/30/DIP-image-segmentation-project/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2390,195 +2613,6 @@ B = M_B \times 2^{E_B}</script><p>浮点数加减前要对齐阶，阶小往阶�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2020/01/05/Principles-of-Computer-Composition-cources-review-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhou Yifan">
-      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="周弈帆的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/01/05/Principles-of-Computer-Composition-cources-review-1/" class="post-title-link" itemprop="url">计算机组成原理复习：第一章 概论</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2020-01-05 19:17:22" itemprop="dateCreated datePublished" datetime="2020-01-05T19:17:22+08:00">2020-01-05</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/知识/" itemprop="url" rel="index"><span itemprop="name">知识</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>期末考试又到了，又有一些课要复习。</p>
-<p>我在上课的时候曾经做过一些“学习记录”，其形式是以自己的话来重述课本的内容，并且加上很强的主观评论。我复习的时候也采用这种形式。为了节约时间，有些吐槽会少一些，但这并不代表这门课没有喷点。</p>
-<h1 id="计算机组成原理复习：第一章-概论"><a href="#计算机组成原理复习：第一章-概论" class="headerlink" title="计算机组成原理复习：第一章 概论"></a>计算机组成原理复习：第一章 概论</h1><p>这一章做为全书的总结，都是一些很泛的东西，没有太多有价值的知识。准确来说，都是一些具体知识而没有任何理论知识在内。我照着考试复习PPT把重点列一下。</p>
-<h2 id="计算机的组成部分"><a href="#计算机的组成部分" class="headerlink" title="计算机的组成部分"></a>计算机的组成部分</h2><p>五个部分：</p>
-<ul>
-<li><p>存储器</p>
-</li>
-<li><p>运算器</p>
-</li>
-<li><p>控制器</p>
-</li>
-<li><p>输入设备</p>
-</li>
-<li><p>输出设备</p>
-</li>
-</ul>
-<p>这些东西大一就记过了。</p>
-<h2 id="总线"><a href="#总线" class="headerlink" title="总线"></a>总线</h2><p>特点：共享、分时</p>
-<p>类别：地址、数据、控制总线</p>
-<h2 id="计算机系统组成部分"><a href="#计算机系统组成部分" class="headerlink" title="计算机系统组成部分"></a>计算机系统组成部分</h2><p>软件+硬件</p>
-<h2 id="计算机性能指标（部分）"><a href="#计算机性能指标（部分）" class="headerlink" title="计算机性能指标（部分）"></a>计算机性能指标（部分）</h2><h3 id="时钟频率和时钟周期"><a href="#时钟频率和时钟周期" class="headerlink" title="时钟频率和时钟周期"></a>时钟频率和时钟周期</h3><p>可以类比游戏里的FPS和每帧所需时间。</p>
-<h3 id="吞吐量、响应时间"><a href="#吞吐量、响应时间" class="headerlink" title="吞吐量、响应时间"></a>吞吐量、响应时间</h3><p>这个在操作系统里提过。吞吐量指单位时间完成的请求的数量，似乎没有一个严格的单位。响应时间指一个任务等待和最终执行所耗时间之和。</p>
-<h3 id="CPI"><a href="#CPI" class="headerlink" title="CPI"></a>CPI</h3><p>Cycles per Instructions，每条指令所花时间周期数</p>
-<p>IPC就是倒数</p>
-<h3 id="MIPS-MFLOPS"><a href="#MIPS-MFLOPS" class="headerlink" title="MIPS MFLOPS"></a>MIPS MFLOPS</h3><p>MIPS(Million Instructions per Second)是每秒执行多少百万条指令。等于主频乘IPC</p>
-<p>MFLOPS不是指指令而是浮点运算。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2625,7 +2659,7 @@ B = M_B \times 2^{E_B}</script><p>浮点数加减前要对齐阶，阶小往阶�
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">41</span>
+                    <span class="site-state-item-count">42</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2757,7 +2791,9 @@ B = M_B \times 2^{E_B}</script><p>浮点数加减前要对齐阶，阶小往阶�
                     
                       
                     
-                    <span class="site-state-item-count">27</span>
+                      
+                    
+                    <span class="site-state-item-count">28</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

@@ -339,6 +339,304 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/06/25/recurrence-relation-and-generating-function/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/25/recurrence-relation-and-generating-function/" class="post-title-link" itemprop="url">组合数学：递推关系与生成函数</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-06-25 23:24:11" itemprop="dateCreated datePublished" datetime="2019-06-25T23:24:11+08:00">2019-06-25</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/知识/" itemprop="url" rel="index"><span itemprop="name">知识</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="递推关系与生成函数"><a href="#递推关系与生成函数" class="headerlink" title="递推关系与生成函数"></a>递推关系与生成函数</h1><h2 id="递推关系"><a href="#递推关系" class="headerlink" title="递推关系"></a>递推关系</h2><h3 id="斐波那契数列通项"><a href="#斐波那契数列通项" class="headerlink" title="斐波那契数列通项"></a>斐波那契数列通项</h3><p>俗话说，斐波那契数列的通项是：</p>
+<p>$\frac{1}{\sqrt{5}}(\frac{1 + \sqrt{5}}{2})^n - \frac{1}{\sqrt{5}}(\frac{1 - \sqrt{5}}{2})^n  (n \geq 0)$  </p>
+<p>看上去如此玄妙的式子是怎么推出来的呢？</p>
+<p>我们都知道，斐波那契数列是:$0,1,1,2,3,5,8,13,21,34,55…$。规律是，从第三项开始，后一项等于前两项之和，即$h_n = h_{n - 1} + h_{n - 2} (n &gt;= 2), h_0 = 0, h_1 = 1$。通过观察，我们发现这个数列增长得十分快，速度似乎和指数函数差不多。因此我们产生了大胆的假设：假设$h_n = a^n$。</p>
+<p>由通项公式：$h_n = h_{n - 1} + h_{n - 2}$,$a^n = a^{n - 1}+a^{n - 2}$。由于此时$n\geq2,a_n\neq0$，式子化简为:</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+a^2 &= a + 1 \\ 
+a^2 - a-1 &= 0\\
+a &= \frac{1 \pm \sqrt{5}}{2} 
+\end{aligned}</script><p>$h_n$有多个解，这些解的线性组合同样满足条件。因此可以将解表示为$h_n = c_1(\frac{1 + \sqrt{5}}{2})^n + c_2(\frac{1 - \sqrt{5}}{2})^n$。注意到还有条件$h_0 = 0, h_1 = 1$没有使用。等式有两个，未知数也有两个，因此可以解出$c_1, c_2$来：</p>
+<script type="math/tex; mode=display">
+\left\{
+\begin{aligned}
+   & 0 = c_1 + c_2 \\ \\ 
+   & 1 = \frac{1 + \sqrt{5}}{2}c_1 +\frac{1 - \sqrt{5}}{2}c_2
+\end{aligned}
+\right.
+\\</script><p>解得：</p>
+<script type="math/tex; mode=display">
+\left\{
+\begin{aligned}
+   & c_1 = \frac{1}{\sqrt{5}} \\ \\ 
+   & c_2 = -\frac{1}{\sqrt{5}}
+\end{aligned}
+\right.</script><p>所以就得到了开头说的那个通项公式。</p>
+<p>可以发现，解通项公式的过程和求常系数线性微分方程的方法是类似的，碰到一些的问题的处理方式也是类似的。</p>
+<h3 id="常系数线性齐次递推关系"><a href="#常系数线性齐次递推关系" class="headerlink" title="常系数线性齐次递推关系"></a>常系数线性齐次递推关系</h3><p>通过上述的斐波那契数列的通项的求解，我们已经可以感受到递推关系的解法了。</p>
+<p>若某序列$h_i$满足递推关系$h_n = a_1 h_{n - 1} + … + a_k h_{n - k} + b$，其中$a_i,b$可能依赖于$n$,$a_k \neq 0$，则称序列满足<strong>k阶线性递推关系</strong>。若$b = 0$，则还称它是<strong>齐次</strong>。若$a_i$都是常数，则称它还是<strong>常系数</strong>。正如标题所讲，本节讨论<strong>常系数线性齐次递推关系</strong>。</p>
+<p>由递推关系得到的方程$x^k = a_1x^{k - 1} + … a_k$被叫做<strong>特征方程</strong>。特征方程的k个根叫<strong>特征根</strong>，一个特征根对应一个原递推关系的解。如果p是根，则$p^n$是$h_n$的一个解。如果p是二重根，则$p^n,np^n$是$h_n$的解，依此类推。$h_n$解的最终表达形式是每个特征根对应的解的线性组合。如果此时数列$h_n$有初始值，那么再解个多元一次方程，就可以完全求出$h_n$的通项了。</p>
+<p>综上，求常系数线性齐次递推关系就是先解一个一元多次的特征方程，求出数列的表达形式，才根据初始条件解一个多元一次方程，得到数列的通项。</p>
+<h3 id="常系数线性非齐次递推关系"><a href="#常系数线性非齐次递推关系" class="headerlink" title="常系数线性非齐次递推关系"></a>常系数线性非齐次递推关系</h3><p>由于特征方程有多个根，因此递推关系有多个解，这些解要以<strong>通解</strong>的形式写出来。而某一个单独能满足条件的递推关系叫做<strong>特解</strong>。又根据<strong>叠加原理</strong>，$h_n + a_1 h_{n - 1} + … + a_k h_{n - k} = b$和$h_n + a_1 h_{n - 1} + … + a_k h_{n - k} = c$的解加起来，就是$h_n + a_1 h_{n - 1} + … + a_k h_{n - k} = b + c$的解。因此对于一个常系数线性非齐次递推关系，不用再像之前一样直接求出通解，而是只要求出一个特解，再加上齐次情况的通解，就可以得到该递推关系的特解。我们现在要完成的任务就是求常系数线性非齐次递推关系的特解。</p>
+<p>求非齐次的特解我只知道公式，不理解公式的由来，这里就直接给公式了。若：</p>
+<script type="math/tex; mode=display">
+h_n + a_1 h_{n - 1} + ... + a_k h_{n - k} = r^n(b_qn^q +b_{q - 1}n^{q - 1} + ...b_0)</script><p>则将</p>
+<script type="math/tex; mode=display">
+(c_0 + c_1n+..c_qn^{q})r^n</script><p>代入$h_n$，解出这些$c$来，就可以得到一个特解。如果$r$还是特征方程的根，且是$m$重根，则要代入</p>
+<script type="math/tex; mode=display">
+(c_0 + c_1n+..c_qn^{q})r^nn^m</script><p>可以看出，求特解时，就是把等式右边的非齐次项按$r^n$的指数分个类。再顺便看一下$r$是否是特征方程的解，若是的话要乘上$n$的次方项。特解的未知数个数取决于非齐次项中的多项式的次数，把这个式子套回去可以解出所有的未知数来。具体看下面的例子。</p>
+<p>例：求$h_n = 2h_{n - 1} + n^2$的特解。<br>解：<br>特征方程：</p>
+<script type="math/tex; mode=display">
+x = 2</script><p>将</p>
+<script type="math/tex; mode=display">
+c_0 +c_1n+c_2n^2</script><p>代入得：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+c_0 +c_1n+c_2n^2 &= 2 (c_0 +c_1(n-1)+c_2(n - 1)^2)+n^2 \\
+c_0 +c_1n+c_2n^2 &= 2 c_0 + 2c_1n - 2c_1+ 2c_2n^2 - 4c_2n + 2c_2 + n^2 \\
+(c_0 - 2c_0 + 2c_1 - 2c_2) + (c_1 - 2c_1+4c_2)n + (c_2 - 2c_2 - 1)n^2 &= 0 
+\end{aligned}</script><p>上式恒成立，因此：</p>
+<script type="math/tex; mode=display">
+\left\{
+\begin{aligned}
+   c_0 - 2c_0 + 2c_1 - 2c_2 &= 0 \\
+   c_1 - 2c_1+4c_2 &= 0 \\
+   c_2 - 2c_2 - 1 &= 0
+\end{aligned}
+\right.</script><p>解得：<br>$<br>\left\{<br>\begin{aligned}<br>   c_0 &amp;= -6 \\<br>   c_1 &amp;= -4 \\<br>   c_2 &amp;= -1<br>\end{aligned}<br>\right.<br>$</p>
+<p>得到一个特解：<br>$h_n = -6 - 4n - n^2$</p>
+<h2 id="生成函数"><a href="#生成函数" class="headerlink" title="生成函数"></a>生成函数</h2><h3 id="生成函数的用处"><a href="#生成函数的用处" class="headerlink" title="生成函数的用处"></a>生成函数的用处</h3><p>若有一个数列$h_0,h_1,h_2…$，则它的<strong>生成函数</strong>定义为$g(x) = h_0 + h_1x + h_2x^2…$。若数列是无穷的，则这个级数也是无穷的。</p>
+<p>生成函数乍看上去非常奇怪，因此必须要先理解生成函数是用来做什么的。生成函数正是为了解决一些问题而定义出来的。</p>
+<p>设$h_n$为从集合$\{2a\}$中取出n个字母的方案数，则数列为$1,1,1,0,0…$，生成函数$g_1(x) = 1 + x + x^2$。同理，从集合$\{3b\}$中取出n个字母的方案数得到的生成函数$g_2(x) = 1 + x + x^2 + x^3$。那么现在，从集合$\{2a,3b\}$中取出n个字母的方案数得到的生成函数是什么呢？</p>
+<p>还是先求出方案数序列。$h_0 = 1,h_1 = |\{a,b\}| = 2, h_2 = |\{aa,ab,bb\}| = 3,h_3 = |\{aab,abb,bbb\}| = 3, h_4 = |\{aabb,abbb\}| = 2, h_5 = |\{aabbb\}| = 1$。则其生成函数$g(x) = 1 + 2x + 3x^2 + 3x^3 + 2x^4 + x^5 = (1 + x + x^2)(1 + x + x^2 + x^3) = g_1(x)g_2(x)$。“巧合”发生了。一个问题的解的生成函数等于子问题的解的生成函数相乘。</p>
+<p>生成函数的本质，就是把“总和”为$n$的方案数放到$x^n$的系数上。多项式在进行乘法时，会很自然地进行排列组合，排列组合计算的结果依然保留在系数上。我目前的理解是，生成函数就是用来计算排列组合的。</p>
+<p>生成函数既然是用来计算排列组合的，但我们现在都是在通过排列组合反推生成函数。如果是用多个生成函数的乘积来计算总的生成函数，再算出方案数，那么我们还是要手动进行多项式乘法，这个过程和我们算排列组合的过程是一样的，计算量完全没有减少。那么，生成函数到底有什么用呢？</p>
+<p>当生成函数是无穷级数时，生成函数的形式就美观了许多，比如：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\frac{1}{1-x}&=1+x+x^2+x^3... \\
+\frac{1}{(1-x)^k}&=\Sigma\ _{n = 0}^{\infty}\tbinom{n + k - 1}{k - 1}x^n (由多重集的组合公式)\\
+e^{x} &= 1 + \frac{x}{1} + \frac{x^2}{2!} + \frac{x^3}{3!} +... \\
+e^{-x} &= 1 - \frac{x}{1} + \frac{x^2}{2!} - \frac{x^3}{3!} +... \\
+\end{aligned}</script><p>这样，再求一个复杂的排列组合时，可以先求出简单的子问题的生成函数，才把这些生成函数相乘。当生成函数是无穷级数的时候，往往能进行某些化简。求最终的生成生成函数的某个系数，就可以得到对应的方案数。</p>
+<p>看一道经典例题：<br>例：确定苹果、橘子、香蕉和梨的袋装水果的袋数$h_n$的生成函数，其中各袋要有偶数个苹果，最多两个橘子，3的倍数个香蕉，最多一个梨。然后从该生成函数求出$h_n$的公式。<br>解：  </p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+g(x) &= (1 + x^2 + x^4 + ...)(1 + x + x^2)(1 + x^3 + x^6 + ...)(1 + x) \\
+&= \frac{1}{1 - x^2}\frac{1}{1 - x^3}(1 + x + x^2)(1 + x)  \\
+&= \frac{(1 + x + x^2)(1 + x)}{(1 - x^2)(1 - x^3)} \\
+&= \frac{(1 + x + x^2)(1 + x)}{(1 - x)(1 + x + x^2)(1 - x)(1+x)} \\
+&= \frac{1}{(1 - x)^2} = \Sigma\ _{n = 0}^{\infty}\tbinom{n + 1}{1}x^n
+\end{aligned}
+\\</script><p>$\therefore h_n = n + 1$</p>
+<h3 id="指数生成函数"><a href="#指数生成函数" class="headerlink" title="指数生成函数"></a>指数生成函数</h3><p>在求多重集合的排列问题，比如从集合$\{2a,3b\}$中能拼出多少个长度为3的单词这样的问题时，我们要先求出各种组合的方案，除以每个数出现次数的阶乘，最后再乘上总数的阶乘。生成函数既然是解决排列组合问题的，自然也能解决此类多重集排列问题。在刚才的生成函数的基础上，加上我们平时求多重集排列的方法，就得到了<strong>指数生成函数</strong>的概念。</p>
+<p>类似地，对于序列$h_n$，其指数生成函数定义为$g^{(e)}(x) = h_0 + h_1\frac{x}{1} + h_2\frac{x^2}{2}…$。由于在分母上除了一个阶乘，生成函数很容易变成$e^x$之类的形式，大概指数生成函数的名字就是这样得来的。$x^n$前面的系数再乘一个$n!$就是多重集n排列的方案数。</p>
+<p>用法看例题即可快速理解：<br>例：如果偶数个方格被涂成红色以及奇数个方格被涂成白色，试确定用红、白、蓝和绿为1行$n$列棋盘的方格着色的方案数$h_n$。<br>解：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+g^{(e)}(x) &= (1+\frac{x^2}{2!}+\frac{x^4}{4!}+...)(\frac{x}{1}+\frac{x^3}{3!} + ...)(1 + \frac{x}{1} + \frac{x^2}{2!} + \frac{x^3}{3!} +...)^2 \\
+&= \frac{(e^x + e^{-x})}{2}\frac{(e^x - e^{-x})}{2}e^{2x} \\
+&= \frac{e^{4x}-1}{4} \\
+&= \Sigma_{n = 0}^{\infty}\frac{4^nx^n}{4n!} - \frac{1}{4}\\
+\end{aligned}</script><p>$\therefore h_0 = 0, h_n = 4^{n - 1}(n \geq 1)$<br>无穷级数带了一个常数项，因此通项在0的时候要单独写出来。</p>
+<p>ACM中也有一些题要用到生成函数的思想，但解题时最后还是要用FFT。等以后碰到了相关的题目，我会把题解写在ACM分类中。</p>
+<h2 id="递推关系与生成函数-1"><a href="#递推关系与生成函数-1" class="headerlink" title="递推关系与生成函数"></a>递推关系与生成函数</h2><h3 id="用生成函数解递推关系"><a href="#用生成函数解递推关系" class="headerlink" title="用生成函数解递推关系"></a>用生成函数解递推关系</h3><p>好吧，生成函数还是有其他用途的，比如求解递推关系。不然为什么课本把这两个概念放在同一章呢？</p>
+<p>只用一道例题来说明用生成函数求常系数线性齐次递推关系的方法：<br>例：<br>求$h_n - 5h_{n - 1} + 6h_{n - 2} = 0,h_0 = 0, h_1 = 1, h_2 = 5$的解。<br>设数列的生成函数为$g(x)$，可以得到：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+g(x) &= h_0 &+ h_1x &+ h_2x^2...+h_nx^n \\
+-5xg(x) &=  &- 5h_0x &- 5h_1x^2...-5h_{n - 1}x^n \\
+6x^2g(x) &= & &+6h_0x^2...+6h_{n - 2}x^n \\
+\end{aligned}</script><p>把上面三个式子左右相加，由$h_n - 5h_{n - 1} + 6h_{n - 2} = 0$：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+(1 - 5x - 6x^2)g(x) &= h_0 + (h_1 - 5h_0)x \\ 
+(1 - 5x - 6x^2)g(x) &= x \\
+g(x) &= \frac{x}{1 - 5x - 6x^2} \\
+g(x) &= \frac{1}{1 - 3x} - \frac{1}{1 - 2x} \\
+g(x) &= (1 + 3x + 3^2x^2 +...) - (1+2x+2^2x^2+...)
+\end{aligned}</script><p>$\therefore h_n = 3^n - 2^n$</p>
+<p>虽然感觉这种方法很高大上，但是比起直接解特征方程来，这种方法还是太麻烦了。既然如此，我们是不是可以不用生成函数来解递推关系的问题了？</p>
+<p>当然不是。仔细看一下上面的解题过程，我们求解递推关系完全是在对生成函数$g(x)$做各种各样的操作，好像和递推关系是否线性、齐次什么的一点关系也没有。对于最开始特征方程法解不了的一些递推，用生成函数可能可以解出来。不妨看下面一个问题：</p>
+<p>例：（Catalan数）对于一个有$n$个节点的二叉树，在保持左右子树的有序性，即不考虑任何变换的情况下，有多少种可能的形态？（比如$n = 2$时有两种，一个节点是根，另一个节点是根的左儿子或者右儿子）</p>
+<p>解：<br>为了方便，记$n$个节点的二叉树的形态数为$h_n$。</p>
+<p>考虑把问题转换成子问题。当现在有$n$个节点时，我们需要先选一个节点为根，再把剩下的节点放到根的左右子树中。如果根的左子树放了$a$个节点，那么右子树就要放$n - 1 - a$个节点，也就是说左右子树的节点和一定是$n - 1$。在这种情况下，问题就变成了两个子问题：$a$个节点的二叉树和$n - 1 - a$个节点的二叉树有多少个？我们把这两个数算出来，再一乘，就是当左边放$a$个节点时，$n$个节点的二叉树的形态数。</p>
+<p>当然，我们不能只算$a$个节点，因为根左右子树的节点数可能是$0, 1，2，3…n - 1$。因此我们要讨论所有情况，并且把每种情况下的总情况数算出来，再进行累加。因此可以得到递推公式:</p>
+<p>$h_n = \Sigma_{i = 0}^{n - 1}h_{i}h_{n-1-i}$</p>
+<p>特别地，这里要令$h_0 = 1$。</p>
+<p>由于这个递推关系根本不是线性的，我们无法用特征函数来解。考虑用生成函数$g(x)$来表示数列的每一项，即：</p>
+<p>$g(x) = \Sigma_{i = 0}^{\infty}h_ix^i$</p>
+<p>突然，我们发现：</p>
+<p>$g^2(x) = h_0 + (h_0h_1 + h_1h_0)x + (h_0h_2 + h_1h_1 + h_2h_0)x^2 + …$</p>
+<p>每一项中x的系数在递推公式中都可以找到。把递推公式代入式子：</p>
+<p>$g^2(x) = h_0 + h_2x + h_3x^2 + …$</p>
+<p>由于$h_0 = h_1 = 1$：</p>
+<p>$<br>\begin{aligned}<br>g^2(x) &amp;= h_1 + h_2x + h_3x^2 + … \\<br>&amp;= \frac{1}{x}(h_1x + h_2x^2 + h_3x^3 + …) \\<br>&amp;= \frac{1}{x}(g(x) - h_0) \\<br>&amp;= \frac{1}{x}(g(x) - 1) \\<br>xg^2(x) &amp;= g(x) - 1 \\<br>\end{aligned}<br>\\<br>\begin{aligned}<br>xg^2(x) - g(x) + 1 &amp;= 0 \\<br>g(x) &amp;= \frac{1 \pm \sqrt{1-4x}}{2x}<br>\end{aligned}<br>$<br>由于$h_0 = 0$，$g(x) = \frac{1 - \sqrt{1-4x}}{2x} = \frac{1}{x}(\frac{1}{2} - \frac{1}{2}(1 - 4x)^{1/2})$</p>
+<p>根据牛顿二项式定理：<br>$<br>\begin{aligned}<br>(1 + x)^{1/2} = 1 + \Sigma_{n = 1}^{\infty}\frac{(-1)^{n - 1}}{n\times 2^{2n-1}}\tbinom{2n - 2}{n - 1}x^n<br>\end{aligned}<br>$</p>
+<p>所以：<br>$<br>\begin{aligned}<br>(1 - 4x)^{1/2} &amp;= 1 + \Sigma_{n = 1}^{\infty}\frac{(-1)^{n - 1}}{n\times 2^{2n-1}}\tbinom{2n - 2}{n - 1}x^n(-4)^n \\<br>&amp;= 1 + \Sigma_{n = 1}^{\infty}\frac{(-1)^{1}}{n\times 2^{-1}}\tbinom{2n - 2}{n - 1}x^n \\<br>&amp;= 1 - 2\times \Sigma_{n = 1}^{\infty}\frac{1}{n}\tbinom{2n - 2}{n - 1}x^n<br>\end{aligned}<br>$</p>
+<p>套回开始的式子中:<br>$g(x) = \Sigma_{n = 1}^{\infty}\frac{1}{n}\tbinom{2n - 2}{n - 1}x^{n - 1}$</p>
+<p>所以，$h_n = \frac{1}{n + 1}\tbinom{2n}{n}$。</p>
+<p>如果我们把$h_0$看成第一项的话，那么第$n$项的值就是$\frac{1}{n}\tbinom{2n - 2}{n - 1}$。这个数就是著名的卡特兰(Catalan)数。</p>
+<p>在这个过程中，我们完全是在对生成函数进行求解，而没有管递推关系的形式是怎么样的。这其中最妙的一步是发现了$g^2(x)$正好可以得到递推关系中的右半部分，只能说这种解法不是推算出来，而是突发奇想的。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>有时候推出来看似花里胡哨的递推关系，只要式子是线性的，就可以利用特征方程的方法求出通项来，从而把O(n)的时间复杂度变成O(1)，把编程问题变成数学问题。</p>
+<p>生成函数是用来解决组合问题的，当问固定数量的方案数时，就要想到生成函数了。在求排列时，要利用之前的方法，求出指数生成函数，再在结果前乘一个阶乘。</p>
+<p>递推关系对应一个生成函数，可以用生成函数来解递推关系。对普通的线性方程，这种解法太麻烦了，还不如用普通的解法。对于一些比较复杂的递推关系，生成函数才能发挥出它的用途。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/06/23/Theory-of-Computation-Review1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2272,198 +2570,6 @@ P(B_i|A) = \frac{P(A | B_i)P(B_i)}{ \sum_{j = 1}^nP(A|B_j)P(B_j)}
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/04/25/CF-86C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhou Yifan">
-      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="周弈帆的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/25/CF-86C/" class="post-title-link" itemprop="url">CodeForces-86C Genetic engineering</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2019-04-25 13:22:48" itemprop="dateCreated datePublished" datetime="2019-04-25T13:22:48+08:00">2019-04-25</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/" itemprop="url" rel="index"><span itemprop="name">记录</span></a></span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/作业-练习/" itemprop="url" rel="index"><span itemprop="name">作业/练习</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>给m个由A,C,G,T组成的DNA片段。现在你需要构造一些长度为n的字符串，使这些字符串完全被这些DNA片段覆盖。求构造方案数 $mod$ $1e9+9$ 。（DNA片段之间可以互相重叠）</p>
-<p>长度 $n\leq1000$，片段个数 $m\leq10$，片段长度不大于10.</p>
-<h2 id="Sample-Input-amp-Output"><a href="#Sample-Input-amp-Output" class="headerlink" title="Sample Input &amp; Output"></a>Sample Input &amp; Output</h2><p>6 2<br>CAT<br>TACT  </p>
-<p>2</p>
-<p>（CATCAT和CATACT是可行的方案）</p>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>DNA间可以相互重叠，也就是匹配完某个DNA后，匹配下一个DNA时不一定会从头开始，而是从下一个DNA的某个前缀开始（这个前缀也是当前DNA的后缀）。为了表示这种关系，肯定会想到使用AC自动机来表示匹配的状态。</p>
-<p>有了AC自动机，我们就可以把所有 $4^n$个字符串全部输入自动机，保证状态转移“合法”，统计出最终所有满足条件的状态就行了。现在我们要做的事情有三件：统计状态，判断状态转移是否合法，判断结果是否满足条件。我们一件一件来解决。</p>
-<p>每个状态对应AC自动机上的一个节点，因此用一个dp[MAX_NODE]数组就可以存处于当前状态的方案数。每多放入一个字符，状态就会发生转移。理论上，当前字符数的状态只与上一字符数的状态有关，拿两个dp数组循环用就行了。但为了书写方便还是先定义成dp[MAXN][MAX_NODE]，每次dp[i]由dp[i - 1]转移而来。</p>
-<p>接下来来判断合法的状态。所有字符串都要被DNA覆盖，也就是在AC自动机上转移的时候，不能还没走到终点（DNA的结束点），就跑到另一个DNA字符串的前缀去了。只有当走到了终点的时候，才可以随意地走下一步（但是不能走回根）。</p>
-<p>统计答案也很简单，只有那些DNA字符串结束点对应的状态才能被统计进最终答案。</p>
-<p>根据以上分析可以写出以下式子：  </p>
-<p>$当j 为终点:$<br>$dp[i][j.next[k]] += dp[i - 1][j] (j.next[k] \neq root, k \in {A, C, G, T})$<br>$否则:$<br>$dp[i][j.next[k]] += dp[i - 1][j] (j.next[k] 不通过fail转移, k \in {A, C, G, T})$  </p>
-<p>提交上述代码会得到WA的结果。</p>
-<p>考虑下面的例子: 3 3 ACCC A C。ACC显然是一个满足条件的字符串，但在自动机上，ACC却不是一个字符串的结尾，最终不会被统计答案。</p>
-<p>那我是不是应该把字符串结尾通过fail传递下去呢？也就是说，只要一个字符串的后缀是某个更短的字符串的结尾，那这个字符串也被认为是满足条件的字符串。这样更不对了。考虑例子：2 2 ACC C，AC不满足条件，却因为有后缀C被错误地统计进了答案。</p>
-<p>这个时候我们发现，怎么样都无法合理地表示答案。换句话说，现在这种定义状态的方式，会混淆一些本质不同的状态。在定义一个状态时，只是记录这个状态处于AC自动机的哪个节点是不够的，还得记录一些其它的东西。</p>
-<p>从本质上思考，一个满足条件的字符串可以分成两部分，后一部分是最后一个被覆盖的DNA，前一部分是之前匹配好的一堆DNA。前一部分和后一部分可以重复。对于AC自动机上的一个状态，它的最长的DNA后缀是确定的，但是它之前已经被匹配好的长度是不确定的。而一旦我们确定了这两个值，我们只要判断之前匹配好的长度加上最长的DNA的后缀长度是否大于等于整个当前字符串的长度即可（等价于前一部分和后一部分正好拼接或覆盖）。我们在dp中还要加一维，记录某个状态被匹配的长度。顺便，为了之后的判断，AC自动机上每个节点的长度和最长DNA后缀的长度也要提前统计好来，后者可以通过fail边来转移。</p>
-<p>和开始一样，继续解决三个问题：状态定义、答案判断、合法转移判断。</p>
-<p>现在，$dp[i][j][k]$被定义为放第$i$个字符时，处于AC自动机上$j$号节点，在自动机前面已经匹配好了长度为$k$（而不是总长度已经匹配好了$k$）的方案数。$j.len,j.low$分别表示某个节点的长度，最长DNA后缀长度。</p>
-<p>对于某个$j,k$，若$j.low + k  \geq j.len$，则说明这个状态满足条件。最终$dp[n][j][k]$中满足条件的状态的dp值之和就是题目的答案。</p>
-<p>转移时，我们不再死板通过判断一条边是否是通过fail转移的来判断这个转移合不合法。在当前一个非答案状态$i,j,k$上，对于下一状态$j.next$，只要$j.next.len + k &gt; j.len$，就能保证在状态转移时中间没有“断掉”。下一个状态的最长匹配长度为$j.next.len + k - j.len - 1$。也就是说:<br>$dp[i + 1][j.next][j.next.len + k - j.len - 1] += dp[i][j][k]$  </p>
-<p>对于某个状态，如果它已经满足了被覆盖的条件，则下一状态的最长匹配长度一定是下一状态的长度减1（因为多出了一个新的未匹配字符），写成式子的话：<br>$dp[i + 1][j.next][j.next.len - 1] += dp[i][j][k]$</p>
-<p>至此，题目顺利解完。dp数组是1000 <em> 100 </em> 10的，时间复杂度$O(n|str|\sum|str|)$</p>
-<h2 id="Review"><a href="#Review" class="headerlink" title="Review"></a>Review</h2><p>题解部分应该是正常的思考过程，发现二维不够后用三维dp，这也是我写这题从WA改到AC的过程。</p>
-<p>之前我一直以为，AC自动机中dp都很容易，只和处于哪个节点有关。看完题面后，我立马敲了一个二维dp出来，很快WA了。</p>
-<p>在cf上对着样例调试多次后，我才发现怎么定义dp都不行。看了一眼题解，发现状态要多定义一维后，我重新地把题目考虑了一遍，定义出了新的状态。</p>
-<p>后来状态转移我差不多写完了，交上去WA了一个大的样例。仔细思考过后我发现，非答案状态在转移时，它的最长匹配长度可能会变的，这一步转移需要认真考虑。改完这一处后总算AC了。</p>
-<p>这题对我最大的启示和警示是，AC自动机的dp不一定都那么简单，很多时候但靠节点来定义状态是不够的。</p>
-<p>在用dp时，一定要把状态的每一个变量的转移都考虑好。尤其是在重新定义了dp状态后，最好能完全从头推一遍递推关系。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2510,7 +2616,7 @@ P(B_i|A) = \frac{P(A | B_i)P(B_i)}{ \sum_{j = 1}^nP(A|B_j)P(B_j)}
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">41</span>
+                    <span class="site-state-item-count">42</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2642,7 +2748,9 @@ P(B_i|A) = \frac{P(A | B_i)P(B_i)}{ \sum_{j = 1}^nP(A|B_j)P(B_j)}
                     
                       
                     
-                    <span class="site-state-item-count">27</span>
+                      
+                    
+                    <span class="site-state-item-count">28</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
