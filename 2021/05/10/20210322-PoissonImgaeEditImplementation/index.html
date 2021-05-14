@@ -114,7 +114,8 @@
 <meta property="og:image" content="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/a2.jpg">
 <meta property="og:image" content="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/a3.jpg">
 <meta property="og:image" content="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/4.jpg">
-<meta property="og:updated_time" content="2021-05-13T11:28:24.669Z">
+<meta property="og:image" content="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/4_2.jpg">
+<meta property="og:updated_time" content="2021-05-14T15:59:55.436Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Poisson Image Editing 论文方法实现">
 <meta name="twitter:description" content="“Poisson Image Editing”论文方法实现在上上篇博文中（现在是上上上了），我介绍了一下这篇图像融合的经典论文。今天，我将记录一下这篇论文的C++代码实现。我已经三个多月没碰C++了，手很生。但是，我会凭借着我高超的编程底力和过人的天赋，三小时内完成代码实现。稍微对工作量有一点了解的人都会产生疑问：“你在开玩笑吧？论文实现不比写算法题，你要先去看懂论文，再调一调别人的库函数，写代码">
@@ -511,6 +512,9 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Eigen::SimplicialLDLT&lt;Eigen::SparseMatrix&lt;<span class="keyword">float</span>&gt;&gt; solver;</span><br><span class="line">solver.analyzePattern(A);</span><br><span class="line">solver.factorize(A);</span><br><span class="line">Eigen::VectorXf tmpRes = solver.solve(b);Eigen::SparseLU&lt;Eigen::SparseMatrix&lt;<span class="keyword">float</span>&gt;&gt; solver;</span><br><span class="line">solver.analyzePattern(A);</span><br><span class="line">solver.factorize(A);</span><br><span class="line">Eigen::VectorXf tmpRes = solver.solve(b);</span><br></pre></td></tr></table></figure>
 <h2 id="结果展示"><a href="#结果展示" class="headerlink" title="结果展示"></a>结果展示</h2><p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/4.jpg" alt></p>
 <p>如图，(a)是源图像，(b)是目标图像，(c)是直接复制的结果，(d)是图像融合的结果。从视觉上来看，图像融合的效果还是不错的。如果能够用套索工具代替方框工具选择区域。用套索工具的话，难点在于实现套索工具本身，这已经脱离了本程序的主要任务了。有了套索的选定区域后，就是获取边缘项烦了一点，大部分的步骤还是一样的。</p>
+<p>UPD:</p>
+<p>程序里发现了一个BUG！！！方程右端的边缘项应该是相加，我写成了直接赋值。上面的结果图片是错的，正确的图片如下：</p>
+<p><img src="//zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/4_2.jpg" alt></p>
 <h2 id="后续工作"><a href="#后续工作" class="headerlink" title="后续工作"></a>后续工作</h2><p>在下面的”实况记录“一节中，你会发现，我5个小时不到就完成了没有bug的程序，基本完成了整个毕业设计。得知了这一事实，你能得到哪些结论？</p>
 <p>首先，你会说：”哇，你好强啊，这么快就把一个看上去那么复杂的项目写完了。“确实，这说得很正确。但这对于我来说是基本操作，甚至我还对自己有些不够满意，写代码的时候急躁了一点，不然可以更快写完。比起学东西，写论文和博客等文档的时间，实际编程的时间确实占比很小。</p>
 <p>层次高一点的人，会评论道：”你这项目太水了吧！你干了什么？不久求个线性方程组？高中生都会解这种问题，叫一个大一新生学一学也能写出求解线性方程组的程序。“这说得不错。确实这个项目实现起来很简单。但是，你要注意到，这是一个科研性质的毕业设计。什么是科研？写代码是科研吗？不是。科研是要针对一个问题，提出某些解法，或者说改进现有的解法。重点是思路。我刚刚也说了，我的大多数时间其实花在了看文章、学习上面。这十分合理。</p>
