@@ -115,7 +115,7 @@
 <meta property="og:image" content="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/a3.jpg">
 <meta property="og:image" content="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/4.jpg">
 <meta property="og:image" content="https://zhouyifan.net/2021/05/10/20210322-PoissonImgaeEditImplementation/4_2.jpg">
-<meta property="og:updated_time" content="2021-05-14T15:59:55.436Z">
+<meta property="og:updated_time" content="2021-06-19T08:03:30.202Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Poisson Image Editing 论文方法实现">
 <meta name="twitter:description" content="“Poisson Image Editing”论文方法实现在上上篇博文中（现在是上上上了），我介绍了一下这篇图像融合的经典论文。今天，我将记录一下这篇论文的C++代码实现。我已经三个多月没碰C++了，手很生。但是，我会凭借着我高超的编程底力和过人的天赋，三小时内完成代码实现。稍微对工作量有一点了解的人都会产生疑问：“你在开玩笑吧？论文实现不比写算法题，你要先去看懂论文，再调一调别人的库函数，写代码">
@@ -473,7 +473,7 @@
 <p>(导向插值标记，来自论文[1])</p>
 <p>一般来说，用公式描述一件事是方便描述者，而折磨倾听者的。但是，为了把问题准确无误的描述出来，有时不得不使用严谨的公式标记。</p>
 <p>在此问题中，我们把图像看成一个函数。如图所示，$S$是一个二维点的集合，即一堆可以用$(x,y)$这样的坐标描述的点。集合$S$就是图像函数的定义域。图像的值域呢？自然是图像的像素值了，这取决于实际情况，比如RGB像素值的范围是$[0, 2^{24})$。</p>
-<p>现在，理解了图像其实可以表达为定义域是二维点，值域是颜色空间的值域的一个函数后，就可以继续理解符号标记了。令$g$是源图像，$f^<em>$是目标图像，$f$是我们把源图像复制到目标区域后，经过图像融合，得到的结果图像。按上一节的话说，$g$和$f^</em>$是输入，$f$是输出的结果图像。我们还有一个输入，就是进行图像融合的区域$\Omega$。既然我们把图像看成了函数，那么区域$\Omega$就是整个定义域$S$的一个子集。</p>
+<p>现在，理解了图像其实可以表达为定义域是二维点，值域是颜色空间的值域的一个函数后，就可以继续理解符号标记了。令$g$是源图像，$f^*$是目标图像，$f$是我们把源图像复制到目标区域后，经过图像融合，得到的结果图像。按上一节的话说，$g$和$f^*$是输入，$f$是输出的结果图像。我们还有一个输入，就是进行图像融合的区域$\Omega$。既然我们把图像看成了函数，那么区域$\Omega$就是整个定义域$S$的一个子集。</p>
 <p>$v$是$g$的梯度，$\partial\Omega$是区域$\Omega$的梯度，这两个量都是计算得到的。</p>
 <p>我们还要引入一个符号——梯度算子$\triangledown$。$v$是$g$的梯度，可以写成$v=\triangledown g$。</p>
 <p>重申一下结果图像求解的思想：在融合区域边缘的颜色和目标图像一样的前提下，让源图像的梯度尽可能不变（最小化差值）。用数学语言就是：</p>
