@@ -339,6 +339,179 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2020/01/05/Principles-of-Computer-Composition-cources-review-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhou Yifan">
+      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="周弈帆的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/01/05/Principles-of-Computer-Composition-cources-review-2/" class="post-title-link" itemprop="url">计算机组成原理复习：第二章 数据表示</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-01-05 21:17:33" itemprop="dateCreated datePublished" datetime="2020-01-05T21:17:33+08:00">2020-01-05</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/知识/" itemprop="url" rel="index"><span itemprop="name">知识</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="计算机组成原理复习：第二章-数据表示"><a href="#计算机组成原理复习：第二章-数据表示" class="headerlink" title="计算机组成原理复习：第二章 数据表示"></a>计算机组成原理复习：第二章 数据表示</h1><p>实际上，这章讲的是数据是怎么编码的。大部分时候，都是在讲二进制编码。本章编码不特别说明都是在指二进制下的编码。</p>
+<h2 id="数值"><a href="#数值" class="headerlink" title="数值"></a>数值</h2><p>数值是运算中最常见的成分。</p>
+<p>非得分类的话，数字可以分成整数和小数。但小数的表示方法中也是用到了整数的。因此本章先介绍整数怎么表示。</p>
+<h3 id="原码-补码-反码"><a href="#原码-补码-反码" class="headerlink" title="原码 补码 反码"></a>原码 补码 反码</h3><p>无符号的数直接用二进制表示。</p>
+<p>有符号的数因为有正负，所以编码的第一个任务就是把正数和负数区分开来。如果把最高位当成符号位，0表示正1表示负，后面当成无符号数表示，那么这种表述法就是原码表示。反码和补码都是对原码的负数表示进行更改。反码是把负数的每一位取反，补码是把原码的每一位取反加一。补码和反码的原理都是取模，把一个模意义下很大的正数视为一个负数。</p>
+<p>其中，补码的特点是0只有一种表示方法，从而负数可以多表示一个数；原码和补码都有一个+0一个-0.</p>
+<h3 id="定点表示"><a href="#定点表示" class="headerlink" title="定点表示"></a>定点表示</h3><p>定点可以表示小数和正数。</p>
+<p>定点小数的第一位是符号位，小数点固定在第一位后面。也就是说，所有数是零点几。定点整数第一位也是符号位，小数点固定在最后一个数后面，和之前讲的整数表示完全相同。</p>
+<p>定点小数根本不实用。但是它在后面会被利用到。</p>
+<h3 id="浮点表示"><a href="#浮点表示" class="headerlink" title="浮点表示"></a>浮点表示</h3><p>计算机中，小数都用浮点表示法，即小数点的位置可以移动。在这种表示法下，一个数的数位被拆成了两部分：一部分是指数，称为阶码；一部分是底数，称为尾数。</p>
+<h1 id="我写完了这篇文章，写完了忘了保存，直接上传到博客。我退出文章的时候提示是否要保存，由于文章上传到博客草稿文件消失，一定会提示是否保存，我就选择了丢弃。结果我辛辛苦苦写的内容全部消失了。复习时间太少，这篇文章今天晚上就不补了。以后有缘再补完这篇文章或者删掉这篇文章。气死我了！"><a href="#我写完了这篇文章，写完了忘了保存，直接上传到博客。我退出文章的时候提示是否要保存，由于文章上传到博客草稿文件消失，一定会提示是否保存，我就选择了丢弃。结果我辛辛苦苦写的内容全部消失了。复习时间太少，这篇文章今天晚上就不补了。以后有缘再补完这篇文章或者删掉这篇文章。气死我了！" class="headerlink" title="我写完了这篇文章，写完了忘了保存，直接上传到博客。我退出文章的时候提示是否要保存，由于文章上传到博客草稿文件消失，一定会提示是否保存，我就选择了丢弃。结果我辛辛苦苦写的内容全部消失了。复习时间太少，这篇文章今天晚上就不补了。以后有缘再补完这篇文章或者删掉这篇文章。气死我了！"></a>我写完了这篇文章，写完了忘了保存，直接上传到博客。我退出文章的时候提示是否要保存，由于文章上传到博客草稿文件消失，一定会提示是否保存，我就选择了丢弃。结果我辛辛苦苦写的内容全部消失了。复习时间太少，这篇文章今天晚上就不补了。以后有缘再补完这篇文章或者删掉这篇文章。气死我了！</h1>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2020/01/05/Principles-of-Computer-Composition-cources-review-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2738,214 +2911,6 @@ dp[i][j]=
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhouyifan.net/2019/07/19/ACM2019/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhou Yifan">
-      <meta itemprop="description" content="A foresighted strategist with big-picture thinking. 大局观选手。">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="周弈帆的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/07/19/ACM2019/" class="post-title-link" itemprop="url">2019暑假ACM训练进度（持续更新）</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2019-07-19 20:50:29" itemprop="dateCreated datePublished" datetime="2019-07-19T20:50:29+08:00">2019-07-19</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/" itemprop="url" rel="index"><span itemprop="name">记录</span></a></span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/记录/作业-练习/" itemprop="url" rel="index"><span itemprop="name">作业/练习</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在过去的半年里，由于自己和外部的种种原因，我没有认真地进行ACM训练。用愧疚来形容我的感受的话，或许有一些夸张。更多的感受或许是无奈与遗憾。</p>
-<p>但是，暑假ACM集训即将开始了。这或许是我人生中最后一段能够把全部精力投入算法竞赛的时光。每天不需要考虑太多，只是享受思考与解题的快感就好。</p>
-<p>为了能够让自己更有动力，更有目标性，我决定开一篇文档来记录自己的刷题成果。<strong>我在这个暑假计划写完200道题</strong>。每场比赛都能补7~8题的话，就已经能够完成150题了，可见这个目标的达成并不困难。但是，我希望我写每一道题都能认真地去思考，有质量地完成，并顺便补习题目中出现的不会的知识。</p>
-<p>9.7：虽然暑假过了，但是过题清单统计到所有网络赛打完吧</p>
-<p>9.17：虽然我没有完成我的目标，但我这个暑假还算是投入了很多精力在ACM上，学到了不少了东西的。开学后做的题目会另开一个文章来存。</p>
-<p>下面是每道题完成的情况及题解链接（如果有题解的话）：</p>
-<p><u>下划线</u>表示这道题很有价值/我很喜欢</p>
-<p><strong>进度(120/200)</strong>  </p>
-<h4 id="7-18"><a href="#7-18" class="headerlink" title="7.18"></a>7.18</h4><p><strong>共计4题</strong><br>2019牛客1A（笛卡尔树)<br>2019牛客1B（数学）<br>2019牛客1F（找规律）<br>2019牛客1J（水）    </p>
-<h4 id="7-19"><a href="#7-19" class="headerlink" title="7.19"></a>7.19</h4><p><strong>共计4题</strong><br>2019牛客1C（贪心、数学）<br>2019牛客1E（贪心、dp）<br>2019牛客1H（线性基）<br><u>2019牛客1I（二维点，线段树）</u>      </p>
-<h4 id="7-20"><a href="#7-20" class="headerlink" title="7.20"></a>7.20</h4><p><strong>共计2题</strong><br>2019牛客2F（蛮力搜索)<br>2019牛客2H（单调栈）</p>
-<h4 id="7-21"><a href="#7-21" class="headerlink" title="7.21"></a>7.21</h4><p><strong>共计8题</strong><br>2019CCPC江西省赛1<br>2019CCPC江西省赛4<br>2019CCPC江西省赛6<br>2019CCPC江西省赛7<br>2019CCPC江西省赛8<br>2019CCPC江西省赛9<br>2019CCPC江西省赛10<br>2019CCPC江西省赛11<br>(今天题比较水)  </p>
-<h4 id="7-22"><a href="#7-22" class="headerlink" title="7.22"></a>7.22</h4><p><strong>共计3题</strong><br>2019HDU多校1-2（区间异或和最大）<br>2019HDU多校1-4（思维）<br>2019HDU多校1-9（序列自动机、贪心）  </p>
-<h4 id="7-24"><a href="#7-24" class="headerlink" title="7.24"></a>7.24</h4><p><strong>共计5题</strong><br>2019HDU多校1-1（dp）<br>2019HDU多校1-12（组合数学、卷积）<br>2019HDU多校2-I（回文树）<br>2019HDU多校2-J（签到）<br>2019HDU多校2-K（可持久化线段树）  </p>
-<h4 id="7-25"><a href="#7-25" class="headerlink" title="7.25"></a>7.25</h4><p><strong>共计1题</strong><br>2019牛客3-F（st表、双向队列维护区间最值）  </p>
-<h4 id="7-26"><a href="#7-26" class="headerlink" title="7.26"></a>7.26</h4><p><strong>共计4题</strong><br>2019牛客3-G（笛卡尔树上区间二分）<br>2019HDU多校1-6（后缀自动机）<br>2019HDU多校2-H（最小割）<br>2019HDU多校2-L（线段树维护信息）      </p>
-<h4 id="7-27"><a href="#7-27" class="headerlink" title="7.27"></a>7.27</h4><p><strong>共计3题</strong><br>2019牛客4-A（树形DP）<br>2019牛客4-I（后缀自动机、回文树）<br>2019牛客4-J（分层图（令边权为0）） </p>
-<h4 id="7-28"><a href="#7-28" class="headerlink" title="7.28"></a>7.28</h4><p><strong>共计2题</strong><br>2019HDU多校2-F（FWT）<br>2019牛客4-C（笛卡尔树、区间最值）  </p>
-<h4 id="7-29"><a href="#7-29" class="headerlink" title="7.29"></a>7.29</h4><p><strong>共计2题</strong><br>2019HDU多校3-4（二分、线段树/平衡树）<br>2019HDU多校3-7（二分、线段树/平衡树）   </p>
-<h4 id="7-30"><a href="#7-30" class="headerlink" title="7.30"></a>7.30</h4><p><strong>共计2题</strong><br>2019HDU多校1-11(莫比乌斯反演)<br>2019HDU多校2-E(期望、简单dp)  </p>
-<h4 id="7-31"><a href="#7-31" class="headerlink" title="7.31"></a>7.31</h4><p><strong>共计3题</strong><br>2019HDU多校4-3（思维）<br>2019HDU多校4-7（结论题）<br>2019HDU多校4-8（二分、可持久化线段树）</p>
-<h4 id="8-1"><a href="#8-1" class="headerlink" title="8.1"></a>8.1</h4><p><strong>共计3题</strong><br>2019牛客5-G（中等dp）<br><u>2019牛客5-F（思考、补图、二分图最小覆盖方案）</u><br>2019牛客5-H（字符串前后关系转化成对图求环）  </p>
-<h4 id="8-3"><a href="#8-3" class="headerlink" title="8.3"></a>8.3</h4><p><strong>共计4题</strong><br>2019牛客6-D（暴力模拟）<br><u>2019牛客6-E（构造自补图）</u><br>2019牛客6-J（简单dp）<br><u>2019HDU多校4-6（思维、斜率优化）</u>  </p>
-<h4 id="8-5"><a href="#8-5" class="headerlink" title="8.5"></a>8.5</h4><p><strong>共计1题</strong><br>2019HDU多校5-6（exkmp签到）</p>
-<h4 id="8-7"><a href="#8-7" class="headerlink" title="8.7"></a>8.7</h4><p><strong>共计5题</strong><br><u>2019HDU多校6-4（两颗权值线段树）</u><br>2019HDU多校6-6（曼哈顿距离模意义下性质）<br>2019HDU多校6-8（暴力）<br>CodeForeces 674C（斜率优化DP）<br>2019HDU多校5-1（分母最小的给定范围下的分数）  </p>
-<h4 id="8-8"><a href="#8-8" class="headerlink" title="8.8"></a>8.8</h4><p><strong>共计4题</strong><br>2019牛客6-A（最小表示法暴力DP）<br>2019牛客6-B（三次以上多项式必可因式分解结论）<br>2019牛客6-D（签到）<br><u>2019牛客6-H（繁琐的数位DP）</u>  </p>
-<h4 id="8-9"><a href="#8-9" class="headerlink" title="8.9"></a>8.9</h4><p><strong>共计5题</strong><br>Comet8-A（签到）<br>Comet8-B（签到）<br>2019HDU多校6-2（随机数据、LIS、暴力重构）<br>2019HDU多校6-5（线段树维护最大子段和）<br>2019HDU多校6-12（签到）</p>
-<h4 id="8-10"><a href="#8-10" class="headerlink" title="8.10"></a>8.10</h4><p><strong>共计1题</strong><br>2019牛客8-C（找规律）  </p>
-<h4 id="8-11"><a href="#8-11" class="headerlink" title="8.11"></a>8.11</h4><p><strong>共计7题</strong><br>Comet8-C（dp或者线段树维护最大子段和）<br>Comet8-D（思考、树状数组）<br>2019牛客8-A（单调栈、最大矩形去重）<br>2019牛客8-B（签到、单独考虑贡献）<br>2019牛客8-D（暴力BFS重构最短曼哈顿距离）<br>2019牛客8-G（签到）<br><u>2019牛客8-J（组合数学、容斥原理）</u>  </p>
-<h4 id="8-12"><a href="#8-12" class="headerlink" title="8.12"></a>8.12</h4><p><strong>共计1题</strong><br><u>2019HDU多校7-8（思考）</u></p>
-<h4 id="8-13"><a href="#8-13" class="headerlink" title="8.13"></a>8.13</h4><p><strong>共计5题</strong><br>2019HDU多校7-1（高精度模拟）<br>2019HDU多校7-6（思维）<br>2019HDU多校7-7（思考、dp、二分转移）<br>2019HDU多校7-10（思维、map排序）<br>2019HDU多校7-11（期望dp）    </p>
-<h4 id="8-14"><a href="#8-14" class="headerlink" title="8.14"></a>8.14</h4><p><strong>共计3题</strong><br>2019HDU多校8-4（构造）<br>2019HDU多校8-9（离散化后DFS）<br>2019HDU多校8-11（思维）   </p>
-<h4 id="8-15"><a href="#8-15" class="headerlink" title="8.15"></a>8.15</h4><p><strong>共计2题</strong><br>2019牛客9-B（模意义方程、二次剩余）<br>2019牛客9-E（并查集）  </p>
-<h4 id="8-17"><a href="#8-17" class="headerlink" title="8.17"></a>8.17</h4><p><strong>共计6题</strong><br>2019牛客10-B（递归）<br>2019牛客10-D（Java写的中国剩余定理）<br>2019牛客10-F（线段树维护最值）<br>2019百度之星初赛-1（签到）<br>2019百度之星初赛-2（签到）<br>2019百度之星初赛-5（找规律）  </p>
-<h4 id="8-18"><a href="#8-18" class="headerlink" title="8.18"></a>8.18</h4><p><strong>共计3题</strong><br>cf-A (水题)<br>cf-B (无向图最短环)<br>2019HDU多校8-6（树形dp）     </p>
-<h4 id="8-19"><a href="#8-19" class="headerlink" title="8.19"></a>8.19</h4><p><strong>共计1题</strong><br>2019HDU多校9-3（硬核折半搜索+基数排序）</p>
-<h4 id="8-21"><a href="#8-21" class="headerlink" title="8.21"></a>8.21</h4><p><strong>共计2题</strong><br>2019HDU多校10-3（简单概率）<br>2019HDU多校10-9（签到DFS）<strong>（全场一血）</strong>  </p>
-<h4 id="8-23"><a href="#8-23" class="headerlink" title="8.23"></a>8.23</h4><p><strong>共计1题</strong><br>2019CCPC网络赛1（签到）</p>
-<h4 id="8-31"><a href="#8-31" class="headerlink" title="8.31"></a>8.31</h4><p><strong>共计6题</strong><br>2019百度之星复赛-A（树形dp）<br>2019百度之星复赛-B（思维）<br>2019百度之星复赛-C（贪心）<br>2019银川网络赛C（签到）<br>2019银川网络赛D（猜结论概率）<br>2019银川网络赛H（贪心排序） </p>
-<h4 id="9-1"><a href="#9-1" class="headerlink" title="9.1"></a>9.1</h4><p><strong>共计3题</strong><br>2019南京网络赛B（欧拉降幂）<br>2019南京网络赛F（区间最值）<br><u>2019南京网络赛G（组合数学）</u>   </p>
-<h4 id="9-7"><a href="#9-7" class="headerlink" title="9.7"></a>9.7</h4><p><strong>共计4题</strong><br>2019徐州网络赛G（回文树）<br>2019徐州网络赛I（区间询问，固定右端点）<br>2019徐州网络赛L（打表，TSP问题）<br>2019徐州网络赛M（序列自动机贪心）   </p>
-<h4 id="9-8"><a href="#9-8" class="headerlink" title="9.8"></a>9.8</h4><p><strong>共计2题</strong><br>2019银川网络赛重赛E（水）<br>2019南昌网络赛E（约瑟夫问题）   </p>
-<h4 id="9-9"><a href="#9-9" class="headerlink" title="9.9"></a>9.9</h4><p><strong>共计3题</strong><br>min_25筛入门题X3</p>
-<h4 id="9-14"><a href="#9-14" class="headerlink" title="9.14"></a>9.14</h4><p><strong>共计2题</strong><br>2019沈阳网络赛F（二分查找）<br>2019沈阳网络赛G（物理） </p>
-<h4 id="9-15"><a href="#9-15" class="headerlink" title="9.15"></a>9.15</h4><p><strong>共计3题</strong><br>2019上海网络赛B（离散化、区间异或）<br>2019上海网络赛C（FFT、简单容斥、不同数据量不同算法）<br><u>2019上海网络赛E（指数生成函数）</u>       </p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2992,7 +2957,7 @@ dp[i][j]=
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">42</span>
+                    <span class="site-state-item-count">43</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -3324,9 +3289,9 @@ dp[i][j]=
       
     
       
-        
-      
     
+      
+        
       
     
       
